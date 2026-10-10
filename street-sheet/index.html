@@ -374,9 +374,9 @@ function renderPanel(){
  }else p.hidden=true;
  fit();
 }
-function doCross(){mark('⇄ Crossed street',s=>{s.step=-(s.step||-2);s.cross=true})}
+function doCross(){mark('⇄ Crossed street',s=>{s.step=-(s.step||-2);s.cross=true});probe()}
 function doTurn(){const i=h('input',{class:'in',placeholder:'New street name',autocapitalize:'words',id:'turnName'});
- sheet('Turned onto…',i,h('button',{class:'b p',style:'width:100%',onclick:()=>{const n=i.value.trim();$('#ov').hidden=true;mark('↪ Turned onto '+n,s=>{if(s.street0==null)s.street0=s.street||'';if(n)s.street=n;s.fresh=true;s.cross=false;s.leg=(s.leg||0)+1})}},'Save turn'));i.focus()}
+ sheet('Turned onto…',i,h('button',{class:'b p',style:'width:100%',onclick:()=>{const n=i.value.trim();$('#ov').hidden=true;mark('↪ Turned onto '+n,s=>{if(s.street0==null)s.street0=s.street||'';s.street=n;s.fresh=true;s.cross=false;s.leg=(s.leg||0)+1});probe()}},'Save turn'));i.focus()}
 function newSheet(){const s=ns();S.sessions.push(s);S.cur=s.id;save();if(!$('#ov').hidden)close();setTab('street');$('#st').focus()}
 function goDoor(r){const s=S.sessions.find(x=>x.rows.includes(r));if(!s)return;if(S.cur!==s.id){S.cur=s.id;save()}setTab('street');jump(r.id)}
 let curId=null,gpPrev=null,bhOn=null,cheerTxt='',ct;
@@ -477,30 +477,106 @@ function gpsPick(base,gf){
 let gpsT,gpsT0=0;
 function gpsPill(txt,cls,ms){const g=$('#gpsPill');if(!g)return;clearTimeout(gpsT);g.className='show '+cls;g.textContent=txt;if(ms)gpsT=setTimeout(()=>{g.className=''},ms)}
 function gpsShow(on){if(on){gpsT0=Date.now();gpsPill('Locating…','busy',0)}}
-function gpsDone(kind){const w=Math.max(0,900-(Date.now()-gpsT0));setTimeout(()=>{
- if(kind==='ok')gpsPill('Located ✓','ok',1600);else if(kind==='weak')gpsPill('Weak signal','bad',2200);else if(kind==='blocked')gpsPill('Location is blocked','bad',3500);else gpsPill('No location','bad',2200)},w)}
+function gpsDone(kind,txt){const w=Math.max(0,900-(Date.now()-gpsT0));setTimeout(()=>{
+ if(kind==='ok')gpsPill(txt||'Located ✓','ok',2200);else if(kind==='weak')gpsPill('Weak signal','bad',2200);else if(kind==='blocked')gpsPill('Location is blocked','bad',3500);else gpsPill('No location','bad',2200)},w)}
 function nameFromGps(s,r){
  if((s.street||'').trim()||s.rows.some(x=>x.t==='mark'&&x.txt.startsWith('↪')))return;
  try{fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=17&lat='+r.lat+'&lon='+r.lng).then(x=>x.json()).then(d=>{
   const a=d&&d.address,n=a&&(a.road||a.pedestrian||a.residential||a.footway);
   if(!n||(s.street||'').trim()||s.rows.some(x=>x.t==='mark'&&x.txt.startsWith('↪')))return;
   s.street=n;s.street0=n;save();const i=$('#st');if(cs()===s&&i&&document.activeElement!==i)i.value=n}).catch(()=>{})}catch(e){}}
-function ping(r,s,base){
- if(S.geo===false||!navigator.geolocation)return;
+// ===== Real addresses from OpenStreetMap =====
+const ADK='doortracker.addr.v1',AR=300;
+let ADT=[];try{ADT=JSON.parse(localStorage.getItem(ADK)||'[]').filter(t=>Date.now()-t.t<30*864e5)}catch(e){ADT=[]}
+const hav=(a,b,c,d)=>{const k=Math.PI/180,x=(c-a)*k,y=(d-b)*k*Math.cos((a+c)/2*k);return 6371000*Math.sqrt(x*x+y*y)};
+const ABBR={st:'street',str:'street',ave:'avenue',av:'avenue',rd:'road',dr:'drive',ln:'lane',ct:'court',blvd:'boulevard',pkwy:'parkway',pky:'parkway',pl:'place',ter:'terrace',cir:'circle',hwy:'highway'};
+const SUF=new Set(['street','avenue','road','drive','lane','court','boulevard','parkway','place','terrace','circle','way','highway','north','south','east','west','n','s','e','w']);
+const core=s=>String(s||'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(Boolean).map(w=>ABBR[w]||w).filter(w=>!SUF.has(w)).join(' ');
+const sameSt=(a,b)=>{const x=core(a),y=core(b);return !!x&&!!y&&(x===y||(x.length>=4&&y.length>=4&&(x.includes(y)||y.includes(x))))};
+function adList(la,lo){const out=[],seen=new Set();ADT.forEach(t=>{if(hav(la,lo,t.la,t.lo)<AR+150)t.l.forEach(a=>{const k=a[0]+'|'+a[1]+'|'+a[2]+'|'+a[3];if(!seen.has(k)){seen.add(k);out.push({n:a[0],st:a[1],la:a[2],lo:a[3]})}})});return out}
+const adCovered=(la,lo)=>ADT.some(t=>Date.now()-t.t<30*864e5&&hav(la,lo,t.la,t.lo)<150);
+async function adFetch(la,lo){
+ const q='[out:json][timeout:20];(node["addr:housenumber"](around:'+AR+','+la+','+lo+');way["addr:housenumber"](around:'+AR+','+la+','+lo+'););out center tags qt;';
+ for(const u of ['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter']){
+  try{const ac=new AbortController(),to=setTimeout(()=>ac.abort(),14000);
+   const r=await fetch(u,{method:'POST',body:'data='+encodeURIComponent(q),headers:{'Content-Type':'application/x-www-form-urlencoded'},signal:ac.signal});clearTimeout(to);
+   if(!r.ok)continue;const d=await r.json(),l=[];
+   (d.elements||[]).forEach(e=>{const t=e.tags||{},m=/^\d+/.exec(t['addr:housenumber']||''),a=e.lat!=null?e.lat:e.center&&e.center.lat,o=e.lon!=null?e.lon:e.center&&e.center.lon;
+    if(m&&t['addr:street']&&a!=null)l.push([+m[0],t['addr:street'],+(+a).toFixed(6),+(+o).toFixed(6)])});
+   ADT=ADT.filter(t=>hav(la,lo,t.la,t.lo)>40&&hav(la,lo,t.la,t.lo)<3000&&Date.now()-t.t<30*864e5);ADT.push({la:+la.toFixed(5),lo:+lo.toFixed(5),t:Date.now(),l});ADT=ADT.slice(-6);
+   try{localStorage.setItem(ADK,JSON.stringify(ADT))}catch(e){}
+   return true}catch(e){}}
+ return false}
+function adStreet(s,fix,L,store){
+ const near=L.filter(a=>hav(fix.la,fix.lo,a.la,a.lo)<200);if(!near.length)return null;
+ for(const q of [s.street,s.mapSt&&s.mapSt.leg===(s.leg||0)&&s.mapSt.name]){if(!q)continue;const f=near.find(a=>sameSt(a.st,q));if(f)return f.st}
+ const k=near.map(a=>({a,d:hav(fix.la,fix.lo,a.la,a.lo)})).sort((x,y)=>x.d-y.d).slice(0,3);
+ if(!k.length||k[0].d>45)return null;
+ const c={};k.forEach(o=>c[o.a.st]=(c[o.a.st]||0)+1);const nm=Object.keys(c).sort((x,y)=>c[y]-c[x])[0];
+ if(store)s.mapSt={leg:s.leg||0,name:nm};return nm}
+function mapPick(s,fix,ctx){
+ const L=adList(fix.la,fix.lo);if(L.length<4)return null;
+ const st=adStreet(s,fix,L,true);if(!st)return null;
+ const by={};L.filter(a=>sameSt(a.st,st)&&hav(fix.la,fix.lo,a.la,a.lo)<260).forEach(a=>{const o=by[a.n]=by[a.n]||{n:a.n,la:0,lo:0,c:0};o.la+=a.la;o.lo+=a.lo;o.c++});
+ const all=Object.values(by).map(o=>{const la=o.la/o.c,lo=o.lo/o.c;return{n:o.n,la,lo,d:hav(fix.la,fix.lo,la,lo)}});
+ if(all.length<2)return{st,n:null};
+ const lim=Math.max(35,fix.acc*2);
+ if(ctx.prevN==null){const b=all.slice().sort((x,y)=>x.d-y.d)[0];return b.d<=lim?{st,n:b.n}:{st,n:null}}
+ const par=(((ctx.prevN%2)+2)%2)^(ctx.crossed?1:0);
+ const side=all.filter(a=>a.n%2===par).sort((x,y)=>x.n-y.n);
+ if(side.length<2)return{st,n:null};
+ let dir=Math.sign(s.step||-2)||-1;
+ const ni=side.reduce((b,a,i)=>a.d<side[b].d?i:b,0);
+ let ref=side.findIndex(a=>a.n>=ctx.prevN);if(ref<0)ref=side.length-1;
+ if(ref>0&&side[ref].n!==ctx.prevN&&Math.abs(side[ref-1].n-ctx.prevN)<Math.abs(side[ref].n-ctx.prevN))ref--;
+ if((Math.abs(ni-ref)>=2||(Math.abs(ni-ref)===1&&(ctx.nd||0)<=2))&&side[ni].d<=lim){const nd=Math.sign(ni-ref);if(nd!==dir){dir=nd;s.step=Math.abs(s.step||2)*dir}}
+ let nx=-1;
+ if(dir>0)nx=side.findIndex(a=>ctx.crossed?a.n>=ctx.prevN-1:a.n>ctx.prevN);
+ else side.forEach((a,k)=>{if(ctx.crossed?a.n<=ctx.prevN+1:a.n<ctx.prevN)nx=k});
+ if(nx<0)return{st,n:null};
+ let pick=nx;if((ni-nx)*dir>=2&&side[ni].d<=Math.max(30,fix.acc*1.5))pick=ni;
+ if(side[pick].d>150)return{st,n:null};
+ return{st,n:side[pick].n}}
+function fixNow(cb,err){
+ if(S.geo===false||!navigator.geolocation){return}
  gpsShow(true);
- try{navigator.geolocation.getCurrentPosition(pos=>{
-  gpsDone(pos.coords.accuracy<=50?'ok':'weak');
-  const c=pos.coords;if(!(c.accuracy<=50))return;
+ try{navigator.geolocation.getCurrentPosition(pos=>cb(pos.coords),e=>err(e&&e.code===1?'blocked':'err'),{enableHighAccuracy:true,timeout:9000,maximumAge:0})}catch(e){err('err')}}
+async function getMap(fix){
+ if(!adCovered(fix.la,fix.lo)){gpsPill('Loading addresses…','busy',0);await adFetch(fix.la,fix.lo)}
+ return adList(fix.la,fix.lo).length>=4}
+const shortSt=n=>String(n||'').replace(/\b(Street|Avenue|Road|Drive|Lane|Court|Boulevard|Parkway|Place|Terrace|Circle)\b/g,m=>({Street:'St',Avenue:'Ave',Road:'Rd',Drive:'Dr',Lane:'Ln',Court:'Ct',Boulevard:'Blvd',Parkway:'Pkwy',Place:'Pl',Terrace:'Ter',Circle:'Cir'}[m]));
+function probe(){
+ fixNow(async c=>{
+  if(!(c.accuracy<=80)){gpsDone('weak');return}
+  const fix={la:c.latitude,lo:c.longitude,acc:c.accuracy};
+  const ok=await getMap(fix);let txt='Located ✓';
+  if(ok){const b=adList(fix.la,fix.lo).map(a=>({a,d:hav(fix.la,fix.lo,a.la,a.lo)})).sort((x,y)=>x.d-y.d)[0];if(b&&b.d<=60)txt='Near '+b.a.n+' '+shortSt(b.a.st)}
+  gpsDone('ok',txt)},k=>gpsDone(k))}
+function setAddr(r,n){
+ if(r.addr!==r.pred)return false;
+ const e=rowEl(r.id),i=e&&e.querySelector('[data-f=addr]');
+ if(i&&document.activeElement===i&&i.value!==r.pred)return false;
+ r.addr=r.pred=String(n);if(i){i.value=r.addr;if(document.activeElement===i)i.select()}
+ const o=$('#ov'),t=o.firstChild&&o.firstChild.querySelector('h3');if(!o.hidden&&t&&t.textContent.startsWith('Response')&&curId===r.id)t.textContent='Response – '+r.addr;
+ return true}
+function ping(r,s,base,ctx){
+ fixNow(async c=>{
+  if(!(c.accuracy<=50)){gpsDone('weak');return}
   r.lat=+c.latitude.toFixed(6);r.lng=+c.longitude.toFixed(6);r.acc=Math.round(c.accuracy);
-  nameFromGps(s,r);
-  if(base&&r.pred&&r.addr===r.pred){
+  const fix={la:c.latitude,lo:c.longitude,acc:c.accuracy};
+  const ok=await getMap(fix);let m=null;
+  if(ok){try{m=mapPick(s,fix,ctx||{prevN:null,crossed:false})}catch(e){m=null}}
+  const noTurn=!s.rows.some(x=>x.t==='mark'&&x.txt.startsWith('↪'));
+  if(!(s.street||'').trim()&&noTurn){
+   if(m&&m.st){s.street=s.street0=m.st;const i=$('#st');if(cs()===s&&i&&document.activeElement!==i)i.value=m.st}
+   else nameFromGps(s,r)}
+  let txt='Located ✓';
+  if(m&&m.n){if(setAddr(r,m.n))txt='✓ '+m.n+' '+shortSt(m.st)}
+  else if(base&&r.pred&&r.addr===r.pred){
    let n=gpsPick(base,geoFit(s,r,r.lat,r.lng,r.acc));
    {const ds=doors(s),pv=ds[ds.indexOf(r)-1];if(pv&&n===eff(pv))n=+r.pred}
-   if(n>0&&String(n)!==r.pred){const e=rowEl(r.id),i=e&&e.querySelector('[data-f=addr]');
-    if(!(i&&document.activeElement===i&&i.value!==r.pred)){r.addr=r.pred=String(n);
-     if(i){i.value=r.addr;if(document.activeElement===i)i.select()}
-     const o=$('#ov'),t=o.firstChild&&o.firstChild.querySelector('h3');if(!o.hidden&&t&&t.textContent.startsWith('Response')&&curId===r.id)t.textContent='Response – '+r.addr}}}
-  save()},er=>{gpsDone(er&&er.code===1?'blocked':'err')},{enableHighAccuracy:true,timeout:9000,maximumAge:0})}catch(e){gpsDone('err')}}
+   if(n>0&&String(n)!==r.pred)setAddr(r,n)}
+  gpsDone('ok',txt);save()},k=>gpsDone(k))}
 function askStreet(){const i=h('input',{class:'in',placeholder:'Street name',autocapitalize:'words',id:'askSt'});
  const go=()=>{const n=i.value.trim(),s=cs();s.asked=true;s.street=n;s.street0=n;$('#st').value=n;save();$('#ov').hidden=true;add()};
  i.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
@@ -510,9 +586,10 @@ function add(){
  {const s0=cs();if(!(s0.street||'').trim()&&!s0.rows.length&&!s0.asked){askStreet();return}}
  const s=cs(),ds=doors(s),l=ds[ds.length-1];let a='',base=null;
  if(l&&!s.fresh&&isFinite(eff(l))){const p=eff(l);base=s.cross?{n:p+Math.sign(s.step||-2),sd:6}:(q=>({n:p+q.g,sd:q.sd}))(nextGap(s,ds));if(base.n>0)a=String(base.n)}
+ const crossed=!!s.cross,prevN=(l&&!s.fresh&&isFinite(eff(l)))?eff(l):null;
  s.fresh=false;s.cross=false;
  const r={id:uid(),t:'door',addr:a,pred:a,r:null,d:'',when:null,name:'',note:'',ts:Date.now(),seg:s.seg,leg:s.leg||0};
- s.rows.push(r);curId=r.id;save();render();bottom();ping(r,s,base);
+ s.rows.push(r);curId=r.id;save();render();bottom();ping(r,s,base,{prevN,crossed,nd:ds.filter(d=>(d.leg||0)===(s.leg||0)).length});
  const nn=doors(s).length;if(nn%10===0){pop($('#t1'),nn%50===0);fx('door');cheer(nn%100===0?'DOOR '+nn+'! 🔥':nn%50===0?'Door '+nn+' 🔥':'Door '+nn)}
  if(a&&S.auto)openResp(r);else{const i=rowEl(r.id).querySelector('[data-f=addr]');i.focus();i.select()}
 }
@@ -646,7 +723,7 @@ function renderMore(){
    tog('Auto-open responses','Show the response panel as soon as a door is added',()=>S.auto,x=>S.auto=x),
    tog('Jump to Name after a response','Otherwise the panel just closes',()=>S.jump,x=>S.jump=x),
    tog('Sounds & haptics','A soft sound on tab switches, new doors, deals and goals. Vibration works on Android only.',()=>S.snd!==false,x=>{S.snd=x;if(x)tick(1)}),
-   tog('GPS address help','One quick location check per door. Used first, with the street pattern as backup.',()=>S.geo!==false,x=>{S.geo=x;if(x&&navigator.geolocation)try{navigator.geolocation.getCurrentPosition(()=>{},()=>{},{timeout:6000})}catch(e){}})),
+   tog('GPS address help','One quick location check on launch, new door, turn and cross, matched to real addresses. Falls back to the street pattern.',()=>S.geo!==false,x=>{S.geo=x;if(x&&navigator.geolocation)try{navigator.geolocation.getCurrentPosition(()=>{},()=>{},{timeout:6000})}catch(e){}})),
   h('div',{class:'sec'},'Tools'),
   h('div',{class:'grp'},nav('Edit responses','Add, rename or change what counts as what',editResp),nav('Route map','Your trail on a street map',()=>mapSheet(false)),nav('Backup & restore','Copy your data or move it to another phone',backup)),
   h('p',{class:'note'},'Door Tracker · your sheets and stats are saved on this device.'));
@@ -755,6 +832,8 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)flush()});
 document.addEventListener('focusout',()=>setTimeout(()=>{if(!/INPUT|TEXTAREA/.test((document.activeElement||{}).tagName||''))window.scrollTo(0,0)},60));
 document.addEventListener('focusin',e=>{const o=$('#ov'),t=e.target;if(t&&t.closest&&t.closest('#ov .sh')&&/INPUT|TEXTAREA/.test(t.tagName)&&!o.classList.contains('dock'))o.classList.add('top')});
 document.addEventListener('focusout',()=>setTimeout(()=>{const a=document.activeElement;if(!(a&&a.closest&&a.closest('#ov .sh')&&/INPUT|TEXTAREA/.test(a.tagName)))$('#ov').classList.remove('top')},80));
+probe();
+{let hid=0;document.addEventListener('visibilitychange',()=>{if(document.hidden)hid=Date.now();else if(hid&&Date.now()-hid>5*60000){hid=0;probe()}})}
 </script>
 <script>
 if('serviceWorker' in navigator&&!window.claude)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
