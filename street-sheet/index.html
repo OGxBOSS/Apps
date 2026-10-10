@@ -84,6 +84,7 @@ td input:focus{background:var(--acc-soft)}
 .apt.on{color:var(--good);opacity:1}.apt.on::before{content:'✓';font-size:19px;line-height:16px;font-weight:900}
 .mark td{height:32px;text-align:center;background:var(--raise);color:var(--mut);font-size:12px;font-weight:700;letter-spacing:.02em}
 td.tn,.turn td{position:sticky;z-index:2;background:var(--acc);color:#fff;text-align:left;padding:0 10px;cursor:pointer;border-bottom:0;box-shadow:0 1px 0 rgba(0,0,0,.18),0 3px 8px rgba(14,21,38,.14)}
+.turn.ns td{position:static!important}
 .turn .tn{display:flex;align-items:center;justify-content:space-between;gap:8px;height:100%}
 #st{flex:1;min-width:0;height:100%;border:0;background:transparent;color:#fff;font:inherit;font-size:16px;line-height:28px;font-weight:800;padding:0;outline:0}#st::placeholder{color:rgba(255,255,255,.75);font-weight:800}
 .turn .tn b{font-size:13px;font-weight:800;letter-spacing:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
@@ -97,6 +98,7 @@ td.tn,.turn td{position:sticky;z-index:2;background:var(--acc);color:#fff;text-a
 .shh .chev{color:var(--mut);font-size:22px;transition:transform .15s}.shc.open .chev{transform:rotate(90deg)}
 .shb{padding:0 14px 14px}.cells{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
 .cell{background:var(--raise);border-radius:12px;padding:8px 4px;text-align:center}.cell b{display:block;font-size:17px}.cell span{font-size:11px;color:var(--mut);font-weight:700}
+.brk td{height:26px;text-align:center;background:var(--raise);color:var(--mut);font-size:12px;font-weight:700}
 .gl td{background:var(--good-soft)}
 .rd td{background:var(--bad-soft)}
 .fl td{animation:fl 1.8s}@keyframes fl{0%,60%{background:rgba(250,204,21,.5)}}
@@ -114,7 +116,11 @@ tr{touch-action:pan-y}
 .chip.on{background:var(--bad);color:#fff}.chip.on i{color:#fff}
 #cbn{position:absolute;top:-5px;right:-3px;min-width:18px;height:18px;border-radius:9px;background:var(--acc);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center;padding:0 5px}
 #cbn:empty{display:none}
-#nd{height:60px;border:0;border-radius:18px;background:var(--acc);color:var(--acc-ink);font-size:20px;font-weight:800;letter-spacing:.09em;box-shadow:0 6px 18px rgba(37,99,255,.32)}
+#panel .ndrow,.sh .ndrow{display:flex;gap:8px}
+.brkb{flex:0 0 25%;border:0;border-radius:18px;background:var(--raise);color:var(--mut);font-size:12.5px;font-weight:800;line-height:1.15;padding:0 6px;height:60px}
+.brkb.on{background:var(--warn);color:#fff}
+#ov.dock .brkb{height:56px;border-radius:14px;margin-top:2px}
+#nd{flex:1;height:60px;border:0;border-radius:18px;background:var(--acc);color:var(--acc-ink);font-size:20px;font-weight:800;letter-spacing:.09em;box-shadow:0 6px 18px rgba(37,99,255,.32)}
 #nd:active{transform:scale(.985)}
 .plab{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--mut);font-weight:800;margin:0 2px -2px}
 .seg{display:flex;gap:2px;background:var(--raise);border-radius:13px;padding:3px}
@@ -200,9 +206,10 @@ textarea.in{height:160px;font-size:16px;padding:8px}
 #ov.dock .b{min-height:46px;font-size:16px;padding:2px}
 #ov.dock .b small{font-size:10px}
 #ov.dock .gd{gap:6px;margin:6px 0;grid-template-columns:repeat(3,1fr)}
+#ov.dock .gd.c4r{grid-template-columns:repeat(4,1fr)}#ov.dock .gd.c4r .b{font-size:15px;padding:6px 2px}#ov.dock .gd.c4r small{font-size:10px}
 #ov.dock .gd.c2{grid-template-columns:1fr 1fr}
 #ov.dock .gd.c5{grid-template-columns:repeat(5,1fr)}
-#ov.dock .nd{width:100%;min-height:56px;background:var(--acc);color:var(--acc-ink);font-size:18px;letter-spacing:.08em;margin-top:2px}
+#ov.dock .nd{flex:1;width:auto;min-height:56px;background:var(--acc);color:var(--acc-ink);font-size:18px;letter-spacing:.08em;margin-top:2px}
 #toast{position:fixed;left:12px;right:12px;bottom:calc(var(--botH,200px) + 10px);z-index:8;background:#1c2230;color:#fff;border-radius:14px;padding:8px 8px 8px 16px;display:flex;align-items:center;justify-content:space-between;font-weight:600;box-shadow:var(--shadow)}
 #toast button{height:40px;padding:0 16px;border:0;border-radius:10px;background:var(--acc);color:#fff;font-weight:800}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:7}
@@ -257,6 +264,11 @@ const K='doortracker.v1',$=s=>document.querySelector(s),uid=()=>Math.random().to
 const DEF=[['deal','Deal','Deal','deal'],['rej','+','Rejection','rej'],['cb','CB','Come Back','cb'],['v','V','Vacant','vac'],['rent','Rent','Rent','other'],['else','Else','Else','other']].map(a=>({id:a[0],sym:a[1],label:a[2],type:a[3]}));
 const TYPES={deal:'Deal',rej:'Rejection',cb:'Comeback',nh:'Not home',vac:'Vacant',other:'Other'};
 function h(t,p,...c){const e=document.createElement(t);for(const k in p||{}){if(k==='class')e.className=p[k];else if(k.startsWith('on')){p[k]&&e.addEventListener(k.slice(2),p[k])}else if(k==='value')e.value=p[k];else e.setAttribute(k,p[k])}c.flat().forEach(x=>x!=null&&e.append(x));return e}
+const idb={p:null,open(){return this.p||(this.p=new Promise(res=>{try{const q=indexedDB.open('doortracker',1);q.onupgradeneeded=()=>q.result.createObjectStore('kv');q.onsuccess=()=>res(q.result);q.onerror=()=>res(null);q.onblocked=()=>res(null)}catch(e){res(null)}}))},
+ async get(k){const d=await this.open();if(!d)return null;return new Promise(r=>{try{const q=d.transaction('kv').objectStore('kv').get(k);q.onsuccess=()=>r(q.result==null?null:q.result);q.onerror=()=>r(null)}catch(e){r(null)}})},
+ async set(k,v){const d=await this.open();if(!d)return false;return new Promise(r=>{try{const t=d.transaction('kv','readwrite');t.objectStore('kv').put(v,k);t.oncomplete=()=>r(true);t.onerror=()=>r(false);t.onabort=()=>r(false)}catch(e){r(false)}})}};
+const nDoors=x=>x&&x.sessions?x.sessions.reduce((t,s)=>t+(s.rows||[]).filter(r=>r.t==='door').length,0):0;
+let mt,mirrorReady=false;
 let fresh0=false,S;try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
 const okS=x=>x&&x.sessions&&x.sessions.length;
 if(!okS(S)){try{const b=JSON.parse(localStorage.getItem(K+'.bak'));if(okS(b))S=b}catch(e){}}
@@ -269,7 +281,10 @@ async function flush(){if(!CL)return;const ids=[...dirty];dirty.clear();try{
  await CL.doc('settings').set({json:JSON.stringify({resp:S.resp,showRed:S.showRed,auto:S.auto,jump:S.jump,geo:S.geo,snd:S.snd,cur:S.cur,pay:S.pay,payMode:S.payMode,goal:S.goal,order:S.sessions.map(x=>x.id),t:S.t})});
  for(const id of ids){const x=S.sessions.find(y=>y.id===id);if(x)await CL.doc('sheet_'+id).set({json:JSON.stringify(x)})}
 }catch(e){ids.forEach(i=>dirty.add(i))}}
-const save=()=>{S.t=Date.now();try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}dirty.add(S.cur);clearTimeout(wt);wt=setTimeout(flush,600)};
+const save=()=>{S.t=Date.now();let ok=true;const js=JSON.stringify(S);try{localStorage.setItem(K,js)}catch(e){ok=false}
+ if(!ok){try{localStorage.removeItem(K+'.bak');localStorage.removeItem('doortracker.addr.v1');localStorage.setItem(K,js);ok=true}catch(e){}}
+ if(!ok)gpsPill('Storage full · back up your data','bad',6000);
+ clearTimeout(mt);if(mirrorReady)mt=setTimeout(()=>idb.set('state',JSON.stringify(S)),800);dirty.add(S.cur);clearTimeout(wt);wt=setTimeout(flush,600)};
 function migA(){const ap=S.resp.filter(x=>x.type==='appt');if(!ap.length)return;const cb=S.resp.find(x=>x.type==='cb');
  S.sessions.forEach(s=>s.rows.forEach(r=>{if(r.t==='door'&&ap.some(x=>x.id===r.r)){r.apt=1;if(cb)r.r=cb.id}}));
  if(cb)S.resp=S.resp.filter(x=>x.type!=='appt');else ap.forEach(x=>x.type='cb');save()}
@@ -285,6 +300,9 @@ function migC(){let ch=false;if(!S.pay||typeof S.pay!=='object'){S.pay={};ch=tru
  S.sessions.forEach(x=>{if(x.pay!==undefined){const k=dk(x.date);if(x.pay&&!S.pay[k])S.pay[k]=x.pay;delete x.pay;ch=true}});if(ch)save()}
 function migrate(){migA();migB();migC()}
 migrate();
+const brkSpans=()=>{const a=[];S.sessions.forEach(s=>s.rows.forEach(r=>{if(r.brk)a.push([r.ts,r.end||Date.now()])}));return a};
+const brkIn=(x,y,B)=>B.reduce((t,v)=>t+Math.max(0,Math.min(v[1],y)-Math.max(v[0],x)),0);
+const openBrk=()=>{for(const s of S.sessions)for(const r of s.rows)if(r.brk&&!r.end)return r;return null};
 const typ=r=>{const x=R(r.r),t=x?x.type:'none';return r.apt&&t==='cb'?'appt':t};
 const pct=(a,b)=>b?Math.round(a/b*100)+'%':'–';
 const tm=t=>{if(!t)return'–';const d=new Date(t),T=d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});return d.toDateString()===new Date().toDateString()?T:d.toLocaleDateString([],{month:'short',day:'numeric'})+' '+T};
@@ -292,9 +310,9 @@ const dt=t=>new Date(t).toLocaleDateString([],{weekday:'short',month:'short',day
 const dur=ms=>{const m=Math.max(0,Math.floor(ms/6e4));return Math.floor(m/60)+'h '+String(m%60).padStart(2,'0')+'m'};
 const hf=n=>(n%12||12)+(n<12?' AM':' PM');
 function statsOf(d){
- const c={deal:0,rej:0,nh:0,vac:0,cb:0,appt:0,other:0,none:0,act:0,down:0,hr:{}};
+ const c={deal:0,rej:0,nh:0,vac:0,cb:0,appt:0,other:0,none:0,act:0,down:0,brk:0,hr:{}};const B=brkSpans();
  d.forEach((r,i)=>{const t=typ(r);c[t]++;const H=new Date(r.ts).getHours(),b=c.hr[H]=c.hr[H]||{n:0,d:0};b.n++;if(t==='deal')b.d++;
-  const nx=d[i+1];if(nx){const g=nx.ts-r.ts,big=t==='deal'||t==='rej';if(g<=20*6e4||(big&&g<=90*6e4))c.act+=g;else c.down+=g}});
+  const nx=d[i+1];if(nx){const bk=brkIn(r.ts,nx.ts,B),g=nx.ts-r.ts-bk,big=t==='deal'||t==='rej';c.brk+=bk;if(g<=20*6e4||(big&&g<=90*6e4))c.act+=g;else c.down+=g}});
  c.nh+=c.none;c.n=d.length;c.start=d.length?d[0].ts:0;c.last=d.length?d[d.length-1].ts:0;
  let k=0;for(let i=d.length-1;i>=0&&typ(d[i])!=='deal';i--)k++;c.since=k;
  let best=null;for(const H in c.hr){const b=c.hr[H];if(!best||b.d>best.d||(b.d===best.d&&b.n>best.n))best={H:+H,...b}}c.best=best;
@@ -315,14 +333,16 @@ function renderStreet(){
  const turns=s.rows.filter(r=>r.t==='mark'&&r.txt.startsWith('↪')),segOf=[{deal:0,cb:0,rej:0,n:0},...turns.map(()=>({deal:0,cb:0,rej:0,n:0}))];
  {let k=0;s.rows.forEach(r=>{if(r.t==='mark'){if(r.txt.startsWith('↪'))k++;return}const T=typ(r),g=segOf[k];g.n++;if(T==='deal')g.deal++;else if(T==='cb'||T==='appt')g.cb++;else if(T==='rej')g.rej++})}
  if(!turns.length&&s.street&&s.street0!==s.street)s.street0=s.street;
- const MH=turns.length+1>5?24:28,thv=$('#main thead th'),thH=thv?thv.offsetHeight:30;
+const stk=segOf.map(g=>g.cb>0);let si=0;const sIdx=stk.map(x=>x?si++:-1);
+ const MH=si>5?24:28,thv=$('#main thead th'),thH=thv?thv.offsetHeight:30;
  const chips=sg=>[sg.deal?h('i',{class:'g'},sg.deal+' Deal'):null,sg.cb?h('i',{class:'g'},sg.cb+' CB'):null,sg.rej&&S.showRed?h('i',{class:'r'},sg.rej+' Rej'):null,!(sg.deal||sg.cb||(sg.rej&&S.showRed))?h('i',{},sg.n+(sg.n===1?' door':' doors')):null];
- const turnRow=(id,txt,ti)=>h('tr',{class:'mark turn','data-id':id},h('td',{colspan:5,style:'top:'+(thH+ti*MH)+'px;height:'+MH+'px',onclick:()=>goTurn({id})},h('div',{class:'tn'},h('b',{},txt),h('span',{class:'mi'},...chips(segOf[ti])))));
- {const sr=$('#startRow td');sr.style.top=thH+'px';sr.style.height=MH+'px';$('#startMi').replaceChildren(...chips(segOf[0]).filter(Boolean));
+ const turnRow=(id,txt,ti)=>h('tr',{class:'mark turn'+(stk[ti]?'':' ns'),'data-id':id},h('td',{colspan:5,style:(stk[ti]?'top:'+(thH+sIdx[ti]*MH)+'px;':'')+'height:'+MH+'px',onclick:()=>goTurn({id})},h('div',{class:'tn'},h('b',{},txt),h('span',{class:'mi'},...chips(segOf[ti])))));
+ {const sr=$('#startRow td');$('#startRow').classList.toggle('ns',!stk[0]);sr.style.top=stk[0]?thH+'px':'';sr.style.height=MH+'px';$('#startMi').replaceChildren(...chips(segOf[0]).filter(Boolean));
   const i=$('#st');if(document.activeElement!==i)i.value=turns.length?(s.street0||''):(s.street||'')}
  if(!s.rows.length)tb.append(h('tr',{},h('td',{colspan:5,class:'empty'},'No doors yet. Tap NEW DOOR to start.')));
  s.rows.forEach(r=>{
   if(r.t==='mark'){
+   if(r.brk){tb.append(h('tr',{class:'mark brk','data-id':r.id},h('td',{colspan:5},'☕ Break · '+(r.end?dur(r.end-r.ts):'time is paused')+' · '+tm(r.ts))));return}
    if(r.txt.startsWith('↪')){tb.append(turnRow(r.id,r.txt.replace('↪ Turned onto ','↪ '),turns.indexOf(r)+1))}
    else tb.append(h('tr',{class:'mark','data-id':r.id},h('td',{colspan:5},r.txt)));
    return}
@@ -337,11 +357,12 @@ function renderStreet(){
  mn.scrollTop=sc;
 }
 function goTurn(r){const m=$('#main');if(r.id==='start'){m.scrollTo({top:0,behavior:'smooth'});tick(1);return}const tr=m.querySelector('tr[data-id="'+r.id+'"]');if(!tr)return;
- const ti=[...m.querySelectorAll('tr.turn')].indexOf(tr),thv=m.querySelector('thead th'),thH=thv?thv.offsetHeight:30,MH=m.querySelectorAll('tr.turn').length>5?24:28;
+ const rows=[...m.querySelectorAll('tr.turn')],ti=rows.indexOf(tr),thv=m.querySelector('thead th'),thH=thv?thv.offsetHeight:30,nS=rows.filter(x=>!x.classList.contains('ns')).length,MH=nS>5?24:28;
+ const upto=rows.slice(0,ti+1).filter(x=>!x.classList.contains('ns')).length,me=!tr.classList.contains('ns');
  let n=tr.nextElementSibling;while(n&&n.classList.contains('mark'))n=n.nextElementSibling;
  if(!n||n.classList.contains('turn')){m.scrollTo({top:m.scrollHeight,behavior:'smooth'});return}
  const y=n.getBoundingClientRect().top-m.getBoundingClientRect().top+m.scrollTop;
- m.scrollTo({top:Math.max(0,y-thH-(ti+1)*MH),behavior:'smooth'});n.classList.add('fl');setTimeout(()=>n.classList.remove('fl'),1800);tick(1)}
+ m.scrollTo({top:Math.max(0,y-thH-upto*MH-(me?0:MH)),behavior:'smooth'});n.classList.add('fl');setTimeout(()=>n.classList.remove('fl'),1800);tick(1)}
 function setTab(t){
  if(!$('#ov').hidden){const o=$('#ov');o.hidden=true;o.className='';$('#main').style.paddingBottom=''}
  tab=t;
@@ -358,8 +379,8 @@ function renderPanel(){
    h('button',{class:'chip',id:'bCross',onclick:doCross},h('i',{},'⇄'),'Cross'),
    h('button',{class:'chip',id:'bCb',onclick:cbList},h('i',{},'↩'),'Comebacks',h('span',{id:'cbn'})),
    h('button',{class:'chip'+(S.showRed?' on':''),id:'bRed',onclick:()=>{S.showRed=!S.showRed;save();render()}},h('i',{},'●'),'Red')),
-   h('button',{id:'nd',onclick:()=>{tick(2);add()}},'NEW DOOR'));
-  const c=stats(cs()),cn=$('#cbn');if(cn)cn.textContent=(c.cb+c.appt)||'';
+   ndRow(false));
+  brkUI();const c=stats(cs()),cn=$('#cbn');if(cn)cn.textContent=(c.cb+c.appt)||'';
  }else if(tab==='goals'){
   p.append(h('div',{class:'plab'},'Street screen bar shows'),
    seg([['week','Weekly'],['day','Daily']],S.goal.mode,k=>{S.goal.mode=k;gpPrev=null;save();renderPanel();render();hud(hist())}),
@@ -374,6 +395,10 @@ function renderPanel(){
  }else p.hidden=true;
  fit();
 }
+function brkUI(){const on=!!openBrk();document.querySelectorAll('.brkb').forEach(b=>{b.classList.toggle('on',on);b.textContent=on?'On break':'Take a break'})}
+function takeBreak(){if(openBrk())return;const s=cs();s.rows.push({id:uid(),t:'mark',txt:'☕ Break',brk:1,ts:Date.now(),end:null});save();render();bottom();brkUI();tick(1);gpsPill('Break started · time is paused','ok',2600)}
+function endBreak(){const b=openBrk();if(b){b.end=Date.now();save();brkUI();return true}return false}
+const ndRow=big=>h('div',{class:'ndrow'},(big?null:h('button',{class:'brkb',type:'button',onclick:takeBreak},'Take a break')),h('button',big?{class:'b nd',onclick:()=>add()}:{id:'nd',onclick:()=>{tick(2);add()}},'NEW DOOR'));
 function doCross(){mark('⇄ Crossed street',s=>{s.step=-(s.step||-2);s.cross=true});probe()}
 function doTurn(){const i=h('input',{class:'in',placeholder:'New street name',autocapitalize:'words',id:'turnName'});
  sheet('Turned onto…',i,h('button',{class:'b p',style:'width:100%',onclick:()=>{const n=i.value.trim();$('#ov').hidden=true;mark('↪ Turned onto '+n,s=>{if(s.street0==null)s.street0=s.street||'';s.street=n;s.fresh=true;s.cross=false;s.leg=(s.leg||0)+1});probe()}},'Save turn'));i.focus()}
@@ -385,12 +410,12 @@ const rowEl=id=>document.querySelector(`tr[data-id="${id}"]`);
 const bottom=()=>{$('#main').scrollTop=1e9};
 const eff=r=>{const n=parseInt(r.addr);if(isFinite(n))return n;const q=parseInt(r.pred);return isFinite(q)?q:NaN};
 function need(r){const p=parseInt(r.pred);if(isFinite(p))return String(p).length;const ds=doors(cs()),i=ds.indexOf(r);for(let k=i-1;k>=0;k--){const n=eff(ds[k]);if(isFinite(n))return String(n).length}return 4}
-function advance(r){const a=document.activeElement;if(a&&a.blur)a.blur();if(S.jump)openResp(r)}
+function advance(r){const a=document.activeElement;if(a&&a.blur)a.blur();if(S.jump)openResp(r);setTimeout(showCur,150);setTimeout(showCur,450)}
 function setQ(r){r.addr='?'+(r.pred||'');save();const e=rowEl(r.id);if(e)e.querySelector('[data-f=addr]').value=r.addr}
 
 function wk(t){const d=new Date(t);d.setHours(0,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return d.getTime()}
 function hk(t){return dk(t)+'-'+new Date(t).getHours()}
-function activeMs(d){let a=0;for(let i=0;i<d.length-1;i++){const g=d[i+1].ts-d[i].ts,t=typ(d[i]),big=t==='deal'||t==='rej';if(g<=12e5||(big&&g<=54e5))a+=g}return a}
+function activeMs(d){let a=0;const B=brkSpans();for(let i=0;i<d.length-1;i++){const g=d[i+1].ts-d[i].ts-brkIn(d[i].ts,d[i+1].ts,B),t=typ(d[i]),big=t==='deal'||t==='rej';if(g<=12e5||(big&&g<=54e5))a+=g}return a}
 const isAns=r=>['deal','rej','cb','appt','other'].includes(typ(r));
 function hist(){
  const all=[];S.sessions.forEach(x=>x.rows.forEach(r=>{if(r.t==='door')all.push(r)}));all.sort((a,b)=>a.ts-b.ts);
@@ -478,7 +503,7 @@ let gpsT,gpsT0=0;
 function gpsPill(txt,cls,ms){const g=$('#gpsPill');if(!g)return;clearTimeout(gpsT);g.className='show '+cls;g.textContent=txt;if(ms)gpsT=setTimeout(()=>{g.className=''},ms)}
 function gpsShow(on){if(on){gpsT0=Date.now();gpsPill('Locating…','busy',0)}}
 function gpsDone(kind,txt){const w=Math.max(0,900-(Date.now()-gpsT0));setTimeout(()=>{
- if(kind==='ok')gpsPill(txt||'Located ✓','ok',2200);else if(kind==='weak')gpsPill('Weak signal','bad',2200);else if(kind==='blocked')gpsPill('Location is blocked','bad',3500);else gpsPill('No location','bad',2200)},w)}
+ if(kind==='ok')gpsPill(txt||'Located ✓','ok',2200);else if(kind==='net')gpsPill('Poor connection · using pattern','bad',2800);else if(kind==='weak')gpsPill('Weak signal','bad',2200);else if(kind==='blocked')gpsPill('Location is blocked','bad',3500);else gpsPill('No location','bad',2200)},w)}
 function nameFromGps(s,r){
  if((s.street||'').trim()||s.rows.some(x=>x.t==='mark'&&x.txt.startsWith('↪')))return;
  try{fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=17&lat='+r.lat+'&lon='+r.lng).then(x=>x.json()).then(d=>{
@@ -486,25 +511,26 @@ function nameFromGps(s,r){
   if(!n||(s.street||'').trim()||s.rows.some(x=>x.t==='mark'&&x.txt.startsWith('↪')))return;
   s.street=n;s.street0=n;save();const i=$('#st');if(cs()===s&&i&&document.activeElement!==i)i.value=n}).catch(()=>{})}catch(e){}}
 // ===== Real addresses from OpenStreetMap =====
-const ADK='doortracker.addr.v1',AR=300;
-let ADT=[];try{ADT=JSON.parse(localStorage.getItem(ADK)||'[]').filter(t=>Date.now()-t.t<30*864e5)}catch(e){ADT=[]}
+const ADK='doortracker.addr.v1',AR=600;let netFail=false;
+let ADT=[];const adReady=(async()=>{try{localStorage.removeItem(ADK)}catch(e){}try{ADT=JSON.parse(await idb.get('addr')||'[]').filter(t=>Date.now()-t.t<30*864e5)}catch(e){ADT=[]}})();
 const hav=(a,b,c,d)=>{const k=Math.PI/180,x=(c-a)*k,y=(d-b)*k*Math.cos((a+c)/2*k);return 6371000*Math.sqrt(x*x+y*y)};
 const ABBR={st:'street',str:'street',ave:'avenue',av:'avenue',rd:'road',dr:'drive',ln:'lane',ct:'court',blvd:'boulevard',pkwy:'parkway',pky:'parkway',pl:'place',ter:'terrace',cir:'circle',hwy:'highway'};
 const SUF=new Set(['street','avenue','road','drive','lane','court','boulevard','parkway','place','terrace','circle','way','highway','north','south','east','west','n','s','e','w']);
 const core=s=>String(s||'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(Boolean).map(w=>ABBR[w]||w).filter(w=>!SUF.has(w)).join(' ');
 const sameSt=(a,b)=>{const x=core(a),y=core(b);return !!x&&!!y&&(x===y||(x.length>=4&&y.length>=4&&(x.includes(y)||y.includes(x))))};
-function adList(la,lo){const out=[],seen=new Set();ADT.forEach(t=>{if(hav(la,lo,t.la,t.lo)<AR+150)t.l.forEach(a=>{const k=a[0]+'|'+a[1]+'|'+a[2]+'|'+a[3];if(!seen.has(k)){seen.add(k);out.push({n:a[0],st:a[1],la:a[2],lo:a[3]})}})});return out}
-const adCovered=(la,lo)=>ADT.some(t=>Date.now()-t.t<30*864e5&&hav(la,lo,t.la,t.lo)<150);
+function adList(la,lo){const out=[],seen=new Set();ADT.forEach(t=>{if(hav(la,lo,t.la,t.lo)<AR+300)t.l.forEach(a=>{const k=a[0]+'|'+a[1]+'|'+a[2]+'|'+a[3];if(!seen.has(k)){seen.add(k);out.push({n:a[0],st:a[1],la:a[2],lo:a[3]})}})});return out}
+const adCovered=(la,lo)=>ADT.some(t=>Date.now()-t.t<30*864e5&&hav(la,lo,t.la,t.lo)<300);
 async function adFetch(la,lo){
- const q='[out:json][timeout:20];(node["addr:housenumber"](around:'+AR+','+la+','+lo+');way["addr:housenumber"](around:'+AR+','+la+','+lo+'););out center tags qt;';
+ const q='[out:json][timeout:25];(node["addr:housenumber"](around:'+AR+','+la+','+lo+');way["addr:housenumber"](around:'+AR+','+la+','+lo+'););out center tags qt;';
  for(const u of ['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter']){
-  try{const ac=new AbortController(),to=setTimeout(()=>ac.abort(),14000);
+  try{const ac=new AbortController(),to=setTimeout(()=>ac.abort(),20000);
    const r=await fetch(u,{method:'POST',body:'data='+encodeURIComponent(q),headers:{'Content-Type':'application/x-www-form-urlencoded'},signal:ac.signal});clearTimeout(to);
    if(!r.ok)continue;const d=await r.json(),l=[];
    (d.elements||[]).forEach(e=>{const t=e.tags||{},m=/^\d+/.exec(t['addr:housenumber']||''),a=e.lat!=null?e.lat:e.center&&e.center.lat,o=e.lon!=null?e.lon:e.center&&e.center.lon;
     if(m&&t['addr:street']&&a!=null)l.push([+m[0],t['addr:street'],+(+a).toFixed(6),+(+o).toFixed(6)])});
-   ADT=ADT.filter(t=>hav(la,lo,t.la,t.lo)>40&&hav(la,lo,t.la,t.lo)<3000&&Date.now()-t.t<30*864e5);ADT.push({la:+la.toFixed(5),lo:+lo.toFixed(5),t:Date.now(),l});ADT=ADT.slice(-6);
-   try{localStorage.setItem(ADK,JSON.stringify(ADT))}catch(e){}
+   ADT=ADT.filter(t=>hav(la,lo,t.la,t.lo)>40&&hav(la,lo,t.la,t.lo)<5000&&Date.now()-t.t<30*864e5);ADT.push({la:+la.toFixed(5),lo:+lo.toFixed(5),t:Date.now(),l});ADT=ADT.slice(-7);
+   while(ADT.length>1&&JSON.stringify(ADT).length>5e6)ADT.shift();
+   idb.set('addr',JSON.stringify(ADT));
    return true}catch(e){}}
  return false}
 function adStreet(s,fix,L,store){
@@ -542,7 +568,8 @@ function fixNow(cb,err){
  gpsShow(true);
  try{navigator.geolocation.getCurrentPosition(pos=>cb(pos.coords),e=>err(e&&e.code===1?'blocked':'err'),{enableHighAccuracy:true,timeout:9000,maximumAge:0})}catch(e){err('err')}}
 async function getMap(fix){
- if(!adCovered(fix.la,fix.lo)){gpsPill('Loading addresses…','busy',0);await adFetch(fix.la,fix.lo)}
+ await adReady;
+ if(!adCovered(fix.la,fix.lo)){gpsPill('Downloading map data…','busy',0);netFail=!(await adFetch(fix.la,fix.lo))}else netFail=false
  return adList(fix.la,fix.lo).length>=4}
 const shortSt=n=>String(n||'').replace(/\b(Street|Avenue|Road|Drive|Lane|Court|Boulevard|Parkway|Place|Terrace|Circle)\b/g,m=>({Street:'St',Avenue:'Ave',Road:'Rd',Drive:'Dr',Lane:'Ln',Court:'Ct',Boulevard:'Blvd',Parkway:'Pkwy',Place:'Pl',Terrace:'Ter',Circle:'Cir'}[m]));
 function probe(){
@@ -551,7 +578,7 @@ function probe(){
   const fix={la:c.latitude,lo:c.longitude,acc:c.accuracy};
   const ok=await getMap(fix);let txt='Located ✓';
   if(ok){const b=adList(fix.la,fix.lo).map(a=>({a,d:hav(fix.la,fix.lo,a.la,a.lo)})).sort((x,y)=>x.d-y.d)[0];if(b&&b.d<=60)txt='Near '+b.a.n+' '+shortSt(b.a.st)}
-  gpsDone('ok',txt)},k=>gpsDone(k))}
+  gpsDone(!ok&&netFail?'net':'ok',txt)},k=>gpsDone(k))}
 function setAddr(r,n){
  if(r.addr!==r.pred)return false;
  const e=rowEl(r.id),i=e&&e.querySelector('[data-f=addr]');
@@ -576,12 +603,13 @@ function ping(r,s,base,ctx){
    let n=gpsPick(base,geoFit(s,r,r.lat,r.lng,r.acc));
    {const ds=doors(s),pv=ds[ds.indexOf(r)-1];if(pv&&n===eff(pv))n=+r.pred}
    if(n>0&&String(n)!==r.pred)setAddr(r,n)}
-  gpsDone('ok',txt);save()},k=>gpsDone(k))}
+  gpsDone(!ok&&netFail?'net':'ok',txt);save()},k=>gpsDone(k))}
 function askStreet(){const i=h('input',{class:'in',placeholder:'Street name',autocapitalize:'words',id:'askSt'});
  const go=()=>{const n=i.value.trim(),s=cs();s.asked=true;s.street=n;s.street0=n;$('#st').value=n;save();$('#ov').hidden=true;add()};
  i.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
  sheet('What street is this sheet?',i,h('button',{class:'b p',style:'width:100%',onclick:go},'Start'),h('button',{class:'b',style:'width:100%;margin-top:8px',onclick:()=>{$('#ov').hidden=true;const s=cs();s.asked=true;s.street0='';add()}},'Skip'));i.focus()}
 function add(){
+ endBreak();
  if(!$('#ov').hidden)close();
  {const s0=cs();if(!(s0.street||'').trim()&&!s0.rows.length&&!s0.asked){askStreet();return}}
  const s=cs(),ds=doors(s),l=ds[ds.length-1];let a='',base=null;
@@ -616,15 +644,15 @@ function quiet(){const o=$('#ov');o.hidden=true;o.className='';document.querySel
 document.addEventListener('pointerdown',e=>{const o=$('#ov');if(o.hidden||o.className!=='dock'||e.target.closest('.sh'))return;quiet()},true);
 $('#ov').addEventListener('click',e=>{if(e.target.id==='ov')close()});
 function jump(id){close();const e=rowEl(id);if(!e)return;const m=$('#main');m.scrollTop+=e.getBoundingClientRect().top-m.getBoundingClientRect().top-120;e.classList.add('fl');setTimeout(()=>e.classList.remove('fl'),1800)}
-const ndb=()=>h('button',{class:'b nd',onclick:()=>add()},'NEW DOOR');
+const ndb=()=>{const r=ndRow(true);setTimeout(brkUI,0);return r};
 function p(t){return h('p',{class:'h'},t)}
 
 function openResp(r){
  dock(r,'Response – '+(r.addr||'no address'),
-  h('div',{class:'gd'},S.resp.map(x=>h('button',{class:'b'+(r.r===x.id?' on':''),onclick:()=>choose(r,x)},x.sym,h('small',{},x.label)))),
-  h('div',{class:'gd'},h('button',{class:'b',onclick:()=>{setQ(r);S.jump?openResp(r):close()}},'Addr?'),h('button',{class:'b',onclick:()=>pick(r,{id:null,type:'none'})},'Clear'),h('button',{class:'b',onclick:editResp},'Edit')),ndb());
+  h('div',{class:'gd c4r'},S.resp.map(x=>h('button',{class:'b'+(r.r===x.id?' on':''),onclick:()=>choose(r,x)},x.sym,h('small',{},x.label))),(S.resp.length<10?h('button',{class:'b',onclick:()=>{S.resp.push({id:uid(),sym:'New',label:'New',type:'other'});save();editResp()}},'+ Add'):null),h('button',{class:'b',onclick:editResp},'Edit')),ndb());
 }
 function choose(r,x){
+ if(r.r===x.id){pick(r,{id:null,type:'none'});return}
  if(x.type==='cb')cbSheet(r,x);
  else pick(r,x)
 }
@@ -645,7 +673,7 @@ function editResp(){
   const sel=h('select',{onchange:e=>{x.type=e.target.value;save()}},Object.keys(TYPES).map(k=>h('option',{value:k},TYPES[k])));sel.value=x.type;
   box.append(h('div',{class:'er'},h('input',{class:'s',value:x.sym,oninput:e=>{x.sym=e.target.value;save()}}),h('input',{value:x.label,oninput:e=>{x.label=e.target.value;save()}}),sel,h('button',{class:'x',onclick:()=>{S.resp=S.resp.filter(y=>y!==x);save();editResp()}},'✕')));
  });
- sheet('Edit responses',p('Symbol · name · counts as'),box,h('div',{class:'gd'},h('button',{class:'b',onclick:()=>{S.resp.push({id:uid(),sym:'New',label:'New',type:'other'});save();editResp()}},'+ Add'),h('button',{class:'b p',onclick:close},'Done')));
+ sheet('Edit responses',p('Symbol · name · counts as'),box,h('div',{class:'gd'},(S.resp.length<10?h('button',{class:'b',onclick:()=>{S.resp.push({id:uid(),sym:'New',label:'New',type:'other'});save();editResp()}},'+ Add'):null),h('button',{class:'b p',onclick:close},'Done')));
 }
 
 function item(r){const x=R(r.r);return h('button',{class:'it',onclick:()=>goDoor(r)},h('b',{},r.addr||'–'),h('span',{},[r.name,r.note].filter(Boolean).join(' · ')||'—'),h('em',{},[x&&(x.type==='nh'?x.label:x.sym)+(r.d?' '+r.d:''),r.apt&&'APT'].filter(Boolean).join(' · ')))}
@@ -686,8 +714,8 @@ function renderStats(){
    h('small',{},em.tot?money(em.tot)+' over '+dur(em.hrs*36e5)+(c.deal?' · '+money(em.tot/c.deal)+' per deal':''):'Tap Add earnings to log what your deals are worth.')),
   h('div',{class:'sec'},'Results · tap a number to review'),g(cd(c.n,'Doors'),cd(ans,'Answered'),cd(c.deal,'Deals','deal'),cd(c.rej,'Rejections','rej'),cd(c.nh,'Not home','nh'),cd(c.vac,'Vacant','vac'),cd(c.cb,'Comebacks','cb'),cd(c.appt,'Appointments','appt'),cd(c.other,'Other','other')),
   h('div',{class:'sec'},'Averages'),g(cd(pct(c.deal,c.n),'Deals / doors'),cd(pct(c.rej,c.n),'Rejections / doors'),cd(pct(ans,c.n),'Answered / doors'),cd(pct(c.deal,ans),'Deals / answered'),cd(pct(c.rej,ans),'Rejections / answered'),cd(pct(c.deal,c.deal+c.rej),'Deals / yes-no'),cd(pct(c.nh,c.n),'Not home %'),cd(pct(c.vac,c.n),'Vacant %'),cd(per(c.deal,c.n),'Doors per deal')),
-  h('div',{class:'sec'},'Time & pace'),g(cd(tm(c.start),'Started'),cd(tm(c.last),'Last door'),cd(dur(c.act),'Working time'),cd(dur(c.down),'Downtime'),cd(hrs>.02?(c.n/hrs).toFixed(1):'–','Doors / hr'),cd(hrs>.02?(c.deal/hrs).toFixed(2):'–','Deals / hr'),cd(c.best?hf(c.best.H):'–','Best hour'),cd(c.since,'Since last deal')),
-  h('p',{class:'note'},'Gaps over 20 minutes count as downtime, unless the door was a deal or rejection (up to 90 minutes).'));
+  h('div',{class:'sec'},'Time & pace'),g(cd(tm(c.start),'Started'),cd(tm(c.last),'Last door'),cd(dur(c.act),'Working time'),cd(dur(c.down),'Downtime'),cd(dur(c.brk),'On break'),cd(hrs>.02?(c.n/hrs).toFixed(1):'–','Doors / hr'),cd(hrs>.02?(c.deal/hrs).toFixed(2):'–','Deals / hr'),cd(c.best?hf(c.best.H):'–','Best hour'),cd(c.since,'Since last deal')),
+  h('p',{class:'note'},'Gaps over 20 minutes count as downtime, unless the door was a deal or rejection (up to 90 minutes). Time on a break is removed first, so it never counts as working time or downtime.'));
 }
 let LLp=null;
 function loadLeaflet(){if(window.L)return Promise.resolve();return LLp||(LLp=new Promise((ok,no)=>{
@@ -800,12 +828,21 @@ async function cloudInit(){
   gpPrev=null;bhOn=null;render();bottom();
  }catch(e){}
 }
+function showCur(){
+ const e=curId&&rowEl(curId),m=$('#main');if(!e||!m||tab!=='street'||document.body.classList.contains('kb'))return;
+ const mr=m.getBoundingClientRect(),er=e.getBoundingClientRect();
+ let lim=Math.min(mr.bottom,$('#bot').getBoundingClientRect().top);
+ const sh=$('#ov').hidden?null:document.querySelector('#ov.dock .sh');if(sh)lim=Math.min(lim,sh.getBoundingClientRect().top);
+ const thv=m.querySelector('thead th');let top=mr.top+(thv?thv.offsetHeight:30);
+ m.querySelectorAll('tr.turn:not(.ns) td').forEach(x=>{const b=x.getBoundingClientRect();if(b.top<=mr.top+parseFloat(x.style.top||0)+1)top=Math.max(top,b.bottom)});
+ if(er.bottom>lim-6)m.scrollTop+=er.bottom-lim+10;else if(er.top<top)m.scrollTop-=top-er.top+4}
 function revealRow(){if(!document.body.classList.contains('kb')||tab!=='street')return;const e=curId&&rowEl(curId),m=$('#main');if(!e||!m)return;
  const a=e.getBoundingClientRect(),b=m.getBoundingClientRect(),th=document.querySelector('thead')?document.querySelector('thead').getBoundingClientRect().height:0;
  if(a.bottom>b.bottom-8)m.scrollTop+=a.bottom-b.bottom+10;else if(a.top<b.top+th)m.scrollTop-=b.top+th-a.top+4}
 function fit(){const v=window.visualViewport,b=$('#bot'),bd=document.body;
  const kb=!!v&&v.height<window.innerHeight-150,was=bd.classList.contains('kb');
  bd.classList.toggle('kb',kb);
+ if(was&&!kb){setTimeout(showCur,120);setTimeout(showCur,450)}
  if(!kb){bd.style.height='';bd.style.top='';bd.style.bottom=''}
  const bh=b.offsetHeight;$('#sp').style.height=bh+'px';document.documentElement.style.setProperty('--botH',bh+'px');
  if(!v)return;
@@ -828,12 +865,15 @@ document.addEventListener('touchmove',e=>{
  const dy=e.touches[0].clientY-sy;
  if((m.id==='main'||m.classList.contains('scroll'))&&((dy>0&&m.scrollTop<=0)||(dy<0&&m.scrollTop+m.clientHeight>=m.scrollHeight-1)))e.preventDefault();
 },{passive:false});
-document.addEventListener('visibilitychange',()=>{if(document.hidden)flush()});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){flush();if(mirrorReady)idb.set('state',JSON.stringify(S))}});
 document.addEventListener('focusout',()=>setTimeout(()=>{if(!/INPUT|TEXTAREA/.test((document.activeElement||{}).tagName||''))window.scrollTo(0,0)},60));
 document.addEventListener('focusin',e=>{const o=$('#ov'),t=e.target;if(t&&t.closest&&t.closest('#ov .sh')&&/INPUT|TEXTAREA/.test(t.tagName)&&!o.classList.contains('dock'))o.classList.add('top')});
 document.addEventListener('focusout',()=>setTimeout(()=>{const a=document.activeElement;if(!(a&&a.closest&&a.closest('#ov .sh')&&/INPUT|TEXTAREA/.test(a.tagName)))$('#ov').classList.remove('top')},80));
 probe();
 {let hid=0;document.addEventListener('visibilitychange',()=>{if(document.hidden)hid=Date.now();else if(hid&&Date.now()-hid>5*60000){hid=0;probe()}})}
+(async()=>{const m=await idb.get('state');let o=null;try{o=JSON.parse(m)}catch(e){}
+ if(okS(o)&&nDoors(o)>nDoors(S)&&(nDoors(S)===0||(o.t||0)>=(S.t||0))){mirrorReady=true;S=o;migrate();gpPrev=null;bhOn=null;save();S.sessions.forEach(x=>dirty.add(x.id));const dd=doors(cs());curId=dd.length?dd[dd.length-1].id:null;renderPanel();render();bottom();gpsPill('Restored your sheets from backup','ok',4500)}
+ else{mirrorReady=true;if(okS(S))idb.set('state',JSON.stringify(S))}})();
 </script>
 <script>
 if('serviceWorker' in navigator&&!window.claude)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
