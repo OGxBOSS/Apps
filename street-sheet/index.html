@@ -173,6 +173,9 @@ tr{touch-action:pan-y}
 #ov{position:fixed;inset:0;background:rgba(8,12,22,.5);display:flex;align-items:flex-end;z-index:9}
 .sh{background:var(--surface);width:100%;max-height:calc(100% - 8px);overflow:auto;border-radius:24px 24px 0 0;padding:16px 14px calc(16px + env(safe-area-inset-bottom,0px))}
 .sh::before{content:'';display:block;width:40px;height:5px;border-radius:3px;background:var(--line);margin:-6px auto 12px}
+#ov.top{align-items:flex-start}
+#ov.top .sh{border-radius:0 0 24px 24px;padding:calc(14px + env(safe-area-inset-top,0px)) 14px 16px;max-height:calc(100% - 8px)}
+#ov.top .sh::before{display:none}
 .sh h3{margin:0 0 8px;font-size:19px;letter-spacing:-.01em}
 .b{min-height:56px;border-radius:15px;border:0;background:var(--raise);color:var(--fg);font:inherit;font-weight:700;font-size:17px;padding:6px}
 .b small{display:block;font-size:12px;font-weight:500;color:var(--mut)}
@@ -453,24 +456,24 @@ function nextGap(s,ds){
  return{g:s.step||-2,sd:4}}
 function geoFit(s,r,lat,lng,acc){
  const P=doors(s).filter(d=>d!==r&&d.lat!=null&&(d.leg||0)===(r.leg||0)&&isFinite(eff(d)));
- if(P.length<3)return null;
+ if(P.length<2)return null;
  const la0=P.reduce((t,d)=>t+d.lat,0)/P.length,lo0=P.reduce((t,d)=>t+d.lng,0)/P.length,kx=111320*Math.cos(la0*Math.PI/180),ky=110540,n=P.length;
  const X=P.map(d=>[(d.lng-lo0)*kx,(d.lat-la0)*ky,eff(d)]);
  let xm=0,ym=0,am=0;X.forEach(v=>{xm+=v[0];ym+=v[1];am+=v[2]});xm/=n;ym/=n;am/=n;
  let sxx=0,sxy=0,syy=0;X.forEach(v=>{const a=v[0]-xm,b=v[1]-ym;sxx+=a*a;sxy+=a*b;syy+=b*b});
  const th=.5*Math.atan2(2*sxy,sxx-syy),co=Math.cos(th),si=Math.sin(th);
  let stt=0,sta=0,saa=0;const T=X.map(v=>{const t=(v[0]-xm)*co+(v[1]-ym)*si;stt+=t*t;sta+=t*(v[2]-am);saa+=(v[2]-am)*(v[2]-am);return t});
- if(Math.sqrt(stt/n)<12||saa<1)return null;
+ if(Math.sqrt(stt/n)<(n<3?8:12)||saa<1)return null;
  const b=sta/stt;let ssr=0;T.forEach((t,i)=>{const e=X[i][2]-am-b*t;ssr+=e*e});
- if(1-ssr/saa<.85)return null;
- const x=(lng-lo0)*kx,y=(lat-la0)*ky,t=(x-xm)*co+(y-ym)*si,res=Math.sqrt(ssr/Math.max(1,n-2));
+ if(n>=3&&1-ssr/saa<.85)return null;
+ const x=(lng-lo0)*kx,y=(lat-la0)*ky,t=(x-xm)*co+(y-ym)*si,res=n<3?3:Math.sqrt(ssr/Math.max(1,n-2));
  return{A:am+b*t,sd:Math.sqrt(Math.pow(Math.max(res,1.5),2)+Math.pow(Math.abs(b)*Math.max(acc,10),2))}}
 function gpsPick(base,gf){
  if(!gf)return base.n;
- const tol=Math.min(16,Math.max(6,3*Math.hypot(gf.sd||0,base.sd||0)));
- if(!isFinite(tol)||Math.abs(gf.A-base.n)>tol)return base.n;
- const par=((base.n%2)+2)%2;let n=Math.round(gf.A);
- if(((n%2)+2)%2!==par)n=Math.abs(n+1-gf.A)<=Math.abs(n-1-gf.A)?n+1:n-1;return n}
+ if(!isFinite(gf.A)||Math.abs(gf.A-base.n)>30)return base.n;
+ const sg=Math.max(gf.sd||3,1.5),sp=Math.max(base.sd||2,1.5),wg=1/(sg*sg),wp=1/(sp*sp),m=(gf.A*wg+base.n*wp)/(wg+wp);
+ const par=((base.n%2)+2)%2;let n=Math.round(m);
+ if(((n%2)+2)%2!==par)n=Math.abs(n+1-m)<=Math.abs(n-1-m)?n+1:n-1;return n}
 let gpsT,gpsT0=0;
 function gpsPill(txt,cls,ms){const g=$('#gpsPill');if(!g)return;clearTimeout(gpsT);g.className='show '+cls;g.textContent=txt;if(ms)gpsT=setTimeout(()=>{g.className=''},ms)}
 function gpsShow(on){if(on){gpsT0=Date.now();gpsPill('Locating…','busy',0)}}
@@ -491,12 +494,13 @@ function ping(r,s,base){
   r.lat=+c.latitude.toFixed(6);r.lng=+c.longitude.toFixed(6);r.acc=Math.round(c.accuracy);
   nameFromGps(s,r);
   if(base&&r.pred&&r.addr===r.pred){
-   const n=gpsPick(base,geoFit(s,r,r.lat,r.lng,r.acc));
+   let n=gpsPick(base,geoFit(s,r,r.lat,r.lng,r.acc));
+   {const ds=doors(s),pv=ds[ds.indexOf(r)-1];if(pv&&n===eff(pv))n=+r.pred}
    if(n>0&&String(n)!==r.pred){const e=rowEl(r.id),i=e&&e.querySelector('[data-f=addr]');
     if(!(i&&document.activeElement===i&&i.value!==r.pred)){r.addr=r.pred=String(n);
      if(i){i.value=r.addr;if(document.activeElement===i)i.select()}
      const o=$('#ov'),t=o.firstChild&&o.firstChild.querySelector('h3');if(!o.hidden&&t&&t.textContent.startsWith('Response')&&curId===r.id)t.textContent='Response – '+r.addr}}}
-  save()},er=>{gpsDone(er&&er.code===1?'blocked':'err')},{enableHighAccuracy:true,timeout:7000,maximumAge:10000})}catch(e){gpsDone('err')}}
+  save()},er=>{gpsDone(er&&er.code===1?'blocked':'err')},{enableHighAccuracy:true,timeout:9000,maximumAge:0})}catch(e){gpsDone('err')}}
 function askStreet(){const i=h('input',{class:'in',placeholder:'Street name',autocapitalize:'words',id:'askSt'});
  const go=()=>{const n=i.value.trim(),s=cs();s.asked=true;s.street=n;s.street0=n;$('#st').value=n;save();$('#ov').hidden=true;add()};
  i.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
@@ -749,6 +753,8 @@ document.addEventListener('touchmove',e=>{
 },{passive:false});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)flush()});
 document.addEventListener('focusout',()=>setTimeout(()=>{if(!/INPUT|TEXTAREA/.test((document.activeElement||{}).tagName||''))window.scrollTo(0,0)},60));
+document.addEventListener('focusin',e=>{const o=$('#ov'),t=e.target;if(t&&t.closest&&t.closest('#ov .sh')&&/INPUT|TEXTAREA/.test(t.tagName)&&!o.classList.contains('dock'))o.classList.add('top')});
+document.addEventListener('focusout',()=>setTimeout(()=>{const a=document.activeElement;if(!(a&&a.closest&&a.closest('#ov .sh')&&/INPUT|TEXTAREA/.test(a.tagName)))$('#ov').classList.remove('top')},80));
 </script>
 <script>
 if('serviceWorker' in navigator&&!window.claude)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
