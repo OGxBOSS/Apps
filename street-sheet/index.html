@@ -179,9 +179,7 @@ tr{touch-action:pan-y}
 #ov{position:fixed;inset:0;background:rgba(8,12,22,.5);display:flex;align-items:flex-end;z-index:9}
 .sh{background:var(--surface);width:100%;max-height:calc(100% - 8px);overflow:auto;border-radius:24px 24px 0 0;padding:16px 14px calc(16px + env(safe-area-inset-bottom,0px))}
 .sh::before{content:'';display:block;width:40px;height:5px;border-radius:3px;background:var(--line);margin:-6px auto 12px}
-#ov.top{align-items:flex-start}
-#ov.top .sh{border-radius:0 0 24px 24px;padding:calc(14px + env(safe-area-inset-top,0px)) 14px 16px;max-height:calc(100% - 8px)}
-#ov.top .sh::before{display:none}
+body.kb .sh,body.kb #ov.dock .sh{padding-bottom:12px}
 .sh h3{margin:0 0 8px;font-size:19px;letter-spacing:-.01em}
 .b{min-height:56px;border-radius:15px;border:0;background:var(--raise);color:var(--fg);font:inherit;font-weight:700;font-size:17px;padding:6px}
 .b small{display:block;font-size:12px;font-weight:500;color:var(--mut)}
@@ -642,7 +640,8 @@ function dock(r,title,...c){
 }
 function quiet(){const o=$('#ov');o.hidden=true;o.className='';document.querySelectorAll('tr.sel').forEach(e=>e.classList.remove('sel'));clearTimeout(qt);qt=setTimeout(()=>{$('#main').style.paddingBottom=''},400)}
 document.addEventListener('pointerdown',e=>{const o=$('#ov');if(o.hidden||o.className!=='dock'||e.target.closest('.sh'))return;quiet()},true);
-$('#ov').addEventListener('click',e=>{if(e.target.id==='ov')close()});
+let ovDown=false,ovT=0;$('#ov').addEventListener('pointerdown',e=>{ovDown=e.target.id==='ov'},true);document.addEventListener('focusin',()=>{ovT=Date.now()});
+$('#ov').addEventListener('click',e=>{if(e.target.id==='ov'&&ovDown&&Date.now()-ovT>700)close();ovDown=false});
 function jump(id){close();const e=rowEl(id);if(!e)return;const m=$('#main');m.scrollTop+=e.getBoundingClientRect().top-m.getBoundingClientRect().top-120;e.classList.add('fl');setTimeout(()=>e.classList.remove('fl'),1800)}
 const ndb=()=>{const r=ndRow(true);setTimeout(brkUI,0);return r};
 function p(t){return h('p',{class:'h'},t)}
@@ -867,8 +866,7 @@ document.addEventListener('touchmove',e=>{
 },{passive:false});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){flush();if(mirrorReady)idb.set('state',JSON.stringify(S))}});
 document.addEventListener('focusout',()=>setTimeout(()=>{if(!/INPUT|TEXTAREA/.test((document.activeElement||{}).tagName||''))window.scrollTo(0,0)},60));
-document.addEventListener('focusin',e=>{const o=$('#ov'),t=e.target;if(t&&t.closest&&t.closest('#ov .sh')&&/INPUT|TEXTAREA/.test(t.tagName)&&!o.classList.contains('dock'))o.classList.add('top')});
-document.addEventListener('focusout',()=>setTimeout(()=>{const a=document.activeElement;if(!(a&&a.closest&&a.closest('#ov .sh')&&/INPUT|TEXTAREA/.test(a.tagName)))$('#ov').classList.remove('top')},80));
+document.addEventListener('focusin',e=>{const t=e.target;[60,300,700].forEach(d=>setTimeout(()=>{fit();if(t.isConnected&&t.closest&&t.closest('#ov .sh')&&document.activeElement===t){try{t.scrollIntoView({block:'nearest'})}catch(x){}}},d))});
 probe();
 {let hid=0;document.addEventListener('visibilitychange',()=>{if(document.hidden)hid=Date.now();else if(hid&&Date.now()-hid>5*60000){hid=0;probe()}})}
 (async()=>{const m=await idb.get('state');let o=null;try{o=JSON.parse(m)}catch(e){}
