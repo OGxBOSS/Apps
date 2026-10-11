@@ -42,7 +42,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-of
 .note{color:var(--mut);font-size:12.5px;margin:14px 2px 0;line-height:1.45}
 
 /* Street header */
-#top{background:var(--surface);padding:9px 10px 8px;border-bottom:1px solid var(--line)}
+#top{background:var(--surface);padding:9px 10px 3px}
 #top .pin{width:18px;height:18px;flex:none;display:grid;place-items:center;color:#fff;opacity:.85}
 .pin svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 #ver{position:fixed;top:env(safe-area-inset-top,0px);left:8px;z-index:4;font-size:8px;line-height:9px;font-weight:700;letter-spacing:.04em;color:var(--mut);opacity:.7;pointer-events:none}
@@ -71,14 +71,14 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-of
 /* Door list */
 #main{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:var(--surface)}
 table{width:100%;border-collapse:collapse;table-layout:fixed}
-th{position:sticky;top:0;z-index:1;background:var(--surface);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);font-weight:800;padding:8px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{position:sticky;top:0;z-index:3;height:26px;background:var(--surface);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);font-weight:800;padding:0 8px;border-bottom:1px solid var(--line);text-align:left}
 th:first-child,th:last-child{text-align:center}
 td{border-bottom:1px solid var(--line);padding:0;height:48px}
 td input{width:100%;height:48px;border:0;background:transparent;color:inherit;font:inherit;font-size:16px;padding:0 8px;outline:0}
 td input:focus{background:var(--acc-soft)}
 .a{font-weight:800;font-size:19px;text-align:center;letter-spacing:-.01em}
 .rb{width:100%;height:48px;border:0;background:transparent;display:grid;place-items:center;padding:0 4px}
-.pill{display:inline-block;max-width:100%;padding:5px 11px;border-radius:999px;background:var(--raise);color:var(--fg);font-size:14px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pill{display:inline-block;max-width:100%;padding:5px 8px;border-radius:999px;background:var(--raise);color:var(--fg);font-size:14px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pill.deal{background:var(--good);color:#fff}.pill.cb{background:var(--good-soft);color:var(--good)}.pill.rd{background:var(--bad-soft);color:var(--bad)}
 .apt{width:100%;height:48px;border:0;background:transparent;color:var(--mut);font-size:11px;font-weight:800;letter-spacing:.05em;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:.8}
 .apt.on{color:var(--good);opacity:1}.apt.on::before{content:'✓';font-size:19px;line-height:16px;font-weight:900}
@@ -116,10 +116,9 @@ tr{touch-action:pan-y}
 .chip.on{background:var(--bad);color:#fff}.chip.on i{color:#fff}
 #cbn{position:absolute;top:-5px;right:-3px;min-width:18px;height:18px;border-radius:9px;background:var(--acc);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center;padding:0 5px}
 #cbn:empty{display:none}
-#panel .ndrow,.sh .ndrow{display:flex;gap:8px}
+#panel .ndrow{display:flex;gap:8px}
 .brkb{flex:0 0 25%;border:0;border-radius:18px;background:var(--raise);color:var(--mut);font-size:12.5px;font-weight:800;line-height:1.15;padding:0 6px;height:60px}
 .brkb.on{background:var(--warn);color:#fff}
-#ov.dock .brkb{height:56px;border-radius:14px;margin-top:2px}
 #nd{flex:1;height:60px;border:0;border-radius:18px;background:var(--acc);color:var(--acc-ink);font-size:20px;font-weight:800;letter-spacing:.09em;box-shadow:0 6px 18px rgba(37,99,255,.32)}
 #nd:active{transform:scale(.985)}
 .plab{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--mut);font-weight:800;margin:0 2px -2px}
@@ -180,6 +179,11 @@ tr{touch-action:pan-y}
 .sh{background:var(--surface);width:100%;max-height:calc(100% - 8px);overflow:auto;border-radius:24px 24px 0 0;padding:16px 14px calc(16px + env(safe-area-inset-bottom,0px))}
 .sh::before{content:'';display:block;width:40px;height:5px;border-radius:3px;background:var(--line);margin:-6px auto 12px}
 body.kb .sh,body.kb #ov.dock .sh{padding-bottom:12px}
+.wn{margin:6px 0 0;padding-left:20px;font-size:15px;line-height:1.45}.wn li{margin-bottom:6px}
+tr td.hit{background:#fde047!important;color:#111}td.hit input{color:#111}
+.turn.hit .tn b{background:#fde047;color:#111;border-radius:5px;padding:0 5px}
+#startRow.hit #st{background:#fde047;color:#111;border-radius:5px;padding:0 6px}
+input[type=search]{-webkit-appearance:none;appearance:none}#v-sheets .in{margin:0 0 12px}
 .sh h3{margin:0 0 8px;font-size:19px;letter-spacing:-.01em}
 .b{min-height:56px;border-radius:15px;border:0;background:var(--raise);color:var(--fg);font:inherit;font-weight:700;font-size:17px;padding:6px}
 .b small{display:block;font-size:12px;font-weight:500;color:var(--mut)}
@@ -208,7 +212,6 @@ textarea.in{height:160px;font-size:16px;padding:8px}
 #ov.dock .gd.c4r{grid-template-columns:repeat(4,1fr)}#ov.dock .gd.c4r .b{font-size:15px;padding:6px 2px}#ov.dock .gd.c4r small{font-size:10px}
 #ov.dock .gd.c2{grid-template-columns:1fr 1fr}
 #ov.dock .gd.c5{grid-template-columns:repeat(5,1fr)}
-#ov.dock .nd{flex:1;width:auto;min-height:56px;background:var(--acc);color:var(--acc-ink);font-size:18px;letter-spacing:.08em;margin-top:2px}
 #toast{position:fixed;left:12px;right:12px;bottom:calc(var(--botH,200px) + 10px);z-index:8;background:#1c2230;color:#fff;border-radius:14px;padding:8px 8px 8px 16px;display:flex;align-items:center;justify-content:space-between;font-weight:600;box-shadow:var(--shadow)}
 #toast button{height:40px;padding:0 16px;border:0;border-radius:10px;background:var(--acc);color:#fff;font-weight:800}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:7}
@@ -239,7 +242,7 @@ body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb #oddsbar{display:
   <button id="goalbar" type="button" aria-label="Open goals"><i id="gFill"></i><span id="gTag">WEEK GOAL</span><span id="gTxt"></span><span id="gChev">›</span></button>
   <div id="oddsbar"><i id="oFill"></i><span id="oTxt"></span><span id="pace"></span></div>
  </div>
- <div id="main"><table><thead><tr><th style="width:22%">#</th><th style="width:19%">Response</th><th style="width:22%">Name</th><th>Note</th><th style="width:11%">APT</th></tr></thead><tbody><tr class="mark turn" id="startRow" data-id="start"><td colspan="5"><div class="tn"><span class="pin" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.6 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg></span><input id="st" placeholder="Start" autocapitalize="words" aria-label="Street name"><span class="mi" id="startMi"></span></div></td></tr></tbody><tbody id="tb"></tbody></table></div>
+ <div id="main"><table><thead><tr><th style="width:19%">#</th><th style="width:16%">Resp.</th><th style="width:21%">Name</th><th>Note</th><th style="width:11%">APT</th></tr></thead><tbody><tr class="mark turn" id="startRow" data-id="start"><td colspan="5"><div class="tn"><span class="pin" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.6 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg></span><input id="st" placeholder="Start" autocapitalize="words" aria-label="Street name"><span class="mi" id="startMi"></span></div></td></tr></tbody><tbody id="tb"></tbody></table></div>
 </section>
 <section class="view" id="v-goals" aria-label="Goals"><div class="scroll"></div></section>
 <section class="view" id="v-stats" aria-label="Stats"><div class="scroll"></div></section>
@@ -253,14 +256,15 @@ body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb #oddsbar{display:
 </div>
 <div id="sp"></div>
 <div id="bot"><div id="panel"></div><nav id="tabs" aria-label="Sections"><button type="button" data-t="street"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.6 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg></span>Street</button><button type="button" data-t="goals"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg></span>Goals</button><button type="button" data-t="stats"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></span>Stats</button><button type="button" data-t="calc"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 7.5h7M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/></svg></span>Calc</button><button type="button" data-t="sheets"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="14" rx="2.5"/><path d="M7 3h10M8 11h8M8 15h5"/></svg></span>Sheets</button><button type="button" data-t="more"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5.5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18.5" cy="12" r="1.4"/></svg></span>More</button></nav></div>
-<div id="ver">v2.0.1</div>
+<div id="ver">v2.1.0</div>
 <div id="gpsPill" role="status"></div>
 <div id="fx"></div>
 <div id="ov" hidden></div>
 <div id="toast" hidden></div>
 <script>
+const VER="2.1.0",NOTES=["New: this \"What's new\" note appears once after each update", "New Patch notes page under More keeps a log of every update", "Search on the Sheets tab: finds names, notes, addresses and streets, then opens the sheet at the first match, highlighted in yellow", "Slimmer Response column gives the Note column more room, and long notes slide into view like a ticker", "Sheet header now sits right under the odds bar, with no gap", "The response panel no longer shows NEW DOOR: tap outside it to close", "Add and Edit now live in the left column of the response panel", "New installs start with the new default responses"],LOG=[{"v": "2.1.0", "d": "Oct 10", "n": ["New: this \"What's new\" note appears once after each update", "New Patch notes page under More keeps a log of every update", "Search on the Sheets tab: finds names, notes, addresses and streets, then opens the sheet at the first match, highlighted in yellow", "Slimmer Response column gives the Note column more room, and long notes slide into view like a ticker", "Sheet header now sits right under the odds bar, with no gap", "The response panel no longer shows NEW DOOR: tap outside it to close", "Add and Edit now live in the left column of the response panel", "New installs start with the new default responses"]}, {"v": "2.0.1", "d": "Oct 10", "n": ["Take a break button next to NEW DOOR pauses your time and every stat until you press NEW DOOR again", "Up to 10 customizable responses, with drag-to-reorder in Edit responses", "Tap a selected response again to clear it", "Panels and fields now sit right above the keyboard instead of jumping to the top", "Version number shown in the top-left corner", "Full code cleanup: dead code removed, nothing changed in how it works"]}, {"v": "2.0.0", "d": "Oct 9", "n": ["Redesigned app with Street, Goals, Stats, Calc, Sheets and More tabs", "Sticky street rows with deals, comebacks and rejections at a glance; tap one to jump to it", "Sheets tab to open, review and delete past street sheets", "GPS address help using real house numbers from OpenStreetMap, with notification pills for location status", "Doors per hour pace, deal odds, goals, and $ per hour tracking", "Sounds and haptics, thinner header, and iPhone keyboard and zoom fixes", "Automatic backup copy of your sheets to protect against data loss"]}, {"v": "1.0.0", "d": "Oct 9", "n": ["First version: street sheets with address, response, name, note and APT", "Comebacks list, goals, deal odds and a route map of your doors"]}];
 const K='doortracker.v1',$=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9);
-const DEF=[['deal','Deal','Deal','deal'],['rej','+','Rejection','rej'],['cb','CB','Come Back','cb'],['v','V','Vacant','vac'],['rent','Rent','Rent','other'],['else','Else','Else','other']].map(a=>({id:a[0],sym:a[1],label:a[2],type:a[3]}));
+const DEF=[['deal','DEAL!','Deal','deal'],['rej','NO','Rejection','rej'],['cb','CB','Come Back','cb'],['v','Apt/V','Apartment/Vacant','vac'],['dnq','DNQ','Renter/Cred Fail','other'],['svc','✅','Has Our Service','other']].map(a=>({id:a[0],sym:a[1],label:a[2],type:a[3]}));
 const TYPES={deal:'Deal',rej:'Rejection',cb:'Comeback',nh:'Not home',vac:'Vacant',other:'Other'};
 function h(t,p,...c){const e=document.createElement(t);for(const k in p||{}){if(k==='class')e.className=p[k];else if(k.startsWith('on')){p[k]&&e.addEventListener(k.slice(2),p[k])}else if(k==='value')e.value=p[k];else e.setAttribute(k,p[k])}c.flat().forEach(x=>x!=null&&e.append(x));return e}
 const idb={p:null,open(){return this.p||(this.p=new Promise(res=>{try{const q=indexedDB.open('doortracker',1);q.onupgradeneeded=()=>q.result.createObjectStore('kv');q.onsuccess=()=>res(q.result);q.onerror=()=>res(null);q.onblocked=()=>res(null)}catch(e){res(null)}}))},
@@ -317,7 +321,10 @@ function statsOf(d){
  let best=null;for(const H in c.hr){const b=c.hr[H];if(!best||b.d>best.d||(b.d===best.d&&b.n>best.n))best={H:+H,...b}}c.best=best;
  return c}
 const stats=s=>statsOf(doors(s));
-let tab='street';
+let tab='street',shQ='',hq='';
+const has=(v,q)=>!!q&&!!v&&String(v).toLowerCase().includes(q);
+const rowHit=(r,q)=>r.t==='door'?(has(r.addr,q)||has(r.name,q)||has(r.note,q)||has(r.d,q)||(R(r.r)&&(has(R(r.r).label,q)||has(R(r.r).sym,q)))):!r.brk&&has(r.txt,q);
+const sheetHits=(s,q)=>(has(s.street0,q)||has(s.street,q)||has(dt(s.date),q)?1:0)+s.rows.filter(r=>rowHit(r,q)).length;
 function keepScroll(sel,fn){const e=$(sel),y=e?e.scrollTop:0;fn();const n=$(sel);if(n)n.scrollTop=y}
 function render(){
  if(tab==='street')renderStreet();else if(tab==='goals')keepScroll('#v-goals .scroll',renderGoals);else if(tab==='stats')keepScroll('#v-stats .scroll',renderStats);else if(tab==='sheets')keepScroll('#v-sheets .scroll',renderSheets);else if(tab==='more')keepScroll('#v-more .scroll',renderMore);
@@ -335,8 +342,8 @@ function renderStreet(){
 const stk=segOf.map(g=>g.cb>0);let si=0;const sIdx=stk.map(x=>x?si++:-1);
  const MH=si>5?24:28,thv=$('#main thead th'),thH=thv?thv.offsetHeight:30;
  const chips=sg=>[sg.deal?h('i',{class:'g'},sg.deal+' Deal'):null,sg.cb?h('i',{class:'g'},sg.cb+' CB'):null,sg.rej&&S.showRed?h('i',{class:'r'},sg.rej+' Rej'):null,!(sg.deal||sg.cb||(sg.rej&&S.showRed))?h('i',{},sg.n+(sg.n===1?' door':' doors')):null];
- const turnRow=(id,txt,ti)=>h('tr',{class:'mark turn'+(stk[ti]?'':' ns'),'data-id':id},h('td',{colspan:5,style:(stk[ti]?'top:'+(thH+sIdx[ti]*MH)+'px;':'')+'height:'+MH+'px',onclick:()=>goTurn(id)},h('div',{class:'tn'},h('b',{},txt),h('span',{class:'mi'},...chips(segOf[ti])))));
- {const sr=$('#startRow td');$('#startRow').classList.toggle('ns',!stk[0]);sr.style.top=stk[0]?thH+'px':'';sr.style.height=MH+'px';$('#startMi').replaceChildren(...chips(segOf[0]).filter(Boolean));
+ const q=hq,turnRow=(id,txt,ti)=>h('tr',{class:'mark turn'+(stk[ti]?'':' ns')+(has(txt,q)?' hit':''),'data-id':id},h('td',{colspan:5,style:(stk[ti]?'top:'+(thH+sIdx[ti]*MH)+'px;':'')+'height:'+MH+'px',onclick:()=>goTurn(id)},h('div',{class:'tn'},h('b',{},txt),h('span',{class:'mi'},...chips(segOf[ti])))));
+ {const sr=$('#startRow td');$('#startRow').classList.toggle('ns',!stk[0]);$('#startRow').classList.toggle('hit',has(turns.length?s.street0:s.street,q));sr.style.top=stk[0]?thH+'px':'';sr.style.height=MH+'px';$('#startMi').replaceChildren(...chips(segOf[0]).filter(Boolean));
   const i=$('#st');if(document.activeElement!==i)i.value=turns.length?(s.street0||''):(s.street||'')}
  if(!s.rows.length)tb.append(h('tr',{},h('td',{colspan:5,class:'empty'},'No doors yet. Tap NEW DOOR to start.')));
  s.rows.forEach(r=>{
@@ -347,14 +354,24 @@ const stk=segOf.map(g=>g.cb>0);let si=0;const sIdx=stk.map(x=>x?si++:-1);
    return}
   const x=R(r.r),T=typ(r),cls=T==='cb'||T==='appt'?'gl':(T==='rej'&&S.showRed)?'rd':'',pc=T==='deal'?'deal':T==='cb'||T==='appt'?'cb':(T==='rej'&&S.showRed)?'rd':'';
   tb.append(h('tr',{class:cls+(r.id===curId?' cur':''),'data-id':r.id},
-   h('td',{class:'ad'},h('input',{class:'a','data-f':'addr',inputmode:'numeric',value:r.addr||'',placeholder:'#','aria-label':'Address'})),
-   h('td',{},h('button',{class:'rb','data-resp':1,'aria-label':'Response'},x&&x.type!=='nh'?h('span',{class:'pill '+pc},x.sym+(r.d?' '+r.d:'')):null)),
-   h('td',{},h('input',{'data-f':'name',value:r.name||'',placeholder:'Name',autocapitalize:'words','aria-label':'Name'})),
-   h('td',{},h('input',{'data-f':'note',value:r.note||'',placeholder:'Note','aria-label':'Note'})),
+   h('td',{class:'ad'+(has(r.addr,q)?' hit':'')},h('input',{class:'a','data-f':'addr',inputmode:'numeric',value:r.addr||'',placeholder:'#','aria-label':'Address'})),
+   h('td',{class:x&&(has(x.label,q)||has(x.sym,q))||has(r.d,q)?'hit':''},h('button',{class:'rb','data-resp':1,'aria-label':'Response'},x&&x.type!=='nh'?h('span',{class:'pill '+pc},x.sym+(r.d?' '+r.d:'')):null)),
+   h('td',{class:has(r.name,q)?'hit':''},h('input',{'data-f':'name',value:r.name||'',placeholder:'Name',autocapitalize:'words','aria-label':'Name'})),
+   h('td',{class:has(r.note,q)?'hit':''},h('input',{'data-f':'note',value:r.note||'',placeholder:'Note','aria-label':'Note'})),
    h('td',{},h('button',{class:'apt'+(r.apt?' on':''),'aria-label':'Appointment'},'APT'))));
  });
- mn.scrollTop=sc;
+ mn.scrollTop=sc;tk=null;
 }
+let tk=null;
+// Note ticker: long notes slide to their end after 3s, hold 3s, then reset
+requestAnimationFrame(function loop(now){
+ if(tab==='street'&&!document.body.classList.contains('kb')){
+  tk=tk||[...document.querySelectorAll('#tb [data-f=note]')];
+  const L=tk.filter(i=>i.isConnected&&i!==document.activeElement&&i.scrollWidth>i.clientWidth+2);
+  if(L.length){const D=Math.max(...L.map(i=>Math.max(1e3,(i.scrollWidth-i.clientWidth)*25))),t=now%(6e3+D);
+   L.forEach(i=>{const m=i.scrollWidth-i.clientWidth,d=Math.max(1e3,m*25);i.scrollLeft=Math.round(Math.min(1,Math.max(0,(t-3e3)/d))*m)})}
+ }
+ requestAnimationFrame(loop)});
 function goTurn(id){const m=$('#main');if(id==='start'){m.scrollTo({top:0,behavior:'smooth'});tick(1);return}const tr=m.querySelector('tr[data-id="'+id+'"]');if(!tr)return;
  const rows=[...m.querySelectorAll('tr.turn')],ti=rows.indexOf(tr),thv=m.querySelector('thead th'),thH=thv?thv.offsetHeight:30,nS=rows.filter(x=>!x.classList.contains('ns')).length,MH=nS>5?24:28;
  const upto=rows.slice(0,ti+1).filter(x=>!x.classList.contains('ns')).length,me=!tr.classList.contains('ns');
@@ -364,7 +381,7 @@ function goTurn(id){const m=$('#main');if(id==='start'){m.scrollTo({top:0,behavi
  m.scrollTo({top:Math.max(0,y-thH-upto*MH-(me?0:MH)),behavior:'smooth'});n.classList.add('fl');setTimeout(()=>n.classList.remove('fl'),1800);tick(1)}
 function setTab(t){
  if(!$('#ov').hidden){const o=$('#ov');o.hidden=true;o.className='';$('#main').style.paddingBottom=''}
- tab=t;
+ tab=t;if(t!=='street')hq='';
  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+t));
  document.querySelectorAll('#tabs button').forEach(b=>{const on=b.dataset.t===t;b.classList.toggle('on',on);b.setAttribute('aria-current',on?'page':'false')});
  renderPanel();render();
@@ -603,7 +620,7 @@ function askStreet(){const i=h('input',{class:'in',placeholder:'Street name',aut
  i.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
  sheet('What street is this sheet?',i,h('button',{class:'b p',style:'width:100%',onclick:go},'Start'),h('button',{class:'b',style:'width:100%;margin-top:8px',onclick:()=>{$('#ov').hidden=true;const s=cs();s.asked=true;s.street0='';add()}},'Skip'));i.focus()}
 function add(){
- endBreak();
+ endBreak();hq='';
  if(!$('#ov').hidden)close();
  {const s0=cs();if(!(s0.street||'').trim()&&!s0.rows.length&&!s0.asked){askStreet();return}}
  const s=cs(),ds=doors(s),l=ds[ds.length-1];let a='',base=null;
@@ -639,12 +656,12 @@ document.addEventListener('pointerdown',e=>{const o=$('#ov');if(o.hidden||o.clas
 let ovDown=false,ovT=0;$('#ov').addEventListener('pointerdown',e=>{ovDown=e.target.id==='ov'},true);document.addEventListener('focusin',()=>{ovT=Date.now()});
 $('#ov').addEventListener('click',e=>{if(e.target.id==='ov'&&ovDown&&Date.now()-ovT>700)close();ovDown=false});
 function jump(id){close();const e=rowEl(id);if(!e)return;const m=$('#main');m.scrollTop+=e.getBoundingClientRect().top-m.getBoundingClientRect().top-120;e.classList.add('fl');setTimeout(()=>e.classList.remove('fl'),1800)}
-const ndb=()=>h('div',{class:'ndrow'},h('button',{class:'b nd',onclick:()=>add()},'NEW DOOR'));
 function p(t){return h('p',{class:'h'},t)}
 
 function openResp(r){
+ const can=S.resp.length<10;
  dock(r,'Response – '+(r.addr||'no address'),
-  h('div',{class:'gd c4r'},S.resp.map(x=>h('button',{class:'b'+(r.r===x.id?' on':''),onclick:()=>choose(r,x)},x.sym,h('small',{},x.label))),(S.resp.length<10?h('button',{class:'b',onclick:addResp},'+ Add'):null),h('button',{class:'b',onclick:editResp},'Edit')),ndb());
+  h('div',{class:'gd c4r'},S.resp.map(x=>h('button',{class:'b'+(r.r===x.id?' on':''),onclick:()=>choose(r,x)},x.sym,h('small',{},x.label))),(can?h('button',{class:'b',style:'grid-area:1/1',onclick:addResp},'+ Add'):null),h('button',{class:'b',style:'grid-area:'+Math.ceil((S.resp.length+1+(can?1:0))/4)+'/1',onclick:editResp},'Edit')));
 }
 function choose(r,x){
  if(r.r===x.id){pick(r,{id:null,type:'none'});return}
@@ -655,7 +672,7 @@ function pick(r,x,d,when){const was=typ(r);r.r=x.id;r.d=d||'';r.when=when||null;
 function cbSheet(r,x){
  dock(r,'Come back when?',
   h('div',{class:'gd c5'},['1','2','3','4','5','6','7','T','W','M'].map(k=>h('button',{class:'b',onclick:()=>pick(r,x,k)},k))),
-  h('div',{class:'gd c2'},h('button',{class:'b',onclick:()=>dtSheet('Come back at',(t,iso)=>pick(r,x,t,iso),r)},'Date / time'),h('button',{class:'b',onclick:()=>pick(r,x)},'CB only')),ndb());
+  h('div',{class:'gd c2'},h('button',{class:'b',onclick:()=>dtSheet('Come back at',(t,iso)=>pick(r,x,t,iso),r)},'Date / time'),h('button',{class:'b',onclick:()=>pick(r,x)},'CB only')));
 }
 function dtSheet(title,cb,r){
  const v=new Date(Date.now()-new Date().getTimezoneOffset()*6e4+864e5).toISOString().slice(0,16),i=h('input',{type:'datetime-local',class:'in',value:v}),
@@ -755,28 +772,37 @@ function renderMore(){
    tog('Sounds & haptics','A soft sound on tab switches, new doors, deals and goals. Vibration works on Android only.',()=>S.snd!==false,x=>{S.snd=x;if(x)tick(1)}),
    tog('GPS address help','One quick location check on launch, new door, turn and cross, matched to real addresses. Falls back to the street pattern.',()=>S.geo!==false,x=>{S.geo=x;if(x&&navigator.geolocation)try{navigator.geolocation.getCurrentPosition(()=>{},()=>{},{timeout:6000})}catch(e){}})),
   h('div',{class:'sec'},'Tools'),
-  h('div',{class:'grp'},nav('Edit responses','Add, rename or change what counts as what',editResp),nav('Route map','Your trail on a street map',()=>mapSheet(false)),nav('Backup & restore','Copy your data or move it to another phone',backup)),
+  h('div',{class:'grp'},nav('Edit responses','Add, rename or change what counts as what',editResp),nav('Route map','Your trail on a street map',()=>mapSheet(false)),nav('Backup & restore','Copy your data or move it to another phone',backup),nav('Patch notes','What changed in each update',patchNotes)),
   h('p',{class:'note'},'Door Tracker · your sheets and stats are saved on this device.'));
 }
 const shOpen=new Set();
+function findHit(){const m=$('#main'),e=m.querySelector('.hit');if(!e)return;
+ if(e.id==='startRow'||e.closest('#startRow')){m.scrollTop=0;return}
+ const n=m.querySelectorAll('tr.turn:not(.ns)').length,th=m.querySelector('thead th').offsetHeight;
+ m.scrollTop+=e.getBoundingClientRect().top-m.getBoundingClientRect().top-(th+n*(n>5?24:28)+10)}
 function renderSheets(){
  const v=$('#v-sheets .scroll');v.replaceChildren();
- v.append(h('div',{class:'vh'},h('h1',{},'Sheets')),h('p',{class:'note',style:'margin:0 4px 10px'},'Tap a sheet to open or close its details.'));
- S.sessions.slice().reverse().forEach(s=>{
-  const d=doors(s),c=statsOf(d),cur=s.id===S.cur,open=shOpen.has(s.id)||(cur&&!shOpen.has('x'+s.id));
-  const card=h('div',{class:'shc'+(open?' open':'')+(cur?' cur':'')});
-  const hd=h('button',{class:'shh',onclick:()=>{if(open){shOpen.delete(s.id);if(cur)shOpen.add('x'+s.id)}else{shOpen.add(s.id);shOpen.delete('x'+s.id)}tick(1);renderSheets()}},
-   h('div',{class:'rt'},h('b',{},s.street0||s.street||'Untitled'),h('small',{},dt(s.date)+' · '+d.length+' doors · '+c.deal+' deals'+(cur?' · current':''))),h('span',{class:'chev'},'›'));
-  card.append(hd);
-  if(open){
-   const cell=(a,b)=>h('div',{class:'cell'},h('b',{},a),h('span',{},b));
-   let arm=false;const del=h('button',{class:'btn',onclick:()=>{if(!arm){arm=true;del.textContent='Tap again to delete';return}
-    S.sessions=S.sessions.filter(y=>y!==s);if(CL)CL.doc('sheet_'+s.id).delete().catch(()=>{});if(!S.sessions.length)S.sessions.push(ns());if(!S.sessions.some(y=>y.id===S.cur))S.cur=S.sessions[S.sessions.length-1].id;save();renderSheets()}},'Delete');
-   card.append(h('div',{class:'shb'},
-    h('div',{class:'cells'},cell(d.length,'Doors'),cell(c.deal,'Deals'),cell(pct(c.deal,c.n),'Deal %'),cell(dur(c.act),'Working')),
-    h('div',{class:'two'},h('button',{class:'btn pri',onclick:()=>{S.cur=s.id;save();const dd=doors(s);curId=dd.length?dd[dd.length-1].id:null;setTab('street');bottom()}},cur?'Go to sheet':'Open sheet'),del)))}
-  v.append(card)})
-}
+ const list=h('div'),fill=()=>{
+  const q=shQ.trim().toLowerCase();list.replaceChildren();let shown=0;
+  if(!q)list.append(h('p',{class:'note',style:'margin:0 4px 10px'},'Tap a sheet to open or close its details.'));
+  S.sessions.slice().reverse().forEach(s=>{
+   const hits=q?sheetHits(s,q):0;if(q&&!hits)return;shown++;
+   const d=doors(s),c=statsOf(d),cur=s.id===S.cur,open=q?shOpen.has(s.id):shOpen.has(s.id)||(cur&&!shOpen.has('x'+s.id));
+   const card=h('div',{class:'shc'+(open?' open':'')+(cur?' cur':'')});
+   card.append(h('button',{class:'shh',onclick:()=>{if(open){shOpen.delete(s.id);if(cur)shOpen.add('x'+s.id)}else{shOpen.add(s.id);shOpen.delete('x'+s.id)}tick(1);fill()}},
+    h('div',{class:'rt'},h('b',{},s.street0||s.street||'Untitled'),h('small',{},dt(s.date)+' · '+d.length+' doors · '+c.deal+' deals'+(cur?' · current':'')+(q?' · '+hits+(hits>1?' matches':' match'):''))),h('span',{class:'chev'},'›')));
+   if(open){
+    const cell=(a,b)=>h('div',{class:'cell'},h('b',{},a),h('span',{},b));
+    let arm=false;const del=h('button',{class:'btn',onclick:()=>{if(!arm){arm=true;del.textContent='Tap again to delete';return}
+     S.sessions=S.sessions.filter(y=>y!==s);if(CL)CL.doc('sheet_'+s.id).delete().catch(()=>{});if(!S.sessions.length)S.sessions.push(ns());if(!S.sessions.some(y=>y.id===S.cur))S.cur=S.sessions[S.sessions.length-1].id;save();fill()}},'Delete');
+    card.append(h('div',{class:'shb'},
+     h('div',{class:'cells'},cell(d.length,'Doors'),cell(c.deal,'Deals'),cell(pct(c.deal,c.n),'Deal %'),cell(dur(c.act),'Working')),
+     h('div',{class:'two'},h('button',{class:'btn pri',onclick:()=>{S.cur=s.id;save();const dd=doors(s);curId=dd.length?dd[dd.length-1].id:null;hq=q;setTab('street');if(q)setTimeout(findHit,60);else bottom()}},cur&&!q?'Go to sheet':'Open sheet'),del)))}
+   list.append(card)});
+  if(q&&!shown)list.append(h('p',{class:'note'},'No sheets match "'+shQ.trim()+'".'))};
+ v.append(h('div',{class:'vh'},h('h1',{},'Sheets')),
+  h('input',{class:'in',type:'search',value:shQ,placeholder:'Search names, notes, addresses, streets…',enterkeyhint:'search',autocomplete:'off',autocapitalize:'off','aria-label':'Search sheets',oninput:e=>{shQ=e.target.value;fill()}}),list);
+ fill()}
 function backup(){
  const t=h('textarea',{class:'in',readonly:'readonly'}),r=h('textarea',{class:'in',placeholder:'Paste a backup here to restore'});t.value=JSON.stringify(S);let armed=false;
  const go=h('button',{class:'b',style:'width:100%',onclick:()=>{
@@ -804,6 +830,10 @@ $('#st').addEventListener('input',e=>{const s=cs();s.street0=e.target.value;if(!
 $('#startRow td').addEventListener('click',e=>{if(e.target.id!=='st')goTurn('start')});
 {const d=doors(cs());if(d.length)curId=d[d.length-1].id}
 setTab('street');bottom();
+function patchNotes(){sheet('Patch notes',...LOG.map(e=>h('div',{},h('div',{class:'sec'},'v'+e.v+' · '+e.d),h('ul',{class:'wn'},e.n.map(n=>h('li',{},n))))),h('button',{class:'b',style:'width:100%;margin-top:14px',onclick:close},'Close'))}
+function whatsNew(){const ul=h('ul',{class:'wn'},NOTES.map(n=>h('li',{},n)));
+ sheet("What's new · v"+VER,ul,h('button',{class:'b p',style:'width:100%;margin-top:12px',onclick:close},'Got it'))}
+try{if(localStorage.getItem('doortracker.seen')!==VER){localStorage.setItem('doortracker.seen',VER);if(!fresh0)setTimeout(whatsNew,400)}}catch(e){}
 async function cloudInit(){
  try{
   if(!window.claude||!window.claude.use)return;
