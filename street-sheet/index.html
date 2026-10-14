@@ -90,7 +90,10 @@ td input:focus{background:var(--acc-soft)}
 .apt.on{color:var(--good);opacity:1}.apt.on::before{content:'✓';font-size:19px;line-height:16px;font-weight:900}
 .mark td{height:32px;text-align:center;background:var(--raise);color:var(--mut);font-size:12px;font-weight:700;letter-spacing:.02em}
 .turn td{position:sticky;z-index:2;background:var(--acc);color:#fff;text-align:left;padding:0 10px;cursor:pointer;border-bottom:0;box-shadow:0 1px 0 rgba(0,0,0,.18),0 3px 8px rgba(14,21,38,.14)}
-.turn.ns td{position:static!important}
+#tb tr.fd:not(.turn){display:none}
+#foldAll{background:none;border:0;padding:0;width:100%;color:var(--acc);font:inherit;font-size:9px;font-weight:800;letter-spacing:0;line-height:10px;text-transform:uppercase;white-space:normal;text-align:center}
+.turn .mi i:not(.g):not(.r){max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.turn .cv{font-size:12px;opacity:.9;margin-left:2px;align-self:center}
 .turn .tn{display:flex;align-items:center;justify-content:space-between;gap:8px;height:100%}
 #st{flex:1;min-width:0;height:100%;border:0;background:transparent;color:#fff;font:inherit;font-size:16px;line-height:28px;font-weight:800;padding:0;outline:0}#st::placeholder{color:rgba(255,255,255,.75);font-weight:800}
 .turn .tn b{font-size:13px;font-weight:800;letter-spacing:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
@@ -135,8 +138,18 @@ tr{touch-action:pan-y}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .btn{height:46px;border:0;border-radius:14px;background:var(--raise);font-size:15px;font-weight:700}
 .btn.pri{background:var(--acc);color:var(--acc-ink)}
-#tabs{display:grid;grid-template-columns:repeat(6,1fr);padding:2px 4px calc(4px + env(safe-area-inset-bottom,0px))}
+#tabs{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;padding:2px 4px calc(4px + env(safe-area-inset-bottom,0px))}
 #tabs button{background:none;border:0;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px 0 2px;font-size:10.5px;font-weight:700}
+#tabs .ic{position:relative}#tabs .ic[data-n]:not([data-n=""])::after{content:attr(data-n);position:absolute;top:-3px;right:-1px;min-width:17px;height:17px;padding:0 4px;box-sizing:border-box;border-radius:99px;background:var(--acc);color:var(--acc-ink,#fff);font-size:10px;font-weight:800;line-height:17px;text-align:center}
+#v-chat .vh{padding-bottom:8px}.mbs{display:flex;gap:6px;overflow-x:auto;padding:6px 0 2px;scrollbar-width:none}.mbs::-webkit-scrollbar{display:none}
+.mb{flex:none;padding:4px 10px;border-radius:99px;background:var(--raise);color:var(--mut);font-size:13px;font-weight:700}.mb.on{color:var(--fg)}.mb.on::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--acc);margin-right:6px}
+#chatList{display:flex;flex-direction:column;padding:4px 14px 10px}
+.cm{display:flex;flex-direction:column;align-items:flex-start;margin-top:3px;max-width:82%}.cm.f{margin-top:10px}.cm.me{align-self:flex-end;align-items:flex-end}
+.cm .nm{color:var(--mut);font-size:12px;font-weight:700;margin:0 6px 2px}.cm .tm{color:var(--mut);font-size:11px;margin:2px 6px 0}
+.cm .bb{padding:8px 12px;border-radius:18px;background:var(--raise);color:var(--fg);font-size:16px;line-height:1.3;white-space:pre-wrap;overflow-wrap:anywhere}
+.cm.me .bb{background:var(--acc);color:var(--acc-ink,#fff)}.cm.fl .bb{opacity:.55}.cm.fl .tm{color:var(--bad)}
+.dv{align-self:center;margin:14px 0 4px;color:var(--mut);font-size:12px;font-weight:700}
+.cmp{flex:none;display:flex;gap:8px;align-items:center;padding:8px 12px;border-top:1px solid var(--line);background:var(--surface)}.cmp .in{margin:0;flex:1;height:44px}.cmp .b{width:auto;padding:0 18px;height:44px}
 #tabs .ic{display:grid;place-items:center;padding:3px 11px;border-radius:999px;transition:background .15s}
 #tabs svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 #tabs button.on{color:var(--acc)}#tabs button.on .ic{background:var(--acc-soft)}
@@ -248,10 +261,11 @@ body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb #oddsbar{display:
   <button id="goalbar" type="button" aria-label="Open goals"><i id="gFill"></i><span id="gTag">WEEK GOAL</span><span id="gTxt"></span><span id="gChev">›</span></button>
   <div id="oddsbar"><i id="oFill"></i><span id="oTxt"></span><span id="pace"></span></div>
  </div>
- <div id="main"><table><thead><tr><th style="width:19%">#</th><th style="width:16%">Resp.</th><th style="width:21%">Name</th><th>Note</th><th style="width:11%">APT</th></tr></thead><tbody><tr class="mark turn" id="startRow" data-id="start"><td colspan="5"><div class="tn"><span class="pin" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.6 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg></span><input id="st" placeholder="Start" autocapitalize="words" aria-label="Street name"><span class="mi" id="startMi"></span></div></td></tr></tbody><tbody id="tb"></tbody></table></div>
+ <div id="main"><table><thead><tr><th style="width:19%"><span id="thNo">#</span><button id="foldAll" type="button" hidden aria-label="Open or collapse other streets"></button></th><th style="width:16%">Resp.</th><th style="width:21%">Name</th><th>Note</th><th style="width:11%">APT</th></tr></thead><tbody><tr class="mark turn" id="sumRow" hidden><td colspan="5"><div class="tn"><b>Streets</b><span class="mi" id="sumMi"></span></div></td></tr><tr class="mark turn" id="startRow" data-id="start"><td colspan="5"><div class="tn"><span class="pin" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.6 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg></span><input id="st" placeholder="Start" autocapitalize="words" aria-label="Street name"><span class="mi" id="startMi"></span></div></td></tr></tbody><tbody id="tb"></tbody></table></div>
 </section>
 <section class="view" id="v-goals" aria-label="Goals"><div class="scroll"></div></section>
 <section class="view" id="v-stats" aria-label="Stats"><div class="scroll"></div></section>
+<section class="view" id="v-chat" aria-label="Team chat"></section>
 <section class="view" id="v-calc" aria-label="Commission calculator"><div class="scroll">
  <div class="vh"><h1>Calculator</h1></div>
  <div class="empty-state"><div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 7.5h7M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/></svg></div><b>Commission calculator</b><p>Not set up yet. Your deal calculator will live here.</p></div>
@@ -261,7 +275,7 @@ body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb #oddsbar{display:
 <section class="view" id="v-more" aria-label="More"><div class="scroll"></div></section>
 </div>
 <div id="sp"></div>
-<div id="bot"><div id="panel"></div><nav id="tabs" aria-label="Sections"><button type="button" data-t="street"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.6 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg></span>Street</button><button type="button" data-t="goals"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg></span>Goals</button><button type="button" data-t="stats"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></span>Stats</button><button type="button" data-t="calc"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 7.5h7M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/></svg></span>Calc</button><button type="button" data-t="sheets"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="14" rx="2.5"/><path d="M7 3h10M8 11h8M8 15h5"/></svg></span>Sheets</button><button type="button" data-t="more"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5.5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18.5" cy="12" r="1.4"/></svg></span>More</button></nav></div>
+<div id="bot"><div id="panel"></div><nav id="tabs" aria-label="Sections"><button type="button" data-t="street"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.6 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg></span>Street</button><button type="button" data-t="goals"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg></span>Goals</button><button type="button" data-t="stats"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></span>Stats</button><button hidden type="button" data-t="chat"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M8 10h8M8 13h5"/></svg></span>Chat</button><button type="button" data-t="sheets"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="14" rx="2.5"/><path d="M7 3h10M8 11h8M8 15h5"/></svg></span>Sheets</button><button type="button" data-t="calc"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 7.5h7M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/></svg></span>Calc</button><button type="button" data-t="more"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5.5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18.5" cy="12" r="1.4"/></svg></span>More</button></nav></div>
 <div id="ver">v2.1.0</div>
 <canvas id="confetti" hidden></canvas>
 <div id="dealAlert" role="alert" hidden></div>
@@ -270,7 +284,7 @@ body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb #oddsbar{display:
 <div id="ov" hidden></div>
 <div id="toast" hidden></div>
 <script>
-const VER="2.1.0",LOG=[{"v": "2.1.0", "d": "Oct 11", "n": [{"id": "team", "t": "Team deal alerts: a winner alarm and banner when a teammate gets a deal, including ones you missed while away"}, {"id": "streak", "t": "Shout-outs for 2nd, 3rd and later deals, each with lots of different phrases. Three deals sets the pace with a golden banner and confetti"}, {"id": "hold", "t": "A deal is announced 2 minutes after it is logged. Changing or clearing it in that time cancels the alert, so accidental taps never go out"}, {"id": "join", "t": "Join the team screen asks for your name on launch until you join (team TWONADT is built in)"}, {"id": "teamset", "t": "Team settings in More: alerts on/off, alarm sound, your name and a Test button"}, {"id": "search", "t": "Search on the Sheets tab: finds names, notes, addresses and streets, then opens the sheet at the first match, highlighted in yellow"}, {"id": "cols", "t": "Slimmer Response column gives the Note column more room, and long notes slide into view like a ticker"}, {"id": "hdr", "t": "Sheet header now sits right under the odds bar, with no gap"}, {"id": "panel", "t": "The response panel no longer shows NEW DOOR (tap outside it to close), and Add and Edit now live in its left column"}, {"id": "defaults", "t": "New installs start with the new default responses"}, {"id": "wn", "t": "The What's new popup shows only changes you have not seen yet"}, {"id": "pn", "t": "Patch notes page under More keeps one entry per day"}]}, {"v": "2.0.1", "d": "Oct 10", "n": [{"id": "brk", "t": "Take a break button next to NEW DOOR pauses your time and every stat until you press NEW DOOR again"}, {"id": "resp10", "t": "Up to 10 customizable responses, with drag-to-reorder in Edit responses"}, {"id": "clr", "t": "Tap a selected response again to clear it"}, {"id": "kb", "t": "Panels and fields now sit right above the keyboard instead of jumping to the top"}, {"id": "ver", "t": "Version number shown in the top-left corner"}, {"id": "clean", "t": "Full code cleanup: dead code removed, nothing changed in how it works"}]}, {"v": "2.0.0", "d": "Oct 9", "n": [{"id": "v2a", "t": "Redesigned app with Street, Goals, Stats, Calc, Sheets and More tabs"}, {"id": "v2b", "t": "Sticky street rows with deals, comebacks and rejections at a glance; tap one to jump to it"}, {"id": "v2c", "t": "Sheets tab to open, review and delete past street sheets"}, {"id": "v2d", "t": "GPS address help using real house numbers from OpenStreetMap, with notification pills for location status"}, {"id": "v2e", "t": "Doors per hour pace, deal odds, goals, and $ per hour tracking"}, {"id": "v2f", "t": "Sounds and haptics, thinner header, and iPhone keyboard and zoom fixes"}, {"id": "v2g", "t": "Automatic backup copy of your sheets to protect against data loss"}]}, {"v": "1.0.0", "d": "Oct 9", "n": [{"id": "v1a", "t": "First version: street sheets with address, response, name, note and APT"}, {"id": "v1b", "t": "Comebacks list, goals, deal odds and a route map of your doors"}]}],RELAY="https://street-sheet-default-rtdb.firebaseio.com",TEAMCODE="TWONADT";
+const VER="2.1.0",LOG=[{"v": "2.1.0", "d": "Oct 14", "n": [{"id": "team", "t": "Team deal alerts: a winner alarm and banner when a teammate gets a deal, including ones you missed while away"}, {"id": "streak", "t": "Shout-outs for 2nd, 3rd and later deals, with over 200 different messages. Three deals sets the pace with a golden banner and confetti"}, {"id": "hold", "t": "A deal is announced 2 minutes after it is logged. Changing or clearing it in that time cancels the alert, so accidental taps never go out"}, {"id": "hours", "t": "Deal alerts only go out and show from 8 AM to 8 PM, and each day's deal count starts fresh at 8 AM"}, {"id": "join", "t": "Join the team screen asks for your name on launch until you join (team TWONADT is built in)"}, {"id": "teamset", "t": "Team settings in More: alerts on/off, alarm sound, your name and a Test button"}, {"id": "chat", "t": "Team chat tab for everyone on your team code, with who is on the team and an unread count. It sits between Stats and Sheets, and Sheets and Calc swapped places"}, {"id": "stk", "t": "Every street is now sticky at the top of the sheet, with its deals, comebacks and doors counts and the city and state from your GPS"}, {"id": "fold", "t": "Tap a street to collapse or expand its doors. The Streets button above the # column collapses all the street bars into one small row, and opens them again"}, {"id": "search", "t": "Search on the Sheets tab: finds names, notes, addresses and streets, then opens the sheet at the first match, highlighted in yellow"}, {"id": "daily", "t": "New option in More: start a new sheet automatically the first time you open Street on a new date (off by default)"}, {"id": "cols", "t": "Slimmer Response column gives the Note column more room, and long notes slide into view like a ticker: pause, slide, hold 1 second, reset"}, {"id": "hdr", "t": "Sheet header now sits right under the odds bar, with no gap"}, {"id": "panel", "t": "The response panel no longer shows NEW DOOR (tap outside it to close), and Add and Edit now live in its left column"}, {"id": "defaults", "t": "New installs start with the new default responses"}, {"id": "gps1", "t": "Location is steadier: the app waits up to 8 seconds for the most accurate reading instead of taking the first rough one"}, {"id": "gps2", "t": "Map data download is more reliable (longer wait and an extra backup server)"}, {"id": "gps3", "t": "New Location check in More tests your GPS and map data and tells you exactly what is wrong"}, {"id": "wn", "t": "The What's new popup shows only changes you have not seen yet"}, {"id": "pn", "t": "Patch notes page under More keeps one entry per day"}]}, {"v": "2.0.1", "d": "Oct 10", "n": [{"id": "brk", "t": "Take a break button next to NEW DOOR pauses your time and every stat until you press NEW DOOR again"}, {"id": "resp10", "t": "Up to 10 customizable responses, with drag-to-reorder in Edit responses"}, {"id": "clr", "t": "Tap a selected response again to clear it"}, {"id": "kb", "t": "Panels and fields now sit right above the keyboard instead of jumping to the top"}, {"id": "ver", "t": "Version number shown in the top-left corner"}, {"id": "clean", "t": "Full code cleanup: dead code removed, nothing changed in how it works"}]}, {"v": "2.0.0", "d": "Oct 9", "n": [{"id": "v2a", "t": "Redesigned app with Street, Goals, Stats, Calc, Sheets and More tabs"}, {"id": "v2b", "t": "Sticky street rows with deals, comebacks and rejections at a glance; tap one to jump to it"}, {"id": "v2c", "t": "Sheets tab to open, review and delete past street sheets"}, {"id": "v2d", "t": "GPS address help using real house numbers from OpenStreetMap, with notification pills for location status"}, {"id": "v2e", "t": "Doors per hour pace, deal odds, goals, and $ per hour tracking"}, {"id": "v2f", "t": "Sounds and haptics, thinner header, and iPhone keyboard and zoom fixes"}, {"id": "v2g", "t": "Automatic backup copy of your sheets to protect against data loss"}]}, {"v": "1.0.0", "d": "Oct 9", "n": [{"id": "v1a", "t": "First version: street sheets with address, response, name, note and APT"}, {"id": "v1b", "t": "Comebacks list, goals, deal odds and a route map of your doors"}]}],RELAY="https://street-sheet-default-rtdb.firebaseio.com",TEAMCODE="TWONADT";
 const K='doortracker.v1',$=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9);
 const DEF=[['deal','DEAL!','Deal','deal'],['rej','NO','Rejection','rej'],['cb','CB','Come Back','cb'],['v','Apt/V','Apartment/Vacant','vac'],['dnq','DNQ','Renter/Cred Fail','other'],['svc','✅','Has Our Service','other']].map(a=>({id:a[0],sym:a[1],label:a[2],type:a[3]}));
 const TYPES={deal:'Deal',rej:'Rejection',cb:'Comeback',nh:'Not home',vac:'Vacant',other:'Other'};
@@ -289,7 +303,7 @@ if(!S||!S.sessions||!S.sessions.length){fresh0=true;const s=ns();S={resp:DEF.map
 const cs=()=>S.sessions.find(x=>x.id===S.cur)||S.sessions[0];
 let CL=null,wt,qt;const dirty=new Set();
 async function flush(){if(!CL)return;const ids=[...dirty];dirty.clear();try{
- await CL.doc('settings').set({json:JSON.stringify({resp:S.resp,showRed:S.showRed,auto:S.auto,jump:S.jump,geo:S.geo,snd:S.snd,cur:S.cur,pay:S.pay,payMode:S.payMode,goal:S.goal,order:S.sessions.map(x=>x.id),t:S.t})});
+ await CL.doc('settings').set({json:JSON.stringify({resp:S.resp,showRed:S.showRed,auto:S.auto,daily:S.daily,jump:S.jump,geo:S.geo,snd:S.snd,cur:S.cur,pay:S.pay,payMode:S.payMode,goal:S.goal,order:S.sessions.map(x=>x.id),t:S.t})});
  for(const id of ids){const x=S.sessions.find(y=>y.id===id);if(x)await CL.doc('sheet_'+id).set({json:JSON.stringify(x)})}
 }catch(e){ids.forEach(i=>dirty.add(i))}}
 const save=()=>{S.t=Date.now();let ok=true;const js=JSON.stringify(S);try{localStorage.setItem(K,js)}catch(e){ok=false}
@@ -335,7 +349,7 @@ const rowHit=(r,q)=>r.t==='door'?(has(r.addr,q)||has(r.name,q)||has(r.note,q)||h
 const sheetHits=(s,q)=>(has(s.street0,q)||has(s.street,q)||has(dt(s.date),q)?1:0)+s.rows.filter(r=>rowHit(r,q)).length;
 function keepScroll(sel,fn){const e=$(sel),y=e?e.scrollTop:0;fn();const n=$(sel);if(n)n.scrollTop=y}
 function render(){
- if(tab==='street')renderStreet();else if(tab==='goals')keepScroll('#v-goals .scroll',renderGoals);else if(tab==='stats')keepScroll('#v-stats .scroll',renderStats);else if(tab==='sheets')keepScroll('#v-sheets .scroll',renderSheets);else if(tab==='more')keepScroll('#v-more .scroll',renderMore);
+ if(tab==='street')renderStreet();else if(tab==='goals')keepScroll('#v-goals .scroll',renderGoals);else if(tab==='stats')keepScroll('#v-stats .scroll',renderStats);else if(tab==='sheets')keepScroll('#v-sheets .scroll',renderSheets);else if(tab==='chat')renderChat();else if(tab==='more')keepScroll('#v-more .scroll',renderMore);
  fit();
 }
 function renderStreet(){
@@ -347,17 +361,21 @@ function renderStreet(){
  const turns=s.rows.filter(r=>r.t==='mark'&&r.txt.startsWith('↪')),segOf=[{deal:0,cb:0,rej:0,n:0},...turns.map(()=>({deal:0,cb:0,rej:0,n:0}))];
  {let k=0;s.rows.forEach(r=>{if(r.t==='mark'){if(r.txt.startsWith('↪'))k++;return}const T=typ(r),g=segOf[k];g.n++;if(T==='deal')g.deal++;else if(T==='cb'||T==='appt')g.cb++;else if(T==='rej')g.rej++})}
  if(!turns.length&&s.street&&s.street0!==s.street)s.street0=s.street;
-const stk=segOf.map(g=>g.cb>0);let si=0;const sIdx=stk.map(x=>x?si++:-1);
- const MH=si>5?24:28,thv=$('#main thead th'),thH=thv?thv.offsetHeight:30;
+const fold=new Set(s.fold||[]),force=new Set(),nSeg=segOf.length,off=!!s.stOff&&!q0();
+ if(q0()){let k=0;s.rows.forEach(r=>{if(r.t==='mark'&&r.txt.startsWith('↪')){k++;return}if(rowHit(r,q0()))force.add(k)})}
+ const isF=k=>!off&&fold.has(k)&&!force.has(k);
+ const MH=off?28:mhFor(nSeg),thv=$('#main thead th'),thH=thv?thv.offsetHeight:30;
  const chips=sg=>[sg.deal?h('i',{class:'g'},sg.deal+' Deal'):null,sg.cb?h('i',{class:'g'},sg.cb+' CB'):null,sg.rej&&S.showRed?h('i',{class:'r'},sg.rej+' Rej'):null,!(sg.deal||sg.cb||(sg.rej&&S.showRed))?h('i',{},sg.n+(sg.n===1?' door':' doors')):null];
- const q=hq,turnRow=(id,txt,ti)=>h('tr',{class:'mark turn'+(stk[ti]?'':' ns')+(has(txt,q)?' hit':''),'data-id':id},h('td',{colspan:5,style:(stk[ti]?'top:'+(thH+sIdx[ti]*MH)+'px;':'')+'height:'+MH+'px',onclick:()=>goTurn(id)},h('div',{class:'tn'},h('b',{},txt),h('span',{class:'mi'},...chips(segOf[ti])))));
- {const sr=$('#startRow td');$('#startRow').classList.toggle('ns',!stk[0]);$('#startRow').classList.toggle('hit',has(turns.length?s.street0:s.street,q));sr.style.top=stk[0]?thH+'px':'';sr.style.height=MH+'px';$('#startMi').replaceChildren(...chips(segOf[0]).filter(Boolean));
+ const q=hq,turnRow=(id,txt,ti)=>h('tr',{class:'mark turn'+(isF(ti)?' fd':'')+(has(txt,q)?' hit':''),'data-id':id},h('td',{colspan:5,style:'top:'+(thH+ti*MH)+'px;height:'+MH+'px',onclick:()=>toggleFold(ti)},h('div',{class:'tn'},h('b',{},txt),h('span',{class:'mi'},...chips(segOf[ti]),h('span',{class:'cv'},isF(ti)?'▸':'▾')))));
+ {const sr=$('#startRow td');$('#startRow').hidden=off;$('#startRow').classList.toggle('fd',isF(0));$('#startRow').classList.toggle('hit',has(turns.length?s.street0:s.street,q));sr.style.top=thH+'px';sr.style.height=MH+'px';$('#startMi').replaceChildren(s.city?h('i',{},s.city):null,...chips(segOf[0]).filter(Boolean),h('span',{class:'cv'},isF(0)?'▸':'▾'));
+  const sm=$('#sumRow'),tot=segOf.reduce((a,g)=>({deal:a.deal+g.deal,cb:a.cb+g.cb,rej:a.rej+g.rej,n:a.n+g.n}),{deal:0,cb:0,rej:0,n:0});sm.hidden=!off;$('#sumRow td').style.top=thH+'px';$('#sumRow td').style.height=MH+'px';$('#sumMi').replaceChildren(s.city?h('i',{},s.city):null,h('i',{},nSeg+(nSeg===1?' street':' streets')),...chips(tot).filter(Boolean).slice(0,2),h('span',{class:'cv'},'▸'))
+  const fb=$('#foldAll');if(fb){$('#thNo').hidden=true;fb.hidden=false;fb.textContent='Streets '+(off?'▸':'▾')}
   const i=$('#st');if(document.activeElement!==i)i.value=turns.length?(s.street0||''):(s.street||'')}
  if(!s.rows.length)tb.append(h('tr',{},h('td',{colspan:5,class:'empty'},'No doors yet. Tap NEW DOOR to start.')));
  s.rows.forEach(r=>{
   if(r.t==='mark'){
    if(r.brk){tb.append(h('tr',{class:'mark brk','data-id':r.id},h('td',{colspan:5},'☕ Break · '+(r.end?dur(r.end-r.ts):'time is paused')+' · '+tm(r.ts))));return}
-   if(r.txt.startsWith('↪')){tb.append(turnRow(r.id,r.txt.replace('↪ Turned onto ','↪ '),turns.indexOf(r)+1))}
+   if(r.txt.startsWith('↪')){if(!off)tb.append(turnRow(r.id,r.txt.replace('↪ Turned onto ','↪ '),turns.indexOf(r)+1))}
    else tb.append(h('tr',{class:'mark','data-id':r.id},h('td',{colspan:5},r.txt)));
    return}
   const x=R(r.r),T=typ(r),cls=T==='cb'||T==='appt'?'gl':(T==='rej'&&S.showRed)?'rd':'',pc=T==='deal'?'deal':T==='cb'||T==='appt'?'cb':(T==='rej'&&S.showRed)?'rd':'';
@@ -368,28 +386,29 @@ const stk=segOf.map(g=>g.cb>0);let si=0;const sIdx=stk.map(x=>x?si++:-1);
    h('td',{class:has(r.note,q)?'hit':''},h('input',{'data-f':'note',value:r.note||'',placeholder:'Note','aria-label':'Note'})),
    h('td',{},h('button',{class:'apt'+(r.apt?' on':''),'aria-label':'Appointment'},'APT'))));
  });
+ {let k=0;[...tb.children].forEach(e=>{if(e.classList.contains('turn')){k++;return}if(e.dataset&&e.dataset.id&&isF(k))e.classList.add('fd')})}
+ if(!s.city){const g=s.rows.find(r=>r.lat!=null);if(g)cityOf(s,g.lat,g.lng)}
  mn.scrollTop=sc;tk=null;
 }
 let tk=null;
-// Note ticker: long notes slide to their end after 3s, hold 3s, then reset
+// Note ticker: each long note waits 2s, slides to its end, holds 1s, then resets (every note runs its own cycle)
+const tkS=new WeakMap();
 requestAnimationFrame(function loop(now){
  if(tab==='street'&&!document.body.classList.contains('kb')){
   tk=tk||[...document.querySelectorAll('#tb [data-f=note]')];
-  const L=tk.filter(i=>i.isConnected&&i!==document.activeElement&&i.scrollWidth>i.clientWidth+2);
-  if(L.length){const D=Math.max(...L.map(i=>Math.max(1e3,(i.scrollWidth-i.clientWidth)*25))),t=now%(6e3+D);
-   L.forEach(i=>{const m=i.scrollWidth-i.clientWidth,d=Math.max(1e3,m*25);i.scrollLeft=Math.round(Math.min(1,Math.max(0,(t-3e3)/d))*m)})}
+  tk.forEach(i=>{
+   if(!i.isConnected||i===document.activeElement||i.offsetParent===null||i.scrollWidth<=i.clientWidth+2){tkS.delete(i);if(i.isConnected&&i!==document.activeElement&&i.scrollLeft)i.scrollLeft=0;return}
+   const m=i.scrollWidth-i.clientWidth,d=Math.max(800,m*25);let t0=tkS.get(i);if(t0==null){t0=now;tkS.set(i,t0)}
+   const t=now-t0;if(t>=2e3+d+1e3){tkS.set(i,now);i.scrollLeft=0;return}
+   i.scrollLeft=Math.round(Math.min(1,Math.max(0,(t-2e3)/d))*m)})
  }
  requestAnimationFrame(loop)});
-function goTurn(id){const m=$('#main');if(id==='start'){m.scrollTo({top:0,behavior:'smooth'});tick(1);return}const tr=m.querySelector('tr[data-id="'+id+'"]');if(!tr)return;
- const rows=[...m.querySelectorAll('tr.turn')],ti=rows.indexOf(tr),thv=m.querySelector('thead th'),thH=thv?thv.offsetHeight:30,nS=rows.filter(x=>!x.classList.contains('ns')).length,MH=nS>5?24:28;
- const upto=rows.slice(0,ti+1).filter(x=>!x.classList.contains('ns')).length,me=!tr.classList.contains('ns');
- let n=tr.nextElementSibling;while(n&&n.classList.contains('mark'))n=n.nextElementSibling;
- if(!n||n.classList.contains('turn')){m.scrollTo({top:m.scrollHeight,behavior:'smooth'});return}
- const y=n.getBoundingClientRect().top-m.getBoundingClientRect().top+m.scrollTop;
- m.scrollTo({top:Math.max(0,y-thH-upto*MH-(me?0:MH)),behavior:'smooth'});n.classList.add('fl');setTimeout(()=>n.classList.remove('fl'),1800);tick(1)}
+const mhFor=n=>n>8?22:n>5?24:28,q0=()=>hq;
+function toggleFold(k){const s=cs(),f=new Set(s.fold||[]);f.has(k)?f.delete(k):f.add(k);s.fold=[...f];save();render();tick(0)}
+function foldAll(){const s=cs();s.stOff=!s.stOff;save();render();tick(0)}
 function setTab(t){
  if(!$('#ov').hidden){const o=$('#ov');o.hidden=true;o.className='';$('#main').style.paddingBottom=''}
- tab=t;if(t!=='street')hq='';
+ tab=t;if(t!=='street')hq='';else dailyCheck();
  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+t));
  document.querySelectorAll('#tabs button').forEach(b=>{const on=b.dataset.t===t;b.classList.toggle('on',on);b.setAttribute('aria-current',on?'page':'false')});
  renderPanel();render();
@@ -424,6 +443,9 @@ const ndRow=()=>h('div',{class:'ndrow'},h('button',{class:'brkb',type:'button',o
 function doCross(){mark('⇄ Crossed street',s=>{s.step=-(s.step||-2);s.cross=true});probe()}
 function doTurn(){const i=h('input',{class:'in',placeholder:'New street name',autocapitalize:'words',id:'turnName'});
  sheet('Turned onto…',i,h('button',{class:'b p',style:'width:100%',onclick:()=>{const n=i.value.trim();$('#ov').hidden=true;mark('↪ Turned onto '+n,s=>{if(s.street0==null)s.street0=s.street||'';s.street=n;s.fresh=true;s.cross=false;s.leg=(s.leg||0)+1});probe()}},'Save turn'));i.focus()}
+function dailyCheck(){if(!S.daily)return;const s=cs();if(dk(s.date)===dk(Date.now()))return;
+ if(!s.rows.length){s.date=Date.now();save();return}
+ const n=ns();S.sessions.push(n);S.cur=n.id;curId=null;save();toast('New day, new sheet')}
 function newSheet(){const s=ns();S.sessions.push(s);S.cur=s.id;save();if(!$('#ov').hidden)close();setTab('street');$('#st').focus()}
 function goDoor(r){const s=S.sessions.find(x=>x.rows.includes(r));if(!s)return;if(S.cur!==s.id){S.cur=s.id;save()}setTab('street');jump(r.id)}
 let curId=null,gpPrev=null,bhOn=null,cheerTxt='',ct;
@@ -524,6 +546,13 @@ let gpsT,gpsT0=0;
 function gpsPill(txt,cls,ms){const g=$('#gpsPill');if(!g)return;clearTimeout(gpsT);g.className='show '+cls;g.textContent=txt;if(ms)gpsT=setTimeout(()=>{g.className=''},ms)}
 function gpsDone(kind,txt){const w=Math.max(0,900-(Date.now()-gpsT0));setTimeout(()=>{
  if(kind==='ok')gpsPill(txt||'Located ✓','ok',2200);else if(kind==='net')gpsPill('Poor connection · using pattern','bad',2800);else if(kind==='weak')gpsPill('Weak signal','bad',2200);else if(kind==='blocked')gpsPill('Location is blocked','bad',3500);else gpsPill('No location','bad',2200)},w)}
+const cityTry={};
+function cityOf(s,la,lo){
+ if(s.city||Date.now()-(cityTry[s.id]||0)<6e4)return;cityTry[s.id]=Date.now();
+ try{fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=10&addressdetails=1&lat='+la+'&lon='+lo).then(x=>x.json()).then(d=>{
+  const a=d&&d.address,c=a&&(a.city||a.town||a.village||a.hamlet||a.suburb||a.county);if(!c||s.city)return;
+  const iso=a['ISO3166-2-lvl4']||'',st=/^US-/.test(iso)?iso.slice(3):a.state;
+  s.city=c+(st?', '+st:'');save();if(cs()===s&&tab==='street')render()}).catch(()=>{})}catch(e){}}
 function nameFromGps(s,r){
  if((s.street||'').trim()||hasTurn(s))return;
  try{fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=17&lat='+r.lat+'&lon='+r.lng).then(x=>x.json()).then(d=>{
@@ -531,7 +560,7 @@ function nameFromGps(s,r){
   if(!n||(s.street||'').trim()||hasTurn(s))return;
   s.street=n;s.street0=n;save();const i=$('#st');if(cs()===s&&i&&document.activeElement!==i)i.value=n}).catch(()=>{})}catch(e){}}
 // ===== Real addresses from OpenStreetMap =====
-const AR=600,AGE=30*864e5;let netFail=false;
+const AR=600,AGE=30*864e5;let netFail=false,adErr='';
 let ADT=[];const adReady=(async()=>{try{localStorage.removeItem('doortracker.addr.v1')}catch(e){}try{ADT=JSON.parse(await idb.get('addr')||'[]').filter(t=>Date.now()-t.t<AGE)}catch(e){ADT=[]}})();
 const hav=(a,b,c,d)=>{const k=Math.PI/180,x=(c-a)*k,y=(d-b)*k*Math.cos((a+c)/2*k);return 6371000*Math.sqrt(x*x+y*y)};
 const ABBR={st:'street',str:'street',ave:'avenue',av:'avenue',rd:'road',dr:'drive',ln:'lane',ct:'court',blvd:'boulevard',pkwy:'parkway',pky:'parkway',pl:'place',ter:'terrace',cir:'circle',hwy:'highway'};
@@ -541,17 +570,18 @@ const sameSt=(a,b)=>{const x=core(a),y=core(b);return !!x&&!!y&&(x===y||(x.lengt
 function adList(la,lo){const out=[],seen=new Set();ADT.forEach(t=>{if(hav(la,lo,t.la,t.lo)<AR+300)t.l.forEach(a=>{const k=a[0]+'|'+a[1]+'|'+a[2]+'|'+a[3];if(!seen.has(k)){seen.add(k);out.push({n:a[0],st:a[1],la:a[2],lo:a[3]})}})});return out}
 const adCovered=(la,lo)=>ADT.some(t=>Date.now()-t.t<AGE&&hav(la,lo,t.la,t.lo)<300);
 async function adFetch(la,lo){
+ adErr='';
  const q='[out:json][timeout:25];(node["addr:housenumber"](around:'+AR+','+la+','+lo+');way["addr:housenumber"](around:'+AR+','+la+','+lo+'););out center tags qt;';
- for(const u of ['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter']){
-  try{const ac=new AbortController(),to=setTimeout(()=>ac.abort(),20000);
+ for(const u of ['https://overpass-api.de/api/interpreter','https://overpass.private.coffee/api/interpreter','https://overpass.kumi.systems/api/interpreter']){
+  const hn=u.split('/')[2];try{const ac=new AbortController(),to=setTimeout(()=>ac.abort(),28000);
    const r=await fetch(u,{method:'POST',body:'data='+encodeURIComponent(q),headers:{'Content-Type':'application/x-www-form-urlencoded'},signal:ac.signal});clearTimeout(to);
-   if(!r.ok)continue;const d=await r.json(),l=[];
+   if(!r.ok){adErr+=hn+' '+r.status+'. ';continue}const d=await r.json(),l=[];
    (d.elements||[]).forEach(e=>{const t=e.tags||{},m=/^\d+/.exec(t['addr:housenumber']||''),a=e.lat!=null?e.lat:e.center&&e.center.lat,o=e.lon!=null?e.lon:e.center&&e.center.lon;
     if(m&&t['addr:street']&&a!=null)l.push([+m[0],t['addr:street'],+(+a).toFixed(6),+(+o).toFixed(6)])});
    ADT=ADT.filter(t=>hav(la,lo,t.la,t.lo)>40&&hav(la,lo,t.la,t.lo)<5000&&Date.now()-t.t<AGE);ADT.push({la:+la.toFixed(5),lo:+lo.toFixed(5),t:Date.now(),l});ADT=ADT.slice(-7);
    while(ADT.length>1&&JSON.stringify(ADT).length>5e6)ADT.shift();
    idb.set('addr',JSON.stringify(ADT));
-   return true}catch(e){}}
+   return true}catch(e){adErr+=hn+(e&&e.name==='AbortError'?' timed out. ':' blocked or offline. ')}}
  return false}
 function adStreet(s,fix,L,store){
  const near=L.filter(a=>hav(fix.la,fix.lo,a.la,a.lo)<200);if(!near.length)return null;
@@ -583,10 +613,14 @@ function mapPick(s,fix,ctx){
  let pick=nx;if((ni-nx)*dir>=2&&side[ni].d<=Math.max(30,fix.acc*1.5))pick=ni;
  if(side[pick].d>150)return{st,n:null};
  return{st,n:side[pick].n}}
+// Watches for up to 8 s and uses the most accurate fix (the first fix on a phone is often coarse)
+function locate(cb,err){
+ let best=null,done=false,code='err',wid,to;
+ const fin=()=>{if(done)return;done=true;clearTimeout(to);try{navigator.geolocation.clearWatch(wid)}catch(e){}best?cb(best):err(code)};
+ try{wid=navigator.geolocation.watchPosition(p=>{const c=p.coords;if(!best||c.accuracy<best.accuracy)best=c;if(c.accuracy<=25)fin()},e=>{if(e&&e.code===1){code='blocked';best=null;fin()}},{enableHighAccuracy:true,timeout:15000,maximumAge:0});to=setTimeout(fin,8000)}catch(e){err('err')}}
 function fixNow(cb,err){
  if(S.geo===false||!navigator.geolocation)return;
- gpsT0=Date.now();gpsPill('Locating…','busy',0);
- try{navigator.geolocation.getCurrentPosition(pos=>cb(pos.coords),e=>err(e&&e.code===1?'blocked':'err'),{enableHighAccuracy:true,timeout:9000,maximumAge:0})}catch(e){err('err')}}
+ gpsT0=Date.now();gpsPill('Locating…','busy',0);locate(c=>cb(c),err)}
 async function getMap(fix){
  await adReady;
  if(!adCovered(fix.la,fix.lo)){gpsPill('Downloading map data…','busy',0);netFail=!(await adFetch(fix.la,fix.lo))}else netFail=false
@@ -599,6 +633,19 @@ function probe(){
   const ok=await getMap(fix);let txt='Located ✓';
   if(ok){const b=adList(fix.la,fix.lo).map(a=>({a,d:hav(fix.la,fix.lo,a.la,a.lo)})).sort((x,y)=>x.d-y.d)[0];if(b&&b.d<=60)txt='Near '+b.a.n+' '+shortSt(b.a.st)}
   gpsDone(!ok&&netFail?'net':'ok',txt)},k=>gpsDone(k))}
+async function gpsCheck(){
+ const out=h('div',{style:'white-space:pre-wrap;font-size:15px;line-height:1.6;color:var(--fg)'});out.textContent='Locating (up to 8 seconds)…';
+ sheet('Location check',out,h('button',{class:'b',style:'width:100%;margin-top:10px',onclick:close},'Close'));
+ const say=t=>{out.textContent+='\n'+t};
+ if(!navigator.geolocation){out.textContent='This phone has no location support here.';return}
+ locate(async c=>{
+  out.textContent='Location: found, accurate to '+Math.round(c.accuracy)+' m '+(c.accuracy<=50?'(good)':c.accuracy<=80?'(OK for the launch check only)':'(too weak, door addresses will skip GPS)');
+  say('Downloading nearby addresses…');
+  const fix={la:c.latitude,lo:c.longitude,acc:c.accuracy};
+  const was=adCovered(fix.la,fix.lo);const ok=was||await adFetch(fix.la,fix.lo);
+  const n=adList(fix.la,fix.lo).length;
+  say(ok?'Map data: '+(was?'already saved on this phone':'downloaded')+', '+n+' addresses nearby'+(n<4?' (too few in OpenStreetMap here, so the street pattern is used)':' (good)'):'Map data: FAILED. '+adErr+'Check your signal and try again.');
+ },k=>{out.textContent=k==='blocked'?'Location is blocked. On iPhone: Settings > Privacy > Location Services > Safari Websites (or the Door Tracker app) > While Using. Then reopen the app.':'No location came back. Go outside or near a window and try again.'})}
 function setAddr(r,n){
  if(r.addr!==r.pred)return false;
  const e=rowEl(r.id),i=e&&e.querySelector('[data-f=addr]');
@@ -609,7 +656,7 @@ function setAddr(r,n){
 function ping(r,s,base,ctx){
  fixNow(async c=>{
   if(!(c.accuracy<=50)){gpsDone('weak');return}
-  r.lat=+c.latitude.toFixed(6);r.lng=+c.longitude.toFixed(6);r.acc=Math.round(c.accuracy);
+  r.lat=+c.latitude.toFixed(6);r.lng=+c.longitude.toFixed(6);r.acc=Math.round(c.accuracy);cityOf(s,r.lat,r.lng);
   const fix={la:c.latitude,lo:c.longitude,acc:c.accuracy};
   const ok=await getMap(fix);let m=null;
   if(ok){try{m=mapPick(s,fix,ctx||{prevN:null,crossed:false})}catch(e){m=null}}
@@ -636,6 +683,7 @@ function add(){
  const crossed=!!s.cross,prevN=(l&&!s.fresh&&isFinite(eff(l)))?eff(l):null;
  s.fresh=false;s.cross=false;
  const r={id:uid(),t:'door',addr:a,pred:a,r:null,d:'',when:null,name:'',note:'',ts:Date.now(),seg:s.seg,leg:s.leg||0};
+ if(s.fold&&s.fold.length){const last=s.rows.filter(x=>x.t==='mark'&&x.txt.startsWith('↪')).length;s.fold=s.fold.filter(k=>k!==last)}
  s.rows.push(r);curId=r.id;save();render();bottom();ping(r,s,base,{prevN,crossed,nd:ds.filter(d=>(d.leg||0)===(s.leg||0)).length});
  const nn=doors(s).length;if(nn%10===0){pop($('#t1'),nn%50===0);fx('door');cheer(nn%100===0?'DOOR '+nn+'! 🔥':nn%50===0?'Door '+nn+' 🔥':'Door '+nn)}
  if(a&&S.auto)openResp(r);else{const i=rowEl(r.id).querySelector('[data-f=addr]');i.focus();i.select()}
@@ -775,26 +823,27 @@ function renderMore(){
  v.append(h('div',{class:'vh'},h('h1',{},'More')),
   h('div',{class:'sec'},'While knocking'),
   h('div',{class:'grp'},
+   tog('New sheet each day','Start a fresh sheet the first time you open the Street screen on a new date',()=>!!S.daily,x=>S.daily=x),
    tog('Auto-open responses','Show the response panel as soon as a door is added',()=>S.auto,x=>S.auto=x),
    tog('Jump to Name after a response','Otherwise the panel just closes',()=>S.jump,x=>S.jump=x),
    tog('Sounds & haptics','A soft sound on tab switches, new doors, deals and goals. Vibration works on Android only.',()=>S.snd!==false,x=>{S.snd=x;if(x)tick(1)}),
    tog('GPS address help','One quick location check on launch, new door, turn and cross, matched to real addresses. Falls back to the street pattern.',()=>S.geo!==false,x=>{S.geo=x;if(x&&navigator.geolocation)try{navigator.geolocation.getCurrentPosition(()=>{},()=>{},{timeout:6000})}catch(e){}})),
   h('div',{class:'sec'},'Team'),
   h('div',{class:'grp'},...(!T().name?[nav('Join team'+(teamCode()?' '+teamCode().toUpperCase():''),'Enter your name to get deal alerts',relay()?teamJoin:urlSheet)]:[
-   tog('Deal alerts','Team '+teamCode().toUpperCase()+' · as '+T().name+' · 9 AM to 8 PM',()=>T().on!==false,x=>{T().on=x;x?teamStart():teamStop()}),
+   tog('Deal alerts','Team '+teamCode().toUpperCase()+' · as '+T().name,()=>T().on!==false,x=>{T().on=x;x?teamStart():teamStop()}),
    tog('Alarm sound',null,()=>T().sound!==false,x=>{T().sound=x}),
    nav('Your name',T().name,nameSheet),
    nav('Test','Plays a sample alert. Tap again for the next level up',()=>teamTest(1+tStep++%4))]),
    ...(RELAY?[]:[nav('Team database',T().url?'Connected to a database':'Not set up',urlSheet)])),
   h('div',{class:'sec'},'Tools'),
-  h('div',{class:'grp'},nav('Edit responses','Add, rename or change what counts as what',editResp),nav('Route map','Your trail on a street map',()=>mapSheet(false)),nav('Backup & restore','Copy your data or move it to another phone',backup),nav('Patch notes','What changed in each update',patchNotes)),
+  h('div',{class:'grp'},nav('Edit responses','Add, rename or change what counts as what',editResp),nav('Route map','Your trail on a street map',()=>mapSheet(false)),nav('Location check','Tests GPS and map data right now and tells you what is wrong',gpsCheck),nav('Backup & restore','Copy your data or move it to another phone',backup),nav('Patch notes','What changed in each update',patchNotes)),
   h('p',{class:'note'},'Door Tracker · your sheets and stats are saved on this device.'));
 }
 const shOpen=new Set();
 function findHit(){const m=$('#main'),e=m.querySelector('.hit');if(!e)return;
  if(e.id==='startRow'||e.closest('#startRow')){m.scrollTop=0;return}
- const n=m.querySelectorAll('tr.turn:not(.ns)').length,th=m.querySelector('thead th').offsetHeight;
- m.scrollTop+=e.getBoundingClientRect().top-m.getBoundingClientRect().top-(th+n*(n>5?24:28)+10)}
+ const n=[...m.querySelectorAll('tr.turn')].filter(x=>x.offsetParent).length,th=m.querySelector('thead th').offsetHeight;
+ m.scrollTop+=e.getBoundingClientRect().top-m.getBoundingClientRect().top-(th+n*mhFor(n)+10)}
 function renderSheets(){
  const v=$('#v-sheets .scroll');v.replaceChildren();
  const list=h('div'),fill=()=>{
@@ -842,13 +891,14 @@ $('#goalbar').onclick=()=>setTab('goals');
 $('#t5').onclick=paySheet;
 $('#sheetBtn').onclick=()=>setTab('sheets');
 $('#st').addEventListener('input',e=>{const s=cs();s.street0=e.target.value;if(!hasTurn(s))s.street=e.target.value;save()});
-$('#startRow td').addEventListener('click',e=>{if(e.target.id!=='st')goTurn('start')});
+$('#startRow td').addEventListener('click',e=>{if(e.target.id!=='st')toggleFold(0)});
+$('#foldAll').onclick=foldAll;$('#sumRow td').onclick=foldAll;
 {const d=doors(cs());if(d.length)curId=d[d.length-1].id}
 setTab('street');bottom();
 function patchNotes(){sheet('Patch notes',...LOG.map(e=>h('div',{},h('div',{class:'sec'},'v'+e.v+' · '+e.d),h('ul',{class:'wn'},e.n.map(n=>h('li',{},n.t))))),h('button',{class:'b',style:'width:100%;margin-top:14px',onclick:close},'Close'))}
 function whatsNew(items){sheet("What's new · v"+VER,h('ul',{class:'wn'},items.map(n=>h('li',{},n.t))),h('button',{class:'b p',style:'width:100%;margin-top:12px',onclick:()=>{close();teamAsk()}},'Got it'))}
 // the splash lists only changes this phone hasn't seen yet
-let unseen=[];try{const all=LOG.flatMap(e=>e.n),old=JSON.parse(localStorage.getItem('doortracker.seenIds')||'null')||(fresh0?all.map(n=>n.id):LOG.slice(1).flatMap(e=>e.n).map(n=>n.id));
+let unseen=[];try{const all=LOG.flatMap(e=>e.n),old=JSON.parse(localStorage.getItem('doortracker.seenIds')||'null')||(fresh0?all.map(n=>n.id):LOG.slice(LOG.findIndex(e=>e.v==='2.0.1')).flatMap(e=>e.n).map(n=>n.id));
  unseen=all.filter(n=>!old.includes(n.id));localStorage.setItem('doortracker.seenIds',JSON.stringify(all.map(n=>n.id)))}catch(e){}
 setTimeout(unseen.length?()=>whatsNew(unseen):teamAsk,unseen.length?400:600);
 // ===== Team deal alerts: Firebase Realtime Database over plain HTTPS (no SDK) =====
@@ -857,16 +907,17 @@ const T=()=>S.team||(S.team={}),
  teamCode=()=>String(TEAMCODE||T().code||'').toLowerCase().replace(/[^a-z0-9_-]/g,''),
  teamOn=()=>!!(relay()&&teamCode()&&T().name&&T().on!==false),
  dealsUrl=()=>relay()+'/teams/'+teamCode()+'/deals.json',
- dayStart=ms=>{const d=new Date(ms);d.setHours(9,0,0,0);if(d.getTime()>ms)d.setDate(d.getDate()-1);return d.getTime()},   // a new day starts at 9 AM
+ inWin=ms=>{const h=new Date(ms).getHours();return h>=8&&h<20},   // deal alerts only go out and show 8 AM to 8 PM
+ dayStart=ms=>{const d=new Date(ms);d.setHours(8,0,0,0);if(d.getTime()>ms)d.setDate(d.getDate()-1);return d.getTime()},   // a new day starts at 8 AM
  ordinal=n=>n+['th','st','nd','rd'][n%100>10&&n%100<14?0:n%10<4?n%10:0],
  findRow=id=>S.sessions.flatMap(s=>s.rows).find(x=>x.id===id),
  HOLD=12e4,
  PH={
- 1:['{n} got a deal!','{n} just closed one!','{n} is on the board!','Cha-ching! {n} got a deal','{n} landed a deal!','Deal alert: {n} just signed one up','{n} struck first!','Money move from {n}!','Somebody\'s getting paid: {n}!','Ding ding! {n} got a deal','Winner winner! {n} got a deal','{n} just put points on the board','{n} closed it out!','{n} got one!'],
- 2:['{n} got a second deal!','Back to back! {n} has 2','{n} is heating up: 2 deals','Deal number 2 for {n}!','{n} does it again!','{n} is rolling: that\'s 2','Two for {n}!','{n} just doubled up','{n} makes it 2 today','That\'s 2 for {n}, keep it coming'],
- 3:['{n} SET THE PACE!','{n} sets the pace with 3 deals!','Three deals! {n} is setting the pace','{n} just set the pace for the whole team','Pace setter: {n} with 3!','{n} hit 3 and set the standard','Hat trick! {n} sets the pace','{n} is leading the pack: 3 deals','The bar has been raised: {n} has 3','{n} sets the tone with 3 deals'],
- 4:['{n} is ON FIRE: {o} deal today!','{n} can\'t be stopped: deal #{c}','Deal #{c} for {n}! Unreal','{n} is a machine: {c} today','Somebody stop {n}: {c} deals','{n} is heating up the whole street: {c}','{n} is unstoppable at {c} deals','{c} deals and counting for {n}','{n} is in the zone: deal #{c}','Legendary day: {n} has {c} deals']};
-let es=null,alertT,ht,lastPh='',tStep=0;
+ 1:['{n} got a deal!','{n} just closed one!','{n} is on the board!','Cha-ching! {n} got a deal','{n} landed a deal!','Deal alert: {n} just signed one up','{n} struck first!','Money move from {n}!','Somebody\'s getting paid: {n}!','Ding ding! {n} got a deal','Winner winner! {n} got a deal','{n} just put points on the board','{n} closed it out!','{n} got one!','Big one! {n} just closed a deal','{n} brought home a deal','{n} says yes to a deal!','That\'s a deal from {n}!','{n} signed one up!','Another one in the books: {n}','{n} just made it happen','Say it louder: {n} got a deal!','{n} went and got one','First blood: {n} got a deal!','Boom! {n} closed one','{n} just flipped a door into a deal','Someone said yes to {n}!','Pay day alert: {n} got a deal','{n} just lit up the scoreboard','A door opened and {n} closed it: deal!','{n} found a yes','{n} is cooking: a deal!','Put it on the board: {n}','{n} turned a knock into a deal','Nice one {n}! A deal!','{n} got the signature!','Another yes for the team: {n}','{n} just made the team look good','Deal in! Thanks to {n}','{n} did the thing: got a deal','Hot off the street: {n} got a deal','The team just got a deal from {n}','{n} just sealed it','Tip of the cap to {n}: a deal!','Ka-ching! That\'s {n}','{n} just made somebody\'s day (and a deal)','{n} gets us rolling!','We have a deal! Courtesy of {n}','{n} got the first one rolling','One in the bag for {n}','{n} showed up and closed','That\'s how it\'s done, {n}!','{n} made a deal happen','Deal time! {n} is in the money','{n} just stacked a deal','The doorstep paid off for {n}','{n} closes it out. Deal!','Who\'s got a deal? {n} does!','{n} just made it look easy'],
+ 2:['{n} got a second deal!','Back to back! {n} has 2','{n} is heating up: 2 deals','Deal number 2 for {n}!','{n} does it again!','{n} is rolling: that\'s 2','Two for {n}!','{n} just doubled up','{n} makes it 2 today','That\'s 2 for {n}, keep it coming','{n} is stacking them: deal 2','Two down for {n}!','{n} came back for more: that\'s 2','Deal #2 and {n} isn\'t done','{n} got another one!','Second one in for {n}','{n} keeps it going with a 2nd deal','Double trouble: {n} has 2','{n} makes it a pair','One more for {n}: that\'s 2','{n} is on a roll with 2 deals','Another yes for {n}: deal 2','{n} said let\'s do that again','{n} gets number 2 on the board','Two deals deep: {n}','{n} just went back to back','The second one lands for {n}','{n} is not slowing down: 2 deals','Number 2 is in for {n}','{n} just doubled the fun','That\'s 2 for {n} and counting','Once is nice, twice is better: {n}','{n} rolls into deal 2','2 for {n}! Who\'s next?','{n} makes it look easy: deal 2','{n} is building momentum with 2','Round 2 goes to {n}','{n} just made it two','Deal 2 down for {n}','{n} is warming up: 2 deals','Second helping for {n}!','{n} keeps cooking: that\'s 2','Another one! {n} has 2 now','{n} puts up a second','{n} is stacking wins: 2','Two\'s company: {n} has 2 deals','{n} wasn\'t done: deal #2','Back at it: {n} gets a 2nd deal','That\'s two! Nice work {n}','{n} comes through with another'],
+ 3:['{n} SET THE PACE!','{n} sets the pace with 3 deals!','Three deals! {n} is setting the pace','{n} just set the pace for the whole team','Pace setter: {n} with 3!','{n} hit 3 and set the standard','Hat trick! {n} sets the pace','{n} is leading the pack: 3 deals','The bar has been raised: {n} has 3','{n} sets the tone with 3 deals','{n} just hit 3 and set the pace!','Three deals! {n} is leading the way','{n} sets the pace: 3 deals deep','Triple! {n} has 3 deals','{n} is out front with 3 deals','The pace is set by {n}: 3!','{n} just raised the bar to 3','Three-peat! {n} sets the pace','{n} makes it 3 and leads the team','{n} is the one to beat: 3 deals','3 deals for {n}! Catch them if you can','{n} owns the pace with 3 deals','{n} just set the tempo: 3 deals','The standard is 3 now, thanks to {n}','{n} is flying: 3 deals','Three for {n}! The team is on notice','{n} puts up 3 and takes the lead','{n} is setting the whole team\'s pace','Three in a day for {n}: pace set!','{n} makes it a hat trick','All eyes on {n}: 3 deals','{n} hit the magic number: 3','The team has a pace now: {n} with 3','{n} just did it three times','{n} pulls ahead with 3 deals','Hat trick for {n}! Pace is set','{n} is the pace car today: 3 deals','Three deals deep and {n} is not done','{n} makes 3 look easy','Pace alert: {n} has 3','{n} just set the bar at 3','Three! {n} is calling the pace','{n} is in the lead with 3 deals','The pace belongs to {n}: 3 deals','{n} turns up the heat with 3','Can anyone match {n}? That\'s 3','Three-deal day for {n}!','{n} shows the team how: 3 deals','{n} is setting a pace worth chasing','{n} makes it 3: the bar just moved'],
+ 4:['{n} is ON FIRE: {o} deal today!','{n} can\'t be stopped: deal #{c}','Deal #{c} for {n}! Unreal','{n} is a machine: {c} today','Somebody stop {n}: {c} deals','{n} is heating up the whole street: {c}','{n} is unstoppable at {c} deals','{c} deals and counting for {n}','{n} is in the zone: deal #{c}','Legendary day: {n} has {c} deals','{n} is on a tear: {c} deals!','Deal #{c}! {n} won\'t stop','{n} just stacked deal #{c}','{c} deals for {n}! Absolutely rolling','{n} is going nuts: {c} today','Can\'t touch {n}: {c} deals','{n} adds another: that\'s {c}','{n} is in beast mode: {c} deals','{c} and still going: {n}!','Somebody call it: {n} has {c} deals','{n} is rewriting the day: {c} deals','Deal #{c}! {n} is a closer','{n} keeps stacking: {c} deals','The street belongs to {n}: {c} deals','{n} is on another level: {c} deals','Unbelievable: {n} has {c} deals','{c} deals! {n} is on a heater','{n} just hit {c}. Wow','{n} is on a mission: deal #{c}','Deal #{c} for {n}! Who does that?','{n} turned up: {c} deals','Hold the door: {n} has {c} deals','{n} is a closing machine: {c}','Deal #{c} and counting for {n}','{n} just hit another: {c} deals today','It\'s {n}\'s world: {c} deals','{n} is cooking: {c} deals today','Nobody\'s stopping {n}: deal #{c}','{c} deals for {n}! Legend status','{n} is running away with it: {c} deals','{n} adds deal #{c}! Wild','Another one! {n} is at {c} deals','{n} is delivering: {c} deals today','The pace car is lapping everyone: {n} has {c}','{n} is firing on every cylinder: {c} deals','{c}! {n} is unreal today','Keep it coming {n}: deal #{c}','{n} just hit {c} deals. Take a bow','Big day for {n}: {c} deals','{n} with deal #{c}! Absolute machine']};
+let es=null,alertT,alertEnd=0,ht,lastPh='',tStep=0;
 const teamStop=()=>{if(es){es.close();es=null}};
 function teamStart(){
  teamStop();if(!teamOn()||document.hidden)return;teamFlushOut();teamHeld();
@@ -885,8 +936,9 @@ function teamGot(path,d){
 function teamHeld(){
  clearTimeout(ht);const t=T();if(!teamOn()||!t.held||!t.held.length)return;
  const now=Date.now(),due=[],keep=[];let next=1e12;
- t.held.forEach(x=>{if(x.ts<dayStart(now))return;const e=Math.min(x.at||x.ts,x.ts)+HOLD;if(e<=now)due.push(x);else{keep.push(x);next=Math.min(next,e-now)}});
+ t.held.forEach(x=>{if(x.ts<dayStart(now)||!inWin(x.at||x.ts))return;const e=Math.min(x.at||x.ts,x.ts)+HOLD;if(e<=now)due.push(x);else{keep.push(x);next=Math.min(next,e-now)}});
  if(due.length||keep.length!==t.held.length){t.held=keep;save()}
+ if(due.length&&!inWin(now))due.length=0;
  if(due.length)teamAlert(due.sort((a,b)=>a.ts-b.ts));
  if(next<1e12)ht=setTimeout(teamHeld,next+50)}
 const agoTxt=(x,min)=>{const s=(Date.now()-(x.at||x.ts))/1e3;return s<(min||90)?'':s<3600?Math.round(s/60)+' min ago':Math.round(s/3600)+' hr ago'};
@@ -898,9 +950,11 @@ function teamAlert(L){
  b.replaceChildren(h('b',{},(gold?(top>=4?'🔥 ':'🏆 '):'💰 ')+(one?phrase(L[0]):L.length+' deals while you were away')),
   ...(one?[[L[0].c>1?'Deal #'+L[0].c+' today':'',agoTxt(L[0],240)].filter(Boolean).join(' · ')]:L.slice(-5).map(x=>x.n+(x.c>1?' · deal #'+x.c:'')+' · '+(agoTxt(x)||'just now'))).filter(Boolean).map(x=>h('small',{},x)));
  b.hidden=false;b.style.animation='none';void b.offsetWidth;b.style.animation='';
- clearTimeout(alertT);alertT=setTimeout(()=>{b.hidden=true},gold?10000:7000);
+ clearTimeout(alertT);alertEnd=Date.now()+(gold?10000:7000);alertT=setTimeout(alertCheck,gold?10000:7000);
  if(T().sound!==false)winner(gold);buzz(gold?[40,60,40,60,40,60,120]:[30,60,30]);if(gold)confetti()}
+const alertCheck=()=>{if(Date.now()>=alertEnd)$('#dealAlert').hidden=true;else{clearTimeout(alertT);alertT=setTimeout(alertCheck,alertEnd-Date.now()+30)}};
 $('#dealAlert').onclick=()=>{$('#dealAlert').hidden=true};
+addEventListener('pageshow',alertCheck);document.addEventListener('visibilitychange',()=>{alertCheck();if(document.hidden)$('#confetti').hidden=true});
 function confetti(){
  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
  const c=$('#confetti'),x=c.getContext('2d'),W=c.width=innerWidth,H=c.height=innerHeight,col=['#fcd34d','#f59e0b','#fff','#22c55e','#3b82f6','#ef4444','#a855f7','#ec4899'];
@@ -919,7 +973,7 @@ function teamKey(rid,k){
  if(!k)return;const r=findRow(rid);if(!r)return;
  if(r.dealSent){r.dealKey=k;save()}else teamPost({n:T().name,id:T().id,x:k})}
 async function teamSendDeal(r){
- if(!teamOn()||r.dealSent)return;const t=T(),at=r.dealAt||Date.now(),
+ if(!teamOn()||r.dealSent)return;const t=T(),at=r.dealAt||Date.now();if(!inWin(at))return;const 
  c=Math.max(1,S.sessions.flatMap(s=>s.rows).filter(x=>x.t==='door'&&typ(x)==='deal'&&(x.dealAt||x.ts)>=dayStart(at)&&(x.dealAt||x.ts)<=at).length);
  r.dealSent=1;save();teamKey(r.id,await teamPost({n:t.name,id:t.id,at,c},r.id))}
 function teamCancel(r){
@@ -937,11 +991,11 @@ function winner(big){try{const A=window.AudioContext||window.webkitAudioContext;
  t=AC.currentTime+.05;run(t,1);
  if(big){run(t+1.9,1.122);[1319,1661,1976,2637].forEach(f=>n(f,t+3.8,1.6,'triangle',.12));for(let i=0;i<12;i++)n(1800+i*180,t+3.9+i*.07,.2,'sine',.05)}}catch(e){}}
 document.addEventListener('pointerdown',()=>{try{const A=window.AudioContext||window.webkitAudioContext;if(A){AC=AC||new A();if(AC.state==='suspended')AC.resume()}}catch(e){}},{passive:true});
-document.addEventListener('visibilitychange',()=>{document.hidden?teamStop():teamStart()});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){teamStop();chatStop()}else{teamStart();chatBoot();if(tab==='chat')renderChat(true);if(tab==='street'){dailyCheck();render()}}});
 function teamJoin(){
  const nm=h('input',{class:'in',placeholder:'Your name',autocapitalize:'words',maxlength:30,'aria-label':'Your name',value:T().name||''}),
  go=()=>{const name=nm.value.trim();if(!name){nm.focus();return}
-  Object.assign(T(),{name,on:true,id:T().id||uid()});save();teamStart();close();gpsPill('You\'re on the team','ok',2600)};
+  Object.assign(T(),{name,on:true,id:T().id||uid()});save();teamStart();chatBoot();close();gpsPill('You\'re on the team','ok',2600)};
  nm.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
  sheet('Join the team',p('Teammates get an alarm when you get a deal, and you get one when they do. Type the name your team will see.'),nm,
   h('button',{class:'b p',style:'width:100%',onclick:go},'Join the team'),
@@ -950,12 +1004,72 @@ function teamAsk(){if(relay()&&teamCode()&&!T().name&&$('#ov').hidden)teamJoin()
 function urlSheet(){
  const u=h('input',{class:'in',placeholder:'https://…firebaseio.com',value:T().url||'',autocapitalize:'off',autocomplete:'off','aria-label':'Database URL'}),
  c=TEAMCODE?null:h('input',{class:'in',placeholder:'Team code',value:T().code||'',autocapitalize:'off','aria-label':'Team code'});
- sheet('Team database',p('Paste the Realtime Database URL from your Firebase project.'),u,c,h('button',{class:'b p',style:'width:100%',onclick:()=>{T().url=u.value.trim();if(c)T().code=c.value.trim();save();close();teamStart();teamAsk()}},'Save'))}
+ sheet('Team database',p('Paste the Realtime Database URL from your Firebase project.'),u,c,h('button',{class:'b p',style:'width:100%',onclick:()=>{T().url=u.value.trim();if(c)T().code=c.value.trim();save();close();teamStart();chatBoot();teamAsk()}},'Save'))}
 function nameSheet(){
  const nm=h('input',{class:'in',placeholder:'Your name',autocapitalize:'words',maxlength:30,value:T().name||'','aria-label':'Your name'});
- sheet('Your name',p('Shown to your team when you get a deal.'),nm,h('button',{class:'b p',style:'width:100%',onclick:()=>{const n=nm.value.trim();if(!n)return;T().name=n;save();close()}},'Save'))}
+ sheet('Your name',p('Shown to your team when you get a deal.'),nm,h('button',{class:'b p',style:'width:100%',onclick:()=>{const n=nm.value.trim();if(!n)return;T().name=n;save();chatBoot();close()}},'Save'))}
+// ===== Team chat =====
+const CK='doortracker.chat',chatOn=()=>!!(relay()&&teamCode()&&T().name),chatUrl=p=>relay()+'/teams/'+teamCode()+'/'+p+'.json';
+let CH={m:[],seen:0},ces=null,cMem=[],cMemT;
+try{const o=JSON.parse(localStorage.getItem(CK)||'null');if(o&&Array.isArray(o.m))CH=o}catch(e){}
+const chatSave=()=>{try{localStorage.setItem(CK,JSON.stringify({m:CH.m.filter(x=>!x.pend).slice(-150),seen:CH.seen}))}catch(e){}},
+ chatStop=()=>{if(ces){ces.close();ces=null}clearInterval(cMemT)};
+function chatTabs(){
+ const b=document.querySelector('#tabs [data-t=chat]');if(!b)return;
+ const on=chatOn(),n=on?CH.m.filter(x=>x.ts>CH.seen&&x.id!==T().id).length:0;
+ b.hidden=!on;b.querySelector('.ic').dataset.n=n>99?'99+':n||'';
+ if(!on&&tab==='chat')setTab('street')}
+function chatBoot(){
+ chatStop();chatTabs();if(!chatOn()||document.hidden)return;
+ const t=T();fetch(relay()+'/teams/'+teamCode()+'/members/'+t.id+'.json',{method:'PUT',body:JSON.stringify({n:t.name,ts:{'.sv':'timestamp'}})}).then(chatMembers,()=>{});
+ try{ces=new EventSource(chatUrl('chat')+'?orderBy=%22ts%22&limitToLast=100')}catch(e){return}
+ const on=e=>{try{const m=JSON.parse(e.data);chatGot(m.path,m.data)}catch(x){}};
+ ces.addEventListener('put',on);ces.addEventListener('patch',on);
+ ces.addEventListener('cancel',chatStop);ces.addEventListener('auth_revoked',chatStop);
+ cMemT=setInterval(()=>{if(tab==='chat')chatMembers()},60000)}
+async function chatMembers(){
+ try{const r=await fetch(chatUrl('members')),d=await r.json();cMem=Object.entries(d||{}).map(([k,x])=>({k,...x})).filter(x=>x&&x.n);if(tab==='chat')chatHead()}catch(e){}}
+function chatGot(path,d){
+ if(!d||typeof d!=='object')return;
+ const L=path==='/'?Object.entries(d):path.split('/').length===2?[[path.slice(1),d]]:[];let add=0;
+ L.forEach(([k,x])=>{if(!x||!x.m||!x.n||!x.ts||CH.m.some(y=>y.k===k))return;
+  CH.m=CH.m.filter(y=>!(y.pend&&y.id===x.id&&y.m===x.m));CH.m.push({...x,k});add++});
+ if(!add)return;CH.m.sort((a,b)=>a.ts-b.ts);CH.m=CH.m.slice(-150);
+ if(tab==='chat'&&!document.hidden)CH.seen=CH.m[CH.m.length-1].ts;
+ chatSave();chatTabs();if(tab==='chat')renderChat(true)}
+async function chatSend(txt){
+ const t=T(),m=String(txt).trim().slice(0,500);if(!m||!chatOn())return;
+ const k='p'+uid(),o={k,n:t.name,id:t.id,m,ts:Date.now(),pend:1};CH.m.push(o);renderChat(true);
+ try{const x=await fetch(chatUrl('chat'),{method:'POST',body:JSON.stringify({n:t.name,id:t.id,m,ts:{'.sv':'timestamp'}})});if(!x.ok)throw 0;
+  const r=await x.json(),p=CH.m.find(y=>y===o);if(p){p.k=r.name;p.pend=0}}
+ catch(e){o.pend=0;o.fail=1}
+ chatSave();renderChat()}
+const hm=ts=>new Date(ts).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+function chatHead(){
+ const e=$('#chatHead');if(!e)return;const me=T().id,now=Date.now();
+ const L=cMem.slice().sort((a,b)=>(a.k===me?-1:b.k===me?1:b.ts-a.ts)).map(x=>h('span',{class:'mb'+(now-x.ts<6e5?' on':'')},x.k===me?'You':x.n));
+ e.replaceChildren(h('p',{class:'sub'},cMem.length?cMem.length+(cMem.length===1?' person':' people')+' on team '+teamCode().toUpperCase():'Team '+teamCode().toUpperCase()),h('div',{class:'mbs'},...L))}
+function renderChat(stick){
+ const v=$('#v-chat');if(!v)return;
+ if(!$('#chatList')){
+  const inp=h('input',{class:'in',id:'chatIn',placeholder:'Message your team',maxlength:500,enterkeyhint:'send',autocomplete:'off',autocapitalize:'sentences','aria-label':'Message'}),
+  send=()=>{const t=inp.value;if(!t.trim())return;inp.value='';chatSend(t);inp.focus()};
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();send()}});
+  const sb=h('button',{class:'b p',type:'button','aria-label':'Send',onclick:send},'Send');sb.addEventListener('pointerdown',e=>e.preventDefault());
+  v.replaceChildren(h('div',{class:'vh'},h('h1',{},'Team chat'),h('div',{id:'chatHead'})),h('div',{class:'scroll',id:'chatList'}),h('div',{class:'cmp'},inp,sb));chatHead();chatMembers();stick=true}
+ const l=$('#chatList'),near=l.scrollHeight-l.scrollTop-l.clientHeight<90,me=T().id;let day='',last=null;const out=[];
+ CH.m.forEach(x=>{const d=new Date(x.ts).toDateString();
+  if(d!==day){day=d;last=null;const n=new Date();out.push(h('div',{class:'dv'},d===n.toDateString()?'Today':new Date(x.ts).toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'})))}
+  const mine=x.id===me,first=!last||last.id!==x.id||x.ts-last.ts>3e5;last=x;
+  out.push(h('div',{class:'cm'+(mine?' me':'')+(first?' f':'')+(x.fail?' fl':'')},
+   first&&!mine?h('small',{class:'nm'},x.n):null,
+   h('div',{class:'bb',onclick:x.fail?()=>{CH.m=CH.m.filter(y=>y!==x);chatSend(x.m)}:null},x.m),
+   x.fail?h('small',{class:'tm'},'Not sent · tap to retry'):first?h('small',{class:'tm'},hm(x.ts)):null))});
+ if(!CH.m.length)out.push(h('p',{class:'note',style:'text-align:center;margin-top:30px'},'No messages yet. Say hi to your team.'));
+ l.replaceChildren(...out);if(stick||near)l.scrollTop=l.scrollHeight;
+ if(!document.hidden&&CH.m.length){const t=CH.m[CH.m.length-1].ts;if(t>CH.seen){CH.seen=t;chatSave();chatTabs()}}}
 const teamTest=c=>teamAlert([{n:T().name||'Mike',c,ts:Date.now()}]);
-teamStart();
+teamStart();chatBoot();
 async function cloudInit(){
  try{
   if(!window.claude||!window.claude.use)return;
@@ -965,7 +1079,7 @@ async function cloudInit(){
   let cfg=null;try{cfg=docs.settings&&JSON.parse(docs.settings.json)}catch(e){}
   const ss=cfg?(cfg.order||[]).map(i=>{try{return JSON.parse(docs['sheet_'+i].json)}catch(e){return null}}).filter(Boolean):[];
   if(cfg&&ss.length&&(fresh0||!(S.t>cfg.t))){
-   S={resp:cfg.resp||S.resp,showRed:!!cfg.showRed,auto:cfg.auto!==false,jump:!!cfg.jump,geo:cfg.geo,snd:cfg.snd,cur:cfg.cur,pay:cfg.pay||{},payMode:cfg.payMode||'day',goal:cfg.goal||DEFG(),sessions:ss,t:cfg.t,team:S.team};
+   S={resp:cfg.resp||S.resp,showRed:!!cfg.showRed,auto:cfg.auto!==false,daily:!!cfg.daily,jump:!!cfg.jump,geo:cfg.geo,snd:cfg.snd,cur:cfg.cur,pay:cfg.pay||{},payMode:cfg.payMode||'day',goal:cfg.goal||DEFG(),sessions:ss,t:cfg.t,team:S.team};
    migrate();S.sessions.forEach(x=>dirty.add(x.id));try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}
    const d=doors(cs());curId=d.length?d[d.length-1].id:null;
    if(dirty.size)flush();
@@ -993,7 +1107,7 @@ function fit(){const v=window.visualViewport,b=$('#bot'),bd=document.body;
  if(!v)return;
  {const ov=$('#ov');if(kb){ov.style.top=v.offsetTop+'px';ov.style.height=v.height+'px';ov.style.bottom='auto'}else{ov.style.top='';ov.style.height='';ov.style.bottom=''}}
  if(kb){bd.style.top=v.offsetTop+'px';bd.style.bottom='auto';bd.style.height=v.height+'px';b.style.transform='';
-  if(tab==='street'){revealRow();if(!was)setTimeout(revealRow,250)}else{const a=document.activeElement;if(a&&a.scrollIntoView&&!was)setTimeout(()=>{try{a.scrollIntoView({block:'center'})}catch(e){}},250)}}
+  if(tab==='street'){revealRow();if(!was)setTimeout(revealRow,250)}else{const a=document.activeElement;if(tab==='chat'){const l=$('#chatList');if(l)setTimeout(()=>{l.scrollTop=l.scrollHeight},60)}else if(a&&a.scrollIntoView&&!was)setTimeout(()=>{try{a.scrollIntoView({block:'center'})}catch(e){}},250)}}
  else{const d=v.offsetTop+v.height-window.innerHeight;b.style.transform=Math.abs(d)>1?`translateY(${d}px)`:'';if(v.offsetTop>0||window.scrollY>0)window.scrollTo(0,0)}}
 if(window.visualViewport){visualViewport.addEventListener('resize',fit);visualViewport.addEventListener('scroll',fit)}
 addEventListener('resize',fit);addEventListener('scroll',()=>{if(scrollY>0)scrollTo(0,0)});
