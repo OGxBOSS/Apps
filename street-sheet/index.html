@@ -43,7 +43,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-of
 
 /* Street header */
 #top{background:var(--surface);padding:9px 10px 0}
-#colh{flex:none;display:grid;grid-template-columns:19% 16% 21% 1fr 11%;height:21px;align-items:center;background:var(--surface);border-bottom:1px solid var(--line);color:var(--mut);font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;text-align:left}
+#colh{flex:none;display:grid;grid-template-columns:19% 16% 21% 1fr 11%;height:21px;align-items:center;background:var(--surface);margin-bottom:-1px;color:var(--mut);font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;text-align:left}
 #colh span{padding:0 8px;line-height:1}#colh span:first-child,#colh span:last-child{text-align:center}
 #top .pin{width:18px;height:18px;flex:none;display:grid;place-items:center;color:#fff;opacity:.85}
 .pin svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
@@ -97,6 +97,25 @@ td input:focus{background:var(--acc-soft)}
 #kbar{position:absolute;left:0;right:0;bottom:0;z-index:60;display:flex;gap:8px;padding:6px 10px;background:var(--raise);border-top:1px solid var(--line)}
 #kbar button{min-width:56px;height:38px;border:0;border-radius:10px;background:var(--surface);color:var(--fg);font:inherit;font-size:20px;font-weight:800;box-shadow:0 1px 0 var(--line)}
 .sug{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px}.sug .b{width:auto;padding:0 14px;height:40px;font-size:15px}
+#calcHost{padding-bottom:6px}
+.cs{background:var(--surface);border-radius:18px;margin-top:12px;box-shadow:var(--shadow);overflow:hidden}
+.cs>button{display:flex;width:100%;align-items:center;justify-content:space-between;padding:14px 16px;border:0;background:none;font:inherit;font-size:12.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--mut)}
+.cs>button i{font-style:normal;transition:transform .15s}.cs.open>button i{transform:rotate(180deg)}
+.cs-b{display:none;padding:0 16px 14px}.cs.open>.cs-b{display:block}
+.cl{display:block;margin:14px 0 6px;font-size:12px;font-weight:700;color:var(--mut)}.cs-b>.cl:first-child{margin-top:0}
+.cin{width:100%;height:50px;border:1px solid var(--line);border-radius:12px;background:var(--raise);color:var(--fg);font:inherit;font-size:18px;font-weight:700;padding:0 14px;outline:0}.cin:focus{border-color:var(--acc)}
+.cgrp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.cgrp.c4{grid-template-columns:repeat(4,1fr)}
+.cpb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 2px;border:1px solid var(--line);border-radius:12px;background:var(--raise);color:var(--fg);font:inherit;font-size:15px;font-weight:800}
+.cpb small{font-size:12px;color:var(--mut);font-weight:700}.cpb.on{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}.cpb.on small{color:var(--acc-ink);opacity:.85}
+.ceq{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.cei b{display:block;font-size:14.5px}.cei small{color:var(--mut);font-size:12px;font-weight:600}
+.cst{display:flex;align-items:center;gap:8px;flex:none}.cst button{width:38px;height:38px;border:0;border-radius:12px;background:var(--raise);color:var(--fg);font-size:20px;font-weight:800}.cst span{min-width:22px;text-align:center;font-weight:800;font-size:17px}
+.cbr{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;font-size:15px}.cbr .v{font-weight:800}.cbr.neg .v{color:var(--bad)}
+.cres{text-align:center}.cres .amt{font-size:46px;font-weight:800;letter-spacing:-.03em;color:var(--good);line-height:1.1}.cres .cap{color:var(--mut);font-size:13px;font-weight:700;margin-top:2px}
+.cres .cs-b{padding:0 14px 10px;text-align:left}.cres .cs>button{text-align:left}
+.cx{border:0;background:none;color:var(--mut);font-size:22px;line-height:1;padding:2px 8px}
+.cbe{padding:8px 0;border-bottom:1px solid var(--line)}.cbt{display:flex;align-items:center;gap:4px}.cbt b{font-size:15px;white-space:nowrap}.cnm{height:42px!important;font-size:16px!important;flex:1;min-width:0}
+.cdet{padding:6px 4px 2px;color:var(--mut)}
 td input.a.srch{animation:sp 1s ease-in-out infinite}.a.srch::placeholder{font-size:12px;font-weight:700;letter-spacing:0;color:var(--acc);opacity:1}
 @keyframes sp{50%{opacity:.35}}
 #tb tr.fd:not(.turn){display:none}
@@ -158,6 +177,11 @@ tr{touch-action:pan-y}
 .cm .bb{padding:8px 12px;border-radius:18px;background:var(--raise);color:var(--fg);font-size:16px;line-height:1.3;white-space:pre-wrap;overflow-wrap:anywhere}
 .cm.me .bb{background:var(--acc);color:var(--acc-ink,#fff)}.cm.fl .bb{opacity:.55}.cm.fl .tm{color:var(--bad)}
 .dv{align-self:center;margin:14px 0 4px;color:var(--mut);font-size:12px;font-weight:700}
+.cm .bb.shc{display:flex;flex-direction:column;gap:2px;text-align:left;border:1px solid var(--line);font:inherit;font-size:16px;cursor:pointer;min-width:200px}.cm .bb.shc small{opacity:.75;font-size:12px}
+#shBar{position:fixed;left:0;right:0;bottom:0;z-index:80;display:flex;align-items:center;gap:10px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:2px solid var(--acc);box-shadow:0 -8px 24px rgba(14,21,38,.12)}#shBar[hidden]{display:none}
+#shBar span{flex:1;font-weight:700;font-size:15px}#shBar button{height:42px;padding:0 18px;border:0;border-radius:12px;background:var(--acc);color:var(--acc-ink,#fff);font:inherit;font-weight:800}
+body.shv #bot,body.shv #sp,body.shv #kbar,body.shv .ndrow{display:none!important}body.shv #main{padding-bottom:72px}
+body.shv #main tbody tr,body.shv #main tbody input,body.shv #top input,body.shv #top button{pointer-events:none}
 .cmp{flex:none;display:flex;gap:8px;align-items:center;padding:8px 12px;border-top:1px solid var(--line);background:var(--surface)}.cmp .in{margin:0;flex:1;height:44px}.cmp .b{width:auto;padding:0 18px;height:44px}
 #tabs .ic{display:grid;place-items:center;padding:3px 11px;border-radius:999px;transition:background .15s}
 #tabs svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
@@ -286,7 +310,7 @@ body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb #oddsbar{display:
 </div>
 <div id="sp"></div>
 <div id="bot"><div id="panel"></div><nav id="tabs" aria-label="Sections"><button type="button" data-t="street"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.6 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg></span>Street</button><button type="button" data-t="goals"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg></span>Goals</button><button type="button" data-t="stats"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></span>Stats</button><button hidden type="button" data-t="chat"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M8 10h8M8 13h5"/></svg></span>Chat</button><button type="button" data-t="sheets"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="14" rx="2.5"/><path d="M7 3h10M8 11h8M8 15h5"/></svg></span>Sheets</button><button type="button" data-t="calc"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 7.5h7M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/></svg></span>Calc</button><button type="button" data-t="more"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5.5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18.5" cy="12" r="1.4"/></svg></span>More</button></nav></div>
-<div id="ver">v2.2.0</div>
+<div id="ver">v2.4.0</div>
 <canvas id="confetti" hidden></canvas>
 <div id="dealAlert" role="alert" hidden></div>
 <div id="cbAlert" role="alert" hidden></div>
@@ -294,9 +318,10 @@ body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb #oddsbar{display:
 <div id="gpsPill" role="status"></div>
 <div id="fx"></div>
 <div id="ov" hidden></div>
+<div id="shBar" hidden><span></span><button type="button" onclick="exitShared()">Close</button></div>
 <div id="toast" hidden></div>
 <script>
-const VER="2.2.0",LOG=[{"v": "2.2.0", "d": "Oct 14", "n": [{"id": "team", "t": "Team deal alerts: a winner alarm and banner when a teammate gets a deal, including ones you missed while away"}, {"id": "streak", "t": "Shout-outs for 2nd, 3rd and later deals, with over 200 different messages. Three deals sets the pace with a golden banner and confetti"}, {"id": "hold", "t": "A deal is announced 2 minutes after it is logged. Changing or clearing it in that time cancels the alert, so accidental taps never go out"}, {"id": "hours", "t": "Deal alerts only go out and show from 8 AM to 8 PM, and each day's deal count starts fresh at 8 AM"}, {"id": "join", "t": "Join the team screen asks for your name on launch until you join (team TWONADT is built in)"}, {"id": "teamset", "t": "Team settings in More: alerts on/off, alarm sound, your name and a Test button"}, {"id": "chat", "t": "Team chat tab for everyone on your team code, with who is on the team and an unread count. It sits between Stats and Sheets, and Sheets and Calc swapped places"}, {"id": "stk", "t": "Every street is now sticky at the top of the sheet, with its deals, comebacks and doors counts and the city and state from your GPS. The column headings now sit directly under the odds bar and the street bars with no gaps"}, {"id": "fold", "t": "Tap a street to collapse or expand its doors. The double arrow button on the first street bar collapses all the street bars into one small Streets row, and tap that row to open them again"}, {"id": "cbrem", "t": "Comeback reminders: an alert 10 minutes before your chosen comeback time (T, W and M remind at 9 AM that day), while the app is open. You can turn it off in More"}, {"id": "addr3", "t": "House numbers now come from where you are standing and the map data first. The street pattern is only a backup when there is no map data. While GPS checks, the address box says locating"}, {"id": "turn2", "t": "Turn screen: tap a street you were already on to turn back onto it, even if you type it differently (St or Street, capitals), and numbering picks up where you left that street. The Return key works too"}, {"id": "qmark", "t": "A ? key above the address keyboard for houses you cannot read"}, {"id": "tapout", "t": "Tap anywhere outside a text box to close the keyboard, and the chat keyboard closes after you send"}, {"id": "brkask", "t": "If you have not added a door for 5 minutes, the app asks whether you are on a break"}, {"id": "search", "t": "Search on the Sheets tab: finds names, notes, addresses and streets, then opens the sheet at the first match, highlighted in yellow"}, {"id": "daily", "t": "New option in More: start a new sheet automatically the first time you open Street on a new date (off by default)"}, {"id": "cols", "t": "Slimmer Response column gives the Note column more room, and long notes slide into view like a ticker: pause, slide, hold 1 second, reset"}, {"id": "hdr", "t": "Sheet header now sits right under the odds bar, with no gap"}, {"id": "panel", "t": "The response panel no longer shows NEW DOOR (tap outside it to close), and Add and Edit now live in its left column"}, {"id": "defaults", "t": "New installs start with the new default responses, and Has Our Service is now Has Service"}, {"id": "gps1", "t": "Location is steadier: the app waits up to 8 seconds for the most accurate reading instead of taking the first rough one"}, {"id": "gps2", "t": "Map data download is more reliable (longer wait and an extra backup server)"}, {"id": "gps3", "t": "New Location check in More tests your GPS and map data and tells you exactly what is wrong"}, {"id": "wn", "t": "The What's new popup shows only changes you have not seen yet"}, {"id": "pn", "t": "Patch notes page under More keeps one entry per day"}]}, {"v": "2.0.1", "d": "Oct 10", "n": [{"id": "brk", "t": "Take a break button next to NEW DOOR pauses your time and every stat until you press NEW DOOR again"}, {"id": "resp10", "t": "Up to 10 customizable responses, with drag-to-reorder in Edit responses"}, {"id": "clr", "t": "Tap a selected response again to clear it"}, {"id": "kb", "t": "Panels and fields now sit right above the keyboard instead of jumping to the top"}, {"id": "ver", "t": "Version number shown in the top-left corner"}, {"id": "clean", "t": "Full code cleanup: dead code removed, nothing changed in how it works"}]}, {"v": "2.0.0", "d": "Oct 9", "n": [{"id": "v2a", "t": "Redesigned app with Street, Goals, Stats, Calc, Sheets and More tabs"}, {"id": "v2b", "t": "Sticky street rows with deals, comebacks and rejections at a glance; tap one to jump to it"}, {"id": "v2c", "t": "Sheets tab to open, review and delete past street sheets"}, {"id": "v2d", "t": "GPS address help using real house numbers from OpenStreetMap, with notification pills for location status"}, {"id": "v2e", "t": "Doors per hour pace, deal odds, goals, and $ per hour tracking"}, {"id": "v2f", "t": "Sounds and haptics, thinner header, and iPhone keyboard and zoom fixes"}, {"id": "v2g", "t": "Automatic backup copy of your sheets to protect against data loss"}]}, {"v": "1.0.0", "d": "Oct 9", "n": [{"id": "v1a", "t": "First version: street sheets with address, response, name, note and APT"}, {"id": "v1b", "t": "Comebacks list, goals, deal odds and a route map of your doors"}]}],RELAY="https://street-sheet-default-rtdb.firebaseio.com",TEAMCODE="TWONADT";
+const VER="2.4.0",LOG=[{"v": "2.4.0", "d": "Oct 15", "n": [{"id": "share", "t": "Share a street sheet in team chat (the 📋 button). Teammates tap it to open the full sheet, view only. It never lands in their sheets or stats"}, {"id": "prune", "t": "Chat messages and shared sheets are removed after 3 months so nothing piles up"}, {"id": "brkask", "t": "Take a break now asks when it started: starting now, since your last door, or minutes ago, so your time stays accurate"}, {"id": "editvis", "t": "The address you are typing is no longer hidden behind the panel or keyboard"}, {"id": "trail", "t": "Better address accuracy: while you work a street, the app averages your last 25 seconds of location at each door and tops up map data ahead of you"}, {"id": "calc", "t": "Calc tab is now your commission calculator: MMR, package pass-through, credit rating (with the Admin 32X tiers), equipment, tech pay and a full breakdown, plus a commission batch you can name, review and clear"}, {"id": "oldfix", "t": "Fixed opening an old sheet starting a new one when New sheet each day is on"}, {"id": "crack", "t": "Removed the thin line between the column headings and the street bar"}]}, {"v": "2.2.0", "d": "Oct 14", "n": [{"id": "team", "t": "Team deal alerts: a winner alarm and banner when a teammate gets a deal, including ones you missed while away"}, {"id": "streak", "t": "Shout-outs for 2nd, 3rd and later deals, with over 200 different messages. Three deals sets the pace with a golden banner and confetti"}, {"id": "hold", "t": "A deal is announced 2 minutes after it is logged. Changing or clearing it in that time cancels the alert, so accidental taps never go out"}, {"id": "hours", "t": "Deal alerts only go out and show from 8 AM to 8 PM, and each day's deal count starts fresh at 8 AM"}, {"id": "join", "t": "Join the team screen asks for your name on launch until you join (team TWONADT is built in)"}, {"id": "teamset", "t": "Team settings in More: alerts on/off, alarm sound, your name and a Test button"}, {"id": "chat", "t": "Team chat tab for everyone on your team code, with who is on the team and an unread count. It sits between Stats and Sheets, and Sheets and Calc swapped places"}, {"id": "stk", "t": "Every street is now sticky at the top of the sheet, with its deals, comebacks and doors counts and the city and state from your GPS. The column headings now sit directly under the odds bar and the street bars with no gaps"}, {"id": "fold", "t": "Tap a street to collapse or expand its doors. The double arrow button on the first street bar collapses all the street bars into one small Streets row, and tap that row to open them again"}, {"id": "cbrem", "t": "Comeback reminders: an alert 10 minutes before your chosen comeback time (T, W and M remind at 9 AM that day), while the app is open. You can turn it off in More"}, {"id": "addr3", "t": "House numbers now come from where you are standing and the map data first. The street pattern is only a backup when there is no map data. While GPS checks, the address box says locating"}, {"id": "turn2", "t": "Turn screen: tap a street you were already on to turn back onto it, even if you type it differently (St or Street, capitals), and numbering picks up where you left that street. The Return key works too"}, {"id": "qmark", "t": "A ? key above the address keyboard for houses you cannot read"}, {"id": "tapout", "t": "Tap anywhere outside a text box to close the keyboard, and the chat keyboard closes after you send"}, {"id": "brkask", "t": "If you have not added a door for 5 minutes, the app asks whether you are on a break"}, {"id": "search", "t": "Search on the Sheets tab: finds names, notes, addresses and streets, then opens the sheet at the first match, highlighted in yellow"}, {"id": "daily", "t": "New option in More: start a new sheet automatically the first time you open Street on a new date (off by default)"}, {"id": "cols", "t": "Slimmer Response column gives the Note column more room, and long notes slide into view like a ticker: pause, slide, hold 1 second, reset"}, {"id": "hdr", "t": "Sheet header now sits right under the odds bar, with no gap"}, {"id": "panel", "t": "The response panel no longer shows NEW DOOR (tap outside it to close), and Add and Edit now live in its left column"}, {"id": "defaults", "t": "New installs start with the new default responses, and Has Our Service is now Has Service"}, {"id": "gps1", "t": "Location is steadier: the app waits up to 8 seconds for the most accurate reading instead of taking the first rough one"}, {"id": "gps2", "t": "Map data download is more reliable (longer wait and an extra backup server)"}, {"id": "gps3", "t": "New Location check in More tests your GPS and map data and tells you exactly what is wrong"}, {"id": "wn", "t": "The What's new popup shows only changes you have not seen yet"}, {"id": "pn", "t": "Patch notes page under More keeps one entry per day"}]}, {"v": "2.0.1", "d": "Oct 10", "n": [{"id": "brk", "t": "Take a break button next to NEW DOOR pauses your time and every stat until you press NEW DOOR again"}, {"id": "resp10", "t": "Up to 10 customizable responses, with drag-to-reorder in Edit responses"}, {"id": "clr", "t": "Tap a selected response again to clear it"}, {"id": "kb", "t": "Panels and fields now sit right above the keyboard instead of jumping to the top"}, {"id": "ver", "t": "Version number shown in the top-left corner"}, {"id": "clean", "t": "Full code cleanup: dead code removed, nothing changed in how it works"}]}, {"v": "2.0.0", "d": "Oct 9", "n": [{"id": "v2a", "t": "Redesigned app with Street, Goals, Stats, Calc, Sheets and More tabs"}, {"id": "v2b", "t": "Sticky street rows with deals, comebacks and rejections at a glance; tap one to jump to it"}, {"id": "v2c", "t": "Sheets tab to open, review and delete past street sheets"}, {"id": "v2d", "t": "GPS address help using real house numbers from OpenStreetMap, with notification pills for location status"}, {"id": "v2e", "t": "Doors per hour pace, deal odds, goals, and $ per hour tracking"}, {"id": "v2f", "t": "Sounds and haptics, thinner header, and iPhone keyboard and zoom fixes"}, {"id": "v2g", "t": "Automatic backup copy of your sheets to protect against data loss"}]}, {"v": "1.0.0", "d": "Oct 9", "n": [{"id": "v1a", "t": "First version: street sheets with address, response, name, note and APT"}, {"id": "v1b", "t": "Comebacks list, goals, deal odds and a route map of your doors"}]}],RELAY="https://street-sheet-default-rtdb.firebaseio.com",TEAMCODE="TWONADT";
 const K='doortracker.v1',$=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9);
 const DEF=[['deal','DEAL!','Deal','deal'],['rej','NO','Rejection','rej'],['cb','CB','Come Back','cb'],['v','Apt/V','Apartment/Vacant','vac'],['dnq','DNQ','Renter/Cred Fail','other'],['svc','✅','Has Service','other']].map(a=>({id:a[0],sym:a[1],label:a[2],type:a[3]}));
 const TYPES={deal:'Deal',rej:'Rejection',cb:'Comeback',nh:'Not home',vac:'Vacant',other:'Other'};
@@ -312,10 +337,10 @@ if(!okS(S)){try{const b=JSON.parse(localStorage.getItem(K+'.bak'));if(okS(b))S=b
 else if(S.sessions.some(x=>x.rows&&x.rows.length)){try{localStorage.setItem(K+'.bak',JSON.stringify(S))}catch(e){}}
 function ns(){return{id:uid(),date:Date.now(),street:'',step:-2,seg:0,fresh:false,cross:false,rows:[]}}
 if(!S||!S.sessions||!S.sessions.length){fresh0=true;const s=ns();S={resp:DEF.map(x=>({...x})),showRed:false,auto:true,jump:false,sessions:[s],cur:s.id}}
-const cs=()=>S.sessions.find(x=>x.id===S.cur)||S.sessions[0];
+let SH=null;const cs=()=>SH||S.sessions.find(x=>x.id===S.cur)||S.sessions[0];
 let CL=null,wt,qt;const dirty=new Set();
 async function flush(){if(!CL)return;const ids=[...dirty];dirty.clear();try{
- await CL.doc('settings').set({json:JSON.stringify({resp:S.resp,showRed:S.showRed,auto:S.auto,daily:S.daily,cbRem:S.cbRem,jump:S.jump,geo:S.geo,snd:S.snd,cur:S.cur,pay:S.pay,payMode:S.payMode,goal:S.goal,order:S.sessions.map(x=>x.id),t:S.t})});
+ await CL.doc('settings').set({json:JSON.stringify({resp:S.resp,showRed:S.showRed,auto:S.auto,daily:S.daily,cbRem:S.cbRem,calcBatch:S.calcBatch,jump:S.jump,geo:S.geo,snd:S.snd,cur:S.cur,pay:S.pay,payMode:S.payMode,goal:S.goal,order:S.sessions.map(x=>x.id),t:S.t})});
  for(const id of ids){const x=S.sessions.find(y=>y.id===id);if(x)await CL.doc('sheet_'+id).set({json:JSON.stringify(x)})}
 }catch(e){ids.forEach(i=>dirty.add(i))}}
 const save=()=>{S.t=Date.now();let ok=true;const js=JSON.stringify(S);try{localStorage.setItem(K,js)}catch(e){ok=false}
@@ -362,7 +387,7 @@ const rowHit=(r,q)=>r.t==='door'?(has(r.addr,q)||has(r.name,q)||has(r.note,q)||h
 const sheetHits=(s,q)=>(has(s.street0,q)||has(s.street,q)||has(dt(s.date),q)?1:0)+s.rows.filter(r=>rowHit(r,q)).length;
 function keepScroll(sel,fn){const e=$(sel),y=e?e.scrollTop:0;fn();const n=$(sel);if(n)n.scrollTop=y}
 function render(){
- if(tab==='street')renderStreet();else if(tab==='goals')keepScroll('#v-goals .scroll',renderGoals);else if(tab==='stats')keepScroll('#v-stats .scroll',renderStats);else if(tab==='sheets')keepScroll('#v-sheets .scroll',renderSheets);else if(tab==='chat')renderChat();else if(tab==='more')keepScroll('#v-more .scroll',renderMore);
+ if(tab==='street')renderStreet();else if(tab==='goals')keepScroll('#v-goals .scroll',renderGoals);else if(tab==='stats')keepScroll('#v-stats .scroll',renderStats);else if(tab==='sheets')keepScroll('#v-sheets .scroll',renderSheets);else if(tab==='chat')renderChat();else if(tab==='calc')calcInit();else if(tab==='more')keepScroll('#v-more .scroll',renderMore);
  fit();
 }
 function renderStreet(){
@@ -419,6 +444,7 @@ const mhFor=n=>n>8?22:n>5?24:28,q0=()=>hq;
 function toggleFold(k){const s=cs(),f=new Set(s.fold||[]);f.has(k)?f.delete(k):f.add(k);s.fold=[...f];save();render();tick(0)}
 function foldAll(){const s=cs();s.stOff=!s.stOff;save();render();tick(0)}
 function setTab(t){
+ if(SH&&t!=='street')exitShared(true);
  if(!$('#ov').hidden){const o=$('#ov');o.hidden=true;o.className='';$('#main').style.paddingBottom=''}
  tab=t;if(t!=='street')hq='';else dailyCheck();
  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+t));
@@ -461,16 +487,28 @@ $('#kbar').addEventListener('click',e=>{const k=e.target.closest('[data-k]'),a=d
 function brkUI(){const on=!!openBrk();document.querySelectorAll('.brkb').forEach(b=>{b.classList.toggle('on',on);b.textContent=on?'On break':'Take a break'})}
 let brkAskT=0;
 function brkCheck(){
- if(document.hidden||tab!=='street'||!$('#ov').hidden||document.body.classList.contains('kb')||openBrk())return;
+ if(SH||document.hidden||tab!=='street'||!$('#ov').hidden||document.body.classList.contains('kb')||openBrk())return;
  const ds=doors(cs()),l=ds[ds.length-1];if(!l)return;
  const idle=Date.now()-l.ts;if(idle<3e5||idle>108e5||dk(l.ts)!==dk(Date.now()))return;
  if(brkAskT>l.ts&&Date.now()-brkAskT<6e5)return;
  brkAskT=Date.now();
- sheet('Are you on a break?',p('You have not added a door in 5 minutes.'),h('div',{class:'gd'},h('button',{class:'b p',onclick:()=>{close();takeBreak()}},'Yes'),h('button',{class:'b',onclick:close},'No')))}
+ sheet('Are you on a break?',p('You have not added a door in '+Math.round(idle/6e4)+' minutes.'),h('div',{class:'gd'},h('button',{class:'b p',onclick:()=>breakAsk(Math.round(idle/6e4))},'Yes'),h('button',{class:'b',onclick:close},'No')))}
 setInterval(brkCheck,20000);
-function takeBreak(){if(openBrk())return;const s=cs();s.rows.push({id:uid(),t:'mark',txt:'☕ Break',brk:1,ts:Date.now(),end:null});save();render();bottom();brkUI();tick(1);gpsPill('Break started · time is paused','ok',2600)}
+function takeBreak(ago){if(openBrk())return;const s=cs(),ds=doors(s),l=ds[ds.length-1];let ts=Date.now()-Math.max(0,+ago||0)*6e4;
+ if(l&&l.ts&&ts<=l.ts)ts=l.ts+1;
+ s.rows.push({id:uid(),t:'mark',txt:'☕ Break',brk:1,ts,end:null});save();render();bottom();brkUI();tick(1);gpsPill(ago?'Break started '+Math.round(ago)+' min ago · time is paused':'Break started · time is paused','ok',2600)}
+// Asks when the break actually started so the stats stay honest
+function breakAsk(idleMin){if(openBrk())return;
+ const go=m=>{close();takeBreak(m)},o=[];
+ const b=(t,m,c)=>h('button',{class:'b'+(c?' p':''),type:'button',onclick:()=>go(m)},t);
+ const ci=h('input',{class:'in',type:'number',inputmode:'numeric',min:'1',max:'240',placeholder:'Minutes ago',style:'flex:1'});
+ const ok=()=>{const m=Math.min(240,Math.max(1,parseInt(ci.value,10)||0));if(m)go(m)};
+ ci.addEventListener('keydown',e=>{if(e.key==='Enter')ok()});
+ const rows=[b('Starting now',0,1)];
+ if(idleMin>=2)rows.push(b('Since my last door ('+idleMin+' min ago)',idleMin));
+ sheet('How long have you been on break?',p('Pick when it started so your time stays accurate.'),h('div',{class:'gd c2'},...rows,...[5,10,15,20,30,45].map(m=>b(m+' min ago',m))),h('div',{style:'display:flex;gap:8px;margin-top:8px'},ci,h('button',{class:'b p',type:'button',style:'min-width:70px',onclick:ok},'Start')),h('button',{class:'b',style:'width:100%;margin-top:8px',onclick:close},'Cancel'))}
 function endBreak(){const b=openBrk();if(b){b.end=Date.now();save();brkUI();return true}return false}
-const ndRow=()=>h('div',{class:'ndrow'},h('button',{class:'brkb',type:'button',onclick:takeBreak},'Take a break'),h('button',{id:'nd',onclick:()=>{tick(2);add()}},'NEW DOOR'));
+const ndRow=()=>h('div',{class:'ndrow'},h('button',{class:'brkb',type:'button',onclick:()=>{if(openBrk())return;const ds=doors(cs()),l=ds[ds.length-1];breakAsk(l&&dk(l.ts)===dk(Date.now())?Math.round((Date.now()-l.ts)/6e4):0)}},'Take a break'),h('button',{id:'nd',onclick:()=>{tick(2);add()}},'NEW DOOR'));
 function doCross(){mark('⇄ Crossed street',s=>{s.step=-(s.step||-2);s.cross=true});probe()}
 function streetNames(s){const out=[{n:s.street0||'',leg:0}];let k=0;s.rows.forEach(r=>{if(r.t==='mark'&&r.txt.startsWith('↪')){k++;out.push({n:r.txt.replace(/^↪ Turned onto /,''),leg:r.leg!=null?r.leg:k})}});return out}
 function doTurn(){
@@ -488,11 +526,12 @@ function doTurn(){
   probe()};
  i.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();go(i.value)}});
  sheet('Turned onto…',prev.length?h('div',{class:'sug'},prev.slice(0,6).map(x=>h('button',{type:'button',class:'b',onclick:()=>go(x.n,x.leg)},x.n))):null,i,h('button',{class:'b p',style:'width:100%',onclick:()=>go(i.value)},'Save turn'));i.focus()}
-function dailyCheck(){if(!S.daily)return;const s=cs();if(dk(s.date)===dk(Date.now()))return;
+let revId=null;   // a sheet you opened on purpose to look at (from Sheets or a search) is never replaced by the new-day sheet
+function dailyCheck(){if(!S.daily)return;const s=cs();if(S.cur===revId||S.sessions[S.sessions.length-1]!==s||dk(s.date)===dk(Date.now()))return;
  if(!s.rows.length){s.date=Date.now();save();return}
  const n=ns();S.sessions.push(n);S.cur=n.id;curId=null;save();toast('New day, new sheet')}
-function newSheet(){const s=ns();S.sessions.push(s);S.cur=s.id;save();if(!$('#ov').hidden)close();setTab('street');$('#st').focus()}
-function goDoor(r){const s=S.sessions.find(x=>x.rows.includes(r));if(!s)return;if(S.cur!==s.id){S.cur=s.id;save()}setTab('street');jump(r.id)}
+function newSheet(){revId=null;const s=ns();S.sessions.push(s);S.cur=s.id;save();if(!$('#ov').hidden)close();setTab('street');$('#st').focus()}
+function goDoor(r){const s=S.sessions.find(x=>x.rows.includes(r));if(!s)return;if(S.cur!==s.id){S.cur=s.id;save()}revId=s.id;setTab('street');jump(r.id)}
 let curId=null,gpPrev=null,bhOn=null,cheerTxt='',ct;
 function setCur(id){curId=id;document.querySelectorAll('tr.cur').forEach(e=>e.classList.remove('cur'));const e=id&&rowEl(id);if(e)e.classList.add('cur')}
 const rowEl=id=>document.querySelector(`tr[data-id="${id}"]`);
@@ -684,8 +723,22 @@ function mapPick(s,fix,ctx){
 // Watches for a few seconds and keeps the best reading. A reading counts for less the further it is in time from the door press (you walk about 1.4 m every second)
 function locate(cb,err,max,t0){
  t0=t0||Date.now();let best=null,bs=1e9,done=false,code='err',wid,to;
- const fin=()=>{if(done)return;done=true;clearTimeout(to);try{navigator.geolocation.clearWatch(wid)}catch(e){}best?cb(best):err(code)};
+ const fin=()=>{if(done)return;done=true;clearTimeout(to);try{navigator.geolocation.clearWatch(wid)}catch(e){}if(best){try{const a=trailAvg(best,t0);if(a)best={latitude:a.la,longitude:a.lo,accuracy:Math.min(best.accuracy,a.acc)}}catch(e){}}best?cb(best):err(code)};
  try{wid=navigator.geolocation.watchPosition(p=>{const c=p.coords,dt=Math.abs((p.timestamp||Date.now())-t0)/1e3,sc=c.accuracy+1.4*dt;if(sc<bs){bs=sc;best=c}if(c.accuracy<=15&&dt<4)fin()},e=>{if(e&&e.code===1){code='blocked';best=null;fin()}},{enableHighAccuracy:true,timeout:15000,maximumAge:0});to=setTimeout(fin,max||8000)}catch(e){err('err')}}
+// Quiet position trail while you work the street: at a door we average the last ~25 seconds of readings (you stand still there), which beats one reading by a wide margin. It also keeps the map data topped up ahead of you.
+let trail=[],trailW=null,trailFetchT=0,trailBusy=false;
+function trailAvg(ref,t0){
+ const now=Date.now(),L=trail.filter(x=>x.t>=t0-25e3&&x.t<=now&&hav(ref.latitude,ref.longitude,x.la,x.lo)<22);if(L.length<3)return null;
+ let w=0,la=0,lo=0;L.forEach(x=>{const k=1/(x.acc*x.acc);w+=k;la+=x.la*k;lo+=x.lo*k});
+ const m=L.map(x=>x.acc).sort((a,b)=>a-b)[L.length>>1];return{la:la/w,lo:lo/w,acc:Math.max(4,m/Math.sqrt(Math.min(L.length,4))),n:L.length}}
+function trailPt(c){
+ const t=Date.now();if(c.accuracy>40)return;trail.push({la:c.latitude,lo:c.longitude,acc:c.accuracy,t});trail=trail.filter(x=>t-x.t<60e3);
+ if(!trailBusy&&t-trailFetchT>6e4&&!ADT.some(x=>Date.now()-x.t<AGE&&hav(c.latitude,c.longitude,x.la,x.lo)<250)){trailBusy=true;trailFetchT=t;adReady.then(()=>adFetch(c.latitude,c.longitude)).catch(()=>{}).then(()=>{trailBusy=false})}}
+function trailCheck(){
+ const want=!document.hidden&&tab==='street'&&!SH&&!openBrk()&&S.geo!==false&&!!navigator.geolocation;
+ if(want&&trailW==null){try{trailW=navigator.geolocation.watchPosition(p=>trailPt(p.coords),()=>{},{enableHighAccuracy:true,maximumAge:0,timeout:20000})}catch(e){}}
+ else if(!want&&trailW!=null){try{navigator.geolocation.clearWatch(trailW)}catch(e){}trailW=null;trail=[]}}
+setInterval(trailCheck,4000);setTimeout(trailCheck,1500);
 function fixNow(cb,err,max){
  if(S.geo===false||!navigator.geolocation)return;
  gpsT0=Date.now();gpsPill('Locating…','busy',0);locate(c=>cb(c),err,max,gpsT0)}
@@ -786,7 +839,7 @@ const tb=$('#tb');
 tb.addEventListener('input',e=>{const f=e.target.dataset.f;if(!f)return;const r=cs().rows.find(x=>x.id===e.target.closest('tr').dataset.id);r[f]=e.target.value;save();if(f==='addr'){const v=e.target.value;if(v.includes('?')||v.replace(/\D/g,'').length>=need(r))advance(r)}});
 tb.addEventListener('change',e=>{if(e.target.dataset.f!=='addr')return;const s=cs(),r=s.rows.find(x=>x.id===e.target.closest('tr').dataset.id),ds=doors(s),p=ds[ds.indexOf(r)-1];
  if(p&&p.seg===r.seg){const d=eff(r)-eff(p);if(d&&Math.abs(d)<=40)s.step=d}save()});
-tb.addEventListener('focusin',e=>{const tr=e.target.closest('tr');if(tr&&tr.dataset.id){setCur(tr.dataset.id);setTimeout(fit,50);setTimeout(revealRow,350)}});
+tb.addEventListener('focusin',e=>{const tr=e.target.closest('tr');if(tr&&tr.dataset.id){setCur(tr.dataset.id);setTimeout(fit,50);setTimeout(revealRow,350);setTimeout(revealRow,750)}});
 tb.addEventListener('click',e=>{const tr=e.target.closest('tr'),r=tr&&tr.dataset.id&&cs().rows.find(x=>x.id===tr.dataset.id);if(!r)return;setCur(r.id);if(e.target.closest('[data-resp]'))openResp(r);if(e.target.closest('.apt')){r.apt=r.apt?0:1;save();render()}});
 
 function sheet(title,...c){clearTimeout(qt);const o=$('#ov');o.className='';$('#main').style.paddingBottom='';o.replaceChildren(h('div',{class:'sh'},h('h3',{},title),...c));o.hidden=false}
@@ -795,7 +848,7 @@ function focusRow(id){const m=$('#main'),e=rowEl(id);if(e)m.scrollTop+=e.getBoun
 function dock(r,title,...c){
  clearTimeout(qt);sheet(title,...c);const o=$('#ov'),sh=o.firstChild;o.className='dock';
  document.querySelectorAll('tr.sel').forEach(e=>e.classList.remove('sel'));setCur(r.id);const re=rowEl(r.id);if(re)re.classList.add('sel');
- $('#main').style.paddingBottom=sh.offsetHeight+'px';focusRow(r.id);
+ $('#main').style.paddingBottom=sh.offsetHeight+'px';focusRow(r.id);setTimeout(revealRow,60);setTimeout(revealRow,320);
  let y0=null,dy=0;
  sh.addEventListener('touchstart',e=>{y0=e.touches[0].clientY;dy=0},{passive:true});
  sh.addEventListener('touchmove',e=>{if(y0==null)return;dy=e.touches[0].clientY-y0;if(dy>0)sh.style.transform=`translateY(${dy}px)`;else dy=0},{passive:true});
@@ -981,7 +1034,7 @@ function renderSheets(){
      S.sessions=S.sessions.filter(y=>y!==s);if(CL)CL.doc('sheet_'+s.id).delete().catch(()=>{});if(!S.sessions.length)S.sessions.push(ns());if(!S.sessions.some(y=>y.id===S.cur))S.cur=S.sessions[S.sessions.length-1].id;save();fill()}},'Delete');
     card.append(h('div',{class:'shb'},
      h('div',{class:'cells'},cell(d.length,'Doors'),cell(c.deal,'Deals'),cell(pct(c.deal,c.n),'Deal %'),cell(dur(c.act),'Working')),
-     h('div',{class:'two'},h('button',{class:'btn pri',onclick:()=>{S.cur=s.id;save();const dd=doors(s);curId=dd.length?dd[dd.length-1].id:null;hq=q;setTab('street');if(q)setTimeout(findHit,60);else bottom()}},cur&&!q?'Go to sheet':'Open sheet'),del)))}
+     h('div',{class:'two'},h('button',{class:'btn pri',onclick:()=>{S.cur=s.id;revId=s.id;save();const dd=doors(s);curId=dd.length?dd[dd.length-1].id:null;hq=q;setTab('street');if(q)setTimeout(findHit,60);else bottom()}},cur&&!q?'Go to sheet':'Open sheet'),del)))}
    list.append(card)});
   if(q&&!shown)list.append(h('p',{class:'note'},'No sheets match "'+shQ.trim()+'".'))};
  v.append(h('div',{class:'vh'},h('h1',{},'Sheets')),
@@ -1128,11 +1181,72 @@ function urlSheet(){
 function nameSheet(){
  const nm=h('input',{class:'in',placeholder:'Your name',autocapitalize:'words',maxlength:30,value:T().name||'','aria-label':'Your name'});
  sheet('Your name',p('Shown to your team when you get a deal.'),nm,h('button',{class:'b p',style:'width:100%',onclick:()=>{const n=nm.value.trim();if(!n)return;T().name=n;save();chatBoot();close()}},'Save'))}
+// ===== Commission calculator =====
+const CPK=[['Complete',8],['Smart',6.5],['Remote',5]],
+ CN=[['Ap','A+',28],['Am','A−',27],['Bp','B+',26.5],['Bm','B−',25],['D','D',21.5],['E','E',20],['Bulk','Bulk',18]],
+ CA=[['Ap','A+',32],['Am','A−',31],['Bp','B+',30.5],['Bm','B−',29],['D','D',25.5],['E','E',24],['Bulk','Bulk',20]],
+ CE=[['panel','Command Panel / IQ2 / IQ4 / IQ5',295],['secondarypanel','Secondary Panel',125],['cellswap','Cellular Communicator',175],['doorsensor','Door / Window Sensor',15],['motion','Motion Detector',35],['carbon','Carbon / Smoke',50],['keyfob','Key Fob',15],['medical','Medical / Panic',25],['camera','Outdoor Camera',80],['doorbell','Doorbell Camera',85]],
+ cm=n=>(n<0?'-':'')+'$'+Math.abs(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+const CC={mmr:'',other:'',pk:null,tier:'Ap',admin:false,self:false,name:'',qty:{panel:1,doorsensor:2},final:0},CR={};let CCok=false;
+function calcNums(){
+ const mmr=parseFloat(CC.mmr)||0,pt=CC.pk==null?0:CPK[CC.pk][1],other=parseFloat(CC.other)||0,
+ equip=CE.reduce((t,e)=>t+(CC.qty[e[0]]||0)*e[2],0)+other,mult=(CC.admin?CA:CN).find(t=>t[0]===CC.tier)[2],tech=CC.self?25:175,
+ net=mmr-pt,x=net*mult,cb=x*.1,after=x-cb,fin=Math.max(after-equip-tech-100,0);
+ return{mmr,pt,other,equip,mult,tech,net,x,cb,after,fin}}
+function calcUpd(){
+ const n=calcNums();CC.final=n.fin;
+ const set=(k,v)=>{CR[k].textContent=v};
+ set('equip',cm(n.equip));set('bm',cm(n.mmr));set('bp',cm(n.pt));set('bn',cm(n.net));set('bl','× '+n.mult);set('bx',cm(n.x));set('bc',cm(n.cb));set('ba',cm(n.after));set('be',cm(n.equip));set('bt',cm(n.tech));set('final',cm(n.fin));set('bf',cm(100));
+ const rows=CE.filter(e=>CC.qty[e[0]]>0).map(e=>h('div',{class:'cbr'},h('span',{},e[1]+' × '+CC.qty[e[0]]),h('span',{class:'v'},cm(CC.qty[e[0]]*e[2]))));
+ if(n.other>0)rows.push(h('div',{class:'cbr'},h('span',{},'Other equipment'),h('span',{class:'v'},cm(n.other))));
+ CR.items.replaceChildren(...(rows.length?rows:[h('p',{class:'note',style:'margin:6px 0'},'No equipment added.')]));
+ CE.forEach(e=>{CR['q'+e[0]].textContent=CC.qty[e[0]]||0});
+ CR.pkb.forEach((b,i)=>b.classList.toggle('on',CC.pk===i));
+ const T=CC.admin?CA:CN;CR.crb.forEach((b,i)=>{b.firstChild.textContent=T[i][1];b.lastChild.textContent='x'+T[i][2];b.classList.toggle('on',CC.tier===T[i][0])})}
+function calcBatchList(){
+ const B=S.calcBatch||[];
+ CR.bl2.replaceChildren(...(B.length?B.map((b,i)=>h('div',{class:'cbr'},h('span',{},b.name||'Unnamed customer'),h('span',{class:'v'},cm(b.amount),h('button',{class:'cx',type:'button','aria-label':'Remove',onclick:()=>{B.splice(i,1);save();calcBatchList()}},'×')))):[h('p',{class:'note',style:'margin:6px 0'},'No commissions added yet.')]));
+ CR.btot.textContent=cm(B.reduce((t,b)=>t+b.amount,0))}
+function calcBatchSheet(){
+ const B=S.calcBatch||[],box=h('div');
+ const draw=()=>{box.replaceChildren(...(B.length?B.map((b,i)=>{
+  const det=h('div',{class:'cdet',hidden:true},h('div',{class:'cbr'},h('span',{},'Package'),h('span',{},b.packageName||'—')),h('div',{class:'cbr'},h('span',{},'MMR'),h('span',{},cm(b.mmr||0))),...(b.equipment||[]).map(e=>h('div',{class:'cbr'},h('span',{},e.name),h('span',{},'× '+e.qty))));
+  const nm=h('input',{class:'cin cnm',value:b.name||'',placeholder:'Customer name',autocapitalize:'words',onchange:e=>{b.name=e.target.value.trim();save();calcBatchList()}});
+  return h('div',{class:'cbe'},h('div',{class:'cbt'},nm,h('b',{},cm(b.amount)+'*'),h('button',{class:'cx',type:'button','aria-label':'Remove',onclick:()=>{B.splice(i,1);save();draw();calcBatchList()}},'×'),h('button',{class:'cx',type:'button','aria-label':'Details',onclick:()=>{det.hidden=!det.hidden}},'›')),det)}):[h('p',{class:'note'},'No commissions added yet.')]),
+  h('p',{class:'note'},B.length?'Total estimated: '+cm(B.reduce((t,b)=>t+b.amount,0))+'*':''),h('p',{class:'note'},'* Estimated commission based on the equipment and MMR entered.'))};
+ draw();sheet('Commission batch',box,h('button',{class:'b',style:'width:100%;margin-top:10px',onclick:close},'Close'))}
+function calcInit(){
+ if(CCok)return;CCok=true;const host=$('#calcHost');if(!host)return;
+ const es=$('#v-calc .empty-state');if(es)es.remove();
+ const sec=(title,open,...kids)=>{const d=h('div',{class:'cs'+(open?' open':'')}),b=h('button',{type:'button',onclick:()=>d.classList.toggle('open')},title,h('i',{},'▾'));d.append(b,h('div',{class:'cs-b'},...kids));return d},
+ field=(key,ph)=>{const i=h('input',{class:'cin',type:'number',inputmode:'decimal',step:'0.01',placeholder:ph,value:CC[key],oninput:e=>{CC[key]=e.target.value;calcUpd()}});return i},
+ txt=(k,cls)=>CR[k]=h('span',{class:cls||'v'},'$0.00'),
+ brow=(l,k,neg)=>h('div',{class:'cbr'+(neg?' neg':'')},h('span',{},l),txt(k)),
+ mmr=field('mmr','0.00');mmr.addEventListener('focus',()=>host.querySelectorAll('.cs').forEach(x=>x.classList.add('open')));
+ const nm=h('input',{class:'cin',value:CC.name,placeholder:'Customer name (optional)',autocapitalize:'words',oninput:e=>{CC.name=e.target.value}});
+ CR.pkb=CPK.map((p,i)=>h('button',{type:'button',class:'cpb',onclick:()=>{CC.pk=CC.pk===i?null:i;calcUpd()}},p[0],h('small',{},cm(p[1]))));
+ CR.crb=CN.map((t,i)=>h('button',{type:'button',class:'cpb',onclick:()=>{CC.tier=(CC.admin?CA:CN)[i][0];calcUpd()}},h('span',{},t[1]),h('small',{},'x'+t[2])));
+ const eq=CE.map(e=>h('div',{class:'ceq'},h('div',{class:'cei'},h('b',{},e[1]),h('small',{},cm(e[2])+' each')),h('div',{class:'cst'},h('button',{type:'button','aria-label':'Less',onclick:()=>{CC.qty[e[0]]=Math.max(0,(CC.qty[e[0]]||0)-1);calcUpd()}},'−'),CR['q'+e[0]]=h('span',{},'0'),h('button',{type:'button','aria-label':'More',onclick:()=>{CC.qty[e[0]]=(CC.qty[e[0]]||0)+1;calcUpd()}},'+'))));
+ CR.items=h('div');CR.bl2=h('div');
+ const addB=h('button',{class:'btn pri',type:'button',style:'width:100%;margin-top:12px',onclick:()=>{calcUpd();(S.calcBatch=S.calcBatch||[]).push({name:CC.name.trim(),mmr:parseFloat(CC.mmr)||0,packageName:CC.pk==null?'Manual Entry':CPK[CC.pk][0],equipment:CE.filter(e=>CC.qty[e[0]]>0).map(e=>({name:e[1],qty:CC.qty[e[0]]})),amount:CC.final});save();calcBatchList();toast('Added to batch')}},'+ Add to batch');
+ host.append(
+  h('p',{class:'note',style:'margin:4px 2px 0'},'(MMR − pass-through) × credit multiplier − 10% chargeback − equipment − tech pay − admin fee'),
+  sec('MMR',true,h('label',{class:'cl'},'Customer MMR ($)'),mmr,h('label',{class:'cl'},'Customer name (for the batch)'),nm),
+  sec('Credit & plan',false,h('label',{class:'cl'},'Package (sets pass-through)'),h('div',{class:'cgrp'},...CR.pkb),h('label',{class:'cl'},'Credit rating (sets multiplier)'),h('div',{class:'cgrp c4'},...CR.crb),
+   tog('Admin','Switches to the 32X credit tiers',()=>CC.admin,x=>{CC.admin=x;calcUpd()})),
+  sec('Equipment',false,...eq,h('label',{class:'cl'},'Other equipment ($)'),field('other','0'),h('div',{class:'cbr',style:'margin-top:10px'},h('b',{},'Equipment total'),txt('equip','v b'))),
+  sec('Fixed deductions',false,tog('Self-install','Tech pay drops from $175 to $25',()=>CC.self,x=>{CC.self=x;calcUpd()}),h('div',{class:'cbr'},h('span',{},'Admin fee'),h('span',{class:'v'},'$100.00 fixed'))),
+  sec('Breakdown',false,brow('Customer MMR','bm'),brow('− Pass-through','bp',1),brow('= Net MMR','bn'),h('div',{class:'cbr'},CR.bl=h('span',{},'× 28'),txt('bx')),brow('− Chargeback (10%)','bc',1),brow('= After chargeback','ba'),brow('− Equipment','be',1),brow('− Tech pay','bt',1),brow('− Admin fee','bf',1)),
+  h('div',{class:'card cres'},CR.final=h('div',{class:'amt'},'$0.00'),h('div',{class:'cap'},'Rep commission'),h('div',{class:'cs',style:'box-shadow:none;background:var(--raise);margin-top:12px'},h('button',{type:'button',onclick:e=>e.currentTarget.parentNode.classList.toggle('open')},'Itemized equipment',h('i',{},'▾')),h('div',{class:'cs-b'},CR.items)),addB),
+  h('div',{class:'card'},h('div',{class:'ct'},h('b',{},'Commission batch')),CR.bl2,h('div',{class:'cbr',style:'margin-top:8px'},h('b',{},'Batch total'),CR.btot=h('b',{class:'v'},'$0.00')),
+   h('div',{class:'two',style:'margin-top:10px'},h('button',{class:'btn',type:'button',onclick:calcBatchSheet},'View full batch'),h('button',{class:'btn',type:'button',onclick:()=>{if((S.calcBatch||[]).length&&confirm('Clear the entire commission batch? This cannot be undone.')){S.calcBatch=[];save();calcBatchList()}}},'Clear batch'))),
+  h('button',{class:'link',type:'button',style:'display:block;margin:14px auto 4px',onclick:()=>{if(confirm('Reset all calculator fields?')){Object.assign(CC,{mmr:'',other:'',pk:null,tier:'Ap',admin:false,self:false,name:'',qty:{panel:1,doorsensor:2}});mmr.value='';nm.value='';host.querySelector('input[inputmode=decimal][placeholder="0"]').value='';host.querySelectorAll('.sw').forEach(x=>{x.classList.remove('on');x.setAttribute('aria-checked','false')});calcUpd()}}},'Reset calculator'));
+ calcUpd();calcBatchList()}
 // ===== Team chat =====
 const CK='doortracker.chat',chatOn=()=>!!(relay()&&teamCode()&&T().name),chatUrl=p=>relay()+'/teams/'+teamCode()+'/'+p+'.json';
 let CH={m:[],seen:0},ces=null,cMem=[],cMemT;
-try{const o=JSON.parse(localStorage.getItem(CK)||'null');if(o&&Array.isArray(o.m))CH=o}catch(e){}
-const chatSave=()=>{try{localStorage.setItem(CK,JSON.stringify({m:CH.m.filter(x=>!x.pend).slice(-150),seen:CH.seen}))}catch(e){}},
+try{const o=JSON.parse(localStorage.getItem(CK)||'null');if(o&&Array.isArray(o.m)){CH=o;CH.m=CH.m.filter(x=>x.ts>Date.now()-90*864e5)}}catch(e){}
+const chatSave=()=>{try{localStorage.setItem(CK,JSON.stringify({m:CH.m.filter(x=>!x.pend&&x.ts>Date.now()-CHAT_AGE).slice(-150),seen:CH.seen}))}catch(e){}},
  chatStop=()=>{if(ces){ces.close();ces=null}clearInterval(cMemT)};
 function chatTabs(){
  const b=document.querySelector('#tabs [data-t=chat]');if(!b)return;
@@ -1146,13 +1260,52 @@ function chatBoot(){
  const on=e=>{try{const m=JSON.parse(e.data);chatGot(m.path,m.data)}catch(x){}};
  ces.addEventListener('put',on);ces.addEventListener('patch',on);
  ces.addEventListener('cancel',chatStop);ces.addEventListener('auth_revoked',chatStop);
- cMemT=setInterval(()=>{if(tab==='chat')chatMembers()},60000)}
+ cMemT=setInterval(()=>{if(tab==='chat')chatMembers()},60000);setTimeout(chatPrune,4000)}
 async function chatMembers(){
  try{const r=await fetch(chatUrl('members')),d=await r.json();cMem=Object.entries(d||{}).map(([k,x])=>({k,...x})).filter(x=>x&&x.n);if(tab==='chat')chatHead()}catch(e){}}
+const CHAT_AGE=90*864e5;
+// Shared sheets live at teams/CODE/shared; a chat message only carries the key. View only: never added to your sheets or stats.
+const shUrl=p=>relay()+'/teams/'+teamCode()+'/shared'+(p?'/'+p:'')+'.json',shCache={};
+function shPick(){
+ const L=S.sessions.slice().reverse().filter(x=>doors(x).length).slice(0,25);
+ if(!L.length){toast('No sheets with doors to share yet');return}
+ sheet('Share a sheet',p('Your team can open it from chat to look at it. It is view only and does not touch their sheets or stats.'),
+  h('div',{style:'max-height:50vh;overflow:auto;display:grid;gap:6px'},...L.map(x=>{const c=stats(x);return h('button',{class:'b',type:'button',style:'text-align:left;padding:10px 12px;min-height:0',onclick:()=>{close();shSend(x)}},
+   h('b',{},(x.street0||x.street||'Untitled street')),h('br'),h('small',{},new Date(x.date).toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'})+' · '+c.n+' doors · '+c.deal+' deals'))})),
+  h('button',{class:'b',style:'width:100%;margin-top:8px',onclick:close},'Cancel'))}
+async function shSend(x){
+ const t=T();if(!chatOn())return;
+ const c=stats(x),slim=JSON.parse(JSON.stringify(x));slim.rows.forEach(r=>{delete r.lat;delete r.lng;delete r.acc;delete r.srch;delete r.fb});
+ const j=JSON.stringify(slim),nm=(x.street0||x.street||'Untitled street'),m=('📋 '+nm+' · '+new Date(x.date).toLocaleDateString([],{month:'short',day:'numeric'})+' · '+c.n+' doors').slice(0,200);
+ if(j.length>190000){toast('That sheet is too big to share');return}
+ const k='p'+uid(),o={k,n:t.name,id:t.id,m,ts:Date.now(),pend:1,sk:'pending'};CH.m.push(o);renderChat(true);
+ try{
+  const a=await fetch(shUrl(''),{method:'POST',body:JSON.stringify({n:t.name,ts:{'.sv':'timestamp'},j})});if(!a.ok)throw 0;const sk=(await a.json()).name;shCache[sk]=slim;
+  const x2=await fetch(chatUrl('chat'),{method:'POST',body:JSON.stringify({n:t.name,id:t.id,m,sk,ts:{'.sv':'timestamp'}})});if(!x2.ok)throw 0;
+  const r=await x2.json(),q=CH.m.find(y=>y===o);if(q){q.k=r.name;q.pend=0;q.sk=sk}}
+ catch(e){o.pend=0;o.fail=1;o.shfail=1}
+ chatSave();renderChat()}
+async function shView(sk,who){
+ if(!sk||sk==='pending')return;
+ let d=shCache[sk];
+ if(!d){toast('Opening shared sheet…');try{const r=await fetch(shUrl(sk)),o=await r.json();if(!o||!o.j){toast('That shared sheet has expired');return}d=shCache[sk]=JSON.parse(o.j)}catch(e){toast('Could not open it. Check your signal');return}}
+ if(!d||!Array.isArray(d.rows)){toast('That shared sheet could not be read');return}
+ SH=JSON.parse(JSON.stringify(d));SH.id='shared-'+sk;curId=null;
+ document.body.classList.add('shv');const b=$('#shBar');b.hidden=false;b.querySelector('span').textContent='Shared by '+(who||'your team')+' · view only';
+ $('#toast').hidden=true;setTab('street');setTimeout(()=>{const m=$('#main');if(m)m.scrollTop=0},30)}
+function exitShared(skipTab){
+ if(!SH)return;SH=null;document.body.classList.remove('shv');$('#shBar').hidden=true;curId=null;
+ if(!skipTab)setTab('chat')}
+async function chatPrune(){
+ try{if(Date.now()-(+localStorage.getItem('doortracker.prune')||0)<432e5)return;localStorage.setItem('doortracker.prune',String(Date.now()))}catch(e){}
+ const cut=Date.now()-CHAT_AGE;
+ for(const [u,u2] of [[chatUrl('chat'),chatUrl('chat')],[shUrl(''),shUrl('')]]){
+  try{const r=await fetch(u+'?orderBy=%22ts%22&endAt='+cut+'&limitToFirst=40'),d=await r.json();if(!d||typeof d!=='object')continue;
+   const del={};Object.keys(d).forEach(k=>del[k]=null);if(Object.keys(del).length)await fetch(u2,{method:'PATCH',body:JSON.stringify(del)})}catch(e){}}}
 function chatGot(path,d){
  if(!d||typeof d!=='object')return;
  const L=path==='/'?Object.entries(d):path.split('/').length===2?[[path.slice(1),d]]:[];let add=0;
- L.forEach(([k,x])=>{if(!x||!x.m||!x.n||!x.ts||CH.m.some(y=>y.k===k))return;
+ L.forEach(([k,x])=>{if(!x||!x.m||!x.n||!x.ts||x.ts<Date.now()-CHAT_AGE)return;const ex=CH.m.find(y=>y.k===k);if(ex){if(x.sk&&!ex.sk){ex.sk=x.sk;add++}return}
   CH.m=CH.m.filter(y=>!(y.pend&&y.id===x.id&&y.m===x.m));CH.m.push({...x,k});add++});
  if(!add)return;CH.m.sort((a,b)=>a.ts-b.ts);CH.m=CH.m.slice(-150);
  if(tab==='chat'&&!document.hidden)CH.seen=CH.m[CH.m.length-1].ts;
@@ -1175,16 +1328,16 @@ function renderChat(stick){
   const inp=h('input',{class:'in',id:'chatIn',placeholder:'Message your team',maxlength:500,enterkeyhint:'send',autocomplete:'off',autocapitalize:'sentences','aria-label':'Message'}),
   send=()=>{const t=inp.value;if(!t.trim())return;inp.value='';chatSend(t);inp.blur()};
   inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();send()}});
-  const sb=h('button',{class:'b p',type:'button','aria-label':'Send',onclick:send},'Send');sb.addEventListener('pointerdown',e=>e.preventDefault());
-  v.replaceChildren(h('div',{class:'vh'},h('h1',{},'Team chat'),h('div',{id:'chatHead'})),h('div',{class:'scroll',id:'chatList'}),h('div',{class:'cmp'},inp,sb));chatHead();chatMembers();stick=true}
+  const shb=h('button',{class:'b',type:'button','aria-label':'Share a sheet',onclick:shPick,style:'min-width:44px;padding:0'},'📋');shb.addEventListener('pointerdown',e=>e.preventDefault());const sb=h('button',{class:'b p',type:'button','aria-label':'Send',onclick:send},'Send');sb.addEventListener('pointerdown',e=>e.preventDefault());
+  v.replaceChildren(h('div',{class:'vh'},h('h1',{},'Team chat'),h('div',{id:'chatHead'})),h('div',{class:'scroll',id:'chatList'}),h('div',{class:'cmp'},shb,inp,sb));chatHead();chatMembers();stick=true}
  const l=$('#chatList'),near=l.scrollHeight-l.scrollTop-l.clientHeight<90,me=T().id;let day='',last=null;const out=[];
  CH.m.forEach(x=>{const d=new Date(x.ts).toDateString();
   if(d!==day){day=d;last=null;const n=new Date();out.push(h('div',{class:'dv'},d===n.toDateString()?'Today':new Date(x.ts).toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'})))}
   const mine=x.id===me,first=!last||last.id!==x.id||x.ts-last.ts>3e5;last=x;
   out.push(h('div',{class:'cm'+(mine?' me':'')+(first?' f':'')+(x.fail?' fl':'')},
    first&&!mine?h('small',{class:'nm'},x.n):null,
-   h('div',{class:'bb',onclick:x.fail?()=>{CH.m=CH.m.filter(y=>y!==x);chatSend(x.m)}:null},x.m),
-   x.fail?h('small',{class:'tm'},'Not sent · tap to retry'):first?h('small',{class:'tm'},hm(x.ts)):null))});
+   x.sk?h('button',{class:'bb shc',type:'button',onclick:()=>shView(x.sk,mine?'you':x.n)},h('b',{},x.m.replace(/^📋 /,'📋  ')),h('small',{},x.pend?'Sending…':'Tap to open · view only')):h('div',{class:'bb',onclick:x.fail?()=>{CH.m=CH.m.filter(y=>y!==x);chatSend(x.m)}:null},x.m),
+   x.fail&&!x.sk?h('small',{class:'tm'},'Not sent · tap to retry'):first?h('small',{class:'tm'},hm(x.ts)):null))});
  if(!CH.m.length)out.push(h('p',{class:'note',style:'text-align:center;margin-top:30px'},'No messages yet. Say hi to your team.'));
  l.replaceChildren(...out);if(stick||near)l.scrollTop=l.scrollHeight;
  if(!document.hidden&&CH.m.length){const t=CH.m[CH.m.length-1].ts;if(t>CH.seen){CH.seen=t;chatSave();chatTabs()}}}
@@ -1199,7 +1352,7 @@ async function cloudInit(){
   let cfg=null;try{cfg=docs.settings&&JSON.parse(docs.settings.json)}catch(e){}
   const ss=cfg?(cfg.order||[]).map(i=>{try{return JSON.parse(docs['sheet_'+i].json)}catch(e){return null}}).filter(Boolean):[];
   if(cfg&&ss.length&&(fresh0||!(S.t>cfg.t))){
-   S={resp:cfg.resp||S.resp,showRed:!!cfg.showRed,auto:cfg.auto!==false,daily:!!cfg.daily,cbRem:cfg.cbRem,jump:!!cfg.jump,geo:cfg.geo,snd:cfg.snd,cur:cfg.cur,pay:cfg.pay||{},payMode:cfg.payMode||'day',goal:cfg.goal||DEFG(),sessions:ss,t:cfg.t,team:S.team};
+   S={resp:cfg.resp||S.resp,showRed:!!cfg.showRed,auto:cfg.auto!==false,daily:!!cfg.daily,cbRem:cfg.cbRem,calcBatch:cfg.calcBatch,jump:!!cfg.jump,geo:cfg.geo,snd:cfg.snd,cur:cfg.cur,pay:cfg.pay||{},payMode:cfg.payMode||'day',goal:cfg.goal||DEFG(),sessions:ss,t:cfg.t,team:S.team};
    migrate();S.sessions.forEach(x=>dirty.add(x.id));try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}
    const d=doors(cs());curId=d.length?d[d.length-1].id:null;
    if(dirty.size)flush();
@@ -1216,8 +1369,10 @@ function showCur(){
  m.querySelectorAll('tr.turn:not(.ns) td').forEach(x=>{const b=x.getBoundingClientRect();if(b.top<=mr.top+parseFloat(x.style.top||0)+1)top=Math.max(top,b.bottom)});
  if(er.bottom>lim-6)m.scrollTop+=er.bottom-lim+10;else if(er.top<top)m.scrollTop-=top-er.top+4}
 function revealRow(){if(!document.body.classList.contains('kb')||tab!=='street')return;const e=curId&&rowEl(curId),m=$('#main');if(!e||!m)return;
- const a=e.getBoundingClientRect(),b=m.getBoundingClientRect(),th=0,kb=$('#kbar').hidden?8:52;
- if(a.bottom>b.bottom-kb)m.scrollTop+=a.bottom-b.bottom+kb+2;else if(a.top<b.top+th)m.scrollTop-=b.top+th-a.top+4}
+ const a=e.getBoundingClientRect(),b=m.getBoundingClientRect(),kb=$('#kbar').hidden?8:52;
+ let lim=b.bottom-kb;const sh=$('#ov').hidden?null:document.querySelector('#ov.dock .sh');if(sh)lim=Math.min(lim,sh.getBoundingClientRect().top-8);
+ let top=b.top;m.querySelectorAll('tr.turn:not(.ns) td').forEach(x=>{const r=x.getBoundingClientRect();if(r.top<=b.top+parseFloat(x.style.top||0)+1)top=Math.max(top,r.bottom)});
+ if(a.bottom>lim)m.scrollTop+=a.bottom-lim+4;else if(a.top<top)m.scrollTop-=top-a.top+4}
 function fit(){const v=window.visualViewport,b=$('#bot'),bd=document.body;
  const kb=!!v&&v.height<window.innerHeight-150,was=bd.classList.contains('kb');
  bd.classList.toggle('kb',kb);
@@ -1251,6 +1406,8 @@ probe();
 (async()=>{const m=await idb.get('state');let o=null;try{o=JSON.parse(m)}catch(e){}
  if(okS(o)&&nDoors(o)>nDoors(S)&&(nDoors(S)===0||(o.t||0)>=(S.t||0))){mirrorReady=true;S=o;migrate();gpPrev=null;bhOn=null;save();S.sessions.forEach(x=>dirty.add(x.id));const dd=doors(cs());curId=dd.length?dd[dd.length-1].id:null;renderPanel();render();bottom();gpsPill('Restored your sheets from backup','ok',4500)}
  else{mirrorReady=true;if(okS(S))idb.set('state',JSON.stringify(S))}})();
+
+$('#shBar button').addEventListener('click',()=>exitShared());
 </script>
 <script>
 if('serviceWorker' in navigator&&!window.claude)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
