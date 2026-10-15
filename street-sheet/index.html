@@ -97,24 +97,8 @@ td input:focus{background:var(--acc-soft)}
 #kbar{position:absolute;left:0;right:0;bottom:0;z-index:60;display:flex;gap:8px;padding:6px 10px;background:var(--raise);border-top:1px solid var(--line)}
 #kbar button{min-width:56px;height:38px;border:0;border-radius:10px;background:var(--surface);color:var(--fg);font:inherit;font-size:20px;font-weight:800;box-shadow:0 1px 0 var(--line)}
 .sug{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px}.sug .b{width:auto;padding:0 14px;height:40px;font-size:15px}
-#calcHost{padding-bottom:6px}
-.cs{background:var(--surface);border-radius:18px;margin-top:12px;box-shadow:var(--shadow);overflow:hidden}
-.cs>button{display:flex;width:100%;align-items:center;justify-content:space-between;padding:14px 16px;border:0;background:none;font:inherit;font-size:12.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--mut)}
-.cs>button i{font-style:normal;transition:transform .15s}.cs.open>button i{transform:rotate(180deg)}
-.cs-b{display:none;padding:0 16px 14px}.cs.open>.cs-b{display:block}
 .cl{display:block;margin:14px 0 6px;font-size:12px;font-weight:700;color:var(--mut)}.cs-b>.cl:first-child{margin-top:0}
-.cin{width:100%;height:50px;border:1px solid var(--line);border-radius:12px;background:var(--raise);color:var(--fg);font:inherit;font-size:18px;font-weight:700;padding:0 14px;outline:0}.cin:focus{border-color:var(--acc)}
-.cgrp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.cgrp.c4{grid-template-columns:repeat(4,1fr)}
-.cpb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 2px;border:1px solid var(--line);border-radius:12px;background:var(--raise);color:var(--fg);font:inherit;font-size:15px;font-weight:800}
-.cpb small{font-size:12px;color:var(--mut);font-weight:700}.cpb.on{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}.cpb.on small{color:var(--acc-ink);opacity:.85}
-.ceq{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
 .cei b{display:block;font-size:14.5px}.cei small{color:var(--mut);font-size:12px;font-weight:600}
-.cst{display:flex;align-items:center;gap:8px;flex:none}.cst button{width:38px;height:38px;border:0;border-radius:12px;background:var(--raise);color:var(--fg);font-size:20px;font-weight:800}.cst span{min-width:22px;text-align:center;font-weight:800;font-size:17px}
-.cbr{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;font-size:15px}.cbr .v{font-weight:800}.cbr.neg .v{color:var(--bad)}
-.cres{text-align:center}.cres .amt{font-size:46px;font-weight:800;letter-spacing:-.03em;color:var(--good);line-height:1.1}.cres .cap{color:var(--mut);font-size:13px;font-weight:700;margin-top:2px}
-.cres .cs-b{padding:0 14px 10px;text-align:left}.cres .cs>button{text-align:left}
-.cx{border:0;background:none;color:var(--mut);font-size:22px;line-height:1;padding:2px 8px}
-.cbe{padding:8px 0;border-bottom:1px solid var(--line)}.cbt{display:flex;align-items:center;gap:4px}.cbt b{font-size:15px;white-space:nowrap}.cnm{height:42px!important;font-size:16px!important;flex:1;min-width:0}
 .cdet{padding:6px 4px 2px;color:var(--mut)}
 td input.a.srch{animation:sp 1s ease-in-out infinite}.a.srch::placeholder{font-size:12px;font-weight:700;letter-spacing:0;color:var(--acc);opacity:1}
 @keyframes sp{50%{opacity:.35}}
@@ -128,6 +112,13 @@ td input.a.srch{animation:sp 1s ease-in-out infinite}.a.srch::placeholder{font-s
 .turn .mi{display:flex;gap:6px;flex:none}
 .turn .mi i{font-style:normal;font-size:11.5px;font-weight:800;line-height:16px;padding:0 7px;border-radius:999px;background:rgba(255,255,255,.2)}
 .turn .mi i.g{background:#e8fff1;color:#047a3a}.turn .mi i.r{background:#ffe9ea;color:#c4202a}
+.dbox{background:var(--surface);border-radius:18px;box-shadow:var(--shadow);margin-bottom:12px;padding:6px 8px 10px}
+.dbh{display:flex;align-items:center;gap:10px;padding:8px 8px 8px}.dbh .rt{flex:1;min-width:0}.dbh b{display:block;font-size:16px}.dbh small{color:var(--mut);font-size:12.5px}.dbh .btn{height:38px;font-size:14px}
+.dl{border-top:1px solid var(--line)}.dlh{width:100%;display:flex;align-items:center;gap:10px;padding:11px 8px;border:0;background:transparent;text-align:left;color:inherit}
+.dlh .rt{flex:1;min-width:0}.dlh .rt b{display:block;font-size:15px}.dlh small{color:var(--mut);font-size:12px}.dla{color:var(--good,#16a34a);font-size:16px;white-space:nowrap}
+.dlh .chev{color:var(--mut);font-size:20px;transition:transform .15s}.dl.open .chev{transform:rotate(90deg)}
+.dlb{padding:0 8px 10px}.dlb .in{margin:0 0 8px;height:44px}.dll{display:flex;justify-content:space-between;gap:10px;padding:5px 0;font-size:13.5px;border-bottom:1px solid var(--line)}.dll span{color:var(--mut)}
+.dpill{flex:none;border-radius:999px;background:var(--good-soft);color:#047a3a;font-size:12.5px;font-weight:800;padding:5px 10px}
 .shc{background:var(--surface);border-radius:18px;box-shadow:var(--shadow);margin-bottom:10px;overflow:hidden}
 .shc.cur{box-shadow:0 0 0 2px var(--acc-soft),var(--shadow)}
 .shh{width:100%;display:flex;align-items:center;gap:10px;padding:14px 16px;border:0;background:transparent;text-align:left;color:inherit}
@@ -274,6 +265,168 @@ textarea.in{height:160px;font-size:16px;padding:8px}
 @keyframes pop{35%{transform:scale(1.15)}}@keyframes pop2{25%{transform:scale(1.28)}60%{transform:scale(.96)}}
 body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb #oddsbar{display:none}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+#v-approval{--bg:#000;--card:#1a1d24;--border:#2a2e38;--text:#e8e9ec;--muted:#9aa0ab;--accent:#3b82f6;--accent-soft:rgba(59,130,246,.12);--good:#22c55e;--good-soft:rgba(34,197,94,.14);--bad:#ef4444;--warn:#eab308;background:#000;color:var(--text)}
+#v-approval .step{display:none;}
+#v-approval .step.active{display:block;}
+#v-approval .card{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:18px; margin-bottom:14px;}
+#v-approval .card h2{font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:0 0 12px; font-weight:700;}
+#v-approval .btn{padding:13px; border-radius:10px; border:1px solid var(--border); background:#12141a; color:var(--muted); font-size:14.5px; font-weight:700; text-align:center; cursor:pointer;}
+#v-approval .btn.primary{background:var(--accent); border-color:var(--accent); color:#fff; width:100%; margin-top:4px;}
+#v-approval .btn.green{background:var(--good); border-color:var(--good); color:#fff; width:100%; margin-top:16px;}
+#v-approval .btn.yellow{background:var(--warn); border-color:var(--warn); color:#1a1300; width:100%; margin-top:24px; font-weight:800;}
+#v-approval .back-link{background:none; border:none; color:var(--accent); font-size:13px; font-weight:700; cursor:pointer; padding:0 0 10px; display:block;}
+@keyframes pulseGlow{ 0%,100% { box-shadow:0 0 0 0 rgba(34,197,94,0.55); } 50% { box-shadow:0 0 0 16px rgba(34,197,94,0); } }
+#v-approval .btn.green.pulsing{animation: pulseGlow 1.5s ease-out infinite;}
+#v-approval .tier-bubbles{display:flex; flex-wrap:wrap; justify-content:center; gap:14px; padding:12px 0 4px;}
+#v-approval .tier-bubble{width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#12141a; border:1px solid var(--border); font-size:16px; font-weight:800; color:var(--text); cursor:pointer;}
+#v-approval .tier-bubble.active{background:var(--accent); border-color:var(--accent); color:#fff; box-shadow:0 0 0 4px var(--accent-soft);}
+@keyframes spin{ to { transform:rotate(360deg); } }
+#v-approval .app-header{display:flex; align-items:center; gap:10px; margin-bottom:2px;}
+#v-approval .app-logo{width:32px; height:32px; border-radius:6px; flex-shrink:0; display:block;}
+#v-approval .loader-logo-wrap{position:relative; width:84px; height:84px; margin:0 auto;}
+#v-approval .loader-ring{position:absolute; inset:0; border:4px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin .8s linear infinite;}
+#v-approval .loader-logo{position:absolute; top:50%; left:50%; width:56px; height:56px; transform:translate(-50%,-50%); border-radius:50%; display:block;}
+#v-approval .field{margin-bottom:16px;}
+#v-approval .field:last-child{margin-bottom:0;}
+#v-approval .field label{display:block; font-size:13.5px; font-weight:600; margin-bottom:8px;}
+#v-approval .yn-row{display:flex; gap:8px;}
+#v-approval .yn-btn{flex:1; padding:12px; border-radius:10px; border:1px solid var(--border); background:#12141a; color:var(--text); font-size:14px; font-weight:700; text-align:center; cursor:pointer;}
+#v-approval .yn-btn.active{border-color:var(--accent); background:var(--accent-soft); color:var(--accent);}
+#v-approval input[type="text"],#v-approval input[type="number"]{width:100%; background:#12141a; border:1px solid var(--border); color:var(--text); padding:11px 12px; border-radius:9px; font-size:15px;}
+#v-approval input:focus{outline:none; border-color:var(--accent);}
+#v-approval label{display:block; font-size:13.5px; color:var(--text); margin-bottom:6px; margin-top:14px; font-weight:500;}
+#v-approval label:first-of-type{margin-top:0;}
+#v-approval .pkg-card{border:1px solid var(--border); background:#12141a; border-radius:12px; padding:16px; margin-bottom:12px; cursor:pointer;}
+#v-approval .pkg-card.rec{border-color:var(--good); background:var(--good-soft);}
+#v-approval .pkg-card.danger{border-color:var(--bad); background:rgba(239,68,68,0.12);}
+#v-approval .pkg-card.danger .pc-name{color:var(--bad);}
+@keyframes goldPulse{ 0%,100% { box-shadow:0 0 0 0 rgba(244,196,48,0.4); } 50% { box-shadow:0 0 18px 4px rgba(244,196,48,0.5); } }
+@keyframes goldShimmer{ 0% { left:-150%; } 100% { left:150%; } }
+#v-approval .approved-box.gold{border-color:#f4c430; background:linear-gradient(135deg,#3a2d0a,#2a1f08); position:relative; overflow:hidden; animation:goldPulse 2s ease-in-out infinite;}
+#v-approval .approved-box.gold .ab-label,#v-approval .approved-box.gold .ab-price{color:#f4c430;}
+#v-approval .approved-box.gold::after{content:""; position:absolute; top:0; left:-150%; width:100%; height:100%; background:linear-gradient(120deg,transparent,rgba(244,196,48,0.35),transparent); animation:goldShimmer 2.5s ease-in-out infinite;}
+#v-approval .pkg-card .pc-name{font-size:14px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.04em;}
+#v-approval .pkg-card.rec .pc-name{color:var(--good);}
+#v-approval .pkg-card .pc-detail{color:var(--muted); font-size:13px; margin-top:4px;}
+#v-approval .pkg-card .pc-price{font-size:22px; font-weight:800; margin-top:8px;}
+#v-approval .pkg-divider{color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.06em; font-weight:700; margin:14px 0 10px; border-top:1px solid var(--border); padding-top:14px;}
+#v-approval .approved-word{text-align:center; font-size:24px; font-weight:800; color:var(--good); letter-spacing:.04em; margin:6px 0 4px;}
+#v-approval .congrats{text-align:center; font-size:16px; margin-bottom:16px;}
+#v-approval .approved-box{text-align:center; border:1px solid var(--good); background:var(--good-soft); border-radius:14px; padding:22px 16px;}
+#v-approval .ab-label{color:var(--good); font-size:13px; text-transform:uppercase; letter-spacing:.06em; font-weight:800; margin-bottom:6px;}
+#v-approval .ab-price{font-size:36px; font-weight:800;}
+#v-approval .ab-detail{font-size:14px; margin-top:6px;}
+#v-approval .equip-mini{margin-top:16px; text-align:left;}
+#v-approval .equip-mini-row{display:flex; justify-content:space-between; font-size:13px; padding:6px 0; border-bottom:1px solid var(--border);}
+#v-approval .equip-mini-row:last-child{border-bottom:none;}
+#v-approval .waived-section{margin-top:16px; border-top:1px solid var(--border); padding-top:14px; text-align:left;}
+#v-approval .waived-row{display:flex; justify-content:space-between; align-items:center; font-size:13px; padding:5px 0;}
+#v-approval .waived-row .wr-label{color:var(--text); font-weight:600;}
+#v-approval .waived-row .wr-amt{display:flex; align-items:center; gap:8px;}
+#v-approval .waived-row .wr-strike{text-decoration:line-through; text-decoration-color:var(--bad); text-decoration-thickness:2px; color:var(--muted); font-variant-numeric:tabular-nums;}
+#v-approval .waived-row .wr-tag{color:var(--good); font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.04em; background:var(--good-soft); border:1px solid var(--good); padding:2px 7px; border-radius:6px;}
+#v-approval .stepper{display:flex; align-items:center; background:#12141a; border:1px solid var(--border); border-radius:9px; overflow:hidden; flex-shrink:0; width:fit-content;}
+#v-approval .stepper button{width:34px; height:34px; background:none; border:none; color:var(--accent); font-size:18px; font-weight:600; cursor:pointer;}
+#v-approval .stepper .qty{width:28px; text-align:center; font-size:14px; font-weight:600;}
+#v-approval .bottom-bar{position:fixed; bottom:0; left:0; right:0; background:var(--card); border-top:1px solid var(--border); display:flex; justify-content:space-around; padding:8px 0 calc(8px + env(safe-area-inset-bottom,0px)); z-index:70;}
+#v-approval .bb-icon{background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; width:46px; height:46px; border-radius:50%; display:flex; align-items:center; justify-content:center;}
+#v-approval .bb-icon:active{background:var(--accent-soft); color:var(--accent);}
+#v-approval .overlay{position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; z-index:60; padding:20px;}
+#v-approval .overlay.active{display:flex;}
+#v-approval .overlay-card{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; width:260px; text-align:center;}
+#v-approval .overlay-card.wide{width:100%; max-width:420px; max-height:82vh; overflow-y:auto; text-align:left;}
+#v-approval .overlay-card h3{margin:0 0 14px; font-size:14px;}
+#v-approval .overlay-close{margin-top:14px; width:100%;}
+#v-approval .settings-section{border-bottom:1px solid var(--border); padding-bottom:14px; margin-bottom:14px;}
+#v-approval .settings-section h3,#v-approval .settings-tier summary{font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:700; cursor:pointer;}
+#v-approval .settings-tier{border-bottom:1px solid var(--border); padding:10px 0;}
+#v-approval .settings-slot{margin:10px 0 4px; padding-left:6px; border-left:2px solid var(--border);}
+#v-approval .settings-slot-label{font-size:12px; color:var(--accent); font-weight:700; margin-bottom:4px;}
+#v-approval .s-label{font-size:11.5px; color:var(--muted); margin:8px 0 3px; font-weight:500;}
+#v-approval .s-input{width:100%; background:#12141a; border:1px solid var(--border); color:var(--text); padding:8px 10px; border-radius:7px; font-size:13.5px;}
+#v-approval .settings-actions{display:flex; gap:10px; margin-top:16px;}
+#v-approval .settings-actions .btn{flex:1;}
+#v-approval .pkg-group{display:flex; gap:8px; flex-wrap:wrap;}
+#v-approval .pkg-btn{flex:1; min-width:60px; padding:10px 6px; border-radius:9px; border:1px solid var(--border); background:#12141a; color:var(--muted); font-size:13px; text-align:center; cursor:pointer; font-weight:600;}
+#v-approval .pkg-btn.active{border-color:var(--accent); background:var(--accent-soft); color:var(--accent);}
+#v-approval .pkg-btn .amt{display:block; font-size:11px; font-weight:400; margin-top:2px; opacity:.8;}
+#v-approval .breakdown-row{display:flex; justify-content:space-between; align-items:baseline; padding:9px 0; border-bottom:1px solid var(--border); font-size:14px;}
+#v-approval .breakdown-row:last-child{border-bottom:none;}
+#v-approval .breakdown-row .label{color:var(--muted);}
+#v-approval .breakdown-row .val{font-variant-numeric:tabular-nums; font-weight:500;}
+#v-approval .breakdown-row.neg .val{color:var(--bad);}
+#v-approval .breakdown-row.mult .val{color:var(--accent);}
+#v-approval .calc-result{text-align:center; padding:22px 16px 8px;}
+#v-approval .calc-result .amt{font-size:40px; font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:-.02em;}
+#v-approval .calc-result .amt.negative{color:var(--bad);}
+#v-approval .calc-result .amt.positive{color:var(--good); text-shadow:0 0 14px rgba(34,197,94,0.65), 0 0 28px rgba(34,197,94,0.35);}
+#v-approval .calc-result .caption{color:var(--muted); font-size:12.5px; margin-top:4px;}
+#v-approval .equip-row{display:flex; align-items:center; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--border);}
+#v-approval .equip-row:last-of-type{border-bottom:none;}
+#v-approval .equip-info{flex:1; min-width:0;}
+#v-approval .equip-name{font-size:14.5px; font-weight:500;}
+#v-approval .equip-price{font-size:12px; color:var(--muted); margin-top:1px;}
+#v-approval .equip-total{display:flex; justify-content:space-between; padding-top:12px; margin-top:4px; font-size:14px; font-weight:600;}
+#v-approval .equip-total .val{color:var(--accent);}
+#v-approval .fixed-row{display:flex; justify-content:space-between; align-items:center; padding:10px 0; font-size:14px;}
+#v-approval .fixed-row .tag{color:var(--muted); font-size:11.5px; background:#12141a; border:1px solid var(--border); padding:3px 8px; border-radius:6px;}
+#v-approval .admin-toggle{margin-top:12px; padding:12px 14px; border-radius:9px; border:1px solid var(--border); background:#12141a; display:flex; align-items:center; justify-content:space-between; cursor:pointer;}
+#v-approval .admin-toggle .at-label{font-size:14px; font-weight:600;}
+#v-approval .admin-toggle .at-sub{font-size:11.5px; color:var(--muted); margin-top:1px;}
+#v-approval .admin-toggle .switch{width:42px; height:24px; border-radius:999px; background:var(--border); position:relative; flex-shrink:0; transition:background .15s;}
+#v-approval .admin-toggle .switch::after{content:""; position:absolute; top:3px; left:3px; width:18px; height:18px; border-radius:50%; background:var(--text); transition:transform .15s;}
+#v-approval .admin-toggle.active{border-color:var(--accent); background:var(--accent-soft);}
+#v-approval .admin-toggle.active .switch{background:var(--accent);}
+#v-approval .admin-toggle.active .switch::after{transform:translateX(18px); background:#fff;}
+#v-approval .batch-entry{display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid var(--border); font-size:14px;}
+#v-approval .batch-entry:last-of-type{border-bottom:none;}
+#v-approval .batch-entry .be-label{color:var(--muted); font-size:12.5px;}
+#v-approval .batch-entry .be-amt{font-weight:600; font-variant-numeric:tabular-nums;}
+#v-approval .batch-entry .be-remove{background:none; border:none; color:var(--bad); font-size:18px; line-height:1; cursor:pointer; padding:4px 6px; margin-left:8px;}
+#v-approval .batch-empty{color:var(--muted); font-size:13px; padding:6px 0;}
+#v-approval .batch-add-btn{width:100%; background:var(--accent); color:#fff; border:none; padding:12px; border-radius:9px; font-size:14.5px; font-weight:700; cursor:pointer; margin-top:4px;}
+#v-approval .batch-total-row{display:flex; justify-content:space-between; padding-top:12px; margin-top:8px; border-top:1px solid var(--border); font-size:16px; font-weight:700;}
+#v-approval .batch-total-row .val{color:var(--good);}
+#v-approval .itemized{margin-top:18px; text-align:left; border-top:1px solid var(--border); padding-top:14px;}
+#v-approval .itemized-toggle{width:100%; background:none; border:none; color:var(--muted); font-size:13px; font-weight:700; display:flex; justify-content:space-between; align-items:center; cursor:pointer; padding:2px 0;}
+#v-approval .itemized-arrow{transition:transform .15s; font-size:11px;}
+#v-approval .itemized-arrow.open{transform:rotate(180deg);}
+#v-approval .itemized-body{display:none; margin-top:10px;}
+#v-approval .itemized-body.open{display:block;}
+#v-approval .itemized-row{display:flex; justify-content:space-between; font-size:13px; padding:7px 0; border-bottom:1px solid var(--border);}
+#v-approval .itemized-row:last-child{border-bottom:none;}
+#v-approval .itemized-row .iz-name{color:var(--text);}
+#v-approval .itemized-row .iz-qty{color:var(--muted); margin-left:6px;}
+#v-approval .itemized-row .iz-val{font-variant-numeric:tabular-nums; font-weight:600; color:var(--accent);}
+#v-approval .itemized-empty{color:var(--muted); font-size:12.5px; padding:4px 0;}
+#v-approval .sec-toggle{width:100%; background:none; border:none; display:flex; justify-content:space-between; align-items:center; cursor:pointer; padding:0; margin-bottom:0;}
+#v-approval .sec-toggle h2{margin:0;}
+#v-approval .sec-arrow{color:var(--muted); font-size:11px; transition:transform .15s;}
+#v-approval .sec-arrow.open{transform:rotate(180deg);}
+#v-approval .sec-body{display:none; margin-top:12px;}
+#v-approval .sec-body.open{display:block;}
+#v-approval .batch-clear-btn{display:block; margin:14px auto 0; background:none; border:1px solid var(--border); color:var(--muted); padding:8px 16px; border-radius:9px; font-size:12.5px; cursor:pointer;}
+#v-approval .batch-detail-row{background:#12141a; border:1px solid var(--border); border-radius:10px; padding:12px; margin-bottom:10px;}
+#v-approval .batch-detail-row:last-child{margin-bottom:0;}
+#v-approval .bdr-top{display:flex; justify-content:space-between; align-items:center; gap:8px; cursor:pointer;}
+#v-approval .bdr-name{flex:0 1 auto; max-width:58%; min-width:0; background:none; border:none; border-bottom:1px dashed var(--border); color:var(--text); font-size:11.5px; padding:2px 0;}
+#v-approval .bdr-name:focus{outline:none; border-bottom-color:var(--accent);}
+#v-approval .bdr-amt{font-size:12.5px; font-weight:700; color:var(--good); white-space:nowrap;}
+#v-approval .bdr-chevron{color:var(--muted); font-size:11px; transition:transform .2s; flex-shrink:0;}
+#v-approval .bdr-chevron.open{transform:rotate(90deg);}
+#v-approval .bdr-remove{background:none; border:none; color:var(--bad); font-size:16px; line-height:1; cursor:pointer; padding:2px 4px; flex-shrink:0;}
+#v-approval .bdr-slider{max-height:0; overflow:hidden; opacity:0; transform:translateX(-8px); transition:max-height .25s ease, opacity .25s ease, transform .25s ease;}
+#v-approval .bdr-slider.open{max-height:260px; opacity:1; transform:translateX(0);}
+#v-approval .bdr-slider-track{padding-top:8px; font-size:11.5px; color:var(--muted);}
+#v-approval .bdr-slider-track .bdr-line{padding:2px 0;}
+#v-approval .bdr-slider-track .bdr-equip-row{display:flex; justify-content:space-between; padding:2px 0;}
+#v-approval .scroll{padding:14px 16px 0}
+#v-approval *{box-sizing:border-box}
+#v-approval .card{box-shadow:none;margin:0 0 14px}
+#v-approval .bottom-bar{position:sticky;bottom:0;left:auto;right:auto;margin:10px -16px 0;z-index:5}
+#v-approval .overlay{position:fixed}
+#v-approval .step.active{display:block}
+#v-approval .app-header h1{font-size:19px;margin:4px 0}
 </style>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -300,17 +453,231 @@ body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb #oddsbar{display:
 <section class="view" id="v-goals" aria-label="Goals"><div class="scroll"></div></section>
 <section class="view" id="v-stats" aria-label="Stats"><div class="scroll"></div></section>
 <section class="view" id="v-chat" aria-label="Team chat"></section>
-<section class="view" id="v-calc" aria-label="Commission calculator"><div class="scroll">
- <div class="vh"><h1>Calculator</h1></div>
- <div class="empty-state"><div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 7.5h7M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/></svg></div><b>Commission calculator</b><p>Not set up yet. Your deal calculator will live here.</p></div>
- <div id="calcHost"></div>
+<section class="view" id="v-approval" aria-label="Approval"><div class="scroll">
+<div class="app-header"><img src="" class="app-logo" alt=""><h1>Approval</h1></div><div class="wrap">
+<!-- STEP: TIERS + NAME -->
+  <div class="step" id="step-wheel">
+    <div class="card">
+      <label style="margin-top:0;">Please enter customer name below</label>
+      <div style="display:flex;gap:10px;">
+        <div style="flex:1;">
+          <label style="margin-top:0;font-size:11.5px;">First Name</label>
+          <input type="text" id="cust-first-name" placeholder="First name">
+        </div>
+        <div style="flex:1;">
+          <label style="margin-top:0;font-size:11.5px;">Last Name</label>
+          <input type="text" id="cust-last-name" placeholder="Last name">
+        </div>
+      </div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <h2>Select Credit Tier</h2>
+      <div class="tier-bubbles" id="tier-bubbles"></div>
+    </div>
+    <button type="button" class="btn primary" id="wheel-continue">Continue</button>
+  </div>
+
+  <!-- STEP: LOADING -->
+  <div class="step" id="step-loading">
+    <div class="card" style="text-align:center;padding:50px 18px;">
+      <div class="loader-logo-wrap">
+        <div class="loader-ring"></div>
+        <img src="" class="loader-logo" alt="">
+      </div>
+      <div style="margin-top:18px;color:var(--muted);font-size:13px;font-weight:700;letter-spacing:.05em;">SINCE 1874</div>
+      <div style="margin-top:6px;color:var(--muted);font-size:14px;">Checking approval…</div>
+    </div>
+  </div>
+
+  <!-- STEP: PACKAGE MENU -->
+  <div class="step" id="step-pkgmenu">
+    <button type="button" class="back-link" data-back>← Back</button>
+    <div class="card"><h2>Select Package</h2><div id="pkg-menu-list"></div></div>
+  </div>
+
+  <!-- STEP: RESULT -->
+  <div class="step" id="step-result">
+    <button type="button" class="back-link" data-back>← Back / Not this package</button>
+    <div class="approved-word">✓ APPROVED</div>
+    <div class="congrats" id="res-congrats"></div>
+    <div class="approved-box">
+      <div class="ab-label" id="res-name">Package</div>
+      <div class="ab-price" id="res-price">$0.00</div>
+      <div class="ab-detail" id="res-detail"></div>
+      <div class="equip-mini" id="res-equip"></div>
+      <div class="waived-section" id="waived-section"></div>
+    </div>
+    <button type="button" class="btn green pulsing" id="accept-deal-btn">Accept</button>
+    <button type="button" class="btn yellow" id="override-btn">Package Override</button>
+  </div>
+
+  <!-- STEP: PACKAGE OVERRIDE -->
+  <div class="step" id="step-override">
+    <button type="button" class="back-link" data-back>← Back (discard changes)</button>
+    <div class="card">
+      <h2>Package Override</h2>
+      <label style="margin-top:0;">Outdoor Cameras</label>
+      <div class="stepper"><button type="button" id="ov-cam-minus">−</button><span class="qty" id="ov-cam-qty">0</span><button type="button" id="ov-cam-plus">+</button></div>
+      <div class="field" style="margin-top:16px;">
+        <label>Medical Pendant?</label>
+        <div class="yn-row" id="ov-pendant"><div class="yn-btn" data-val="yes">Yes</div><div class="yn-btn" data-val="no">No</div></div>
+      </div>
+      <div class="field">
+        <label>Doorbell Camera?</label>
+        <div class="yn-row" id="ov-doorbell"><div class="yn-btn" data-val="yes">Yes</div><div class="yn-btn" data-val="no">No</div></div>
+      </div>
+      <label>Motion Detectors</label>
+      <div class="stepper"><button type="button" id="ov-motion-minus">−</button><span class="qty" id="ov-motion-qty">0</span><button type="button" id="ov-motion-plus">+</button></div>
+      <label>Extra Window/Door Sensors</label>
+      <div class="stepper"><button type="button" id="ov-sensor-minus">−</button><span class="qty" id="ov-sensor-qty">0</span><button type="button" id="ov-sensor-plus">+</button></div>
+      <div class="field">
+        <label for="ov-price">Price ($) — set manually</label>
+        <input type="number" id="ov-price" inputmode="decimal" step="0.01">
+        <div id="ov-price-error" style="color:var(--bad);font-size:12px;margin-top:6px;display:none;">Price must be between $41.99 and $76.99.</div>
+      </div>
+    </div>
+    <button type="button" class="btn primary" id="ov-save">Save Changes</button>
+  </div>
+
+  <!-- STEP: CUSTOM BUILDER -->
+  <div class="step" id="step-custom">
+    <button type="button" class="back-link" data-back>← Back</button>
+    <div class="card">
+      <h2>Custom Builder</h2>
+      <label style="margin-top:0;">Number of Cameras (doorbell counts toward this)</label>
+      <div class="stepper"><button type="button" id="cust-cam-minus">−</button><span class="qty" id="cust-cam-qty">0</span><button type="button" id="cust-cam-plus">+</button></div>
+      <div class="field" style="margin-top:16px;">
+        <label>Medical Pendant Included?</label>
+        <div class="yn-row" id="cust-pendant"><div class="yn-btn" data-val="yes">Yes</div><div class="yn-btn active" data-val="no">No</div></div>
+      </div>
+      <div class="field">
+        <label for="cust-price">Quoted Price ($)</label>
+        <input type="number" id="cust-price" inputmode="decimal" placeholder="0.00" step="0.01">
+      </div>
+    </div>
+    <button type="button" class="btn primary" id="cust-generate">Generate Quote</button>
+  </div>
+
+  <!-- STEP: CALCULATOR (ported) -->
+  <div class="step" id="step-calc">
+    <button type="button" class="back-link" data-back>← Back</button>
+    <div class="sub" style="margin-top:-6px;">(MMR − Pass-Through) × Credit Multiplier − 10% Chargeback − Equipment − Tech Pay − Admin Fee</div>
+    <div class="card">
+      <button type="button" class="sec-toggle" id="mmr-toggle"><h2>MMR</h2><span class="sec-arrow open" id="mmr-arrow">▾</span></button>
+      <div class="sec-body open" id="mmr-body">
+        <label style="margin-top:0;" for="mmr">Customer MMR ($)</label>
+        <input type="number" id="mmr" inputmode="decimal" placeholder="0.00" step="0.01">
+      </div>
+    </div>
+    <div class="card">
+      <button type="button" class="sec-toggle" id="credit-toggle"><h2>Credit &amp; Plan</h2><span class="sec-arrow" id="credit-arrow">▾</span></button>
+      <div class="sec-body" id="credit-body">
+        <label style="margin-top:0;">Package (sets pass-through)</label>
+        <div class="pkg-group" id="pkg-group"></div>
+        <input type="hidden" id="passthrough" value="">
+        <label>Credit Rating (sets multiplier)</label>
+        <div class="pkg-group" id="credit-group"></div>
+        <div class="admin-toggle" id="admin-toggle">
+          <div><div class="at-label">Admin</div><div class="at-sub">Switches to Momentum Sales 32X credit tiers</div></div>
+          <div class="switch"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <button type="button" class="sec-toggle" id="equip-toggle"><h2>Equipment</h2><span class="sec-arrow" id="equip-arrow">▾</span></button>
+      <div class="sec-body" id="equip-body">
+        <div id="equip-list"></div>
+        <label for="other-equip" style="margin-top:14px;">Other equipment ($)</label>
+        <input type="number" id="other-equip" inputmode="decimal" placeholder="0" step="0.01">
+        <div class="equip-total"><span>Equipment Total</span><span class="val" id="equip-total-display">$0.00</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <button type="button" class="sec-toggle" id="deduct-toggle"><h2>Fixed Deductions</h2><span class="sec-arrow" id="deduct-arrow">▾</span></button>
+      <div class="sec-body" id="deduct-body">
+        <div class="admin-toggle" id="selfinstall-toggle">
+          <div><div class="at-label">Tech Pay</div><div class="at-sub" id="techpay-sub">$175.00 fixed</div></div>
+          <div class="switch"></div>
+        </div>
+        <div class="fixed-row"><span class="label">Admin Fee</span><span class="tag">$100.00 fixed</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <button type="button" class="sec-toggle" id="breakdown-toggle"><h2>Breakdown</h2><span class="sec-arrow" id="breakdown-arrow">▾</span></button>
+      <div class="sec-body" id="breakdown-body">
+        <div class="breakdown-row"><span class="label">Customer MMR</span><span class="val" id="b-mmr">$0.00</span></div>
+        <div class="breakdown-row neg"><span class="label">− Pass-Through</span><span class="val" id="b-pt">$0.00</span></div>
+        <div class="breakdown-row"><span class="label">= Net MMR</span><span class="val" id="b-netmmr">$0.00</span></div>
+        <div class="breakdown-row mult"><span class="label" id="b-mult-label">× 28</span><span class="val" id="b-x28">$0.00</span></div>
+        <div class="breakdown-row neg"><span class="label">− Chargeback (10%)</span><span class="val" id="b-chargeback">$0.00</span></div>
+        <div class="breakdown-row"><span class="label">= After Chargeback</span><span class="val" id="b-afterchargeback">$0.00</span></div>
+        <div class="breakdown-row neg"><span class="label">− Equipment</span><span class="val" id="b-equip">$0.00</span></div>
+        <div class="breakdown-row neg"><span class="label">− Tech Pay</span><span class="val" id="b-tech">$0.00</span></div>
+        <div class="breakdown-row neg"><span class="label">− Admin Fee</span><span class="val" id="b-admin">$0.00</span></div>
+      </div>
+    </div>
+    <div class="card calc-result">
+      <div class="amt" id="final">$0.00</div>
+      <div class="caption">Rep Commission</div>
+      <div class="itemized" id="itemized">
+        <button type="button" class="itemized-toggle" id="itemized-toggle"><span>Itemized Equipment</span><span class="itemized-arrow" id="itemized-arrow">▾</span></button>
+        <div class="itemized-body" id="itemized-body"></div>
+      </div>
+      <button class="batch-add-btn" type="button" id="add-batch-btn">+ Add to Batch</button>
+    </div>
+    <div class="card">
+      <h2>Commission Batch</h2>
+      <div id="batch-list"></div>
+      <div class="batch-total-row"><span>Batch Total</span><span class="val" id="batch-total">$0.00</span></div>
+      <button class="btn primary" type="button" id="view-batch-btn" style="margin-top:10px;">View Full Batch →</button>
+      <button class="batch-clear-btn" type="button" id="clear-batch-btn">Clear Batch</button>
+    </div>
+    <button class="batch-clear-btn" type="button" id="calc-reset-btn">Reset calculator fields</button>
+  </div>
+
+  <!-- STEP: BATCH DETAIL -->
+  <div class="step" id="step-batch">
+    <button type="button" class="back-link" data-back>← Back</button>
+    <div class="card">
+      <h2>Commission Batch</h2>
+      <div id="batch-detail-list"></div>
+      <div id="batch-detail-total" style="text-align:right;font-size:14px;font-weight:700;margin-top:12px;color:var(--good);"></div>
+      <div style="color:var(--muted);font-size:11px;margin-top:10px;">* Estimated commission based on the equipment and MMR entered.</div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <button type="button" class="bb-icon" id="bb-home" title="Home">🏠</button>
+  <button type="button" class="bb-icon" id="bb-custom" title="Custom Quote">📝</button>
+  <button type="button" class="bb-icon" id="bb-commission" title="Rep Commission">🧮</button>
+  <button type="button" class="bb-icon" id="bb-batch" title="Commission Batch">📋</button>
+  <button type="button" class="bb-icon" id="bb-settings" title="Settings">⚙️</button>
+</div>
+
+<div class="overlay" id="settings-overlay">
+  <div class="overlay-card wide">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+      <h3 style="margin:0;">Edit Packages</h3>
+      <button type="button" id="settings-x" style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1;padding:4px;">×</button>
+    </div>
+    <div style="color:var(--muted);font-size:11.5px;margin-bottom:14px;">Saved to this device only — edits here won't appear on other phones or browsers.</div>
+    <div id="settings-body"></div>
+    <div class="settings-actions">
+      <button type="button" class="btn" id="settings-restore">Restore Defaults</button>
+      <button type="button" class="btn primary" id="settings-close" style="margin-top:0;">Done</button>
+    </div>
+  </div>
+</div>
+
+
 </div></section>
 <section class="view" id="v-sheets" aria-label="Sheets"><div class="scroll"></div></section>
 <section class="view" id="v-more" aria-label="More"><div class="scroll"></div></section>
 </div>
 <div id="sp"></div>
-<div id="bot"><div id="panel"></div><nav id="tabs" aria-label="Sections"><button type="button" data-t="street"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.6 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg></span>Street</button><button type="button" data-t="goals"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg></span>Goals</button><button type="button" data-t="stats"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></span>Stats</button><button hidden type="button" data-t="chat"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M8 10h8M8 13h5"/></svg></span>Chat</button><button type="button" data-t="sheets"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="14" rx="2.5"/><path d="M7 3h10M8 11h8M8 15h5"/></svg></span>Sheets</button><button type="button" data-t="calc"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 7.5h7M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/></svg></span>Calc</button><button type="button" data-t="more"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5.5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18.5" cy="12" r="1.4"/></svg></span>More</button></nav></div>
-<div id="ver">v2.4.0</div>
+<div id="bot"><div id="panel"></div><nav id="tabs" aria-label="Sections"><button type="button" data-t="street"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.6 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg></span>Street</button><button type="button" data-t="goals"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg></span>Goals</button><button type="button" data-t="stats"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></span>Stats</button><button hidden type="button" data-t="chat"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M8 10h8M8 13h5"/></svg></span>Chat</button><button type="button" data-t="sheets"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="14" rx="2.5"/><path d="M7 3h10M8 11h8M8 15h5"/></svg></span>Sheets</button><button type="button" data-t="approval"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4.4-3 8.2-7 9.5-4-1.3-7-5.1-7-9.5V6z"/><path d="M8.7 12.2l2.4 2.4 4.3-4.8"/></svg></span>Approval</button><button type="button" data-t="more"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5.5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18.5" cy="12" r="1.4"/></svg></span>More</button></nav></div>
+<div id="ver">v2.6.0</div>
 <canvas id="confetti" hidden></canvas>
 <div id="dealAlert" role="alert" hidden></div>
 <div id="cbAlert" role="alert" hidden></div>
@@ -321,7 +688,7 @@ body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb #oddsbar{display:
 <div id="shBar" hidden><span></span><button type="button" onclick="exitShared()">Close</button></div>
 <div id="toast" hidden></div>
 <script>
-const VER="2.4.0",LOG=[{"v": "2.4.0", "d": "Oct 15", "n": [{"id": "share", "t": "Share a street sheet in team chat (the 📋 button). Teammates tap it to open the full sheet, view only. It never lands in their sheets or stats"}, {"id": "prune", "t": "Chat messages and shared sheets are removed after 3 months so nothing piles up"}, {"id": "brkask", "t": "Take a break now asks when it started: starting now, since your last door, or minutes ago, so your time stays accurate"}, {"id": "editvis", "t": "The address you are typing is no longer hidden behind the panel or keyboard"}, {"id": "trail", "t": "Better address accuracy: while you work a street, the app averages your last 25 seconds of location at each door and tops up map data ahead of you"}, {"id": "calc", "t": "Calc tab is now your commission calculator: MMR, package pass-through, credit rating (with the Admin 32X tiers), equipment, tech pay and a full breakdown, plus a commission batch you can name, review and clear"}, {"id": "oldfix", "t": "Fixed opening an old sheet starting a new one when New sheet each day is on"}, {"id": "crack", "t": "Removed the thin line between the column headings and the street bar"}]}, {"v": "2.2.0", "d": "Oct 14", "n": [{"id": "team", "t": "Team deal alerts: a winner alarm and banner when a teammate gets a deal, including ones you missed while away"}, {"id": "streak", "t": "Shout-outs for 2nd, 3rd and later deals, with over 200 different messages. Three deals sets the pace with a golden banner and confetti"}, {"id": "hold", "t": "A deal is announced 2 minutes after it is logged. Changing or clearing it in that time cancels the alert, so accidental taps never go out"}, {"id": "hours", "t": "Deal alerts only go out and show from 8 AM to 8 PM, and each day's deal count starts fresh at 8 AM"}, {"id": "join", "t": "Join the team screen asks for your name on launch until you join (team TWONADT is built in)"}, {"id": "teamset", "t": "Team settings in More: alerts on/off, alarm sound, your name and a Test button"}, {"id": "chat", "t": "Team chat tab for everyone on your team code, with who is on the team and an unread count. It sits between Stats and Sheets, and Sheets and Calc swapped places"}, {"id": "stk", "t": "Every street is now sticky at the top of the sheet, with its deals, comebacks and doors counts and the city and state from your GPS. The column headings now sit directly under the odds bar and the street bars with no gaps"}, {"id": "fold", "t": "Tap a street to collapse or expand its doors. The double arrow button on the first street bar collapses all the street bars into one small Streets row, and tap that row to open them again"}, {"id": "cbrem", "t": "Comeback reminders: an alert 10 minutes before your chosen comeback time (T, W and M remind at 9 AM that day), while the app is open. You can turn it off in More"}, {"id": "addr3", "t": "House numbers now come from where you are standing and the map data first. The street pattern is only a backup when there is no map data. While GPS checks, the address box says locating"}, {"id": "turn2", "t": "Turn screen: tap a street you were already on to turn back onto it, even if you type it differently (St or Street, capitals), and numbering picks up where you left that street. The Return key works too"}, {"id": "qmark", "t": "A ? key above the address keyboard for houses you cannot read"}, {"id": "tapout", "t": "Tap anywhere outside a text box to close the keyboard, and the chat keyboard closes after you send"}, {"id": "brkask", "t": "If you have not added a door for 5 minutes, the app asks whether you are on a break"}, {"id": "search", "t": "Search on the Sheets tab: finds names, notes, addresses and streets, then opens the sheet at the first match, highlighted in yellow"}, {"id": "daily", "t": "New option in More: start a new sheet automatically the first time you open Street on a new date (off by default)"}, {"id": "cols", "t": "Slimmer Response column gives the Note column more room, and long notes slide into view like a ticker: pause, slide, hold 1 second, reset"}, {"id": "hdr", "t": "Sheet header now sits right under the odds bar, with no gap"}, {"id": "panel", "t": "The response panel no longer shows NEW DOOR (tap outside it to close), and Add and Edit now live in its left column"}, {"id": "defaults", "t": "New installs start with the new default responses, and Has Our Service is now Has Service"}, {"id": "gps1", "t": "Location is steadier: the app waits up to 8 seconds for the most accurate reading instead of taking the first rough one"}, {"id": "gps2", "t": "Map data download is more reliable (longer wait and an extra backup server)"}, {"id": "gps3", "t": "New Location check in More tests your GPS and map data and tells you exactly what is wrong"}, {"id": "wn", "t": "The What's new popup shows only changes you have not seen yet"}, {"id": "pn", "t": "Patch notes page under More keeps one entry per day"}]}, {"v": "2.0.1", "d": "Oct 10", "n": [{"id": "brk", "t": "Take a break button next to NEW DOOR pauses your time and every stat until you press NEW DOOR again"}, {"id": "resp10", "t": "Up to 10 customizable responses, with drag-to-reorder in Edit responses"}, {"id": "clr", "t": "Tap a selected response again to clear it"}, {"id": "kb", "t": "Panels and fields now sit right above the keyboard instead of jumping to the top"}, {"id": "ver", "t": "Version number shown in the top-left corner"}, {"id": "clean", "t": "Full code cleanup: dead code removed, nothing changed in how it works"}]}, {"v": "2.0.0", "d": "Oct 9", "n": [{"id": "v2a", "t": "Redesigned app with Street, Goals, Stats, Calc, Sheets and More tabs"}, {"id": "v2b", "t": "Sticky street rows with deals, comebacks and rejections at a glance; tap one to jump to it"}, {"id": "v2c", "t": "Sheets tab to open, review and delete past street sheets"}, {"id": "v2d", "t": "GPS address help using real house numbers from OpenStreetMap, with notification pills for location status"}, {"id": "v2e", "t": "Doors per hour pace, deal odds, goals, and $ per hour tracking"}, {"id": "v2f", "t": "Sounds and haptics, thinner header, and iPhone keyboard and zoom fixes"}, {"id": "v2g", "t": "Automatic backup copy of your sheets to protect against data loss"}]}, {"v": "1.0.0", "d": "Oct 9", "n": [{"id": "v1a", "t": "First version: street sheets with address, response, name, note and APT"}, {"id": "v1b", "t": "Comebacks list, goals, deal odds and a route map of your doors"}]}],RELAY="https://street-sheet-default-rtdb.firebaseio.com",TEAMCODE="TWONADT";
+const VER="2.6.0",LOG=[{"v": "2.6.0", "d": "Oct 15", "n": [{"id": "deals", "t": "Deals live on the Sheets tab: every approval shows the customer, date, sheet and commission, tap one for the full details, and each sheet has a small deals button. You can also add an approval with no sheet"}, {"id": "income", "t": "Income and $/hr now come only from deals added through Approval. The manual Add $ entry is gone"}, {"id": "appr", "t": "The Calc tab is now Approval: customer name and credit tier, package menu, approved screen with Accept, package override, custom builder, then the commission calculator and batch, in the same order as your approval app"}, {"id": "dealjump", "t": "New option in More: Jump to Approval on a deal. Marking a deal on the street sheet opens Approval with the customer name filled in"}, {"id": "mapfeed", "t": "Map data now updates as you walk, about every 30 m, and old data is cleared after 2 days"}, {"id": "scorepick", "t": "Address pick rebuilt: every mapped house on your side is scored by distance from you and how natural it is as the next door, so one noisy reading no longer decides it"}, {"id": "share", "t": "Share a street sheet in team chat (the 📋 button). Teammates tap it to open the full sheet, view only. It never lands in their sheets or stats"}, {"id": "prune", "t": "Chat messages and shared sheets are removed after 3 months so nothing piles up"}, {"id": "brkask", "t": "Take a break now asks when it started: starting now, since your last door, or minutes ago, so your time stays accurate"}, {"id": "editvis", "t": "The address you are typing is no longer hidden behind the panel or keyboard"}, {"id": "trail", "t": "Better address accuracy: while you work a street, the app averages your last 25 seconds of location at each door and tops up map data ahead of you"}, {"id": "oldfix", "t": "Fixed opening an old sheet starting a new one when New sheet each day is on"}, {"id": "crack", "t": "Removed the thin line between the column headings and the street bar"}]}, {"v": "2.2.0", "d": "Oct 14", "n": [{"id": "team", "t": "Team deal alerts: a winner alarm and banner when a teammate gets a deal, including ones you missed while away"}, {"id": "streak", "t": "Shout-outs for 2nd, 3rd and later deals, with over 200 different messages. Three deals sets the pace with a golden banner and confetti"}, {"id": "hold", "t": "A deal is announced 2 minutes after it is logged. Changing or clearing it in that time cancels the alert, so accidental taps never go out"}, {"id": "hours", "t": "Deal alerts only go out and show from 8 AM to 8 PM, and each day's deal count starts fresh at 8 AM"}, {"id": "join", "t": "Join the team screen asks for your name on launch until you join (team TWONADT is built in)"}, {"id": "teamset", "t": "Team settings in More: alerts on/off, alarm sound, your name and a Test button"}, {"id": "chat", "t": "Team chat tab for everyone on your team code, with who is on the team and an unread count. It sits between Stats and Sheets, and Sheets and Calc swapped places"}, {"id": "stk", "t": "Every street is now sticky at the top of the sheet, with its deals, comebacks and doors counts and the city and state from your GPS. The column headings now sit directly under the odds bar and the street bars with no gaps"}, {"id": "fold", "t": "Tap a street to collapse or expand its doors. The double arrow button on the first street bar collapses all the street bars into one small Streets row, and tap that row to open them again"}, {"id": "cbrem", "t": "Comeback reminders: an alert 10 minutes before your chosen comeback time (T, W and M remind at 9 AM that day), while the app is open. You can turn it off in More"}, {"id": "addr3", "t": "House numbers now come from where you are standing and the map data first. The street pattern is only a backup when there is no map data. While GPS checks, the address box says locating"}, {"id": "turn2", "t": "Turn screen: tap a street you were already on to turn back onto it, even if you type it differently (St or Street, capitals), and numbering picks up where you left that street. The Return key works too"}, {"id": "qmark", "t": "A ? key above the address keyboard for houses you cannot read"}, {"id": "tapout", "t": "Tap anywhere outside a text box to close the keyboard, and the chat keyboard closes after you send"}, {"id": "brkask", "t": "If you have not added a door for 5 minutes, the app asks whether you are on a break"}, {"id": "search", "t": "Search on the Sheets tab: finds names, notes, addresses and streets, then opens the sheet at the first match, highlighted in yellow"}, {"id": "daily", "t": "New option in More: start a new sheet automatically the first time you open Street on a new date (off by default)"}, {"id": "cols", "t": "Slimmer Response column gives the Note column more room, and long notes slide into view like a ticker: pause, slide, hold 1 second, reset"}, {"id": "hdr", "t": "Sheet header now sits right under the odds bar, with no gap"}, {"id": "panel", "t": "The response panel no longer shows NEW DOOR (tap outside it to close), and Add and Edit now live in its left column"}, {"id": "defaults", "t": "New installs start with the new default responses, and Has Our Service is now Has Service"}, {"id": "gps1", "t": "Location is steadier: the app waits up to 8 seconds for the most accurate reading instead of taking the first rough one"}, {"id": "gps2", "t": "Map data download is more reliable (longer wait and an extra backup server)"}, {"id": "gps3", "t": "New Location check in More tests your GPS and map data and tells you exactly what is wrong"}, {"id": "wn", "t": "The What's new popup shows only changes you have not seen yet"}, {"id": "pn", "t": "Patch notes page under More keeps one entry per day"}]}, {"v": "2.0.1", "d": "Oct 10", "n": [{"id": "brk", "t": "Take a break button next to NEW DOOR pauses your time and every stat until you press NEW DOOR again"}, {"id": "resp10", "t": "Up to 10 customizable responses, with drag-to-reorder in Edit responses"}, {"id": "clr", "t": "Tap a selected response again to clear it"}, {"id": "kb", "t": "Panels and fields now sit right above the keyboard instead of jumping to the top"}, {"id": "ver", "t": "Version number shown in the top-left corner"}, {"id": "clean", "t": "Full code cleanup: dead code removed, nothing changed in how it works"}]}, {"v": "2.0.0", "d": "Oct 9", "n": [{"id": "v2a", "t": "Redesigned app with Street, Goals, Stats, Calc, Sheets and More tabs"}, {"id": "v2b", "t": "Sticky street rows with deals, comebacks and rejections at a glance; tap one to jump to it"}, {"id": "v2c", "t": "Sheets tab to open, review and delete past street sheets"}, {"id": "v2d", "t": "GPS address help using real house numbers from OpenStreetMap, with notification pills for location status"}, {"id": "v2e", "t": "Doors per hour pace, deal odds, goals, and $ per hour tracking"}, {"id": "v2f", "t": "Sounds and haptics, thinner header, and iPhone keyboard and zoom fixes"}, {"id": "v2g", "t": "Automatic backup copy of your sheets to protect against data loss"}]}, {"v": "1.0.0", "d": "Oct 9", "n": [{"id": "v1a", "t": "First version: street sheets with address, response, name, note and APT"}, {"id": "v1b", "t": "Comebacks list, goals, deal odds and a route map of your doors"}]}],RELAY="https://street-sheet-default-rtdb.firebaseio.com",TEAMCODE="TWONADT";
 const K='doortracker.v1',$=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9);
 const DEF=[['deal','DEAL!','Deal','deal'],['rej','NO','Rejection','rej'],['cb','CB','Come Back','cb'],['v','Apt/V','Apartment/Vacant','vac'],['dnq','DNQ','Renter/Cred Fail','other'],['svc','✅','Has Service','other']].map(a=>({id:a[0],sym:a[1],label:a[2],type:a[3]}));
 const TYPES={deal:'Deal',rej:'Rejection',cb:'Comeback',nh:'Not home',vac:'Vacant',other:'Other'};
@@ -340,7 +707,7 @@ if(!S||!S.sessions||!S.sessions.length){fresh0=true;const s=ns();S={resp:DEF.map
 let SH=null;const cs=()=>SH||S.sessions.find(x=>x.id===S.cur)||S.sessions[0];
 let CL=null,wt,qt;const dirty=new Set();
 async function flush(){if(!CL)return;const ids=[...dirty];dirty.clear();try{
- await CL.doc('settings').set({json:JSON.stringify({resp:S.resp,showRed:S.showRed,auto:S.auto,daily:S.daily,cbRem:S.cbRem,calcBatch:S.calcBatch,jump:S.jump,geo:S.geo,snd:S.snd,cur:S.cur,pay:S.pay,payMode:S.payMode,goal:S.goal,order:S.sessions.map(x=>x.id),t:S.t})});
+ await CL.doc('settings').set({json:JSON.stringify({resp:S.resp,showRed:S.showRed,auto:S.auto,daily:S.daily,cbRem:S.cbRem,calcBatch:S.calcBatch,dealJump:S.dealJump,jump:S.jump,geo:S.geo,snd:S.snd,cur:S.cur,pay:S.pay,payMode:S.payMode,goal:S.goal,order:S.sessions.map(x=>x.id),t:S.t})});
  for(const id of ids){const x=S.sessions.find(y=>y.id===id);if(x)await CL.doc('sheet_'+id).set({json:JSON.stringify(x)})}
 }catch(e){ids.forEach(i=>dirty.add(i))}}
 const save=()=>{S.t=Date.now();let ok=true;const js=JSON.stringify(S);try{localStorage.setItem(K,js)}catch(e){ok=false}
@@ -387,7 +754,7 @@ const rowHit=(r,q)=>r.t==='door'?(has(r.addr,q)||has(r.name,q)||has(r.note,q)||h
 const sheetHits=(s,q)=>(has(s.street0,q)||has(s.street,q)||has(dt(s.date),q)?1:0)+s.rows.filter(r=>rowHit(r,q)).length;
 function keepScroll(sel,fn){const e=$(sel),y=e?e.scrollTop:0;fn();const n=$(sel);if(n)n.scrollTop=y}
 function render(){
- if(tab==='street')renderStreet();else if(tab==='goals')keepScroll('#v-goals .scroll',renderGoals);else if(tab==='stats')keepScroll('#v-stats .scroll',renderStats);else if(tab==='sheets')keepScroll('#v-sheets .scroll',renderSheets);else if(tab==='chat')renderChat();else if(tab==='calc')calcInit();else if(tab==='more')keepScroll('#v-more .scroll',renderMore);
+ if(tab==='street')renderStreet();else if(tab==='goals')keepScroll('#v-goals .scroll',renderGoals);else if(tab==='stats')keepScroll('#v-stats .scroll',renderStats);else if(tab==='sheets')keepScroll('#v-sheets .scroll',renderSheets);else if(tab==='chat')renderChat();else if(tab==='more')keepScroll('#v-more .scroll',renderMore);
  fit();
 }
 function renderStreet(){
@@ -566,7 +933,7 @@ function hud(H){
  if(gpPrev!=null&&gp>gpPrev&&Math.floor(gp/25)>Math.floor(gpPrev/25)){pop($('#goalbar'),gp>=100);tick(4);cheer(gp>=100?'Goal hit! 🏆':Math.floor(gp/25)*25+'% of your '+(g.mode==='week'?'weekly':'daily')+' goal')}
  gpPrev=gp;
  const th=H.todayAct/36e5;
- const pm=S.payMode||'day',pe=earn(H,pm);$('#k5').textContent=pe.tot?(pe.hrs>.02?'$'+Math.round(pe.tot/pe.hrs):'$–'):'Add $';$('#l5').textContent='$/hr · '+({day:'Day',week:'Week',month:'Month',all:'All'}[pm]);
+ const pm=S.payMode||'day',pe=earn(H,pm);$('#k5').textContent=pe.tot?(pe.hrs>.02?'$'+Math.round(pe.tot/pe.hrs):'$–'):'$–';$('#l5').textContent='$/hr · '+({day:'Day',week:'Week',month:'Month',all:'All'}[pm]);
  let od=0;if(H.deals&&H.n){const d=H.deals/H.n,t=H.ans?H.deals/H.ans:0,a=1-Math.pow(1-d,H.since),b=t?1-Math.pow(1-t,H.sAns):a;od=Math.min(.99,(a+b)/2)}
  $('#oFill').style.width=Math.round(od*100)+'%';
  $('#oTxt').textContent=H.deals?`Deal odds ${Math.round(od*100)}% · ${H.since} doors · ${H.sAns} talked`:'Odds unlock after your first deal';
@@ -579,20 +946,21 @@ function hud(H){
 function dayT(k){const a=k.split('-').map(Number);return new Date(a[0],a[1]-1,a[2]).getTime()}
 function earn(H,mode,ref){ref=ref||Date.now();const R0=new Date(ref),inP=t=>{const d=new Date(t);return mode==='all'||(mode==='day'?dk(t)===dk(ref):mode==='week'?wk(t)===wk(ref):d.getFullYear()===R0.getFullYear()&&d.getMonth()===R0.getMonth())};
  let tot=0;for(const k in S.pay){const v=parseFloat(S.pay[k]);if(v&&inP(dayT(k)))tot+=v}
+ (S.calcBatch||[]).forEach(b=>{const v=+b.amount;if(v>0&&b.ts&&inP(b.ts))tot+=v});
  return{tot,hrs:activeMs(H.all.filter(r=>inP(r.ts)))/36e5}}
+const payByDay=()=>{const m={};for(const k in S.pay){const v=parseFloat(S.pay[k]);if(v>0)m[k]=(m[k]||0)+v}(S.calcBatch||[]).forEach(b=>{const v=+b.amount;if(v>0&&b.ts){const k=dk(b.ts);m[k]=(m[k]||0)+v}});return m};
 function paySheet(){
- const k=dk(Date.now()),H=hist(),tot=parseFloat(S.pay[k])||0,mode=S.payMode||'day',e=earn(H,mode),money=v=>'$'+Math.round(v).toLocaleString(),
- i=h('input',{class:'in',inputmode:'decimal',placeholder:'Deal amount ($)'}),val=()=>parseFloat(i.value),
+ const k=dk(Date.now()),H=hist(),M=payByDay(),tot=M[k]||0,mode=S.payMode||'day',e=earn(H,mode),money=v=>'$'+Math.round(v).toLocaleString(),
  sg=h('div',{class:'gd c4'},[['day','Day'],['week','Week'],['month','Month'],['all','All time']].map(([m,l])=>h('button',{class:'b'+(mode===m?' on':''),onclick:()=>{S.payMode=m;save();render();paySheet()}},l))),
- days=Object.keys(S.pay).filter(x=>parseFloat(S.pay[x])>0).sort((a,b)=>dayT(b)-dayT(a)).slice(0,14).map(x=>{const t=dayT(x),r=earn(H,'day',t);
+ days=Object.keys(M).sort((a,b)=>dayT(b)-dayT(a)).slice(0,14).map(x=>{const t=dayT(x),r=earn(H,'day',t);
   return h('div',{class:'it'},h('b',{style:'min-width:104px;font-size:14px'},dt(t)),h('span',{},money(r.tot)+' · '+dur(r.hrs*36e5)),h('em',{},r.hrs>.02?money(r.tot/r.hrs)+'/hr':'–'))});
  sheet("Today's earnings",h('div',{class:'cd big'},h('b',{},money(tot)),h('span',{},'total so far today')),
-  p('Add each deal as you get it. Every day is saved automatically.'),i,
-  h('div',{class:'gd'},h('button',{class:'b p',onclick:()=>{const v=val();if(!(v>0))return;S.pay[k]=String(tot+v);save();close();pop($('#t5'))}},'Add to total'),h('button',{class:'b',onclick:()=>{const v=val();if(!(v>=0))return;S.pay[k]=String(v);save();close()}},'Set total')),
+  p('Income comes from the deals you add through Approval. See each one on the Sheets tab.'),
+  h('div',{class:'gd'},h('button',{class:'b p',onclick:()=>{close();setTab('approval')}},'New approval'),h('button',{class:'b',onclick:()=>{close();setTab('sheets')}},'See deals')),
   h('div',{class:'sec'},'$ per hour'),sg,
   h('div',{class:'cd big'},h('b',{},e.hrs>.02&&e.tot?money(e.tot/e.hrs):'–'),h('span',{},'per hour · '+({day:'today',week:'this week',month:'this month',all:'all time'}[mode])+(e.tot?' ('+money(e.tot)+' over '+dur(e.hrs*36e5)+')':''))),
   days.length?h('div',{class:'sec'},'Past days'):null,h('div',{},days),
-  h('button',{class:'b',style:'width:100%;margin-top:10px',onclick:close},'Close'));i.focus();
+  h('button',{class:'b',style:'width:100%;margin-top:10px',onclick:close},'Close'));
 }
 function legGaps(ds,l){
  const cur=[],oth=[],prv=[];
@@ -644,7 +1012,7 @@ function nameFromGps(s,r){
   if(!n||(s.street||'').trim()||hasTurn(s))return;
   s.street=n;s.street0=n;save();const i=$('#st');if(cs()===s&&i&&document.activeElement!==i)i.value=n}).catch(()=>{})}catch(e){}}
 // ===== Real addresses from OpenStreetMap =====
-const AR=600,AGE=30*864e5;let netFail=false,adErr='';
+const AR=600,AGE=2*864e5;let netFail=false,adErr='';
 let ADT=[];const adReady=(async()=>{try{localStorage.removeItem('doortracker.addr.v1')}catch(e){}try{ADT=JSON.parse(await idb.get('addr')||'[]').filter(t=>Date.now()-t.t<AGE)}catch(e){ADT=[]}})();
 const hav=(a,b,c,d)=>{const k=Math.PI/180,x=(c-a)*k,y=(d-b)*k*Math.cos((a+c)/2*k);return 6371000*Math.sqrt(x*x+y*y)};
 const ABBR={st:'street',str:'street',ave:'avenue',av:'avenue',rd:'road',dr:'drive',ln:'lane',ct:'court',blvd:'boulevard',pkwy:'parkway',pky:'parkway',pl:'place',ter:'terrace',cir:'circle',hwy:'highway'};
@@ -652,17 +1020,17 @@ const SUF=new Set(['street','avenue','road','drive','lane','court','boulevard','
 const core=s=>String(s||'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(Boolean).map(w=>ABBR[w]||w).filter(w=>!SUF.has(w)).join(' ');
 const sameSt=(a,b)=>{const x=core(a),y=core(b);return !!x&&!!y&&(x===y||(x.length>=4&&y.length>=4&&(x.includes(y)||y.includes(x))))};
 function adList(la,lo){const out=[],seen=new Set();ADT.forEach(t=>{if(hav(la,lo,t.la,t.lo)<AR+300)t.l.forEach(a=>{const k=a[0]+'|'+a[1]+'|'+a[2]+'|'+a[3];if(!seen.has(k)){seen.add(k);out.push({n:a[0],st:a[1],la:a[2],lo:a[3]})}})});return out}
-const adCovered=(la,lo)=>ADT.some(t=>Date.now()-t.t<AGE&&hav(la,lo,t.la,t.lo)<300);
-async function adFetch(la,lo){
- adErr='';
- const q='[out:json][timeout:25];(node["addr:housenumber"](around:'+AR+','+la+','+lo+');way["addr:housenumber"](around:'+AR+','+la+','+lo+'););out center tags qt;';
+const adCovered=(la,lo)=>ADT.some(t=>Date.now()-t.t<AGE&&hav(la,lo,t.la,t.lo)<110);
+async function adFetch(la,lo,rad){
+ adErr='';rad=rad||320;
+ const q='[out:json][timeout:25];(node["addr:housenumber"](around:'+rad+','+la+','+lo+');way["addr:housenumber"](around:'+rad+','+la+','+lo+'););out center tags qt;';
  for(const u of ['https://overpass-api.de/api/interpreter','https://overpass.private.coffee/api/interpreter','https://overpass.kumi.systems/api/interpreter']){
   const hn=u.split('/')[2];try{const ac=new AbortController(),to=setTimeout(()=>ac.abort(),28000);
    const r=await fetch(u,{method:'POST',body:'data='+encodeURIComponent(q),headers:{'Content-Type':'application/x-www-form-urlencoded'},signal:ac.signal});clearTimeout(to);
    if(!r.ok){adErr+=hn+' '+r.status+'. ';continue}const d=await r.json(),l=[];
    (d.elements||[]).forEach(e=>{const t=e.tags||{},m=/^\d+/.exec(t['addr:housenumber']||''),a=e.lat!=null?e.lat:e.center&&e.center.lat,o=e.lon!=null?e.lon:e.center&&e.center.lon;
     if(m&&t['addr:street']&&a!=null)l.push([+m[0],t['addr:street'],+(+a).toFixed(6),+(+o).toFixed(6)])});
-   ADT=ADT.filter(t=>hav(la,lo,t.la,t.lo)>40&&hav(la,lo,t.la,t.lo)<5000&&Date.now()-t.t<AGE);ADT.push({la:+la.toFixed(5),lo:+lo.toFixed(5),t:Date.now(),l});ADT=ADT.slice(-7);
+   ADT=ADT.filter(t=>hav(la,lo,t.la,t.lo)>18&&hav(la,lo,t.la,t.lo)<2500&&Date.now()-t.t<AGE);ADT.push({la:+la.toFixed(5),lo:+lo.toFixed(5),t:Date.now(),l});ADT=ADT.slice(-60);
    while(ADT.length>1&&JSON.stringify(ADT).length>5e6)ADT.shift();
    idb.set('addr',JSON.stringify(ADT));
    return true}catch(e){adErr+=hn+(e&&e.name==='AbortError'?' timed out. ':' blocked or offline. ')}}
@@ -697,6 +1065,23 @@ function interpAt(s,fix,ctx){
   if(d<60&&(!best||d<best.d))best={d,n:P[i-1].n+(P[i].n-P[i-1].n)*t}}
  return best?best.n:null}
 const snapPar=(x,par)=>{let n=Math.round(x);if(((n%2)+2)%2!==par)n=Math.abs(n+1-x)<=Math.abs(n-1-x)?n+1:n-1;return n};
+// Scores every mapped house on your side of the street: how far it is from where you stand (weighted by how good the fix is) plus how natural it is as the next door in line. Lowest score wins
+function scorePick(s,fix,ctx){
+ const L=adList(fix.la,fix.lo);if(L.length<6||ctx.prevN==null)return null;
+ const st=adStreet(s,fix,L,false);if(!st)return null;
+ const par=(((ctx.prevN%2)+2)%2)^(ctx.crossed?1:0),by={};
+ L.forEach(a=>{if(a.n%2===par&&sameSt(a.st,st)&&hav(fix.la,fix.lo,a.la,a.lo)<260){const o=by[a.n]=by[a.n]||{n:a.n,la:0,lo:0,c:0};o.la+=a.la;o.lo+=a.lo;o.c++}});
+ const P=Object.values(by).map(o=>({n:o.n,d:hav(fix.la,fix.lo,o.la/o.c,o.lo/o.c)})).sort((x,y)=>x.n-y.n);if(P.length<3)return null;
+ let ref=P.findIndex(a=>a.n>=ctx.prevN);if(ref<0)ref=P.length-1;
+ if(ref>0&&P[ref].n!==ctx.prevN&&Math.abs(P[ref-1].n-ctx.prevN)<=Math.abs(P[ref].n-ctx.prevN))ref--;
+ const dir=Math.sign(s.step||-2)||-1,sg=Math.max(9,(fix.acc||10)*.9),used=new Set(doors(s).map(d=>eff(d)));
+ const C=P.map((a,i)=>{const k=(i-ref)*dir;let pen;
+  if(ctx.crossed)pen=Math.abs(a.n-ctx.prevN)<=1?.2:Math.abs(k)*.5;
+  else pen=k===1?0:k===2?1.1:k===3?2.4:k>3?3.5+(k-3)*.8:5+(-k);
+  if(used.has(a.n)&&!ctx.crossed)pen+=6;
+  return{n:a.n,d:a.d,c:a.d*a.d/(2*sg*sg)+pen}}).sort((x,y)=>x.c-y.c);
+ if(C[0].d>Math.max(45,sg*3))return null;
+ return{n:C[0].n,st,margin:C[1].c-C[0].c,d:C[0].d}}
 function mapPick(s,fix,ctx){
  const L=adList(fix.la,fix.lo);if(L.length<4)return null;
  const st=adStreet(s,fix,L,true);if(!st)return null;
@@ -733,7 +1118,7 @@ function trailAvg(ref,t0){
  const m=L.map(x=>x.acc).sort((a,b)=>a-b)[L.length>>1];return{la:la/w,lo:lo/w,acc:Math.max(4,m/Math.sqrt(Math.min(L.length,4))),n:L.length}}
 function trailPt(c){
  const t=Date.now();if(c.accuracy>40)return;trail.push({la:c.latitude,lo:c.longitude,acc:c.accuracy,t});trail=trail.filter(x=>t-x.t<60e3);
- if(!trailBusy&&t-trailFetchT>6e4&&!ADT.some(x=>Date.now()-x.t<AGE&&hav(c.latitude,c.longitude,x.la,x.lo)<250)){trailBusy=true;trailFetchT=t;adReady.then(()=>adFetch(c.latitude,c.longitude)).catch(()=>{}).then(()=>{trailBusy=false})}}
+ if(!trailBusy&&t>trailFetchT&&!ADT.some(x=>t-x.t<AGE&&hav(c.latitude,c.longitude,x.la,x.lo)<30)){trailBusy=true;trailFetchT=t+7e3;adReady.then(()=>adFetch(c.latitude,c.longitude,300)).then(ok=>{if(!ok)trailFetchT=Date.now()+3e4}).catch(()=>{}).then(()=>{trailBusy=false})}}
 function trailCheck(){
  const want=!document.hidden&&tab==='street'&&!SH&&!openBrk()&&S.geo!==false&&!!navigator.geolocation;
  if(want&&trailW==null){try{trailW=navigator.geolocation.watchPosition(p=>trailPt(p.coords),()=>{},{enableHighAccuracy:true,maximumAge:0,timeout:20000})}catch(e){}}
@@ -744,7 +1129,7 @@ function fixNow(cb,err,max){
  gpsT0=Date.now();gpsPill('Locating…','busy',0);locate(c=>cb(c),err,max,gpsT0)}
 async function getMap(fix){
  await adReady;
- if(!adCovered(fix.la,fix.lo)){gpsPill('Downloading map data…','busy',0);netFail=!(await adFetch(fix.la,fix.lo))}else netFail=false
+ if(!adCovered(fix.la,fix.lo)){gpsPill('Downloading map data…','busy',0);netFail=!(await adFetch(fix.la,fix.lo,420))}else netFail=false
  return adList(fix.la,fix.lo).length>=4}
 const shortSt=n=>String(n||'').replace(/\b(Street|Avenue|Road|Drive|Lane|Court|Boulevard|Parkway|Place|Terrace|Circle)\b/g,m=>({Street:'St',Avenue:'Ave',Road:'Rd',Drive:'Dr',Lane:'Ln',Court:'Ct',Boulevard:'Blvd',Parkway:'Pkwy',Place:'Pl',Terrace:'Ter',Circle:'Cir'}[m]));
 function probe(){
@@ -793,8 +1178,10 @@ function ping(r,s,base,ctx){
   let txt='Located ✓';
   if(r.srch){
    // 1) where you are standing, measured along the mapped houses  2) the map's next-in-line pick  3) next in line / street pattern
-   let n=null,ip=null;try{ip=interpAt(s,fix,ctx)}catch(e){}
-   if(ip!=null&&ctx.prevN!=null){
+   let n=null,ip=null,sp=null;try{sp=scorePick(s,fix,ctx)}catch(e){}
+   if(sp&&sp.margin>=.6)n=sp.n;
+   if(n==null)try{ip=interpAt(s,fix,ctx)}catch(e){}
+   if(n==null&&ip!=null&&ctx.prevN!=null){
     const par=(((ctx.prevN%2)+2)%2)^(ctx.crossed?1:0),dir=Math.sign(s.step||-2)||-1,c=snapPar(ip,par),near=adList(fix.la,fix.lo).find(a=>a.n%2===par&&Math.abs(a.n-ip)<=1.2&&hav(fix.la,fix.lo,a.la,a.lo)<80);
     const ok=ctx.crossed||(dir>0?c>ctx.prevN:c<ctx.prevN);
     if(ok&&Math.abs(c-ctx.prevN)<=14)n=near&&Math.abs(near.n-ip)<Math.abs(c-ip)+.5?near.n:c}
@@ -871,7 +1258,7 @@ function choose(r,x){
  if(x.type==='cb')cbSheet(r,x);
  else pick(r,x)
 }
-function pick(r,x,d,when){const was=typ(r);r.remDone=0;r.r=x.id;r.d=d||'';r.when=when||null;save();close();if(x.type==='deal'&&was!=='deal'){tick(3);fx('deal');pop($('#t2'));pop($('#t5'));cheer('Deal! 💰');r.dealAt=Date.now();teamSendDeal(r)}else if(was==='deal'&&x.type!=='deal')teamCancel(r);if(S.jump&&!['nh','vac','none'].includes(x.type)){const i=rowEl(r.id).querySelector('[data-f=name]');i&&i.focus()}}
+function pick(r,x,d,when){const was=typ(r);r.remDone=0;r.r=x.id;r.d=d||'';r.when=when||null;save();close();if(x.type==='deal'&&was!=='deal'){tick(3);fx('deal');pop($('#t2'));pop($('#t5'));cheer('Deal! 💰');r.dealAt=Date.now();teamSendDeal(r);if(S.dealJump){const nm=r.name||'';const sid=cs().id;setTimeout(()=>{setTab('approval');window.__appr&&__appr.start(nm,{sid,rid:r.id})},400)}}else if(was==='deal'&&x.type!=='deal')teamCancel(r);if(S.jump&&!(S.dealJump&&x.type==='deal')&&!['nh','vac','none'].includes(x.type)){const i=rowEl(r.id).querySelector('[data-f=name]');i&&i.focus()}}
 // Comeback reminders: 10 minutes before the chosen time (T, W and M have no clock time, so those remind at 9 AM that day)
 const dueOf=r=>{
  if(!r||r.t!=='door'){return null}const x=typ(r);if(x!=='cb'&&x!=='appt')return null;
@@ -998,6 +1385,7 @@ function renderMore(){
    tog('New sheet each day','Start a fresh sheet the first time you open the Street screen on a new date',()=>!!S.daily,x=>S.daily=x),
    tog('Comeback reminders','Alerts you 10 minutes before a comeback time while the app is open. T, W and M remind at 9 AM',()=>S.cbRem!==false,x=>{S.cbRem=x;if(x&&window.Notification&&Notification.permission==='default')try{Notification.requestPermission()}catch(e){}}),
    tog('Auto-open responses','Show the response panel as soon as a door is added',()=>S.auto,x=>S.auto=x),
+   tog('Jump to Approval on a deal','Opens the Approval tab with the customer name filled in as soon as you mark a deal',()=>!!S.dealJump,x=>S.dealJump=x),
    tog('Jump to Name after a response','Otherwise the panel just closes',()=>S.jump,x=>S.jump=x),
    tog('Sounds & haptics','A soft sound on tab switches, new doors, deals and goals. Vibration works on Android only.',()=>S.snd!==false,x=>{S.snd=x;if(x)tick(1)}),
    tog('GPS address help','One quick location check on launch, new door, turn and cross, matched to real addresses. Falls back to the street pattern.',()=>S.geo!==false,x=>{S.geo=x;if(x&&navigator.geolocation)try{navigator.geolocation.getCurrentPosition(()=>{},()=>{},{timeout:6000})}catch(e){}})),
@@ -1017,6 +1405,33 @@ function findHit(){const m=$('#main'),e=m.querySelector('.hit');if(!e)return;
  if(e.id==='startRow'||e.closest('#startRow')){m.scrollTop=0;return}
  const n=[...m.querySelectorAll('tr.turn')].filter(x=>x.offsetParent).length,th=0;
  m.scrollTop+=e.getBoundingClientRect().top-m.getBoundingClientRect().top-(th+n*mhFor(n)+10)}
+const dOpen=new Set(),cmx=n=>'$'+(+n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+const dealsFor=sid=>(S.calcBatch||[]).filter(b=>b.sid===sid);
+function dealRow(b,refresh){
+ const k=b.ts+'|'+(b.name||'')+'|'+b.amount,open=dOpen.has(k),ses=b.sid&&S.sessions.find(x=>x.id===b.sid),
+  row=h('div',{class:'dl'+(open?' open':'')});
+ row.append(h('button',{class:'dlh',type:'button',onclick:()=>{open?dOpen.delete(k):dOpen.add(k);tick(1);refresh()}},
+  h('div',{class:'rt'},h('b',{},b.name||'Unnamed customer'),h('small',{},dt(b.ts)+' · '+(ses?(ses.street0||ses.street||'Untitled'):'Approval only')+(b.packageName&&b.packageName!=='Manual Entry'?' · '+b.packageName:''))),
+  h('b',{class:'dla'},cmx(b.amount)),h('span',{class:'chev'},'›')));
+ if(open){
+  let arm=false;const nm=h('input',{class:'in',value:b.name||'',placeholder:'Customer name',autocapitalize:'words',onchange:e=>{b.name=e.target.value.trim();window.__appr&&__appr.set(S.calcBatch);refresh()}});
+  const del=h('button',{class:'btn',type:'button',onclick:()=>{if(!arm){arm=true;del.textContent='Tap again to remove';return}window.__appr&&__appr.set((S.calcBatch||[]).filter(x=>x!==b));refresh()}},'Remove');
+  row.append(h('div',{class:'dlb'},nm,
+   h('div',{class:'dll'},h('span',{},'Package'),h('b',{},b.packageName||'—')),h('div',{class:'dll'},h('span',{},'MMR'),h('b',{},cmx(b.mmr))),h('div',{class:'dll'},h('span',{},'Commission'),h('b',{},cmx(b.amount))),
+   ...(b.equipment||[]).map(e=>h('div',{class:'dll'},h('span',{},e.name),h('b',{},'× '+e.qty))),
+   h('div',{class:'two',style:'margin-top:10px'},ses?h('button',{class:'btn pri',type:'button',onclick:()=>{S.cur=ses.id;revId=ses.id;save();const dd=doors(ses);curId=dd.length?dd[dd.length-1].id:null;setTab('street');if(b.rid)setTimeout(()=>jump(b.rid),80);else bottom()}},'Open sheet'):h('button',{class:'btn pri',type:'button',onclick:()=>{setTab('approval')}},'Open Approval'),del)))}
+ return row}
+function dealsSheet(sid,title){
+ const box=h('div'),draw=()=>{const L=dealsFor(sid).slice().sort((a,b)=>b.ts-a.ts);box.replaceChildren(...(L.length?L.map(b=>dealRow(b,draw)):[h('p',{class:'note'},'No deals added for this sheet yet.')]))};draw();
+ const s=S.sessions.find(x=>x.id===sid);
+ sheet(title||'Deals',h('div',{class:'cd big'},h('b',{},cmx(dealsFor(sid).reduce((t,b)=>t+(+b.amount||0),0))),h('span',{},'total commission')),box,
+  h('div',{class:'two',style:'margin-top:10px'},h('button',{class:'b p',type:'button',onclick:()=>{close();setTab('approval');window.__appr&&__appr.start('',{sid,rid:null})}},'New approval'),h('button',{class:'b',type:'button',onclick:close},'Close')))}
+let dAll=false;
+function dealsBox(){
+ const B=(S.calcBatch||[]).slice().sort((a,b)=>b.ts-a.ts),tot=B.reduce((t,b)=>t+(+b.amount||0),0),box=h('div',{class:'dbox'}),list=h('div'),draw=()=>{
+  const L=dAll?B:B.slice(0,6);list.replaceChildren(...(L.length?L.map(b=>dealRow(b,()=>{renderSheets()})):[h('p',{class:'note',style:'margin:6px 2px'},'No deals yet. Add one through the Approval tab and it shows up here.')]),
+   ...(B.length>6?[h('button',{class:'b',type:'button',style:'width:100%;margin-top:6px',onclick:()=>{dAll=!dAll;draw()}},dAll?'Show fewer':'Show all '+B.length)]:[]))};
+ box.append(h('div',{class:'dbh'},h('div',{class:'rt'},h('b',{},'Deals & commission'),h('small',{},B.length+(B.length===1?' deal':' deals')+' · '+cmx(tot)+' total')),h('button',{class:'btn pri',type:'button',style:'width:auto;padding:0 14px',onclick:()=>{setTab('approval');window.__appr&&__appr.start('',null)}},'+ Approval')),list);draw();return box}
 function renderSheets(){
  const v=$('#v-sheets .scroll');v.replaceChildren();
  const list=h('div'),fill=()=>{
@@ -1024,10 +1439,10 @@ function renderSheets(){
   if(!q)list.append(h('p',{class:'note',style:'margin:0 4px 10px'},'Tap a sheet to open or close its details.'));
   S.sessions.slice().reverse().forEach(s=>{
    const hits=q?sheetHits(s,q):0;if(q&&!hits)return;shown++;
-   const d=doors(s),c=statsOf(d),cur=s.id===S.cur,open=q?shOpen.has(s.id):shOpen.has(s.id)||(cur&&!shOpen.has('x'+s.id));
+   const d=doors(s),c=statsOf(d),dl=dealsFor(s.id),cur=s.id===S.cur,open=q?shOpen.has(s.id):shOpen.has(s.id)||(cur&&!shOpen.has('x'+s.id));
    const card=h('div',{class:'shc'+(open?' open':'')+(cur?' cur':'')});
    card.append(h('button',{class:'shh',onclick:()=>{if(open){shOpen.delete(s.id);if(cur)shOpen.add('x'+s.id)}else{shOpen.add(s.id);shOpen.delete('x'+s.id)}tick(1);fill()}},
-    h('div',{class:'rt'},h('b',{},s.street0||s.street||'Untitled'),h('small',{},dt(s.date)+' · '+d.length+' doors · '+c.deal+' deals'+(cur?' · current':'')+(q?' · '+hits+(hits>1?' matches':' match'):''))),h('span',{class:'chev'},'›')));
+    h('div',{class:'rt'},h('b',{},s.street0||s.street||'Untitled'),h('small',{},dt(s.date)+' · '+d.length+' doors · '+c.deal+' deals'+(cur?' · current':'')+(q?' · '+hits+(hits>1?' matches':' match'):''))),dl.length?h('span',{class:'dpill',role:'button',tabindex:'0',onclick:e=>{e.stopPropagation();dealsSheet(s.id,(s.street0||s.street||'Untitled')+' deals')}},cmx(dl.reduce((t,b)=>t+(+b.amount||0),0)).replace(/\.00$/,'')+' · '+dl.length):null,h('span',{class:'chev'},'›')));
    if(open){
     const cell=(a,b)=>h('div',{class:'cell'},h('b',{},a),h('span',{},b));
     let arm=false;const del=h('button',{class:'btn',onclick:()=>{if(!arm){arm=true;del.textContent='Tap again to delete';return}
@@ -1037,7 +1452,7 @@ function renderSheets(){
      h('div',{class:'two'},h('button',{class:'btn pri',onclick:()=>{S.cur=s.id;revId=s.id;save();const dd=doors(s);curId=dd.length?dd[dd.length-1].id:null;hq=q;setTab('street');if(q)setTimeout(findHit,60);else bottom()}},cur&&!q?'Go to sheet':'Open sheet'),del)))}
    list.append(card)});
   if(q&&!shown)list.append(h('p',{class:'note'},'No sheets match "'+shQ.trim()+'".'))};
- v.append(h('div',{class:'vh'},h('h1',{},'Sheets')),
+ v.append(h('div',{class:'vh'},h('h1',{},'Sheets')),dealsBox(),
   h('input',{class:'in',type:'search',value:shQ,placeholder:'Search names, notes, addresses, streets…',enterkeyhint:'search',autocomplete:'off',autocapitalize:'off','aria-label':'Search sheets',oninput:e=>{shQ=e.target.value;fill()}}),list);
  fill()}
 function backup(){
@@ -1181,67 +1596,6 @@ function urlSheet(){
 function nameSheet(){
  const nm=h('input',{class:'in',placeholder:'Your name',autocapitalize:'words',maxlength:30,value:T().name||'','aria-label':'Your name'});
  sheet('Your name',p('Shown to your team when you get a deal.'),nm,h('button',{class:'b p',style:'width:100%',onclick:()=>{const n=nm.value.trim();if(!n)return;T().name=n;save();chatBoot();close()}},'Save'))}
-// ===== Commission calculator =====
-const CPK=[['Complete',8],['Smart',6.5],['Remote',5]],
- CN=[['Ap','A+',28],['Am','A−',27],['Bp','B+',26.5],['Bm','B−',25],['D','D',21.5],['E','E',20],['Bulk','Bulk',18]],
- CA=[['Ap','A+',32],['Am','A−',31],['Bp','B+',30.5],['Bm','B−',29],['D','D',25.5],['E','E',24],['Bulk','Bulk',20]],
- CE=[['panel','Command Panel / IQ2 / IQ4 / IQ5',295],['secondarypanel','Secondary Panel',125],['cellswap','Cellular Communicator',175],['doorsensor','Door / Window Sensor',15],['motion','Motion Detector',35],['carbon','Carbon / Smoke',50],['keyfob','Key Fob',15],['medical','Medical / Panic',25],['camera','Outdoor Camera',80],['doorbell','Doorbell Camera',85]],
- cm=n=>(n<0?'-':'')+'$'+Math.abs(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
-const CC={mmr:'',other:'',pk:null,tier:'Ap',admin:false,self:false,name:'',qty:{panel:1,doorsensor:2},final:0},CR={};let CCok=false;
-function calcNums(){
- const mmr=parseFloat(CC.mmr)||0,pt=CC.pk==null?0:CPK[CC.pk][1],other=parseFloat(CC.other)||0,
- equip=CE.reduce((t,e)=>t+(CC.qty[e[0]]||0)*e[2],0)+other,mult=(CC.admin?CA:CN).find(t=>t[0]===CC.tier)[2],tech=CC.self?25:175,
- net=mmr-pt,x=net*mult,cb=x*.1,after=x-cb,fin=Math.max(after-equip-tech-100,0);
- return{mmr,pt,other,equip,mult,tech,net,x,cb,after,fin}}
-function calcUpd(){
- const n=calcNums();CC.final=n.fin;
- const set=(k,v)=>{CR[k].textContent=v};
- set('equip',cm(n.equip));set('bm',cm(n.mmr));set('bp',cm(n.pt));set('bn',cm(n.net));set('bl','× '+n.mult);set('bx',cm(n.x));set('bc',cm(n.cb));set('ba',cm(n.after));set('be',cm(n.equip));set('bt',cm(n.tech));set('final',cm(n.fin));set('bf',cm(100));
- const rows=CE.filter(e=>CC.qty[e[0]]>0).map(e=>h('div',{class:'cbr'},h('span',{},e[1]+' × '+CC.qty[e[0]]),h('span',{class:'v'},cm(CC.qty[e[0]]*e[2]))));
- if(n.other>0)rows.push(h('div',{class:'cbr'},h('span',{},'Other equipment'),h('span',{class:'v'},cm(n.other))));
- CR.items.replaceChildren(...(rows.length?rows:[h('p',{class:'note',style:'margin:6px 0'},'No equipment added.')]));
- CE.forEach(e=>{CR['q'+e[0]].textContent=CC.qty[e[0]]||0});
- CR.pkb.forEach((b,i)=>b.classList.toggle('on',CC.pk===i));
- const T=CC.admin?CA:CN;CR.crb.forEach((b,i)=>{b.firstChild.textContent=T[i][1];b.lastChild.textContent='x'+T[i][2];b.classList.toggle('on',CC.tier===T[i][0])})}
-function calcBatchList(){
- const B=S.calcBatch||[];
- CR.bl2.replaceChildren(...(B.length?B.map((b,i)=>h('div',{class:'cbr'},h('span',{},b.name||'Unnamed customer'),h('span',{class:'v'},cm(b.amount),h('button',{class:'cx',type:'button','aria-label':'Remove',onclick:()=>{B.splice(i,1);save();calcBatchList()}},'×')))):[h('p',{class:'note',style:'margin:6px 0'},'No commissions added yet.')]));
- CR.btot.textContent=cm(B.reduce((t,b)=>t+b.amount,0))}
-function calcBatchSheet(){
- const B=S.calcBatch||[],box=h('div');
- const draw=()=>{box.replaceChildren(...(B.length?B.map((b,i)=>{
-  const det=h('div',{class:'cdet',hidden:true},h('div',{class:'cbr'},h('span',{},'Package'),h('span',{},b.packageName||'—')),h('div',{class:'cbr'},h('span',{},'MMR'),h('span',{},cm(b.mmr||0))),...(b.equipment||[]).map(e=>h('div',{class:'cbr'},h('span',{},e.name),h('span',{},'× '+e.qty))));
-  const nm=h('input',{class:'cin cnm',value:b.name||'',placeholder:'Customer name',autocapitalize:'words',onchange:e=>{b.name=e.target.value.trim();save();calcBatchList()}});
-  return h('div',{class:'cbe'},h('div',{class:'cbt'},nm,h('b',{},cm(b.amount)+'*'),h('button',{class:'cx',type:'button','aria-label':'Remove',onclick:()=>{B.splice(i,1);save();draw();calcBatchList()}},'×'),h('button',{class:'cx',type:'button','aria-label':'Details',onclick:()=>{det.hidden=!det.hidden}},'›')),det)}):[h('p',{class:'note'},'No commissions added yet.')]),
-  h('p',{class:'note'},B.length?'Total estimated: '+cm(B.reduce((t,b)=>t+b.amount,0))+'*':''),h('p',{class:'note'},'* Estimated commission based on the equipment and MMR entered.'))};
- draw();sheet('Commission batch',box,h('button',{class:'b',style:'width:100%;margin-top:10px',onclick:close},'Close'))}
-function calcInit(){
- if(CCok)return;CCok=true;const host=$('#calcHost');if(!host)return;
- const es=$('#v-calc .empty-state');if(es)es.remove();
- const sec=(title,open,...kids)=>{const d=h('div',{class:'cs'+(open?' open':'')}),b=h('button',{type:'button',onclick:()=>d.classList.toggle('open')},title,h('i',{},'▾'));d.append(b,h('div',{class:'cs-b'},...kids));return d},
- field=(key,ph)=>{const i=h('input',{class:'cin',type:'number',inputmode:'decimal',step:'0.01',placeholder:ph,value:CC[key],oninput:e=>{CC[key]=e.target.value;calcUpd()}});return i},
- txt=(k,cls)=>CR[k]=h('span',{class:cls||'v'},'$0.00'),
- brow=(l,k,neg)=>h('div',{class:'cbr'+(neg?' neg':'')},h('span',{},l),txt(k)),
- mmr=field('mmr','0.00');mmr.addEventListener('focus',()=>host.querySelectorAll('.cs').forEach(x=>x.classList.add('open')));
- const nm=h('input',{class:'cin',value:CC.name,placeholder:'Customer name (optional)',autocapitalize:'words',oninput:e=>{CC.name=e.target.value}});
- CR.pkb=CPK.map((p,i)=>h('button',{type:'button',class:'cpb',onclick:()=>{CC.pk=CC.pk===i?null:i;calcUpd()}},p[0],h('small',{},cm(p[1]))));
- CR.crb=CN.map((t,i)=>h('button',{type:'button',class:'cpb',onclick:()=>{CC.tier=(CC.admin?CA:CN)[i][0];calcUpd()}},h('span',{},t[1]),h('small',{},'x'+t[2])));
- const eq=CE.map(e=>h('div',{class:'ceq'},h('div',{class:'cei'},h('b',{},e[1]),h('small',{},cm(e[2])+' each')),h('div',{class:'cst'},h('button',{type:'button','aria-label':'Less',onclick:()=>{CC.qty[e[0]]=Math.max(0,(CC.qty[e[0]]||0)-1);calcUpd()}},'−'),CR['q'+e[0]]=h('span',{},'0'),h('button',{type:'button','aria-label':'More',onclick:()=>{CC.qty[e[0]]=(CC.qty[e[0]]||0)+1;calcUpd()}},'+'))));
- CR.items=h('div');CR.bl2=h('div');
- const addB=h('button',{class:'btn pri',type:'button',style:'width:100%;margin-top:12px',onclick:()=>{calcUpd();(S.calcBatch=S.calcBatch||[]).push({name:CC.name.trim(),mmr:parseFloat(CC.mmr)||0,packageName:CC.pk==null?'Manual Entry':CPK[CC.pk][0],equipment:CE.filter(e=>CC.qty[e[0]]>0).map(e=>({name:e[1],qty:CC.qty[e[0]]})),amount:CC.final});save();calcBatchList();toast('Added to batch')}},'+ Add to batch');
- host.append(
-  h('p',{class:'note',style:'margin:4px 2px 0'},'(MMR − pass-through) × credit multiplier − 10% chargeback − equipment − tech pay − admin fee'),
-  sec('MMR',true,h('label',{class:'cl'},'Customer MMR ($)'),mmr,h('label',{class:'cl'},'Customer name (for the batch)'),nm),
-  sec('Credit & plan',false,h('label',{class:'cl'},'Package (sets pass-through)'),h('div',{class:'cgrp'},...CR.pkb),h('label',{class:'cl'},'Credit rating (sets multiplier)'),h('div',{class:'cgrp c4'},...CR.crb),
-   tog('Admin','Switches to the 32X credit tiers',()=>CC.admin,x=>{CC.admin=x;calcUpd()})),
-  sec('Equipment',false,...eq,h('label',{class:'cl'},'Other equipment ($)'),field('other','0'),h('div',{class:'cbr',style:'margin-top:10px'},h('b',{},'Equipment total'),txt('equip','v b'))),
-  sec('Fixed deductions',false,tog('Self-install','Tech pay drops from $175 to $25',()=>CC.self,x=>{CC.self=x;calcUpd()}),h('div',{class:'cbr'},h('span',{},'Admin fee'),h('span',{class:'v'},'$100.00 fixed'))),
-  sec('Breakdown',false,brow('Customer MMR','bm'),brow('− Pass-through','bp',1),brow('= Net MMR','bn'),h('div',{class:'cbr'},CR.bl=h('span',{},'× 28'),txt('bx')),brow('− Chargeback (10%)','bc',1),brow('= After chargeback','ba'),brow('− Equipment','be',1),brow('− Tech pay','bt',1),brow('− Admin fee','bf',1)),
-  h('div',{class:'card cres'},CR.final=h('div',{class:'amt'},'$0.00'),h('div',{class:'cap'},'Rep commission'),h('div',{class:'cs',style:'box-shadow:none;background:var(--raise);margin-top:12px'},h('button',{type:'button',onclick:e=>e.currentTarget.parentNode.classList.toggle('open')},'Itemized equipment',h('i',{},'▾')),h('div',{class:'cs-b'},CR.items)),addB),
-  h('div',{class:'card'},h('div',{class:'ct'},h('b',{},'Commission batch')),CR.bl2,h('div',{class:'cbr',style:'margin-top:8px'},h('b',{},'Batch total'),CR.btot=h('b',{class:'v'},'$0.00')),
-   h('div',{class:'two',style:'margin-top:10px'},h('button',{class:'btn',type:'button',onclick:calcBatchSheet},'View full batch'),h('button',{class:'btn',type:'button',onclick:()=>{if((S.calcBatch||[]).length&&confirm('Clear the entire commission batch? This cannot be undone.')){S.calcBatch=[];save();calcBatchList()}}},'Clear batch'))),
-  h('button',{class:'link',type:'button',style:'display:block;margin:14px auto 4px',onclick:()=>{if(confirm('Reset all calculator fields?')){Object.assign(CC,{mmr:'',other:'',pk:null,tier:'Ap',admin:false,self:false,name:'',qty:{panel:1,doorsensor:2}});mmr.value='';nm.value='';host.querySelector('input[inputmode=decimal][placeholder="0"]').value='';host.querySelectorAll('.sw').forEach(x=>{x.classList.remove('on');x.setAttribute('aria-checked','false')});calcUpd()}}},'Reset calculator'));
- calcUpd();calcBatchList()}
 // ===== Team chat =====
 const CK='doortracker.chat',chatOn=()=>!!(relay()&&teamCode()&&T().name),chatUrl=p=>relay()+'/teams/'+teamCode()+'/'+p+'.json';
 let CH={m:[],seen:0},ces=null,cMem=[],cMemT;
@@ -1352,12 +1706,12 @@ async function cloudInit(){
   let cfg=null;try{cfg=docs.settings&&JSON.parse(docs.settings.json)}catch(e){}
   const ss=cfg?(cfg.order||[]).map(i=>{try{return JSON.parse(docs['sheet_'+i].json)}catch(e){return null}}).filter(Boolean):[];
   if(cfg&&ss.length&&(fresh0||!(S.t>cfg.t))){
-   S={resp:cfg.resp||S.resp,showRed:!!cfg.showRed,auto:cfg.auto!==false,daily:!!cfg.daily,cbRem:cfg.cbRem,calcBatch:cfg.calcBatch,jump:!!cfg.jump,geo:cfg.geo,snd:cfg.snd,cur:cfg.cur,pay:cfg.pay||{},payMode:cfg.payMode||'day',goal:cfg.goal||DEFG(),sessions:ss,t:cfg.t,team:S.team};
+   S={resp:cfg.resp||S.resp,showRed:!!cfg.showRed,auto:cfg.auto!==false,daily:!!cfg.daily,cbRem:cfg.cbRem,calcBatch:cfg.calcBatch,dealJump:!!cfg.dealJump,jump:!!cfg.jump,geo:cfg.geo,snd:cfg.snd,cur:cfg.cur,pay:cfg.pay||{},payMode:cfg.payMode||'day',goal:cfg.goal||DEFG(),sessions:ss,t:cfg.t,team:S.team};
    migrate();S.sessions.forEach(x=>dirty.add(x.id));try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}
    const d=doors(cs());curId=d.length?d[d.length-1].id:null;
    if(dirty.size)flush();
   }else{S.sessions.forEach(x=>dirty.add(x.id));await flush()}
-  gpPrev=null;bhOn=null;render();bottom();
+  gpPrev=null;bhOn=null;render();bottom();try{window.__appr&&__appr.batch()}catch(e){}
  }catch(e){}
 }
 function showCur(){
@@ -1408,6 +1762,553 @@ probe();
  else{mirrorReady=true;if(okS(S))idb.set('state',JSON.stringify(S))}})();
 
 $('#shBar button').addEventListener('click',()=>exitShared());
+
+
+(function () {
+  var TIERS = [
+    { id:"Ap", name:"A+" }, { id:"Am", name:"A−" }, { id:"Bp", name:"B+" }, { id:"Bm", name:"B−" },
+    { id:"D", name:"D" }, { id:"E", name:"E" }, { id:"Bulk", name:"Bulk" }
+  ];
+
+  var DEFAULT_PKG_DATA = {
+    basic: { name:"Basic Package", price:54.99 },
+    med: { name:"Med Package", price:59.99 },
+    tiers: {
+      Ap: { up:{name:"Deluxe Package",cams:4,price:76.99}, rec:{name:"Recommended Package",cams:3,price:69.99}, lesser:{name:"Starter Package",cams:1,price:54.99} },
+      Am: { up:{name:"Deluxe Package",cams:4,price:76.99}, rec:{name:"Recommended Package",cams:2,price:69.99}, lesser:{name:"Starter Package",cams:1,price:56.99} },
+      Bp: { up:{name:"Deluxe Package",cams:4,price:76.99}, rec:{name:"Recommended Package",cams:2,price:69.99}, lesser:{name:"Starter Package",cams:1,price:57.99} },
+      Bm: { up:{name:"Deluxe Package",cams:4,price:76.99}, rec:{name:"Recommended Package",cams:2,price:69.99}, lesser:{name:"Starter Package",cams:1,price:60.99} },
+      D:    { rec:{name:"Recommended Package",cams:1,price:76.99} },
+      E:    { rec:{name:"Recommended Package",cams:1,price:76.99} },
+      Bulk: { rec:{name:"Recommended Package",cams:1,price:76.99} }
+    }
+  };
+
+  function loadPkgData() {
+    try { var raw = localStorage.getItem('capp_pkg_data'); if (raw) return JSON.parse(raw); } catch (e) {}
+    return JSON.parse(JSON.stringify(DEFAULT_PKG_DATA));
+  }
+  function savePkgData() { try { localStorage.setItem('capp_pkg_data', JSON.stringify(PKG_DATA)); } catch (e) {} }
+  var PKG_DATA = loadPkgData();
+  (function(){var u="data:image/png;base64,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";Array.prototype.forEach.call(document.querySelectorAll('#v-approval img'),function(i){i.src=u})})();
+
+  function loadBatchData() { try { var raw = localStorage.getItem('capp_batch'); if (raw) return JSON.parse(raw); } catch (e) {} try { if (S.calcBatch && S.calcBatch.length) return JSON.parse(JSON.stringify(S.calcBatch)); } catch (e) {} return []; }
+  function saveBatchData() { try { localStorage.setItem('capp_batch', JSON.stringify(batchEntriesRef())); } catch (e) {} try { S.calcBatch = JSON.parse(JSON.stringify(batchEntriesRef())); save(); render(); } catch (e) {} }
+
+  var DEFAULT_EQUIP_PRICE = { panel:{increase:0,diminishing:false}, secondarypanel:{increase:0,diminishing:false}, cellswap:{increase:0,diminishing:false}, doorsensor:{increase:0,diminishing:false}, motion:{increase:0,diminishing:false}, carbon:{increase:0,diminishing:false}, keyfob:{increase:0,diminishing:false}, medical:{increase:0,diminishing:false}, camera:{increase:5,diminishing:true}, doorbell:{increase:0,diminishing:false} };
+  function loadEquipPriceData() { try { var raw = localStorage.getItem('capp_equip_price'); if (raw) return JSON.parse(raw); } catch (e) {} return JSON.parse(JSON.stringify(DEFAULT_EQUIP_PRICE)); }
+  function saveEquipPriceData() { try { localStorage.setItem('capp_equip_price', JSON.stringify(EQUIP_PRICE)); } catch (e) {} }
+  var EQUIP_PRICE = loadEquipPriceData();
+
+  var state = { tier:null, name:"", approved:null };
+  var navHistory = [];
+  var MAX_CAMS = 4;
+
+  function fmt(n) { return (n === null || n === undefined) ? "Price TBD" : "$" + n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+  /* total camera count splits into: 1 doorbell (if any), remainder outdoor — doorbell counts toward the 4-camera cap */
+  function splitCameras(total) {
+    var d = total >= 1 ? 1 : 0;
+    return { doorbell:d, outdoor:Math.max(0, total-d) };
+  }
+  function cameraLabelFromParts(doorbell, outdoor) {
+    if (doorbell <= 0 && outdoor <= 0) return 'No cameras';
+    var parts = [];
+    if (doorbell) parts.push(doorbell+' doorbell');
+    if (outdoor) parts.push(outdoor+' outdoor camera'+(outdoor===1?'':'s'));
+    return parts.join(' + ');
+  }
+
+  function show(id, skipHistory) {
+    var current = document.querySelector('.step.active');
+    if (!skipHistory && current && current.id !== id) navHistory.push(current.id);
+    Array.prototype.forEach.call(document.querySelectorAll('.step'), function(s){ s.classList.remove('active'); });
+    document.getElementById(id).classList.add('active');
+    if (id === 'step-calc') {
+      ['credit','equip','deduct','breakdown'].forEach(function (key) {
+        document.getElementById(key+'-body').classList.remove('open');
+        document.getElementById(key+'-arrow').classList.remove('open');
+      });
+      document.getElementById('mmr-body').classList.add('open');
+      document.getElementById('mmr-arrow').classList.add('open');
+      setTimeout(function () {
+        var el = document.querySelector('.calc-result');
+        if (el) el.scrollIntoView({ behavior:'smooth', block:'center' });
+      }, 60);
+    }
+  }
+  function goBack() { var prev = navHistory.pop(); if (prev) show(prev, true); }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-back]'), function (b) { b.addEventListener('click', goBack); });
+
+  function wireYN(containerId, onPick) {
+    var row = document.getElementById(containerId);
+    Array.prototype.forEach.call(row.querySelectorAll('.yn-btn'), function (btn) {
+      btn.addEventListener('click', function () {
+        Array.prototype.forEach.call(row.querySelectorAll('.yn-btn'), function (b) { b.classList.remove('active'); });
+        btn.classList.add('active'); onPick(btn.getAttribute('data-val') === 'yes');
+      });
+    });
+  }
+  function setYN(containerId, val) {
+    var row = document.getElementById(containerId);
+    Array.prototype.forEach.call(row.querySelectorAll('.yn-btn'), function (b) { b.classList.toggle('active', (b.getAttribute('data-val') === 'yes') === val); });
+  }
+
+  /* ---------- CREDIT TIER BUBBLES ---------- */
+  var tierBubbleWrap = document.getElementById('tier-bubbles');
+  function renderTierBubbles() {
+    tierBubbleWrap.innerHTML = TIERS.map(function (t) { return '<div class="tier-bubble" data-id="'+t.id+'">'+t.name+'</div>'; }).join('');
+    Array.prototype.forEach.call(tierBubbleWrap.querySelectorAll('.tier-bubble'), function (btn) {
+      btn.addEventListener('click', function () {
+        state.tier = btn.getAttribute('data-id');
+        Array.prototype.forEach.call(tierBubbleWrap.querySelectorAll('.tier-bubble'), function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+      });
+    });
+    var first = tierBubbleWrap.querySelector('.tier-bubble'); if (first) first.classList.add('active');
+  }
+  state.tier = TIERS[0].id;
+  renderTierBubbles();
+  function goToResultWithLoading() {
+    var current = document.querySelector('.step.active').id;
+    navHistory.push(current);
+    Array.prototype.forEach.call(document.querySelectorAll('.step'), function (s) { s.classList.remove('active'); });
+    document.getElementById('step-loading').classList.add('active');
+    setTimeout(function () {
+      renderResult();
+      Array.prototype.forEach.call(document.querySelectorAll('.step'), function (s) { s.classList.remove('active'); });
+      document.getElementById('step-result').classList.add('active');
+    }, 3000);
+  }
+  document.getElementById('wheel-continue').addEventListener('click', function () {
+    state.name = (document.getElementById('cust-first-name').value.trim() + ' ' + document.getElementById('cust-last-name').value.trim()).trim();
+    renderPkgMenu(); show('step-pkgmenu');
+  });
+
+  /* ---------- PACKAGE MENU ---------- */
+  function renderPkgMenu() {
+    var rule = PKG_DATA.tiers[state.tier];
+    var list = document.getElementById('pkg-menu-list');
+    var cards = [];
+    if (rule.up) cards.push({ key:'up', name:rule.up.name, price:rule.up.price, cams:rule.up.cams, pendant:false, rec:false });
+    cards.push({ key:'rec', name:rule.rec.name, price:rule.rec.price, cams:rule.rec.cams, pendant:false, rec:true });
+    if (rule.lesser) cards.push({ key:'lesser', name:rule.lesser.name, price:rule.lesser.price, cams:rule.lesser.cams, pendant:false, rec:false });
+    var basicMed = [
+      { key:'basic', name:PKG_DATA.basic.name, price:PKG_DATA.basic.price, cams:0, pendant:false, rec:false },
+      { key:'med', name:PKG_DATA.med.name, price:PKG_DATA.med.price, cams:0, pendant:true, rec:false }
+    ];
+    list.innerHTML = cards.map(renderPkgCard).join('') + '<div class="pkg-divider">Other Options</div>' + basicMed.map(renderPkgCard).join('');
+    function renderPkgCard(c) {
+      return '<div class="pkg-card'+(c.rec?' rec':'')+(c.key==="med"?' danger':'')+'" data-key="'+c.key+'">'+
+        '<div class="pc-name">'+c.name+'</div>'+
+        '<div class="pc-detail">'+cameraLabelFromParts(splitCameras(c.cams).doorbell, splitCameras(c.cams).outdoor)+(c.pendant?' · Pendant included':'')+'</div>'+
+        '<div class="pc-price">'+fmt(c.price)+'</div></div>';
+    }
+    var all = cards.concat(basicMed);
+    Array.prototype.forEach.call(list.querySelectorAll('.pkg-card'), function (card) {
+      card.addEventListener('click', function () {
+        var c = all.filter(function (x) { return x.key === card.getAttribute('data-key'); })[0];
+        var split = splitCameras(c.cams);
+        state.approved = { name:c.name, price:c.price, outdoorCams:split.outdoor, doorbell:split.doorbell, pendant:c.pendant, motionQty:0, sensorExtraQty:0 };
+        goToResultWithLoading();
+      });
+    });
+  }
+
+  /* ---------- RESULT ---------- */
+  function renderResult() {
+    var a = state.approved;
+    var totalCams = (a.outdoorCams||0) + (a.doorbell?1:0);
+    document.getElementById('res-congrats').textContent = state.name ? ('Congratulations, '+state.name) : '';
+    document.getElementById('res-name').textContent = a.name;
+    document.getElementById('res-price').textContent = fmt(a.price);
+    var detail = [cameraLabelFromParts(a.doorbell?1:0, a.outdoorCams||0)];
+    if (a.pendant) detail.push('Medical Pendant included');
+    document.getElementById('res-detail').textContent = detail.join(' · ');
+    var equip = [{name:'Command Panel',qty:1},{name:'Home Automation',qty:1},{name:'Door / Window Sensor',qty:2+(a.sensorExtraQty||0)}];
+    if (a.outdoorCams>0) equip.push({name:'Outdoor Camera',qty:a.outdoorCams});
+    if (a.doorbell) equip.push({name:'Doorbell Camera',qty:1});
+    if (a.pendant) equip.push({name:'Medical / Panic Pendant',qty:1});
+    if (a.motionQty) equip.push({name:'Motion Detector',qty:a.motionQty});
+    document.getElementById('res-equip').innerHTML = equip.map(function (e) {
+      return '<div class="equip-mini-row"><span>'+e.name+'</span><span>× '+e.qty+'</span></div>';
+    }).join('');
+    renderWaived(a);
+    document.getElementById('accept-deal-btn').classList.add('pulsing');
+    document.querySelector('.approved-box').classList.toggle('gold', totalCams >= 4);
+  }
+
+  function renderWaived(a) {
+    function priceFor(id) { var e = CALC_EQUIPMENT.filter(function (x) { return x.id === id; })[0]; return e ? e.price : 0; }
+    var equipVal = priceFor('panel')*1 + priceFor('doorsensor')*(2+(a.sensorExtraQty||0)) + priceFor('camera')*(a.outdoorCams||0) + priceFor('doorbell')*(a.doorbell?1:0) + priceFor('medical')*(a.pendant?1:0) + priceFor('motion')*(a.motionQty||0);
+    var rows = [ { label:'Equipment', amt:equipVal }, { label:'Activation', amt:99.99 }, { label:'Installation', amt:99.99 } ];
+    document.getElementById('waived-section').innerHTML = rows.map(function (r) {
+      return '<div class="waived-row"><span class="wr-label">'+r.label+'</span><span class="wr-amt"><span class="wr-strike">'+fmt(r.amt)+'</span><span class="wr-tag">Waived</span></span></div>';
+    }).join('');
+  }
+
+  /* ---------- PACKAGE OVERRIDE ---------- */
+  var ovCams=0, ovMotion=0, ovSensor=0, ovPendant=false, ovDoorbell=false;
+  function openOverride() {
+    var a = state.approved;
+    ovCams=a.outdoorCams||0; ovMotion=a.motionQty||0; ovSensor=a.sensorExtraQty||0; ovPendant=!!a.pendant; ovDoorbell=!!a.doorbell;
+    document.getElementById('ov-cam-qty').textContent=ovCams;
+    document.getElementById('ov-motion-qty').textContent=ovMotion;
+    document.getElementById('ov-sensor-qty').textContent=ovSensor;
+    document.getElementById('ov-price').value = a.price!=null ? a.price : '';
+    document.getElementById('ov-price-error').style.display = 'none';
+    setYN('ov-pendant', ovPendant); setYN('ov-doorbell', ovDoorbell);
+    show('step-override');
+  }
+  document.getElementById('override-btn').addEventListener('click', openOverride);
+  wireYN('ov-pendant', function (v) { ovPendant = v; });
+  wireYN('ov-doorbell', function (v) {
+    if (v && ovCams + 1 > MAX_CAMS) { ovCams = MAX_CAMS - 1; document.getElementById('ov-cam-qty').textContent = ovCams; }
+    ovDoorbell = v;
+  });
+  document.getElementById('ov-cam-minus').addEventListener('click', function () { ovCams=Math.max(0,ovCams-1); document.getElementById('ov-cam-qty').textContent=ovCams; });
+  document.getElementById('ov-cam-plus').addEventListener('click', function () { if (ovCams + (ovDoorbell?1:0) < MAX_CAMS) { ovCams+=1; document.getElementById('ov-cam-qty').textContent=ovCams; } });
+  document.getElementById('ov-motion-minus').addEventListener('click', function () { ovMotion=Math.max(0,ovMotion-1); document.getElementById('ov-motion-qty').textContent=ovMotion; });
+  document.getElementById('ov-motion-plus').addEventListener('click', function () { ovMotion+=1; document.getElementById('ov-motion-qty').textContent=ovMotion; });
+  document.getElementById('ov-sensor-minus').addEventListener('click', function () { ovSensor=Math.max(0,ovSensor-1); document.getElementById('ov-sensor-qty').textContent=ovSensor; });
+  document.getElementById('ov-sensor-plus').addEventListener('click', function () { ovSensor+=1; document.getElementById('ov-sensor-qty').textContent=ovSensor; });
+  document.getElementById('ov-save').addEventListener('click', function () {
+    var priceVal = parseFloat(document.getElementById('ov-price').value);
+    var finalPrice = isNaN(priceVal) ? state.approved.price : priceVal;
+    var errEl = document.getElementById('ov-price-error');
+    if (finalPrice !== null && (finalPrice < 41.99 || finalPrice > 76.99)) { errEl.style.display = 'block'; return; }
+    errEl.style.display = 'none';
+    var baseName = state.approved.name.replace(' (Override)', '');
+    state.approved = {
+      name: baseName + ' (Override)',
+      price: finalPrice,
+      outdoorCams: ovCams, pendant: ovPendant, doorbell: ovDoorbell, motionQty: ovMotion, sensorExtraQty: ovSensor
+    };
+    renderResult(); goBack();
+  });
+
+  /* ---------- BOTTOM BAR ---------- */
+  function resetAll() {
+    state = { tier:TIERS[0].id, name:"", approved:null };
+    navHistory = []; renderTierBubbles();
+    document.getElementById('cust-first-name').value = '';
+    document.getElementById('cust-last-name').value = '';
+    show('step-wheel', true);
+  }
+  function closeOverlays() { document.getElementById('settings-overlay').classList.remove('active'); }
+  document.getElementById('bb-home').addEventListener('click', function () { closeOverlays(); resetAll(); });
+  document.getElementById('bb-custom').addEventListener('click', function () { closeOverlays(); show('step-custom'); });
+  document.getElementById('bb-commission').addEventListener('click', function () { closeOverlays(); show('step-calc'); });
+  document.getElementById('bb-settings').addEventListener('click', function () { renderSettingsEditor(); document.getElementById('settings-overlay').classList.add('active'); });
+  document.getElementById('bb-batch').addEventListener('click', function () { closeOverlays(); renderBatchDetail(); show('step-batch'); });
+  document.getElementById('settings-close').addEventListener('click', function () { document.getElementById('settings-overlay').classList.remove('active'); });
+  document.getElementById('settings-x').addEventListener('click', function () { document.getElementById('settings-overlay').classList.remove('active'); });
+  document.getElementById('settings-restore').addEventListener('click', function () {
+    PKG_DATA = JSON.parse(JSON.stringify(DEFAULT_PKG_DATA)); savePkgData();
+    EQUIP_PRICE = JSON.parse(JSON.stringify(DEFAULT_EQUIP_PRICE)); saveEquipPriceData();
+    renderSettingsEditor();
+  });
+
+  /* ---------- SETTINGS EDITOR ---------- */
+  function setByPath(obj, path, val) { var parts = path.split('.'), o = obj; for (var i=0;i<parts.length-1;i++) o = o[parts[i]]; o[parts[parts.length-1]] = val; }
+  function getByPath(obj, path) { return path.split('.').reduce(function (o,k) { return o && o[k]; }, obj); }
+  function editRow(path, label, val, type) {
+    return '<div class="s-label">'+label+'</div><input class="s-input" data-path="'+path+'" type="'+type+'" value="'+(val===null||val===undefined?'':val)+'">';
+  }
+  function renderSettingsEditor() {
+    var html = '<div class="settings-section"><h3>Basic Package</h3>'+
+      editRow('basic.name','Name',PKG_DATA.basic.name,'text')+
+      editRow('basic.price','Price',PKG_DATA.basic.price,'number')+
+      '</div>';
+    TIERS.forEach(function (t) {
+      var slots = PKG_DATA.tiers[t.id];
+      html += '<details class="settings-tier"><summary>'+t.name+'</summary>';
+      Object.keys(slots).forEach(function (key) {
+        var s = slots[key], label = key==='up'?'Deluxe':key==='rec'?'Recommended':'Starter';
+        html += '<div class="settings-slot"><div class="settings-slot-label">'+label+'</div>'+
+          editRow('tiers.'+t.id+'.'+key+'.name','Name',s.name,'text')+
+          editRow('tiers.'+t.id+'.'+key+'.cams','Cameras',s.cams,'number')+
+          editRow('tiers.'+t.id+'.'+key+'.price',(s.price===null?'Price (blank = TBD)':'Price'),s.price,'number')+
+          '</div>';
+      });
+      html += '</details>';
+    });
+    html += '<div class="settings-section" style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px;border-bottom:none;"><h3>Equipment Price Increases</h3>';
+    CALC_EQUIPMENT.forEach(function (e) {
+      var ep = EQUIP_PRICE[e.id] || { increase:0, diminishing:false };
+      html += '<div class="settings-slot"><div class="settings-slot-label">'+e.name+'</div>'+
+        '<div class="s-label">Price Increase ($, added to MMR)</div>'+
+        '<input class="s-input" data-equip-price="'+e.id+'" type="number" value="'+ep.increase+'">'+
+        '<div class="s-label" style="margin-top:8px;">Diminishing on additional units</div>'+
+        '<div class="yn-row"><div class="yn-btn eq-dim-btn'+(ep.diminishing?' active':'')+'" data-equip="'+e.id+'" data-val="yes">On</div><div class="yn-btn eq-dim-btn'+(!ep.diminishing?' active':'')+'" data-equip="'+e.id+'" data-val="no">Off</div></div>'+
+        '</div>';
+    });
+    html += '</div>';
+    document.getElementById('settings-body').innerHTML = html;
+    Array.prototype.forEach.call(document.querySelectorAll('#settings-body [data-path]'), function (inp) {
+      inp.addEventListener('change', function () {
+        var path = inp.getAttribute('data-path');
+        var val = inp.type === 'number' ? (inp.value === '' ? null : parseFloat(inp.value)) : inp.value;
+        if (path.indexOf('.price') !== -1 && val !== null && (val < 41.99 || val > 76.99)) {
+          alert('Price must be between $41.99 and $76.99.');
+          var cur = getByPath(PKG_DATA, path); inp.value = (cur===null||cur===undefined) ? '' : cur; return;
+        }
+        setByPath(PKG_DATA, path, val); savePkgData();
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#settings-body [data-equip-price]'), function (inp) {
+      inp.addEventListener('change', function () {
+        var id = inp.getAttribute('data-equip-price'), v = inp.value === '' ? 0 : parseFloat(inp.value);
+        if (!EQUIP_PRICE[id]) EQUIP_PRICE[id] = { increase:0, diminishing:false };
+        EQUIP_PRICE[id].increase = v; saveEquipPriceData();
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.eq-dim-btn'), function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-equip'), on = btn.getAttribute('data-val') === 'yes';
+        if (!EQUIP_PRICE[id]) EQUIP_PRICE[id] = { increase:0, diminishing:false };
+        EQUIP_PRICE[id].diminishing = on;
+        Array.prototype.forEach.call(document.querySelectorAll('.eq-dim-btn[data-equip="'+id+'"]'), function (b) { b.classList.toggle('active', b===btn); });
+        saveEquipPriceData();
+      });
+    });
+  }
+
+  /* ---------- CUSTOM BUILDER ---------- */
+  var custCams = 0, custPendant = false;
+  document.getElementById('cust-cam-minus').addEventListener('click', function () { custCams = Math.max(0, custCams-1); document.getElementById('cust-cam-qty').textContent = custCams; });
+  document.getElementById('cust-cam-plus').addEventListener('click', function () { if (custCams<MAX_CAMS) { custCams += 1; document.getElementById('cust-cam-qty').textContent = custCams; } });
+  wireYN('cust-pendant', function (v) { custPendant = v; });
+  document.getElementById('cust-generate').addEventListener('click', function () {
+    var priceEl = document.getElementById('cust-price'), price = parseFloat(priceEl.value);
+    if (isNaN(price) || price <= 0) { priceEl.focus(); return; }
+    var split = splitCameras(custCams);
+    state.approved = { name:"Custom Package", price:price, outdoorCams:split.outdoor, doorbell:split.doorbell, pendant:custPendant, motionQty:0, sensorExtraQty:0 };
+    goToResultWithLoading();
+  });
+
+  /* ---------- COMMISSION CALCULATOR (ported) ---------- */
+  var TECH_PAY_NORMAL = 175, TECH_PAY_SELF_INSTALL = 25, ADMIN_FEE = 100, CHARGEBACK_RATE = 0.10;
+  var selfInstall = false;
+  function currentTechPay() { return selfInstall ? TECH_PAY_SELF_INSTALL : TECH_PAY_NORMAL; }
+  var PACKAGES = [{id:"complete",name:"Complete",val:8},{id:"smart",name:"Smart",val:6.5},{id:"remote",name:"Remote",val:5}];
+  var CREDIT_TIERS_NORMAL = [{id:"Ap",name:"A+",mult:28},{id:"Am",name:"A−",mult:27},{id:"Bp",name:"B+",mult:26.5},{id:"Bm",name:"B−",mult:25},{id:"D",name:"D",mult:21.5},{id:"E",name:"E",mult:20},{id:"Bulk",name:"Bulk",mult:18}];
+  var CREDIT_TIERS_ADMIN = [{id:"Ap",name:"A+",mult:32},{id:"Am",name:"A−",mult:31},{id:"Bp",name:"B+",mult:30.5},{id:"Bm",name:"B−",mult:29},{id:"D",name:"D",mult:25.5},{id:"E",name:"E",mult:24},{id:"Bulk",name:"Bulk",mult:20}];
+  function activeTiers() { return adminBoost ? CREDIT_TIERS_ADMIN : CREDIT_TIERS_NORMAL; }
+  var CALC_EQUIPMENT = [
+    {id:"panel",name:"Command Panel / IQ2 / IQ4 / IQ5",price:295},{id:"secondarypanel",name:"Secondary Panel",price:125},
+    {id:"cellswap",name:"Cellular Communicator",price:175},{id:"doorsensor",name:"Door / Window Sensor",price:15},
+    {id:"motion",name:"Motion Detector",price:35},{id:"carbon",name:"Carbon / Smoke",price:50},
+    {id:"keyfob",name:"Key Fob",price:15},{id:"medical",name:"Medical / Panic",price:25},
+    {id:"camera",name:"Outdoor Camera",price:80},{id:"doorbell",name:"Doorbell Camera",price:85}
+  ];
+  var CALC_DEFAULT_QTY = { panel:1, doorsensor:2 };
+  var equipQty = {}; CALC_EQUIPMENT.forEach(function (e) { equipQty[e.id] = CALC_DEFAULT_QTY[e.id] || 0; });
+  var selectedMultiplier = 28, adminBoost = false, lastFinal = 0, batchEntries = loadBatchData(); batchEntries.forEach(function (b) { if (!b.ts) b.ts = Date.now(); });
+  function batchEntriesRef() { return batchEntries; }
+
+  function snapshotEquip() { return CALC_EQUIPMENT.filter(function (e) { return equipQty[e.id] > 0; }).map(function (e) { return { name:e.name, qty:equipQty[e.id] }; }); }
+
+  function calcFmt(n) { var sign = n<0?"-":""; return sign+"$"+Math.abs(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  function num(id) { var v = parseFloat(document.getElementById(id).value); return isNaN(v) ? 0 : v; }
+
+  function renderPkgGroup() {
+    var group = document.getElementById('pkg-group');
+    group.innerHTML = PACKAGES.map(function (p) { return '<div class="pkg-btn" id="pass-'+p.id+'" data-passthrough="'+p.val+'">'+p.name+'<span class="amt">'+calcFmt(p.val)+'</span></div>'; }).join('');
+    Array.prototype.forEach.call(group.querySelectorAll('.pkg-btn'), function (btn) {
+      btn.addEventListener('click', function () {
+        Array.prototype.forEach.call(group.querySelectorAll('.pkg-btn'), function (b) { b.classList.remove('active'); });
+        btn.classList.add('active'); document.getElementById('passthrough').value = btn.getAttribute('data-passthrough'); calculate();
+      });
+    });
+  }
+  function renderCreditGroup() {
+    var group = document.getElementById('credit-group'), tiers = activeTiers();
+    group.innerHTML = tiers.map(function (c) { return '<div class="pkg-btn" id="credit-'+c.id+'" data-mult="'+c.mult+'">'+c.name+'<span class="amt">x'+c.mult+'</span></div>'; }).join('');
+    Array.prototype.forEach.call(group.querySelectorAll('.pkg-btn'), function (btn) {
+      btn.addEventListener('click', function () {
+        Array.prototype.forEach.call(group.querySelectorAll('.pkg-btn'), function (b) { b.classList.remove('active'); });
+        btn.classList.add('active'); selectedMultiplier = parseFloat(btn.getAttribute('data-mult')); calculate();
+      });
+    });
+  }
+  function renderEquipList() {
+    var list = document.getElementById('equip-list');
+    list.innerHTML = CALC_EQUIPMENT.map(function (e) {
+      return '<div class="equip-row"><div class="equip-info"><div class="equip-name">'+e.name+'</div><div class="equip-price">'+calcFmt(e.price)+' each</div></div>'+
+        '<div class="stepper"><button type="button" data-id="'+e.id+'" data-delta="-1">−</button><span class="qty" id="qty-'+e.id+'">'+equipQty[e.id]+'</span><button type="button" data-id="'+e.id+'" data-delta="1">+</button></div></div>';
+    }).join('');
+    Array.prototype.forEach.call(list.querySelectorAll('button'), function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-id'), delta = parseInt(btn.getAttribute('data-delta'),10);
+        equipQty[id] = Math.max(0, equipQty[id]+delta); document.getElementById('qty-'+id).textContent = equipQty[id]; calculate();
+      });
+    });
+  }
+  function equipmentTotal() { var sum=0; CALC_EQUIPMENT.forEach(function(e){ sum += equipQty[e.id]*e.price; }); return sum + num('other-equip'); }
+  function renderItemized() {
+    var body = document.getElementById('itemized-body');
+    var rows = CALC_EQUIPMENT.filter(function(e){ return equipQty[e.id]>0; }).map(function(e){
+      return '<div class="itemized-row"><span class="iz-name">'+e.name+'<span class="iz-qty">× '+equipQty[e.id]+'</span></span><span class="iz-val">'+calcFmt(equipQty[e.id]*e.price)+'</span></div>';
+    });
+    var otherVal = num('other-equip');
+    if (otherVal>0) rows.push('<div class="itemized-row"><span class="iz-name">Other equipment</span><span class="iz-val">'+calcFmt(otherVal)+'</span></div>');
+    body.innerHTML = rows.length ? rows.join('') : '<div class="itemized-empty">No equipment added.</div>';
+  }
+  function calculate() {
+    var mmr = num('mmr'), pt = num('passthrough'), equip = equipmentTotal();
+    var netMmr = mmr-pt, multiplied = netMmr*selectedMultiplier, chargeback = multiplied*CHARGEBACK_RATE;
+    var afterChargeback = multiplied-chargeback, techPay = currentTechPay();
+    var final = Math.max(afterChargeback-equip-techPay-ADMIN_FEE, 0);
+    document.getElementById('equip-total-display').textContent = calcFmt(equip);
+    renderItemized();
+    document.getElementById('b-mmr').textContent = calcFmt(mmr); document.getElementById('b-pt').textContent = calcFmt(pt);
+    document.getElementById('b-netmmr').textContent = calcFmt(netMmr); document.getElementById('b-mult-label').textContent = '× '+selectedMultiplier;
+    document.getElementById('b-x28').textContent = calcFmt(multiplied); document.getElementById('b-chargeback').textContent = calcFmt(chargeback);
+    document.getElementById('b-afterchargeback').textContent = calcFmt(afterChargeback); document.getElementById('b-equip').textContent = calcFmt(equip);
+    document.getElementById('b-tech').textContent = calcFmt(techPay); document.getElementById('b-admin').textContent = calcFmt(ADMIN_FEE);
+    var finalEl = document.getElementById('final'); finalEl.textContent = calcFmt(final); finalEl.className = 'amt '+(final<0?'negative':'positive');
+    lastFinal = final;
+  }
+  function renderBatch() {
+    var list = document.getElementById('batch-list');
+    if (batchEntries.length===0) list.innerHTML = '<div class="batch-empty">No commissions added yet.</div>';
+    else {
+      list.innerHTML = batchEntries.map(function (b,i) { return '<div class="batch-entry"><span class="be-label">'+(b.name||'Unnamed Customer')+'</span><span class="be-amt">'+calcFmt(b.amount)+'<button type="button" class="be-remove" data-idx="'+i+'">&times;</button></span></div>'; }).join('');
+      Array.prototype.forEach.call(list.querySelectorAll('.be-remove'), function (btn) { btn.addEventListener('click', function () { batchEntries.splice(parseInt(btn.getAttribute('data-idx'),10),1); saveBatchData(); renderBatch(); }); });
+    }
+    document.getElementById('batch-total').textContent = calcFmt(batchEntries.reduce(function(s,b){return s+b.amount;},0));
+  }
+  function resetCalc() {
+    document.getElementById('mmr').value=''; document.getElementById('passthrough').value=''; document.getElementById('other-equip').value='';
+    Array.prototype.forEach.call(document.querySelectorAll('#pkg-group .pkg-btn, #credit-group .pkg-btn'), function(b){ b.classList.remove('active'); });
+    CALC_EQUIPMENT.forEach(function(e){ equipQty[e.id]=CALC_DEFAULT_QTY[e.id]||0; document.getElementById('qty-'+e.id).textContent=equipQty[e.id]; });
+    selectedMultiplier=28; adminBoost=false; document.getElementById('admin-toggle').classList.remove('active');
+    selfInstall=false; document.getElementById('selfinstall-toggle').classList.remove('active'); document.getElementById('techpay-sub').textContent='$175.00 fixed';
+    renderCreditGroup(); calculate();
+  }
+  renderPkgGroup(); renderCreditGroup(); renderEquipList();
+  document.getElementById('admin-toggle').addEventListener('click', function () { adminBoost=!adminBoost; document.getElementById('admin-toggle').classList.toggle('active',adminBoost); selectedMultiplier=0; renderCreditGroup(); calculate(); });
+  document.getElementById('selfinstall-toggle').addEventListener('click', function () { selfInstall=!selfInstall; document.getElementById('selfinstall-toggle').classList.toggle('active',selfInstall); document.getElementById('techpay-sub').textContent = selfInstall?'$25.00 (self-install)':'$175.00 fixed'; calculate(); });
+  document.getElementById('itemized-toggle').addEventListener('click', function () { document.getElementById('itemized-body').classList.toggle('open'); document.getElementById('itemized-arrow').classList.toggle('open'); });
+  function wireSecToggle(t,b,a) { document.getElementById(t).addEventListener('click', function () { document.getElementById(b).classList.toggle('open'); document.getElementById(a).classList.toggle('open'); }); }
+  wireSecToggle('mmr-toggle','mmr-body','mmr-arrow');
+  wireSecToggle('credit-toggle','credit-body','credit-arrow');
+  wireSecToggle('equip-toggle','equip-body','equip-arrow');
+  wireSecToggle('deduct-toggle','deduct-body','deduct-arrow');
+  wireSecToggle('breakdown-toggle','breakdown-body','breakdown-arrow');
+  document.getElementById('mmr').addEventListener('focus', function () {
+    ['credit','equip','deduct','breakdown'].forEach(function (key) {
+      document.getElementById(key+'-body').classList.add('open');
+      document.getElementById(key+'-arrow').classList.add('open');
+    });
+  });
+
+  function renderBatchDetail() {
+    var list = document.getElementById('batch-detail-list');
+    var totalEl = document.getElementById('batch-detail-total');
+    var total = batchEntries.reduce(function (s,b) { return s+b.amount; }, 0);
+    totalEl.textContent = batchEntries.length ? ('Total Estimated: ' + calcFmt(total) + '*') : '';
+    if (!batchEntries.length) { list.innerHTML = '<div class="batch-empty">No commissions added yet.</div>'; return; }
+    list.innerHTML = batchEntries.map(function (b, i) {
+      var equipLines = (b.equipment||[]).map(function (e) { return '<div class="bdr-equip-row"><span>'+e.name+'</span><span>× '+e.qty+'</span></div>'; }).join('');
+      return '<div class="batch-detail-row">' +
+        '<div class="bdr-top" data-idx="'+i+'">' +
+          '<input class="bdr-name" type="text" data-idx="'+i+'" placeholder="Customer name" value="'+(b.name||'').replace(/"/g,'&quot;')+'">' +
+          '<span class="bdr-amt">'+calcFmt(b.amount)+'*</span>' +
+          '<button type="button" class="bdr-remove" data-idx="'+i+'">&times;</button>' +
+          '<span class="bdr-chevron" id="chev-'+i+'">›</span>' +
+        '</div>' +
+        '<div class="bdr-slider" id="slide-'+i+'"><div class="bdr-slider-track">' +
+          '<div class="bdr-line">Package: '+(b.packageName||'—')+'</div>' +
+          '<div class="bdr-line">MMR: '+calcFmt(b.mmr||0)+'</div>' +
+          equipLines +
+        '</div></div>' +
+      '</div>';
+    }).join('');
+    Array.prototype.forEach.call(list.querySelectorAll('.bdr-top'), function (row) {
+      row.addEventListener('click', function (e) {
+        if (e.target.classList.contains('bdr-name')) return;
+        var idx = row.getAttribute('data-idx');
+        document.getElementById('slide-'+idx).classList.toggle('open');
+        document.getElementById('chev-'+idx).classList.toggle('open');
+      });
+    });
+    Array.prototype.forEach.call(list.querySelectorAll('.bdr-remove'), function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        batchEntries.splice(parseInt(btn.getAttribute('data-idx'),10), 1);
+        saveBatchData(); renderBatchDetail(); renderBatch();
+      });
+    });
+    Array.prototype.forEach.call(list.querySelectorAll('.bdr-name'), function (inp) {
+      inp.addEventListener('click', function (e) { e.stopPropagation(); });
+      inp.addEventListener('change', function () { batchEntries[parseInt(inp.getAttribute('data-idx'),10)].name = inp.value.trim(); saveBatchData(); });
+    });
+  }
+  document.getElementById('view-batch-btn').addEventListener('click', function () { renderBatchDetail(); show('step-batch'); });
+  document.getElementById('calc-reset-btn').addEventListener('click', function () { if (confirm('Reset all calculator fields? This cannot be undone.')) resetCalc(); });
+  document.getElementById('add-batch-btn').addEventListener('click', function () { batchEntries.push({ name: state.name || '', mmr: num('mmr'), packageName: 'Manual Entry', equipment: snapshotEquip(), amount: lastFinal, ts: Date.now(), sid: state.link ? state.link.sid : null, rid: state.link ? state.link.rid : null }); saveBatchData(); renderBatch(); });
+  document.getElementById('clear-batch-btn').addEventListener('click', function () { if (batchEntries.length && confirm('Clear the entire commission batch? This cannot be undone.')) { batchEntries=[]; saveBatchData(); renderBatch(); } });
+  renderBatch();
+  Array.prototype.forEach.call(document.querySelectorAll('#step-calc input'), function (inp) { inp.addEventListener('input', calculate); });
+  calculate();
+
+  show('step-wheel', true);
+
+  window.__appr = { start:function(n,link){ resetAll(); state.link = link || null; var p=String(n||'').trim().split(/\s+/); document.getElementById('cust-first-name').value=p[0]||''; document.getElementById('cust-last-name').value=p.slice(1).join(' '); }, batch:function(){ batchEntries = loadBatchData(); renderBatch(); }, set:function(a){ batchEntries = a; saveBatchData(); renderBatch(); } };
+  /* ---------- JINGLE ---------- */
+  function playJingle() {
+    try {
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      var notes = [523.25, 659.25, 783.99], t = ctx.currentTime;
+      notes.forEach(function (freq, i) {
+        var osc = ctx.createOscillator(), gain = ctx.createGain();
+        osc.type = 'sine'; osc.frequency.value = freq;
+        osc.connect(gain); gain.connect(ctx.destination);
+        var start = t + i*0.12, dur = 0.22;
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.exponentialRampToValueAtTime(0.25, start+0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start+dur);
+        osc.start(start); osc.stop(start+dur+0.02);
+      });
+    } catch (e) {}
+  }
+
+  /* ---------- ACCEPT DEAL (approval → calculator, silent) ---------- */
+  document.getElementById('accept-deal-btn').addEventListener('click', function () {
+    var a = state.approved;
+    if (a.price === null || a.price === undefined) { alert('This package\'s price is still TBD. Use Package Override to set a real price before accepting.'); return; }
+    document.getElementById('mmr').value = a.price;
+    equipQty.panel = 1;
+    equipQty.doorsensor = 2 + (a.sensorExtraQty || 0);
+    equipQty.camera = a.outdoorCams || 0;
+    equipQty.medical = a.pendant ? 1 : 0;
+    equipQty.doorbell = a.doorbell ? 1 : 0;
+    equipQty.motion = a.motionQty || 0;
+    CALC_EQUIPMENT.forEach(function (e) { var el = document.getElementById('qty-'+e.id); if (el) el.textContent = equipQty[e.id]; });
+    adminBoost = false; document.getElementById('admin-toggle').classList.remove('active'); renderCreditGroup();
+    var nt = CREDIT_TIERS_NORMAL.filter(function (c) { return c.id === state.tier; })[0];
+    if (nt) {
+      selectedMultiplier = nt.mult;
+      var cbtn = document.getElementById('credit-'+state.tier);
+      if (cbtn) { Array.prototype.forEach.call(document.querySelectorAll('#credit-group .pkg-btn'), function (b) { b.classList.remove('active'); }); cbtn.classList.add('active'); }
+    }
+    var totalCams = (a.outdoorCams||0) + (a.doorbell?1:0);
+    var passId = totalCams > 0 ? 'pass-complete' : 'pass-remote';
+    var pbtn = document.getElementById(passId);
+    if (pbtn) {
+      Array.prototype.forEach.call(document.querySelectorAll('#pkg-group .pkg-btn'), function (b) { b.classList.remove('active'); });
+      pbtn.classList.add('active'); document.getElementById('passthrough').value = pbtn.getAttribute('data-passthrough');
+    }
+    calculate();
+    batchEntries.push({ name: state.name || '', mmr: num('mmr'), packageName: a.name, equipment: snapshotEquip(), amount: lastFinal, ts: Date.now(), sid: state.link ? state.link.sid : null, rid: state.link ? state.link.rid : null });
+    saveBatchData();
+    document.getElementById('accept-deal-btn').classList.remove('pulsing');
+    renderBatch();
+    playJingle();
+  });
+})();
 </script>
 <script>
 if('serviceWorker' in navigator&&!window.claude)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
