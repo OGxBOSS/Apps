@@ -12,7 +12,7 @@
 /* One app shell: content on top, a contextual action panel above a fixed tab bar */
 :root{
  --bg:#edf0f6;--surface:#ffffff;--raise:#f3f5f9;--fg:#0e1526;--mut:#5d6b82;--line:#e3e8f0;
- --acc:#2563ff;--acc-ink:#ffffff;--acc-soft:rgba(37,99,255,.11);
+ --acc:#2563ff;--acc-ink:#ffffff;--acc-soft:rgba(37,99,255,.11);--bar:#e3e8f0;--bar-ink:#1c2433;--cb:#a16207;--cb-soft:rgba(202,138,4,.17);
  --good:#14a14a;--good-soft:rgba(20,161,74,.15);--bad:#dc2626;--bad-soft:rgba(220,38,38,.13);--warn:#c96a00;
  --shadow:0 1px 2px rgba(14,21,38,.06),0 8px 24px rgba(14,21,38,.06);
  --hl:#0e1526;
@@ -20,11 +20,11 @@
 }
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
  --bg:#080a0e;--surface:#12151b;--raise:#1a1e27;--fg:#eef2f8;--mut:#98a5ba;--line:#242a35;
- --acc:#4f86ff;--acc-soft:rgba(79,134,255,.17);--good:#34c76a;--good-soft:rgba(52,199,106,.17);--bad:#f26a6a;--bad-soft:rgba(242,106,106,.16);--warn:#f2a03c;
+ --acc:#4f86ff;--acc-soft:rgba(79,134,255,.17);--bar:#2b3344;--bar-ink:#e9edf6;--cb:#eab308;--cb-soft:rgba(234,179,8,.18);--good:#34c76a;--good-soft:rgba(52,199,106,.17);--bad:#f26a6a;--bad-soft:rgba(242,106,106,.16);--warn:#f2a03c;
  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);--hl:#ffffff;color-scheme:dark}}
 :root[data-theme="dark"]{
  --bg:#080a0e;--surface:#12151b;--raise:#1a1e27;--fg:#eef2f8;--mut:#98a5ba;--line:#242a35;
- --acc:#4f86ff;--acc-soft:rgba(79,134,255,.17);--good:#34c76a;--good-soft:rgba(52,199,106,.17);--bad:#f26a6a;--bad-soft:rgba(242,106,106,.16);--warn:#f2a03c;
+ --acc:#4f86ff;--acc-soft:rgba(79,134,255,.17);--bar:#2b3344;--bar-ink:#e9edf6;--cb:#eab308;--cb-soft:rgba(234,179,8,.18);--good:#34c76a;--good-soft:rgba(52,199,106,.17);--bad:#f26a6a;--bad-soft:rgba(242,106,106,.16);--warn:#f2a03c;
  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);--hl:#ffffff;color-scheme:dark}
 *{box-sizing:border-box}
 html{height:100%;overflow:hidden;overscroll-behavior:none}
@@ -43,7 +43,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-of
 
 /* Street header */
 #top{background:var(--surface);padding:9px 10px 0}
-#colh{flex:none;display:grid;grid-template-columns:19% 16% 21% 1fr 11%;height:21px;align-items:center;background:var(--surface);margin-bottom:-1px;color:var(--mut);font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;text-align:left}
+#colh{flex:none;display:grid;grid-template-columns:19% 16% 21% 1fr 11%;height:21px;align-items:center;background:var(--surface);margin-bottom:0;color:var(--mut);font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;text-align:left}
 #colh span{padding:0 8px;line-height:1}#colh span:first-child,#colh span:last-child{text-align:center}
 #top .pin{width:18px;height:18px;flex:none;display:grid;place-items:center;color:#fff;opacity:.85}
 .pin svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
@@ -59,16 +59,16 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-of
 #gpsPill::before{content:'';position:absolute;left:12px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:#fff}
 #gpsPill.busy::before{animation:gp 1s ease-out infinite}
 @keyframes gp{0%{box-shadow:0 0 0 0 rgba(255,255,255,.8)}100%{box-shadow:0 0 0 9px rgba(255,255,255,0)}}
-#kpi{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+#kpi{display:grid;grid-template-columns:42px repeat(4,1fr);gap:4px}
 #kpi>*{position:relative;background:var(--raise);border:0;border-radius:11px;padding:5px 1px 4px;text-align:center;font:inherit;color:inherit}
 #kpi b{display:block;font-size:16px;font-weight:800;line-height:1.1;letter-spacing:-.02em}
 #kpi span{display:block;font-size:8.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--mut);font-weight:800;margin-top:1px;white-space:nowrap}
-#kpi b{white-space:nowrap}#t4 b{font-size:13.5px;letter-spacing:-.03em}#sheetBtn b{font-size:14px}#t2 b{color:var(--good)}#t5 b{color:var(--acc)}
-#t5{box-shadow:inset 0 0 0 1.5px var(--acc-soft)}
+#kpi b{white-space:nowrap}#t4 b{font-size:13.5px;letter-spacing:-.03em}#sheetBtn b{font-size:14px}#t5 b{color:var(--acc)}#simpleBtn b{font-size:14px;color:var(--acc)}#simpleBtn{box-shadow:inset 0 0 0 1.5px var(--acc-soft)}
+#t5{box-shadow:inset 0 0 0 1.5px var(--acc-soft)}#cogBtn{display:grid;place-items:center;padding:0}#cogBtn svg{width:22px;height:22px;stroke:var(--fg);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 #goalbar,#oddsbar{position:relative;display:flex;align-items:center;gap:8px;width:100%;height:28px;margin-top:5px;padding:0 10px;border:0;border-radius:10px;background:var(--raise);overflow:hidden;font:inherit;color:inherit;text-align:left}
 #gFill,#oFill{position:absolute;left:0;top:0;bottom:0;width:0;transition:width .5s}
-#gFill{background:var(--good-soft)}#oFill{background:var(--acc-soft)}
-#goalbar>*:not(i),#oddsbar>*:not(i){position:relative}
+#goalbar{height:40px}#gFill,#gFill2{position:absolute;left:0;width:0;transition:width .5s,background .5s;opacity:.9}#gFill{top:0;height:50%;background:#14532d}#gFill2{top:50%;bottom:0;background:#14532d}#oFill{background:var(--acc-soft)}
+#goalbar>*:not(i),#oddsbar>*:not(i){position:relative}#goalbar #gTag,#goalbar #gTxt,#goalbar #gChev{text-shadow:0 0 4px var(--surface),0 0 2px var(--surface)}#goalbar.hot #gTxt,#goalbar.hot #gTag{text-shadow:none}
 #gTag{font-size:9.5px;letter-spacing:.07em;font-weight:800;color:var(--mut)}
 #gTxt{flex:1;font-size:13px;font-weight:800;text-align:center}
 #gChev{font-size:18px;line-height:1;color:var(--mut);font-weight:600}
@@ -77,7 +77,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-of
 #pace{font-size:12px;font-weight:800;white-space:nowrap}#pace{color:var(--acc)}#pace i{font-style:normal}#pace .u{color:var(--good)}#pace .d{color:var(--bad)}#pace.bh{color:var(--acc)}
 
 /* Door list */
-#main{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:var(--surface)}
+#main{margin-top:-4px;position:relative;z-index:1;flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:var(--surface)}
 table{width:100%;border-collapse:collapse;table-layout:fixed}
 th{position:sticky;top:0;z-index:3;height:19px;line-height:1;background:var(--surface);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);font-weight:800;padding:0 8px;border-bottom:1px solid var(--line);text-align:left}
 th:first-child,th:last-child{text-align:center}
@@ -87,11 +87,11 @@ td input:focus{background:var(--acc-soft)}
 .a{font-weight:800;font-size:19px;text-align:center;letter-spacing:-.01em}
 .rb{width:100%;height:48px;border:0;background:transparent;display:grid;place-items:center;padding:0 4px}
 .pill{display:inline-block;max-width:100%;padding:5px 8px;border-radius:999px;background:var(--raise);color:var(--fg);font-size:14px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pill.deal{background:var(--good);color:#fff}.pill.cb{background:var(--good-soft);color:var(--good)}.pill.rd{background:var(--bad-soft);color:var(--bad)}
+.pill.deal{background:var(--good);color:#fff}.pill.cb{background:var(--cb-soft);color:var(--cb)}.pill.ap{background:var(--good-soft);color:var(--good);box-shadow:0 0 0 1.5px var(--good),0 0 10px 1px rgba(34,197,94,.55)}.pill.rd{background:var(--bad-soft);color:var(--bad)}
 .apt{width:100%;height:48px;border:0;background:transparent;color:var(--mut);font-size:11px;font-weight:800;letter-spacing:.05em;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:.8}
 .apt.on{color:var(--good);opacity:1}.apt.on::before{content:'✓';font-size:19px;line-height:16px;font-weight:900}
 .mark td{height:32px;text-align:center;background:var(--raise);color:var(--mut);font-size:12px;font-weight:700;letter-spacing:.02em}
-.turn td{position:sticky;z-index:2;background:var(--acc);color:#fff;text-align:left;padding:0 10px;cursor:pointer;border-bottom:0;box-shadow:0 1px 0 rgba(0,0,0,.18),0 3px 8px rgba(14,21,38,.14)}
+.turn td{position:sticky;z-index:2;background:var(--bar);color:var(--bar-ink);border-left:4px solid var(--acc);text-align:left;padding:0 10px;cursor:pointer;border-bottom:0;box-shadow:0 1px 0 rgba(0,0,0,.18),0 3px 8px rgba(14,21,38,.14)}
 #cbAlert{position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);left:12px;right:12px;z-index:50;padding:12px 16px;border-radius:18px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);color:#fff;box-shadow:0 12px 32px rgba(0,0,0,.35);animation:dl .6s}
 #cbAlert b{display:block;font-size:18px;letter-spacing:-.01em}#cbAlert small{display:block;font-size:13px;font-weight:700;opacity:.9;margin-top:2px}
 #kbar{position:absolute;left:0;right:0;bottom:0;z-index:60;display:flex;gap:8px;padding:6px 10px;background:var(--raise);border-top:1px solid var(--line)}
@@ -104,14 +104,27 @@ td input.a.srch{animation:sp 1s ease-in-out infinite}.a.srch::placeholder{font-s
 @keyframes sp{50%{opacity:.35}}
 #tb tr.fd:not(.turn){display:none}
 .turn .mi i:not(.g):not(.r){max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.fa{flex:none;width:26px;height:24px;margin-right:8px;border:0;border-radius:8px;background:rgba(255,255,255,.24);display:grid;place-items:center;padding:0}.fa svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.fa{flex:none;width:26px;height:24px;margin-right:8px;border:0;border-radius:8px;background:rgba(120,130,150,.22);display:grid;place-items:center;padding:0}.fa svg{width:18px;height:18px;stroke:var(--bar-ink);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .turn .cv{font-size:12px;opacity:.9;margin-left:2px;align-self:center}
 .turn .tn{display:flex;align-items:center;justify-content:space-between;gap:8px;height:100%}
-#st{flex:1;min-width:0;height:100%;border:0;background:transparent;color:#fff;font:inherit;font-size:16px;line-height:28px;font-weight:800;padding:0;outline:0}#st::placeholder{color:rgba(255,255,255,.75);font-weight:800}
+#st{flex:1;min-width:0;height:100%;border:0;background:transparent;color:var(--bar-ink);font:inherit;font-size:16px;line-height:28px;font-weight:800;padding:0;outline:0}#st::placeholder{color:var(--mut);font-weight:800}
 .turn .tn b{font-size:13px;font-weight:800;letter-spacing:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .turn .mi{display:flex;gap:6px;flex:none}
-.turn .mi i{font-style:normal;font-size:11.5px;font-weight:800;line-height:16px;padding:0 7px;border-radius:999px;background:rgba(255,255,255,.2)}
-.turn .mi i.g{background:#e8fff1;color:#047a3a}.turn .mi i.r{background:#ffe9ea;color:#c4202a}
+.turn .mi i{font-style:normal;font-size:11.5px;font-weight:800;line-height:16px;padding:0 7px;border-radius:999px;background:rgba(120,130,150,.22)}
+.turn .mi i.g{background:#d9f7e4;color:#047a3a}.turn .mi i.r{background:#ffe9ea;color:#c4202a}
+.gbox{background:var(--surface);border-radius:18px;box-shadow:var(--shadow);padding:10px 12px 6px;margin-bottom:6px}
+.gbh{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}.gbh>b{font-size:16px}
+.gseg{display:flex;align-items:center;gap:4px}.gseg span{font-size:11px;color:var(--mut);font-weight:700;margin-right:4px}
+.gseg button{border:0;border-radius:8px;background:var(--raise);color:var(--mut);font:inherit;font-size:12.5px;font-weight:800;padding:5px 10px}.gseg button.on{background:var(--acc);color:var(--acc-ink,#fff)}
+.gb{padding:6px 0 8px;border-top:1px solid var(--line)}.gb:first-of-type{border-top:0}
+.gt{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px}.gt b{font-size:13.5px}.gn2{color:var(--mut);font-size:11.5px}
+.gl2{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:8px;margin:3px 0}.gl2>span:first-child{font-size:12px;color:var(--mut);font-weight:700}
+.gl2 .pb{height:7px;border-radius:99px;background:var(--raise);overflow:hidden}.gl2 .pb i{display:block;height:100%;background:var(--acc);border-radius:99px}.gl2 .pb i.done{background:var(--good)}
+.gl2 .gv{display:flex;align-items:center;gap:4px;font-size:13px;white-space:nowrap}.gl2 .gv b{font-weight:800;font-size:14px}.gl2 .gv em{font-style:normal;color:var(--mut)}
+.gl2 input{width:52px;height:30px;border:1px solid var(--line);border-radius:8px;background:var(--raise);color:var(--fg);font:inherit;font-size:14px;font-weight:700;text-align:center;padding:0}
+/* simple view */
+body.simple #oddsbar,body.simple #sumRow,body.simple tr.turn:not(#startRow),body.simple #foldAll,body.simple #startMi{display:none!important}
+body.simple #startRow .tn{cursor:default}body.simple #startRow td{background:var(--bar);color:var(--bar-ink)}
 .dbox{background:var(--surface);border-radius:18px;box-shadow:var(--shadow);margin-bottom:12px;padding:6px 8px 10px}
 .dbh{display:flex;align-items:center;gap:10px;padding:8px 8px 8px}.dbh .rt{flex:1;min-width:0}.dbh b{display:block;font-size:16px}.dbh small{color:var(--mut);font-size:12.5px}.dbh .btn{height:38px;font-size:14px}
 .dl{border-top:1px solid var(--line)}.dlh{width:100%;display:flex;align-items:center;gap:10px;padding:11px 8px;border:0;background:transparent;text-align:left;color:inherit}
@@ -127,7 +140,7 @@ td input.a.srch{animation:sp 1s ease-in-out infinite}.a.srch::placeholder{font-s
 .shb{padding:0 14px 14px}.cells{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
 .cell{background:var(--raise);border-radius:12px;padding:8px 4px;text-align:center}.cell b{display:block;font-size:17px}.cell span{font-size:11px;color:var(--mut);font-weight:700}
 .brk td{height:26px;text-align:center;background:var(--raise);color:var(--mut);font-size:12px;font-weight:700}
-.gl td{background:var(--good-soft)}
+.gl td{background:var(--good-soft)}.cbl td{background:var(--cb-soft)}
 .rd td{background:var(--bad-soft)}
 .fl td{animation:fl 1.8s}@keyframes fl{0%,60%{background:rgba(250,204,21,.5)}}
 tr.cur td{border-top:2px solid var(--hl);border-bottom:2px solid var(--hl)}
@@ -191,8 +204,8 @@ body.shv #main tbody tr,body.shv #main tbody input,body.shv #top input,body.shv 
 .gr small{color:var(--mut);font-size:12.5px;font-weight:600}
 
 /* Stats */
-.hero{margin-top:12px;background:var(--acc);color:var(--acc-ink);border-radius:22px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:2px;box-shadow:0 10px 26px rgba(37,99,255,.28)}
-.hero span{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;opacity:.85}.hero b{font-size:52px;letter-spacing:-.04em;line-height:1.05}.hero small{font-size:13.5px;font-weight:600;opacity:.9}
+.hero{margin-top:8px;background:var(--acc);color:var(--acc-ink);border-radius:18px;padding:10px 16px 10px;display:flex;flex-direction:column;gap:2px;box-shadow:0 10px 26px rgba(37,99,255,.28)}
+.hero span{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;opacity:.85}.hero b{font-size:34px;letter-spacing:-.04em;line-height:1.05}.hero small{font-size:13.5px;font-weight:600;opacity:.9}
 .gd{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
 .gd.c3{grid-template-columns:repeat(3,1fr);gap:8px;margin:0}
 .cd{background:var(--surface);border-radius:16px;padding:14px 4px 12px;text-align:center;box-shadow:var(--shadow);min-width:0}
@@ -427,6 +440,19 @@ body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb #oddsbar{display:
 #v-approval .overlay{position:fixed}
 #v-approval .step.active{display:block}
 #v-approval .app-header h1{font-size:19px;margin:4px 0}
+
+#v-approval .atabs{display:flex;gap:8px;margin:0 0 12px;position:sticky;top:-14px;z-index:6;background:#000;padding:14px 0 6px}
+#v-approval .atabs button{height:44px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--muted);font:inherit;font-weight:800}
+#v-approval .atabs #at-appr{flex:4;font-size:17px}#v-approval .atabs #at-calc{flex:1;font-size:12px;min-width:0;padding:0 4px}
+#v-approval .atabs button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+#v-approval #earn-box .er2{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer}
+#v-approval #earn-box .er2:last-child{border-bottom:0}#v-approval #earn-box .er2 small{display:block;color:var(--muted);font-size:12px}
+#v-approval #earn-box .er2 b.am{color:var(--good)}#v-approval #earn-box .er0{display:flex;justify-content:space-between;font-weight:800;font-size:15px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+#v-approval .scroll{display:flex;flex-direction:column;min-height:100%}
+#v-approval .bottom-bar{margin-top:auto}
+#v-approval .step{flex:none}
+#v-approval #step-calc>.back-link{display:none}
 </style>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -437,24 +463,22 @@ body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb #oddsbar{display:
 <section class="view on" id="v-street" aria-label="Street sheet">
  <div id="top">
   <div id="kpi">
+   <button id="cogBtn" type="button" aria-label="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
    <button id="sheetBtn" type="button" aria-label="Switch street sheet"><b id="dts"></b><span>Sheets</span></button>
-   <div id="t1"><b id="k1">0</b><span>Doors</span></div>
-   <div id="t2"><b id="k2">0</b><span>Deals</span></div>
-   <div id="t3"><b id="k3">–</b><span>Deal %</span></div>
    <div id="t4"><b id="k4">0h 00m</b><span>Working</span></div>
-   <button id="t5" type="button" aria-label="Add earnings"><b id="k5">Add $</b><span id="l5">$/hr</span></button>
+   <button id="t5" type="button" aria-label="Earnings"><b id="k5">$–</b><span id="l5">$/hr</span></button>
+   <button id="simpleBtn" type="button" aria-label="Switch between simple and detailed view"><b>Simple</b><span>View</span></button>
   </div>
-  <button id="goalbar" type="button" aria-label="Open goals"><i id="gFill"></i><span id="gTag">WEEK GOAL</span><span id="gTxt"></span><span id="gChev">›</span></button>
+  <button id="goalbar" type="button" aria-label="Switch between daily and weekly goals"><i id="gFill"></i><i id="gFill2"></i><span id="gTag">WEEK GOAL</span><span id="gTxt"></span><span id="gChev">›</span></button>
   <div id="oddsbar"><i id="oFill"></i><span id="oTxt"></span><span id="pace"></span></div>
  </div>
  <div id="colh" aria-hidden="true"><span>#</span><span>Resp.</span><span>Name</span><span>Note</span><span>APT</span></div>
  <div id="main"><table><colgroup><col style="width:19%"><col style="width:16%"><col style="width:21%"><col><col style="width:11%"></colgroup><tbody><tr class="mark turn" id="sumRow" hidden><td colspan="5"><div class="tn"><span class="fa" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 6l5 5 5-5M7 13l5 5 5-5"/></svg></span><b>Streets</b><span class="mi" id="sumMi"></span></div></td></tr><tr class="mark turn" id="startRow" data-id="start"><td colspan="5"><div class="tn"><button type="button" id="foldAll" class="fa" aria-label="Collapse all streets"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11l5-5 5 5M7 18l5-5 5 5"/></svg></button><input id="st" placeholder="Start" autocapitalize="words" aria-label="Street name"><span class="mi" id="startMi"></span></div></td></tr></tbody><tbody id="tb"></tbody></table></div>
 </section>
-<section class="view" id="v-goals" aria-label="Goals"><div class="scroll"></div></section>
-<section class="view" id="v-stats" aria-label="Stats"><div class="scroll"></div></section>
+<section class="view" id="v-stats" aria-label="Goals and stats"><div class="scroll"></div></section>
 <section class="view" id="v-chat" aria-label="Team chat"></section>
 <section class="view" id="v-approval" aria-label="Approval"><div class="scroll">
-<div class="app-header"><img src="" class="app-logo" alt=""><h1>Approval</h1></div><div class="wrap">
+<div class="atabs"><button type="button" id="at-appr" class="on">Approval</button><button type="button" id="at-calc">Calculator</button></div><div class="wrap">
 <!-- STEP: TIERS + NAME -->
   <div class="step" id="step-wheel">
     <div class="card">
@@ -562,6 +586,7 @@ body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb #oddsbar{display:
   <div class="step" id="step-calc">
     <button type="button" class="back-link" data-back>← Back</button>
     <div class="sub" style="margin-top:-6px;">(MMR − Pass-Through) × Credit Multiplier − 10% Chargeback − Equipment − Tech Pay − Admin Fee</div>
+    <div class="card" id="earn-card"><h2>Earnings</h2><div id="earn-box"></div></div>
     <div class="card">
       <button type="button" class="sec-toggle" id="mmr-toggle"><h2>MMR</h2><span class="sec-arrow open" id="mmr-arrow">▾</span></button>
       <div class="sec-body open" id="mmr-body">
@@ -623,7 +648,7 @@ body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb #oddsbar{display:
         <button type="button" class="itemized-toggle" id="itemized-toggle"><span>Itemized Equipment</span><span class="itemized-arrow" id="itemized-arrow">▾</span></button>
         <div class="itemized-body" id="itemized-body"></div>
       </div>
-      <button class="batch-add-btn" type="button" id="add-batch-btn">+ Add to Batch</button>
+      <button class="batch-add-btn" type="button" id="add-batch-btn">Save as deal (no sheet)</button>
     </div>
     <div class="card">
       <h2>Commission Batch</h2>
@@ -676,8 +701,8 @@ body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb #oddsbar{display:
 <section class="view" id="v-more" aria-label="More"><div class="scroll"></div></section>
 </div>
 <div id="sp"></div>
-<div id="bot"><div id="panel"></div><nav id="tabs" aria-label="Sections"><button type="button" data-t="street"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.6 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg></span>Street</button><button type="button" data-t="goals"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg></span>Goals</button><button type="button" data-t="stats"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></span>Stats</button><button hidden type="button" data-t="chat"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M8 10h8M8 13h5"/></svg></span>Chat</button><button type="button" data-t="sheets"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="14" rx="2.5"/><path d="M7 3h10M8 11h8M8 15h5"/></svg></span>Sheets</button><button type="button" data-t="approval"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4.4-3 8.2-7 9.5-4-1.3-7-5.1-7-9.5V6z"/><path d="M8.7 12.2l2.4 2.4 4.3-4.8"/></svg></span>Approval</button><button type="button" data-t="more"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5.5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18.5" cy="12" r="1.4"/></svg></span>More</button></nav></div>
-<div id="ver">v2.6.0</div>
+<div id="bot"><div id="panel"></div><nav id="tabs" aria-label="Sections"><button type="button" data-t="street"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.6 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg></span>Street</button><button type="button" data-t="stats"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></span>Goals/Stats</button><button hidden type="button" data-t="chat"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M8 10h8M8 13h5"/></svg></span>Chat</button><button type="button" data-t="sheets"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="14" rx="2.5"/><path d="M7 3h10M8 11h8M8 15h5"/></svg></span>Sheets</button><button type="button" data-t="approval"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 7.5h7M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/></svg></span>Calculator</button></nav></div>
+<div id="ver">v0.3.0</div>
 <canvas id="confetti" hidden></canvas>
 <div id="dealAlert" role="alert" hidden></div>
 <div id="cbAlert" role="alert" hidden></div>
@@ -688,10 +713,10 @@ body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb #oddsbar{display:
 <div id="shBar" hidden><span></span><button type="button" onclick="exitShared()">Close</button></div>
 <div id="toast" hidden></div>
 <script>
-const VER="2.6.0",LOG=[{"v": "2.6.0", "d": "Oct 15", "n": [{"id": "deals", "t": "Deals live on the Sheets tab: every approval shows the customer, date, sheet and commission, tap one for the full details, and each sheet has a small deals button. You can also add an approval with no sheet"}, {"id": "income", "t": "Income and $/hr now come only from deals added through Approval. The manual Add $ entry is gone"}, {"id": "appr", "t": "The Calc tab is now Approval: customer name and credit tier, package menu, approved screen with Accept, package override, custom builder, then the commission calculator and batch, in the same order as your approval app"}, {"id": "dealjump", "t": "New option in More: Jump to Approval on a deal. Marking a deal on the street sheet opens Approval with the customer name filled in"}, {"id": "mapfeed", "t": "Map data now updates as you walk, about every 30 m, and old data is cleared after 2 days"}, {"id": "scorepick", "t": "Address pick rebuilt: every mapped house on your side is scored by distance from you and how natural it is as the next door, so one noisy reading no longer decides it"}, {"id": "share", "t": "Share a street sheet in team chat (the 📋 button). Teammates tap it to open the full sheet, view only. It never lands in their sheets or stats"}, {"id": "prune", "t": "Chat messages and shared sheets are removed after 3 months so nothing piles up"}, {"id": "brkask", "t": "Take a break now asks when it started: starting now, since your last door, or minutes ago, so your time stays accurate"}, {"id": "editvis", "t": "The address you are typing is no longer hidden behind the panel or keyboard"}, {"id": "trail", "t": "Better address accuracy: while you work a street, the app averages your last 25 seconds of location at each door and tops up map data ahead of you"}, {"id": "oldfix", "t": "Fixed opening an old sheet starting a new one when New sheet each day is on"}, {"id": "crack", "t": "Removed the thin line between the column headings and the street bar"}]}, {"v": "2.2.0", "d": "Oct 14", "n": [{"id": "team", "t": "Team deal alerts: a winner alarm and banner when a teammate gets a deal, including ones you missed while away"}, {"id": "streak", "t": "Shout-outs for 2nd, 3rd and later deals, with over 200 different messages. Three deals sets the pace with a golden banner and confetti"}, {"id": "hold", "t": "A deal is announced 2 minutes after it is logged. Changing or clearing it in that time cancels the alert, so accidental taps never go out"}, {"id": "hours", "t": "Deal alerts only go out and show from 8 AM to 8 PM, and each day's deal count starts fresh at 8 AM"}, {"id": "join", "t": "Join the team screen asks for your name on launch until you join (team TWONADT is built in)"}, {"id": "teamset", "t": "Team settings in More: alerts on/off, alarm sound, your name and a Test button"}, {"id": "chat", "t": "Team chat tab for everyone on your team code, with who is on the team and an unread count. It sits between Stats and Sheets, and Sheets and Calc swapped places"}, {"id": "stk", "t": "Every street is now sticky at the top of the sheet, with its deals, comebacks and doors counts and the city and state from your GPS. The column headings now sit directly under the odds bar and the street bars with no gaps"}, {"id": "fold", "t": "Tap a street to collapse or expand its doors. The double arrow button on the first street bar collapses all the street bars into one small Streets row, and tap that row to open them again"}, {"id": "cbrem", "t": "Comeback reminders: an alert 10 minutes before your chosen comeback time (T, W and M remind at 9 AM that day), while the app is open. You can turn it off in More"}, {"id": "addr3", "t": "House numbers now come from where you are standing and the map data first. The street pattern is only a backup when there is no map data. While GPS checks, the address box says locating"}, {"id": "turn2", "t": "Turn screen: tap a street you were already on to turn back onto it, even if you type it differently (St or Street, capitals), and numbering picks up where you left that street. The Return key works too"}, {"id": "qmark", "t": "A ? key above the address keyboard for houses you cannot read"}, {"id": "tapout", "t": "Tap anywhere outside a text box to close the keyboard, and the chat keyboard closes after you send"}, {"id": "brkask", "t": "If you have not added a door for 5 minutes, the app asks whether you are on a break"}, {"id": "search", "t": "Search on the Sheets tab: finds names, notes, addresses and streets, then opens the sheet at the first match, highlighted in yellow"}, {"id": "daily", "t": "New option in More: start a new sheet automatically the first time you open Street on a new date (off by default)"}, {"id": "cols", "t": "Slimmer Response column gives the Note column more room, and long notes slide into view like a ticker: pause, slide, hold 1 second, reset"}, {"id": "hdr", "t": "Sheet header now sits right under the odds bar, with no gap"}, {"id": "panel", "t": "The response panel no longer shows NEW DOOR (tap outside it to close), and Add and Edit now live in its left column"}, {"id": "defaults", "t": "New installs start with the new default responses, and Has Our Service is now Has Service"}, {"id": "gps1", "t": "Location is steadier: the app waits up to 8 seconds for the most accurate reading instead of taking the first rough one"}, {"id": "gps2", "t": "Map data download is more reliable (longer wait and an extra backup server)"}, {"id": "gps3", "t": "New Location check in More tests your GPS and map data and tells you exactly what is wrong"}, {"id": "wn", "t": "The What's new popup shows only changes you have not seen yet"}, {"id": "pn", "t": "Patch notes page under More keeps one entry per day"}]}, {"v": "2.0.1", "d": "Oct 10", "n": [{"id": "brk", "t": "Take a break button next to NEW DOOR pauses your time and every stat until you press NEW DOOR again"}, {"id": "resp10", "t": "Up to 10 customizable responses, with drag-to-reorder in Edit responses"}, {"id": "clr", "t": "Tap a selected response again to clear it"}, {"id": "kb", "t": "Panels and fields now sit right above the keyboard instead of jumping to the top"}, {"id": "ver", "t": "Version number shown in the top-left corner"}, {"id": "clean", "t": "Full code cleanup: dead code removed, nothing changed in how it works"}]}, {"v": "2.0.0", "d": "Oct 9", "n": [{"id": "v2a", "t": "Redesigned app with Street, Goals, Stats, Calc, Sheets and More tabs"}, {"id": "v2b", "t": "Sticky street rows with deals, comebacks and rejections at a glance; tap one to jump to it"}, {"id": "v2c", "t": "Sheets tab to open, review and delete past street sheets"}, {"id": "v2d", "t": "GPS address help using real house numbers from OpenStreetMap, with notification pills for location status"}, {"id": "v2e", "t": "Doors per hour pace, deal odds, goals, and $ per hour tracking"}, {"id": "v2f", "t": "Sounds and haptics, thinner header, and iPhone keyboard and zoom fixes"}, {"id": "v2g", "t": "Automatic backup copy of your sheets to protect against data loss"}]}, {"v": "1.0.0", "d": "Oct 9", "n": [{"id": "v1a", "t": "First version: street sheets with address, response, name, note and APT"}, {"id": "v1b", "t": "Comebacks list, goals, deal odds and a route map of your doors"}]}],RELAY="https://street-sheet-default-rtdb.firebaseio.com",TEAMCODE="TWONADT";
+const VER="0.3.0",LOG=[{"v": "0.3.0", "d": "Oct 15", "n": [{"id": "cog", "t": "Settings moved to a cog button at the top left of the Street screen. The More tab is gone"}, {"id": "calctab", "t": "The Calculator tab opens on the customer approval. A small Calculator button at the top right switches to the commission calculator (earnings by sheet and miscellaneous, plus a what-if calculator you can save as a real deal) and either button returns you exactly where you were"}, {"id": "goaltap", "t": "Goal bar is taller and shows doors and deals as two bars that get brighter green every 10%. Tap it to flip between daily and weekly goals"}, {"id": "simpledef", "t": "Simple view is the default and the app always starts in it"}, {"id": "colors", "t": "Street bars are a calmer neutral instead of bright blue, and comebacks are dark yellow"}, {"id": "nextaddr", "t": "Next address now follows the map directly: your side of the street from odd or even, your direction from the numbers, and the next address in line. Location is no longer used to override it"}, {"id": "simple", "t": "New Simple view button at the top right of the Street screen. It hides deal odds and the streets bars for a cleaner sheet. The button then says Detailed to bring everything back"}, {"id": "hdr2", "t": "The top bar is slimmer: the goal bar now shows both doors and deals (like 50 / 100 doors · 1 / 2 deals), so the door, deal and deal % tiles are gone"}, {"id": "ap", "t": "New AP (appointment) response replaces the Add button in responses. Appointments glow green. Comebacks are now dark yellow, and the street bars count appointments instead of comebacks"}, {"id": "gs", "t": "Goals and Stats are now one tab, Goals/Stats. The goals are compact at the top with stats below, and the Weekly/Daily choice moved into the Goals card"}, {"id": "deals", "t": "Deals live on the Sheets tab: every approval shows the customer, date, sheet and commission, tap one for the full details, and each sheet has a small deals button. You can also add an approval with no sheet"}, {"id": "income", "t": "Income and $/hr now come only from deals added through the Calculator tab. The manual Add $ entry is gone"}, {"id": "appr", "t": "The Calc tab is now the Calculator tab, opening on the approval: customer name and credit tier, package menu, approved screen with Accept, package override, custom builder, then the commission calculator and batch, in the same order as your approval app"}, {"id": "dealjump", "t": "New option in Settings: Jump to Approval on a deal. Marking a deal on the street sheet opens the approval with the customer name filled in"}, {"id": "mapfeed", "t": "Map data now updates as you walk, about every 30 m, and old data is cleared after 2 days"}, {"id": "share", "t": "Share a street sheet in team chat (the 📋 button). Teammates tap it to open the full sheet, view only. It never lands in their sheets or stats"}, {"id": "prune", "t": "Chat messages and shared sheets are removed after 3 months so nothing piles up"}, {"id": "brkask", "t": "Take a break now asks when it started: starting now, since your last door, or minutes ago, so your time stays accurate"}, {"id": "editvis", "t": "The address you are typing is no longer hidden behind the panel or keyboard"}, {"id": "trail", "t": "Better address accuracy: while you work a street, the app averages your last 25 seconds of location at each door and tops up map data ahead of you"}, {"id": "oldfix", "t": "Fixed opening an old sheet starting a new one when New sheet each day is on"}, {"id": "crack", "t": "Removed the thin line between the column headings and the street bar"}]}, {"v": "0.2.0", "d": "Oct 14", "n": [{"id": "team", "t": "Team deal alerts: a winner alarm and banner when a teammate gets a deal, including ones you missed while away"}, {"id": "streak", "t": "Shout-outs for 2nd, 3rd and later deals, with over 200 different messages. Three deals sets the pace with a golden banner and confetti"}, {"id": "hold", "t": "A deal is announced 2 minutes after it is logged. Changing or clearing it in that time cancels the alert, so accidental taps never go out"}, {"id": "hours", "t": "Deal alerts only go out and show from 8 AM to 8 PM, and each day's deal count starts fresh at 8 AM"}, {"id": "join", "t": "Join the team screen asks for your name on launch until you join (team TWONADT is built in)"}, {"id": "teamset", "t": "Team settings in More: alerts on/off, alarm sound, your name and a Test button"}, {"id": "chat", "t": "Team chat tab for everyone on your team code, with who is on the team and an unread count. It sits between Stats and Sheets, and Sheets and Calc swapped places"}, {"id": "stk", "t": "Every street is now sticky at the top of the sheet, with its deals, comebacks and doors counts and the city and state from your GPS. The column headings now sit directly under the odds bar and the street bars with no gaps"}, {"id": "fold", "t": "Tap a street to collapse or expand its doors. The double arrow button on the first street bar collapses all the street bars into one small Streets row, and tap that row to open them again"}, {"id": "cbrem", "t": "Comeback reminders: an alert 10 minutes before your chosen comeback time (T, W and M remind at 9 AM that day), while the app is open. You can turn it off in More"}, {"id": "addr3", "t": "House numbers now come from where you are standing and the map data first. The street pattern is only a backup when there is no map data. While GPS checks, the address box says locating"}, {"id": "turn2", "t": "Turn screen: tap a street you were already on to turn back onto it, even if you type it differently (St or Street, capitals), and numbering picks up where you left that street. The Return key works too"}, {"id": "qmark", "t": "A ? key above the address keyboard for houses you cannot read"}, {"id": "tapout", "t": "Tap anywhere outside a text box to close the keyboard, and the chat keyboard closes after you send"}, {"id": "brkask", "t": "If you have not added a door for 5 minutes, the app asks whether you are on a break"}, {"id": "search", "t": "Search on the Sheets tab: finds names, notes, addresses and streets, then opens the sheet at the first match, highlighted in yellow"}, {"id": "daily", "t": "New option in More: start a new sheet automatically the first time you open Street on a new date (off by default)"}, {"id": "cols", "t": "Slimmer Response column gives the Note column more room, and long notes slide into view like a ticker: pause, slide, hold 1 second, reset"}, {"id": "hdr", "t": "Sheet header now sits right under the odds bar, with no gap"}, {"id": "panel", "t": "The response panel no longer shows NEW DOOR (tap outside it to close), and Add and Edit now live in its left column"}, {"id": "defaults", "t": "New installs start with the new default responses, and Has Our Service is now Has Service"}, {"id": "gps1", "t": "Location is steadier: the app waits up to 8 seconds for the most accurate reading instead of taking the first rough one"}, {"id": "gps2", "t": "Map data download is more reliable (longer wait and an extra backup server)"}, {"id": "gps3", "t": "New Location check in More tests your GPS and map data and tells you exactly what is wrong"}, {"id": "wn", "t": "The What's new popup shows only changes you have not seen yet"}, {"id": "pn", "t": "Patch notes page under More keeps one entry per day"}]}, {"v": "0.1.1", "d": "Oct 10", "n": [{"id": "brk", "t": "Take a break button next to NEW DOOR pauses your time and every stat until you press NEW DOOR again"}, {"id": "resp10", "t": "Up to 10 customizable responses, with drag-to-reorder in Edit responses"}, {"id": "clr", "t": "Tap a selected response again to clear it"}, {"id": "kb", "t": "Panels and fields now sit right above the keyboard instead of jumping to the top"}, {"id": "ver", "t": "Version number shown in the top-left corner"}, {"id": "clean", "t": "Full code cleanup: dead code removed, nothing changed in how it works"}]}, {"v": "0.1.0", "d": "Oct 9", "n": [{"id": "v2a", "t": "Redesigned app with Street, Goals, Stats, Calc, Sheets and More tabs"}, {"id": "v2b", "t": "Sticky street rows with deals, comebacks and rejections at a glance; tap one to jump to it"}, {"id": "v2c", "t": "Sheets tab to open, review and delete past street sheets"}, {"id": "v2d", "t": "GPS address help using real house numbers from OpenStreetMap, with notification pills for location status"}, {"id": "v2e", "t": "Doors per hour pace, deal odds, goals, and $ per hour tracking"}, {"id": "v2f", "t": "Sounds and haptics, thinner header, and iPhone keyboard and zoom fixes"}, {"id": "v2g", "t": "Automatic backup copy of your sheets to protect against data loss"}]}, {"v": "0.0.1", "d": "Oct 9", "n": [{"id": "v1a", "t": "First version: street sheets with address, response, name, note and APT"}, {"id": "v1b", "t": "Comebacks list, goals, deal odds and a route map of your doors"}]}],RELAY="https://street-sheet-default-rtdb.firebaseio.com",TEAMCODE="TWONADT";
 const K='doortracker.v1',$=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9);
-const DEF=[['deal','DEAL!','Deal','deal'],['rej','NO','Rejection','rej'],['cb','CB','Come Back','cb'],['v','Apt/V','Apartment/Vacant','vac'],['dnq','DNQ','Renter/Cred Fail','other'],['svc','✅','Has Service','other']].map(a=>({id:a[0],sym:a[1],label:a[2],type:a[3]}));
-const TYPES={deal:'Deal',rej:'Rejection',cb:'Comeback',nh:'Not home',vac:'Vacant',other:'Other'};
+const DEF=[['deal','DEAL!','Deal','deal'],['rej','NO','Rejection','rej'],['cb','CB','Come Back','cb'],['ap','AP','Appointment','appt'],['v','Apt/V','Apartment/Vacant','vac'],['dnq','DNQ','Renter/Cred Fail','other'],['svc','✅','Has Service','other']].map(a=>({id:a[0],sym:a[1],label:a[2],type:a[3]}));
+const TYPES={deal:'Deal',rej:'Rejection',cb:'Comeback',appt:'Appointment',nh:'Not home',vac:'Vacant',other:'Other'};
 function h(t,p,...c){const e=document.createElement(t);for(const k in p||{}){if(k==='class')e.className=p[k];else if(k.startsWith('on')){p[k]&&e.addEventListener(k.slice(2),p[k])}else if(k==='value')e.value=p[k];else e.setAttribute(k,p[k])}c.flat().forEach(x=>x!=null&&e.append(x));return e}
 const idb={p:null,open(){return this.p||(this.p=new Promise(res=>{try{const q=indexedDB.open('doortracker',1);q.onupgradeneeded=()=>q.result.createObjectStore('kv');q.onsuccess=()=>res(q.result);q.onerror=()=>res(null);q.onblocked=()=>res(null)}catch(e){res(null)}}))},
  async get(k){const d=await this.open();if(!d)return null;return new Promise(r=>{try{const q=d.transaction('kv').objectStore('kv').get(k);q.onsuccess=()=>r(q.result==null?null:q.result);q.onerror=()=>r(null)}catch(e){r(null)}})},
@@ -707,16 +732,14 @@ if(!S||!S.sessions||!S.sessions.length){fresh0=true;const s=ns();S={resp:DEF.map
 let SH=null;const cs=()=>SH||S.sessions.find(x=>x.id===S.cur)||S.sessions[0];
 let CL=null,wt,qt;const dirty=new Set();
 async function flush(){if(!CL)return;const ids=[...dirty];dirty.clear();try{
- await CL.doc('settings').set({json:JSON.stringify({resp:S.resp,showRed:S.showRed,auto:S.auto,daily:S.daily,cbRem:S.cbRem,calcBatch:S.calcBatch,dealJump:S.dealJump,jump:S.jump,geo:S.geo,snd:S.snd,cur:S.cur,pay:S.pay,payMode:S.payMode,goal:S.goal,order:S.sessions.map(x=>x.id),t:S.t})});
+ await CL.doc('settings').set({json:JSON.stringify({resp:S.resp,showRed:S.showRed,auto:S.auto,daily:S.daily,cbRem:S.cbRem,calcBatch:S.calcBatch,dealJump:S.dealJump,apAdded:S.apAdded,jump:S.jump,geo:S.geo,snd:S.snd,cur:S.cur,pay:S.pay,payMode:S.payMode,goal:S.goal,order:S.sessions.map(x=>x.id),t:S.t})});
  for(const id of ids){const x=S.sessions.find(y=>y.id===id);if(x)await CL.doc('sheet_'+id).set({json:JSON.stringify(x)})}
 }catch(e){ids.forEach(i=>dirty.add(i))}}
 const save=()=>{S.t=Date.now();let ok=true;const js=JSON.stringify(S);try{localStorage.setItem(K,js)}catch(e){ok=false}
  if(!ok){try{localStorage.removeItem(K+'.bak');localStorage.setItem(K,js);ok=true}catch(e){}}
  if(!ok)gpsPill('Storage full · back up your data','bad',6000);
  clearTimeout(mt);if(mirrorReady)mt=setTimeout(()=>idb.set('state',JSON.stringify(S)),800);dirty.add(S.cur);clearTimeout(wt);wt=setTimeout(flush,600)};
-function migA(){const ap=S.resp.filter(x=>x.type==='appt');if(!ap.length)return;const cb=S.resp.find(x=>x.type==='cb');
- S.sessions.forEach(s=>s.rows.forEach(r=>{if(r.t==='door'&&ap.some(x=>x.id===r.r)){r.apt=1;if(cb)r.r=cb.id}}));
- if(cb)S.resp=S.resp.filter(x=>x.type!=='appt');else ap.forEach(x=>x.type='cb');save()}
+function migA(){if(S.apAdded)return;S.apAdded=1;if(!S.resp.some(x=>x.type==='appt')){const i=S.resp.findIndex(x=>x.type==='cb');S.resp.splice(i<0?S.resp.length:i+1,0,{id:'ap',sym:'AP',label:'Appointment',type:'appt'})}save()}
 const R=id=>S.resp.find(r=>r.id===id);
 const doors=s=>s.rows.filter(r=>r.t==='door'),hasTurn=s=>s.rows.some(x=>x.t==='mark'&&x.txt.startsWith('↪'));
 function migB(){const nh=S.resp.filter(x=>x.type==='nh');if(!nh.length)return;
@@ -734,6 +757,7 @@ const brkSpans=()=>{const a=[];S.sessions.forEach(s=>s.rows.forEach(r=>{if(r.brk
 const brkIn=(x,y,B)=>B.reduce((t,v)=>t+Math.max(0,Math.min(v[1],y)-Math.max(v[0],x)),0);
 const openBrk=()=>{for(const s of S.sessions)for(const r of s.rows)if(r.brk&&!r.end)return r;return null};
 const typ=r=>{const x=R(r.r),t=x?x.type:'none';return r.apt&&t==='cb'?'appt':t};
+const isAp=r=>typ(r)==='appt';
 const pct=(a,b)=>b?Math.round(a/b*100)+'%':'–';
 const tm=t=>{if(!t)return'–';const d=new Date(t),T=d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});return d.toDateString()===new Date().toDateString()?T:d.toLocaleDateString([],{month:'short',day:'numeric'})+' '+T};
 const dt=t=>new Date(t).toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'});
@@ -754,26 +778,27 @@ const rowHit=(r,q)=>r.t==='door'?(has(r.addr,q)||has(r.name,q)||has(r.note,q)||h
 const sheetHits=(s,q)=>(has(s.street0,q)||has(s.street,q)||has(dt(s.date),q)?1:0)+s.rows.filter(r=>rowHit(r,q)).length;
 function keepScroll(sel,fn){const e=$(sel),y=e?e.scrollTop:0;fn();const n=$(sel);if(n)n.scrollTop=y}
 function render(){
- if(tab==='street')renderStreet();else if(tab==='goals')keepScroll('#v-goals .scroll',renderGoals);else if(tab==='stats')keepScroll('#v-stats .scroll',renderStats);else if(tab==='sheets')keepScroll('#v-sheets .scroll',renderSheets);else if(tab==='chat')renderChat();else if(tab==='more')keepScroll('#v-more .scroll',renderMore);
+ applySimple();
+ if(tab==='street')renderStreet();else if(tab==='stats')keepScroll('#v-stats .scroll',renderStats);else if(tab==='sheets')keepScroll('#v-sheets .scroll',renderSheets);else if(tab==='chat')renderChat();else if(tab==='more')keepScroll('#v-more .scroll',renderMore);
  fit();
 }
 function renderStreet(){
  const s=cs(),c=stats(s),H=hist(),mn=$('#main'),sc=mn.scrollTop,tb=$('#tb');
- $('#dts').textContent=new Date(s.date).toLocaleDateString(undefined,{month:'short',day:'numeric'})+(CL?' ☁':'');$('#k1').textContent=c.n;$('#k2').textContent=c.deal;$('#k3').textContent=pct(c.deal,c.n);$('#k4').textContent=dur(c.act);hud(H);
+ $('#dts').textContent=new Date(s.date).toLocaleDateString(undefined,{month:'short',day:'numeric'})+(CL?' ☁':'');$('#k4').textContent=dur(c.act);hud(H);
  const br=$('#bRed');if(br)br.classList.toggle('on',!!S.showRed);
  const cn=$('#cbn');if(cn)cn.textContent=(c.cb+c.appt)||'';
  tb.replaceChildren();
- const turns=s.rows.filter(r=>r.t==='mark'&&r.txt.startsWith('↪')),segOf=[{deal:0,cb:0,rej:0,n:0},...turns.map(()=>({deal:0,cb:0,rej:0,n:0}))];
- {let k=0;s.rows.forEach(r=>{if(r.t==='mark'){if(r.txt.startsWith('↪'))k++;return}const T=typ(r),g=segOf[k];g.n++;if(T==='deal')g.deal++;else if(T==='cb'||T==='appt')g.cb++;else if(T==='rej')g.rej++})}
+ const turns=s.rows.filter(r=>r.t==='mark'&&r.txt.startsWith('↪')),segOf=[{deal:0,ap:0,rej:0,n:0},...turns.map(()=>({deal:0,ap:0,rej:0,n:0}))];
+ {let k=0;s.rows.forEach(r=>{if(r.t==='mark'){if(r.txt.startsWith('↪'))k++;return}const T=typ(r),g=segOf[k];g.n++;if(T==='deal')g.deal++;else if(T==='appt')g.ap++;else if(T==='rej')g.rej++})}
  if(!turns.length&&s.street&&s.street0!==s.street)s.street0=s.street;
 const fold=new Set(s.fold||[]),force=new Set(),nSeg=segOf.length,off=!!s.stOff&&!q0();
  if(q0()){let k=0;s.rows.forEach(r=>{if(r.t==='mark'&&r.txt.startsWith('↪')){k++;return}if(rowHit(r,q0()))force.add(k)})}
- const isF=k=>!off&&fold.has(k)&&!force.has(k);
+ const simple=!!S.simple,isF=k=>!simple&&!off&&fold.has(k)&&!force.has(k);
  const MH=off?28:mhFor(nSeg),thH=0;
- const chips=sg=>[sg.deal?h('i',{class:'g'},sg.deal+' Deal'):null,sg.cb?h('i',{class:'g'},sg.cb+' CB'):null,sg.rej&&S.showRed?h('i',{class:'r'},sg.rej+' Rej'):null,!(sg.deal||sg.cb||(sg.rej&&S.showRed))?h('i',{},sg.n+(sg.n===1?' door':' doors')):null];
+ const chips=sg=>[sg.deal?h('i',{class:'g'},sg.deal+' Deal'):null,sg.ap?h('i',{class:'g'},sg.ap+' AP'):null,sg.rej&&S.showRed?h('i',{class:'r'},sg.rej+' Rej'):null,!(sg.deal||sg.ap||(sg.rej&&S.showRed))?h('i',{},sg.n+(sg.n===1?' door':' doors')):null];
  const q=hq,turnRow=(id,txt,ti)=>h('tr',{class:'mark turn'+(isF(ti)?' fd':'')+(has(txt,q)?' hit':''),'data-id':id},h('td',{colspan:5,style:'top:'+(thH+ti*MH)+'px;height:'+MH+'px',onclick:()=>toggleFold(ti)},h('div',{class:'tn'},h('b',{},txt),h('span',{class:'mi'},...chips(segOf[ti]),h('span',{class:'cv'},isF(ti)?'▸':'▾')))));
  {const sr=$('#startRow td');$('#startRow').hidden=off;$('#startRow').classList.toggle('fd',isF(0));$('#startRow').classList.toggle('hit',has(turns.length?s.street0:s.street,q));sr.style.top=thH+'px';sr.style.height=MH+'px';$('#startMi').replaceChildren(...[s.city?h('i',{},s.city):null,...chips(segOf[0]),h('span',{class:'cv'},isF(0)?'▸':'▾')].filter(Boolean));
-  const sm=$('#sumRow'),tot=segOf.reduce((a,g)=>({deal:a.deal+g.deal,cb:a.cb+g.cb,rej:a.rej+g.rej,n:a.n+g.n}),{deal:0,cb:0,rej:0,n:0});sm.hidden=!off;$('#sumRow td').style.top=thH+'px';$('#sumRow td').style.height=MH+'px';$('#sumMi').replaceChildren(...[s.city?h('i',{},s.city):null,h('i',{},nSeg+(nSeg===1?' street':' streets')),...chips(tot).filter(Boolean).slice(0,2),h('span',{class:'cv'},'▸')].filter(Boolean))
+  const sm=$('#sumRow'),tot=segOf.reduce((a,g)=>({deal:a.deal+g.deal,ap:a.ap+g.ap,rej:a.rej+g.rej,n:a.n+g.n}),{deal:0,ap:0,rej:0,n:0});sm.hidden=!off;$('#sumRow td').style.top=thH+'px';$('#sumRow td').style.height=MH+'px';$('#sumMi').replaceChildren(...[s.city?h('i',{},s.city):null,h('i',{},nSeg+(nSeg===1?' street':' streets')),...chips(tot).filter(Boolean).slice(0,2),h('span',{class:'cv'},'▸')].filter(Boolean))
   const i=$('#st');if(document.activeElement!==i)i.value=turns.length?(s.street0||''):(s.street||'')}
  if(!s.rows.length)tb.append(h('tr',{},h('td',{colspan:5,class:'empty'},'No doors yet. Tap NEW DOOR to start.')));
  s.rows.forEach(r=>{
@@ -782,7 +807,7 @@ const fold=new Set(s.fold||[]),force=new Set(),nSeg=segOf.length,off=!!s.stOff&&
    if(r.txt.startsWith('↪')){if(!off)tb.append(turnRow(r.id,r.txt.replace('↪ Turned onto ','↪ '),turns.indexOf(r)+1))}
    else tb.append(h('tr',{class:'mark','data-id':r.id},h('td',{colspan:5},r.txt)));
    return}
-  const x=R(r.r),T=typ(r),cls=T==='cb'||T==='appt'?'gl':(T==='rej'&&S.showRed)?'rd':'',pc=T==='deal'?'deal':T==='cb'||T==='appt'?'cb':(T==='rej'&&S.showRed)?'rd':'';
+  const x=R(r.r),T=typ(r),cls=T==='appt'?'gl':T==='cb'?'cbl':(T==='rej'&&S.showRed)?'rd':'',pc=T==='deal'?'deal':T==='appt'?'ap':T==='cb'?'cb':(T==='rej'&&S.showRed)?'rd':'';
   tb.append(h('tr',{class:cls+(r.id===curId?' cur':''),'data-id':r.id},
    h('td',{class:'ad'+(has(r.addr,q)?' hit':'')},h('input',{class:'a'+(r.srch?' srch':''),'data-f':'addr',inputmode:'numeric',value:r.addr||'',placeholder:r.srch?'locating…':'#','aria-label':'Address'})),
    h('td',{class:x&&(has(x.label,q)||has(x.sym,q))||has(r.d,q)?'hit':''},h('button',{class:'rb','data-resp':1,'aria-label':'Response'},x&&x.type!=='nh'?h('span',{class:'pill '+pc},x.sym+(r.d?' '+r.d:'')):null)),
@@ -811,6 +836,7 @@ const mhFor=n=>n>8?22:n>5?24:28,q0=()=>hq;
 function toggleFold(k){const s=cs(),f=new Set(s.fold||[]);f.has(k)?f.delete(k):f.add(k);s.fold=[...f];save();render();tick(0)}
 function foldAll(){const s=cs();s.stOff=!s.stOff;save();render();tick(0)}
 function setTab(t){
+ if(t==='goals')t='stats';
  if(SH&&t!=='street')exitShared(true);
  if(!$('#ov').hidden){const o=$('#ov');o.hidden=true;o.className='';$('#main').style.paddingBottom=''}
  tab=t;if(t!=='street')hq='';else dailyCheck();
@@ -829,13 +855,9 @@ function renderPanel(){
    h('button',{class:'chip'+(S.showRed?' on':''),id:'bRed',onclick:()=>{S.showRed=!S.showRed;save();render()}},h('i',{},'●'),'Red')),
    ndRow());
   brkUI();const c=stats(cs()),cn=$('#cbn');if(cn)cn.textContent=(c.cb+c.appt)||'';
- }else if(tab==='goals'){
-  p.append(h('div',{class:'plab'},'Street screen bar shows'),
-   seg([['week','Weekly'],['day','Daily']],S.goal.mode,k=>{S.goal.mode=k;gpPrev=null;save();renderPanel();render();hud(hist())}),
-   seg([['doors','Doors'],['deals','Deals']],S.goal.metric,k=>{S.goal.metric=k;gpPrev=null;save();renderPanel();render();hud(hist())}));
  }else if(tab==='stats'){
   p.append(seg([['sheet','Sheet'],['day','Today'],['week','Week'],['month','Month'],['all','All']],S.statsP||'sheet',k=>{S.statsP=k;save();renderPanel();render()},'five'),
-   h('div',{class:'two'},h('button',{class:'btn',onclick:()=>mapSheet(false)},'Route map'),h('button',{class:'btn pri',onclick:paySheet},'Add earnings')));
+   h('div',{class:'two'},h('button',{class:'btn',onclick:()=>mapSheet(false)},'Route map'),h('button',{class:'btn pri',onclick:paySheet},'Earnings')));
   }else if(tab==='sheets'){
   p.append(h('button',{class:'btn pri',style:'height:50px;font-size:16px',onclick:newSheet},'+ New sheet'));
  }else p.hidden=true;
@@ -899,7 +921,7 @@ function dailyCheck(){if(!S.daily)return;const s=cs();if(S.cur===revId||S.sessio
  const n=ns();S.sessions.push(n);S.cur=n.id;curId=null;save();toast('New day, new sheet')}
 function newSheet(){revId=null;const s=ns();S.sessions.push(s);S.cur=s.id;save();if(!$('#ov').hidden)close();setTab('street');$('#st').focus()}
 function goDoor(r){const s=S.sessions.find(x=>x.rows.includes(r));if(!s)return;if(S.cur!==s.id){S.cur=s.id;save()}revId=s.id;setTab('street');jump(r.id)}
-let curId=null,gpPrev=null,bhOn=null,cheerTxt='',ct;
+let spPrev=null,curId=null,gpPrev=null,bhOn=null,cheerTxt='',ct;
 function setCur(id){curId=id;document.querySelectorAll('tr.cur').forEach(e=>e.classList.remove('cur'));const e=id&&rowEl(id);if(e)e.classList.add('cur')}
 const rowEl=id=>document.querySelector(`tr[data-id="${id}"]`);
 const bottom=()=>{$('#main').scrollTop=1e9};
@@ -926,12 +948,15 @@ function tick(k){const m=[[[900,.04,.07]],[[700,.05,.07]],[[520,.07,.1],[780,.09
 function pop(e,big){if(!e)return;e.classList.remove('pop','big');void e.offsetWidth;e.classList.add('pop');if(big)e.classList.add('big')}
 function fx(k){const f=$('#fx');f.className='';void f.offsetWidth;f.className='f-'+k}
 function cheer(m){cheerTxt=m;const g=$('#gTxt');g.textContent=m;$('#goalbar').classList.add('hot');clearTimeout(ct);ct=setTimeout(()=>{cheerTxt='';hud(hist())},2300)}
+const gGreen=p=>'hsl(142,'+(58+Math.min(10,Math.floor(p/10))*2)+'%,'+(32+Math.min(10,Math.floor(p/10))*2.6)+'%)';
 function hud(H){
- const g=S.goal,gt=g[g.metric][g.mode],gv=g.mode==='week'?(g.metric==='doors'?H.weekN:H.weekDeals):(g.metric==='doors'?H.dayN:H.dayDeals),gp=gt?Math.min(100,gv/gt*100):0;
- $('#gFill').style.width=gp+'%';$('#gTag').textContent=g.mode==='week'?'WEEK GOAL':'DAY GOAL';
- $('#gTxt').textContent=cheerTxt||`${gv} / ${gt||'–'} ${g.metric}`;$('#goalbar').classList.toggle('hot',!!cheerTxt);
- if(gpPrev!=null&&gp>gpPrev&&Math.floor(gp/25)>Math.floor(gpPrev/25)){pop($('#goalbar'),gp>=100);tick(4);cheer(gp>=100?'Goal hit! 🏆':Math.floor(gp/25)*25+'% of your '+(g.mode==='week'?'weekly':'daily')+' goal')}
+ const g=S.goal,wk_=g.mode==='week',dv=wk_?H.weekN:H.dayN,sv=wk_?H.weekDeals:H.dayDeals,dt_=g.doors[g.mode]||0,st_=g.deals[g.mode]||0,gp=dt_?Math.min(100,dv/dt_*100):0,sp=st_?Math.min(100,sv/st_*100):0;
+ $('#gFill').style.width=gp+'%';$('#gFill').style.background=gGreen(gp);$('#gFill2').style.width=sp+'%';$('#gFill2').style.background=gGreen(sp);$('#gTag').textContent=wk_?'WEEK':'DAY';
+ $('#gTxt').textContent=cheerTxt||`${dv} / ${dt_||'–'} doors · ${sv} / ${st_||'–'} deals`;$('#goalbar').classList.toggle('hot',!!cheerTxt);
+ if(gpPrev!=null&&gp>gpPrev&&Math.floor(gp/25)>Math.floor(gpPrev/25)){pop($('#goalbar'),gp>=100);tick(4);cheer(gp>=100?'Doors goal hit! 🏆':Math.floor(gp/25)*25+'% of your '+(wk_?'weekly':'daily')+' doors goal')}
  gpPrev=gp;
+ if(spPrev!=null&&sp>=100&&spPrev<100){pop($('#goalbar'),true);tick(4);cheer('Deals goal hit! 🏆')}
+ spPrev=sp;
  const th=H.todayAct/36e5;
  const pm=S.payMode||'day',pe=earn(H,pm);$('#k5').textContent=pe.tot?(pe.hrs>.02?'$'+Math.round(pe.tot/pe.hrs):'$–'):'$–';$('#l5').textContent='$/hr · '+({day:'Day',week:'Week',month:'Month',all:'All'}[pm]);
  let od=0;if(H.deals&&H.n){const d=H.deals/H.n,t=H.ans?H.deals/H.ans:0,a=1-Math.pow(1-d,H.since),b=t?1-Math.pow(1-t,H.sAns):a;od=Math.min(.99,(a+b)/2)}
@@ -1044,13 +1069,18 @@ function adStreet(s,fix,L,store){
  if(store)s.mapSt={leg:s.leg||0,name:nm};return nm}
 // Next address in line, from map data alone: the next number on this side of the street, in the direction you are walking
 function mapSeq(s,ctx,l){
- if(ctx.prevN==null||!l||l.lat==null)return null;
- const L=adList(l.lat,l.lng);if(L.length<4)return null;
- const st=adStreet(s,{la:l.lat,lo:l.lng},L,false);if(!st)return null;
+ if(ctx.prevN==null||!l)return null;
+ let P=l.lat!=null?{la:l.lat,lo:l.lng}:null;
+ if(!P){const g=doors(s).filter(x=>x.lat!=null).pop();P=g?{la:g.lat,lo:g.lng}:(lastFix&&Date.now()-lastFix.t<36e5?{la:lastFix.la,lo:lastFix.lo}:null)}
+ if(!P)return null;
+ const L=adList(P.la,P.lo);if(L.length<4)return null;
+ const st=adStreet(s,{la:P.la,lo:P.lo},L,false);if(!st)return null;
  const par=(((ctx.prevN%2)+2)%2)^(ctx.crossed?1:0),by={};
- L.forEach(a=>{if(a.n%2===par&&sameSt(a.st,st)&&hav(l.lat,l.lng,a.la,a.lo)<400)by[a.n]=1});
+ L.forEach(a=>{if(a.n%2===par&&sameSt(a.st,st)&&hav(P.la,P.lo,a.la,a.lo)<500)by[a.n]=1});
  const nums=Object.keys(by).map(Number).sort((x,y)=>x-y);if(nums.length<2)return null;
- const dir=Math.sign(s.step||-2)||-1;let n=null;
+ let dir=Math.sign(s.step||-2)||-1;
+ if(!ctx.crossed){const ds=doors(s),i=ds.indexOf(l),q=i>0?ds[i-1]:null;if(q&&q.seg===l.seg&&isFinite(eff(q))&&isFinite(eff(l))){const d=eff(l)-eff(q);if(d&&Math.abs(d)<=40&&(((d%2)+2)%2)===0)dir=Math.sign(d)}}
+ let n=null;
  if(dir>0)n=nums.find(x=>ctx.crossed?x>=ctx.prevN-1:x>ctx.prevN);else nums.forEach(x=>{if(ctx.crossed?x<=ctx.prevN+1:x<ctx.prevN)n=x});
  return n==null?null:{n,st}}
 // Estimates the house number at a GPS point by sliding along the mapped houses on this side of the street
@@ -1176,6 +1206,7 @@ function ping(r,s,base,ctx){
    if(m&&m.st){s.street=s.street0=m.st;const i=$('#st');if(cs()===s&&i&&document.activeElement!==i)i.value=m.st}
    else nameFromGps(s,r)}
   let txt='Located ✓';
+  if(ctx&&ctx.keep){endSrch(r,0);gpsDone(!ok&&netFail?'net':'ok','Located ✓');save();return}
   if(r.srch){
    // 1) where you are standing, measured along the mapped houses  2) the map's next-in-line pick  3) next in line / street pattern
    let n=null,ip=null,sp=null;try{sp=scorePick(s,fix,ctx)}catch(e){}
@@ -1213,13 +1244,13 @@ function add(){
  let seq=null;try{seq=mapSeq(s,{prevN,crossed},l)}catch(e){}
  const here=l&&l.lat!=null?adCovered(l.lat,l.lng):!!(lastFix&&Date.now()-lastFix.t<18e5&&adCovered(lastFix.la,lastFix.lo));let srch=false,fb=null;
  // Location and map data decide first (the box says locating). The street pattern is only the backup when there is no map data or no GPS
- if(seq||here){srch=true;fb=seq?seq.n:(base?base.n:null);a=''}
+ if(seq){a=String(seq.n)}else if(here){srch=true;fb=base?base.n:null;a=''}
  s.fresh=false;s.cross=false;s.ret=null;
  const r={id:uid(),t:'door',addr:a,pred:a,r:null,d:'',when:null,name:'',note:'',ts:Date.now(),seg:s.seg,leg:s.leg||0};
  if(srch){r.srch=1;r.fb=fb;setTimeout(()=>endSrch(r,1),12000)}
  if(s.fold&&s.fold.length){const last=s.rows.filter(x=>x.t==='mark'&&x.txt.startsWith('↪')).length;s.fold=s.fold.filter(k=>k!==last)}
- s.rows.push(r);curId=r.id;save();render();bottom();ping(r,s,base,{prevN,crossed,nd:ds.filter(d=>(d.leg||0)===(s.leg||0)).length});
- const nn=doors(s).length;if(nn%10===0){pop($('#t1'),nn%50===0);fx('door');cheer(nn%100===0?'DOOR '+nn+'! 🔥':nn%50===0?'Door '+nn+' 🔥':'Door '+nn)}
+ s.rows.push(r);curId=r.id;save();render();bottom();ping(r,s,base,{prevN,crossed,keep:!!seq,nd:ds.filter(d=>(d.leg||0)===(s.leg||0)).length});
+ const nn=doors(s).length;if(nn%10===0){pop($('#goalbar'),nn%50===0);fx('door');cheer(nn%100===0?'DOOR '+nn+'! 🔥':nn%50===0?'Door '+nn+' 🔥':'Door '+nn)}
  if((a||r.srch)&&S.auto)openResp(r);else if(!r.srch){const i=rowEl(r.id).querySelector('[data-f=addr]');i.focus();i.select()}
 }
 const tb=$('#tb');
@@ -1249,16 +1280,15 @@ function jump(id){close();const e=rowEl(id);if(!e)return;const m=$('#main');m.sc
 function p(t){return h('p',{class:'h'},t)}
 
 function openResp(r){
- const can=S.resp.length<10;
  dock(r,'Response – '+(r.addr||(r.srch?'…':'no address')),
-  h('div',{class:'gd c4r'},S.resp.map(x=>h('button',{class:'b'+(r.r===x.id?' on':''),onclick:()=>choose(r,x)},x.sym,h('small',{},x.label))),(can?h('button',{class:'b',style:'grid-area:1/1',onclick:addResp},'+ Add'):null),h('button',{class:'b',style:'grid-area:'+Math.ceil((S.resp.length+1+(can?1:0))/4)+'/1',onclick:editResp},'Edit')));
+  h('div',{class:'gd c4r'},S.resp.map(x=>h('button',{class:'b'+(r.r===x.id?' on':''),onclick:()=>choose(r,x)},x.sym,h('small',{},x.label))),h('button',{class:'b',onclick:editResp},'Edit')));
 }
 function choose(r,x){
  if(r.r===x.id){pick(r,{id:null,type:'none'});return}
- if(x.type==='cb')cbSheet(r,x);
+ if(x.type==='cb'||x.type==='appt')cbSheet(r,x);
  else pick(r,x)
 }
-function pick(r,x,d,when){const was=typ(r);r.remDone=0;r.r=x.id;r.d=d||'';r.when=when||null;save();close();if(x.type==='deal'&&was!=='deal'){tick(3);fx('deal');pop($('#t2'));pop($('#t5'));cheer('Deal! 💰');r.dealAt=Date.now();teamSendDeal(r);if(S.dealJump){const nm=r.name||'';const sid=cs().id;setTimeout(()=>{setTab('approval');window.__appr&&__appr.start(nm,{sid,rid:r.id})},400)}}else if(was==='deal'&&x.type!=='deal')teamCancel(r);if(S.jump&&!(S.dealJump&&x.type==='deal')&&!['nh','vac','none'].includes(x.type)){const i=rowEl(r.id).querySelector('[data-f=name]');i&&i.focus()}}
+function pick(r,x,d,when){const was=typ(r);r.remDone=0;r.r=x.id;r.d=d||'';r.when=when||null;save();close();if(x.type==='deal'&&was!=='deal'){tick(3);fx('deal');pop($('#goalbar'));pop($('#t5'));cheer('Deal! 💰');r.dealAt=Date.now();teamSendDeal(r);if(S.dealJump){const nm=r.name||'';const sid=cs().id;setTimeout(()=>{setTab('approval');window.__appr&&__appr.start(nm,{sid,rid:r.id})},400)}}else if(was==='deal'&&x.type!=='deal')teamCancel(r);if(S.jump&&!(S.dealJump&&x.type==='deal')&&!['nh','vac','none'].includes(x.type)){const i=rowEl(r.id).querySelector('[data-f=name]');i&&i.focus()}}
 // Comeback reminders: 10 minutes before the chosen time (T, W and M have no clock time, so those remind at 9 AM that day)
 const dueOf=r=>{
  if(!r||r.t!=='door'){return null}const x=typ(r);if(x!=='cb'&&x!=='appt')return null;
@@ -1285,9 +1315,9 @@ const cbHide=()=>{if(Date.now()>=cbEnd)$('#cbAlert').hidden=true;else{clearTimeo
 $('#cbAlert').onclick=()=>{$('#cbAlert').hidden=true;cbList()};
 setInterval(cbCheck,20000);setTimeout(cbCheck,1500);
 function cbSheet(r,x){
- dock(r,'Come back when?',
+ dock(r,x.type==='appt'?'Appointment when?':'Come back when?',
   h('div',{class:'gd c5'},['1','2','3','4','5','6','7','T','W','M'].map(k=>h('button',{class:'b',onclick:()=>pick(r,x,k)},k))),
-  h('div',{class:'gd c2'},h('button',{class:'b',onclick:()=>dtSheet('Come back at',(t,iso)=>pick(r,x,t,iso),r)},'Date / time'),h('button',{class:'b',onclick:()=>pick(r,x)},'CB only')));
+  h('div',{class:'gd c2'},h('button',{class:'b',onclick:()=>dtSheet(x.type==='appt'?'Appointment at':'Come back at',(t,iso)=>pick(r,x,t,iso),r)},'Date / time'),h('button',{class:'b',onclick:()=>pick(r,x)},x.type==='appt'?'No time':'CB only')));
 }
 function dtSheet(title,cb,r){
  const v=new Date(Date.now()-new Date().getTimezoneOffset()*6e4+864e5).toISOString().slice(0,16),i=h('input',{type:'datetime-local',class:'in',value:v}),
@@ -1319,21 +1349,24 @@ function cbList(){
  it.sort((a,b)=>{const x=key(a),y=key(b);return x[0]-y[0]||x[1]-y[1]});
  listSheet('Comebacks & appointments',it,'No comebacks or appointments yet.');
 }
-function renderGoals(){
- const v=$('#v-goals .scroll');v.replaceChildren();
- const H=hist(),g=S.goal,dl=7-((new Date().getDay()+6)%7);
- v.append(h('div',{class:'vh'},h('h1',{},'Goals'),h('p',{class:'sub'},'Counts every street sheet. Weeks start Monday.')));
+function goalsBlock(){
+ const H=hist(),g=S.goal,dl=7-((new Date().getDay()+6)%7),box=h('div',{class:'gbox'});
+ const head=h('div',{class:'gbh'},h('b',{},'Goals'),h('div',{class:'gseg'},h('span',{},'Street bar'),...[['week','Week'],['day','Day']].map(([k,l])=>h('button',{type:'button',class:g.mode===k?'on':'',onclick:()=>{g.mode=k;gpPrev=null;spPrev=null;save();render();hud(hist())}},l))));
+ box.append(head);
  [['week','This week',{doors:H.weekN,deals:H.weekDeals}],['day','Today',{doors:H.dayN,deals:H.dayDeals}]].forEach(([per,title,val])=>{
-  const card=h('div',{class:'card'},h('div',{class:'ct'},h('b',{},title),per===g.mode?h('span',{class:'badge'},'On street screen'):h('button',{class:'link',onclick:()=>{g.mode=per;gpPrev=null;save();renderPanel();render();hud(hist())}},'Show on street screen')));
+  const blk=h('div',{class:'gb'}),note=h('small',{class:'gn2'});
+  blk.append(h('div',{class:'gt'},h('b',{},title),note));
+  const ups=[];
   ['doors','deals'].forEach(m=>{
-   const fill=h('i'),cur=h('b',{}),left=h('small',{});
-   const upd=()=>{const t=g[m][per]||0,pc=t?Math.min(100,val[m]/t*100):0,rem=Math.max(0,t-val[m]);fill.style.width=pc+'%';fill.className=pc>=100?'done':'';cur.textContent=val[m];
-    left.textContent=!t?'Set a goal':rem?rem+' to go'+(per==='week'?' · about '+Math.ceil(rem/dl)+' a day for the rest of the week':''):'Goal reached'};
-   const inp=h('input',{id:'goal-'+per+'-'+m,inputmode:'numeric',value:g[m][per]||'','aria-label':title+' '+m+' goal',oninput:e=>{g[m][per]=parseInt(e.target.value)||0;gpPrev=null;save();upd();hud(hist())}});
-   card.append(h('div',{class:'gr'},h('div',{class:'gh'},h('span',{},m==='doors'?'Doors':'Deals'),h('span',{class:'gn'},cur,h('em',{},' of '),inp)),h('div',{class:'pb'},fill),left));
-   upd()});
-  v.append(card)});
-}
+   const fill=h('i'),cur=h('b',{});
+   const upd=()=>{const t=g[m][per]||0,pc=t?Math.min(100,val[m]/t*100):0;fill.style.width=pc+'%';fill.className=pc>=100?'done':'';cur.textContent=val[m]};
+   const inp=h('input',{id:'goal-'+per+'-'+m,inputmode:'numeric',value:g[m][per]||'','aria-label':title+' '+m+' goal',oninput:e=>{g[m][per]=parseInt(e.target.value)||0;gpPrev=null;spPrev=null;save();upd();nt();hud(hist())}});
+   blk.append(h('div',{class:'gl2'},h('span',{},m==='doors'?'Doors':'Deals'),h('div',{class:'pb'},fill),h('span',{class:'gv'},cur,h('em',{},' of '),inp)));
+   ups.push(upd);upd()});
+  const nt=()=>{const rd=Math.max(0,(g.doors[per]||0)-val.doors),rl=Math.max(0,(g.deals[per]||0)-val.deals);
+   note.textContent=!(g.doors[per]||g.deals[per])?'Set a goal':(!rd&&!rl)?'Goals reached':[rd?rd+' doors':'',rl?rl+(rl===1?' deal':' deals'):''].filter(Boolean).join(' · ')+' to go'+(per==='week'&&rd?' · ~'+Math.ceil(rd/dl)+'/day':'')};
+  nt();box.append(blk)});
+ return box}
 function periodDoors(P,H){const now=Date.now(),R0=new Date(now);if(P==='sheet')return doors(cs());
  return H.all.filter(r=>{const d=new Date(r.ts);return P==='day'?dk(r.ts)===dk(now):P==='week'?wk(r.ts)===wk(now):P==='month'?(d.getMonth()===R0.getMonth()&&d.getFullYear()===R0.getFullYear()):true})}
 function renderStats(){
@@ -1344,9 +1377,9 @@ function renderStats(){
  title={sheet:(s.street||'This sheet')+' · '+dt(s.date),day:'Today',week:'This week',month:'This month',all:'All time'}[P],
  cd=(val,l,t)=>h('div',{class:'cd'+(t?' k t-'+t:''),onclick:t&&(()=>listSheet(l,d.filter(r=>{const y=typ(r);return y===t||(t==='nh'&&y==='none')}),'None yet.'))},h('b',{},String(val)),h('span',{},l)),
  g=(...a)=>h('div',{class:'gd c3'},a);
- v.append(h('div',{class:'vh'},h('h1',{},'Stats'),h('p',{class:'sub'},title)),
+ v.append(h('div',{class:'vh'},h('h1',{},'Goals / Stats'),h('p',{class:'sub'},'Counts every street sheet. Weeks start Monday.')),goalsBlock(),h('div',{class:'sec'},title),
   h('div',{class:'hero'},h('span',{},'Dollars per hour'),h('b',{},em.hrs>.02&&em.tot?money(em.tot/em.hrs):'–'),
-   h('small',{},em.tot?money(em.tot)+' over '+dur(em.hrs*36e5)+(c.deal?' · '+money(em.tot/c.deal)+' per deal':''):'Tap Add earnings to log what your deals are worth.')),
+   h('small',{},em.tot?money(em.tot)+' over '+dur(em.hrs*36e5)+(c.deal?' · '+money(em.tot/c.deal)+' per deal':''):'Add a deal in Approval and your dollars per hour shows up here.')),
   h('div',{class:'sec'},'Results · tap a number to review'),g(cd(c.n,'Doors'),cd(ans,'Answered'),cd(c.deal,'Deals','deal'),cd(c.rej,'Rejections','rej'),cd(c.nh,'Not home','nh'),cd(c.vac,'Vacant','vac'),cd(c.cb,'Comebacks','cb'),cd(c.appt,'Appointments','appt'),cd(c.other,'Other','other')),
   h('div',{class:'sec'},'Averages'),g(cd(pct(c.deal,c.n),'Deals / doors'),cd(pct(c.rej,c.n),'Rejections / doors'),cd(pct(ans,c.n),'Answered / doors'),cd(pct(c.deal,ans),'Deals / answered'),cd(pct(c.rej,ans),'Rejections / answered'),cd(pct(c.deal,c.deal+c.rej),'Deals / yes-no'),cd(pct(c.nh,c.n),'Not home %'),cd(pct(c.vac,c.n),'Vacant %'),cd(per(c.deal,c.n),'Doors per deal')),
   h('div',{class:'sec'},'Time & pace'),g(cd(tm(c.start),'Started'),cd(tm(c.last),'Last door'),cd(dur(c.act),'Working time'),cd(dur(c.down),'Downtime'),cd(dur(c.brk),'On break'),cd(hrs>.02?(c.n/hrs).toFixed(1):'–','Doors / hr'),cd(hrs>.02?(c.deal/hrs).toFixed(2):'–','Deals / hr'),cd(c.best?hf(c.best.H):'–','Best hour'),cd(c.since,'Since last deal')),
@@ -1368,7 +1401,7 @@ function mapSheet(today){
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(m);
   let ln=[];const cut=()=>{if(ln.length>1)L.polyline(ln,{color:'#2563ff',weight:4,opacity:.8}).addTo(m);ln=[]};
   pts.forEach((r,i)=>{if(i&&hav(pts[i-1].lat,pts[i-1].lng,r.lat,r.lng)>300)cut();ln.push([r.lat,r.lng])});cut();
-  pts.forEach(r=>{const t=typ(r),col=t==='deal'?'#16a34a':t==='cb'||t==='appt'?'#f59e0b':t==='rej'&&S.showRed?'#dc2626':'#6b7280';
+  pts.forEach(r=>{const t=typ(r),col=t==='deal'?'#16a34a':t==='appt'?'#16a34a':t==='cb'?'#ca8a04':t==='rej'&&S.showRed?'#dc2626':'#6b7280';
    L.circleMarker([r.lat,r.lng],{radius:7,color:'#fff',weight:2,fillColor:col,fillOpacity:1}).addTo(m).bindPopup((r.addr||'?')+(r.name?' · '+r.name:''))});
   const b=L.latLngBounds(pts.map(r=>[r.lat,r.lng]));pts.length>1?m.fitBounds(b,{padding:[24,24],maxZoom:18}):m.setView(b.getCenter(),18);
   setTimeout(()=>m.invalidateSize(),60)}).catch(()=>{box.textContent='The map needs an internet connection to load.';box.style.cssText+=';display:flex;align-items:center;justify-content:center;padding:16px;text-align:center;color:var(--mut)'});
@@ -1379,7 +1412,7 @@ function tog(title,sub,get,set){const b=h('button',{class:'sw'+(get()?' on':''),
 function nav(title,sub,fn){return h('button',{class:'rowi nav',onclick:fn},h('div',{class:'rt'},h('b',{},title),sub?h('small',{},sub):null),h('span',{class:'chev'},'›'))}
 function renderMore(){
  const v=$('#v-more .scroll');v.replaceChildren();
- v.append(h('div',{class:'vh'},h('h1',{},'More')),
+ v.append(h('div',{class:'vh'},h('button',{class:'link',type:'button',style:'font-size:15px;font-weight:700;padding:0;margin-bottom:4px',onclick:()=>setTab('street')},'‹ Street'),h('h1',{},'Settings')),
   h('div',{class:'sec'},'While knocking'),
   h('div',{class:'grp'},
    tog('New sheet each day','Start a fresh sheet the first time you open the Street screen on a new date',()=>!!S.daily,x=>S.daily=x),
@@ -1406,7 +1439,7 @@ function findHit(){const m=$('#main'),e=m.querySelector('.hit');if(!e)return;
  const n=[...m.querySelectorAll('tr.turn')].filter(x=>x.offsetParent).length,th=0;
  m.scrollTop+=e.getBoundingClientRect().top-m.getBoundingClientRect().top-(th+n*mhFor(n)+10)}
 const dOpen=new Set(),cmx=n=>'$'+(+n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
-const dealsFor=sid=>(S.calcBatch||[]).filter(b=>b.sid===sid);
+const dealsFor=sid=>(S.calcBatch||[]).filter(b=>sid?b.sid===sid:!b.sid);
 function dealRow(b,refresh){
  const k=b.ts+'|'+(b.name||'')+'|'+b.amount,open=dOpen.has(k),ses=b.sid&&S.sessions.find(x=>x.id===b.sid),
   row=h('div',{class:'dl'+(open?' open':'')});
@@ -1425,7 +1458,15 @@ function dealsSheet(sid,title){
  const box=h('div'),draw=()=>{const L=dealsFor(sid).slice().sort((a,b)=>b.ts-a.ts);box.replaceChildren(...(L.length?L.map(b=>dealRow(b,draw)):[h('p',{class:'note'},'No deals added for this sheet yet.')]))};draw();
  const s=S.sessions.find(x=>x.id===sid);
  sheet(title||'Deals',h('div',{class:'cd big'},h('b',{},cmx(dealsFor(sid).reduce((t,b)=>t+(+b.amount||0),0))),h('span',{},'total commission')),box,
-  h('div',{class:'two',style:'margin-top:10px'},h('button',{class:'b p',type:'button',onclick:()=>{close();setTab('approval');window.__appr&&__appr.start('',{sid,rid:null})}},'New approval'),h('button',{class:'b',type:'button',onclick:close},'Close')))}
+  h('div',{class:'two',style:'margin-top:10px'},h('button',{class:'b p',type:'button',onclick:()=>{close();setTab('approval');window.__appr&&__appr.start('',sid?{sid,rid:null}:null)}},'New approval'),h('button',{class:'b',type:'button',onclick:close},'Close')))}
+window.__earnRender=function(){
+ const box=document.getElementById('earn-box');if(!box)return;
+ const B=S.calcBatch||[],tot=B.reduce((t,b)=>t+(+b.amount||0),0),g={};
+ B.forEach(b=>{const k=b.sid&&S.sessions.some(x=>x.id===b.sid)?b.sid:'';(g[k]=g[k]||[]).push(b)});
+ const rows=Object.keys(g).sort((a,b)=>Math.max(...g[b].map(x=>x.ts||0))-Math.max(...g[a].map(x=>x.ts||0))).map(k=>{
+  const ses=k&&S.sessions.find(x=>x.id===k),sum=g[k].reduce((t,b)=>t+(+b.amount||0),0),nm=ses?(ses.street0||ses.street||'Untitled'):'Miscellaneous deals';
+  return h('div',{class:'er2',onclick:()=>dealsSheet(k||null,nm)},h('div',{},h('b',{},nm),h('small',{},(ses?dt(ses.date)+' · ':'No street sheet · ')+g[k].length+(g[k].length===1?' deal':' deals'))),h('b',{class:'am'},cmx(sum)))});
+ box.replaceChildren(h('div',{class:'er0'},h('span',{},'All deals · '+B.length),h('span',{},cmx(tot))),...(rows.length?rows:[h('p',{style:'color:#9aa0ab;font-size:13px;margin:10px 0 0'},'No deals yet. Finish an approval or save a calculator result and it shows up here.')]))};
 let dAll=false;
 function dealsBox(){
  const B=(S.calcBatch||[]).slice().sort((a,b)=>b.ts-a.ts),tot=B.reduce((t,b)=>t+(+b.amount||0),0),box=h('div',{class:'dbox'}),list=h('div'),draw=()=>{
@@ -1475,7 +1516,12 @@ tb.addEventListener('touchend',()=>{const el=trEl,d=dx;trEl=null;if(!el)return;i
 tb.addEventListener('touchcancel',reset);
 
 document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{if(b.dataset.t!==tab)tick(0);setTab(b.dataset.t)});
-$('#goalbar').onclick=()=>setTab('goals');
+$('#goalbar').onclick=()=>{S.goal.mode=S.goal.mode==='week'?'day':'week';gpPrev=null;spPrev=null;save();tick(1);hud(hist());if(tab==='stats')render()};
+$('#cogBtn').onclick=()=>setTab('more');
+S.simple=true;
+function applySimple(){document.body.classList.toggle('simple',!!S.simple);const b=$('#simpleBtn');if(b)b.querySelector('b').textContent=S.simple?'Detailed':'Simple'}
+$('#simpleBtn').onclick=()=>{S.simple=!S.simple;save();applySimple();render();tick(1)};
+applySimple();
 $('#t5').onclick=paySheet;
 $('#sheetBtn').onclick=()=>setTab('sheets');
 $('#st').addEventListener('input',e=>{const s=cs();s.street0=e.target.value;if(!hasTurn(s))s.street=e.target.value;save()});
@@ -1706,7 +1752,7 @@ async function cloudInit(){
   let cfg=null;try{cfg=docs.settings&&JSON.parse(docs.settings.json)}catch(e){}
   const ss=cfg?(cfg.order||[]).map(i=>{try{return JSON.parse(docs['sheet_'+i].json)}catch(e){return null}}).filter(Boolean):[];
   if(cfg&&ss.length&&(fresh0||!(S.t>cfg.t))){
-   S={resp:cfg.resp||S.resp,showRed:!!cfg.showRed,auto:cfg.auto!==false,daily:!!cfg.daily,cbRem:cfg.cbRem,calcBatch:cfg.calcBatch,dealJump:!!cfg.dealJump,jump:!!cfg.jump,geo:cfg.geo,snd:cfg.snd,cur:cfg.cur,pay:cfg.pay||{},payMode:cfg.payMode||'day',goal:cfg.goal||DEFG(),sessions:ss,t:cfg.t,team:S.team};
+   S={resp:cfg.resp||S.resp,showRed:!!cfg.showRed,auto:cfg.auto!==false,daily:!!cfg.daily,cbRem:cfg.cbRem,calcBatch:cfg.calcBatch,dealJump:!!cfg.dealJump,simple:true,apAdded:cfg.apAdded,jump:!!cfg.jump,geo:cfg.geo,snd:cfg.snd,cur:cfg.cur,pay:cfg.pay||{},payMode:cfg.payMode||'day',goal:cfg.goal||DEFG(),sessions:ss,t:cfg.t,team:S.team};
    migrate();S.sessions.forEach(x=>dirty.add(x.id));try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}
    const d=doors(cs());curId=d.length?d[d.length-1].id:null;
    if(dirty.size)flush();
@@ -1819,12 +1865,15 @@ $('#shBar button').addEventListener('click',()=>exitShared());
     return parts.join(' + ');
   }
 
-  function show(id, skipHistory) {
+  var lastBy = { appr:'step-wheel', calc:'step-calc' }, scrollBy = { appr:0, calc:0 };
+  function sideOf(id) { return (id === 'step-calc' || id === 'step-batch') ? 'calc' : 'appr'; }
+  function show(id, skipHistory, restore) {
     var current = document.querySelector('.step.active');
     if (!skipHistory && current && current.id !== id) navHistory.push(current.id);
     Array.prototype.forEach.call(document.querySelectorAll('.step'), function(s){ s.classList.remove('active'); });
     document.getElementById(id).classList.add('active');
-    if (id === 'step-calc') {
+    lastBy[sideOf(id)] = id; document.getElementById('at-appr').classList.toggle('on', sideOf(id) === 'appr'); document.getElementById('at-calc').classList.toggle('on', sideOf(id) === 'calc'); if (id === 'step-calc' && window.__earnRender) window.__earnRender();
+    if (id === 'step-calc' && !restore) {
       ['credit','equip','deduct','breakdown'].forEach(function (key) {
         document.getElementById(key+'-body').classList.remove('open');
         document.getElementById(key+'-arrow').classList.remove('open');
@@ -1837,6 +1886,16 @@ $('#shBar button').addEventListener('click',()=>exitShared());
       }, 60);
     }
   }
+  function switchSide(to) {
+    var cur = document.querySelector('#v-approval .step.active'), sc = document.querySelector('#v-approval .scroll');
+    var from = cur ? sideOf(cur.id) : 'appr';
+    if (from === to) return;
+    scrollBy[from] = sc ? sc.scrollTop : 0;
+    show(lastBy[to], true, true);
+    if (sc) sc.scrollTop = scrollBy[to] || 0;
+  }
+  document.getElementById('at-appr').addEventListener('click', function () { switchSide('appr'); });
+  document.getElementById('at-calc').addEventListener('click', function () { switchSide('calc'); });
   function goBack() { var prev = navHistory.pop(); if (prev) show(prev, true); }
   Array.prototype.forEach.call(document.querySelectorAll('[data-back]'), function (b) { b.addEventListener('click', goBack); });
 
@@ -2106,6 +2165,7 @@ $('#shBar button').addEventListener('click',()=>exitShared());
   var equipQty = {}; CALC_EQUIPMENT.forEach(function (e) { equipQty[e.id] = CALC_DEFAULT_QTY[e.id] || 0; });
   var selectedMultiplier = 28, adminBoost = false, lastFinal = 0, batchEntries = loadBatchData(); batchEntries.forEach(function (b) { if (!b.ts) b.ts = Date.now(); });
   function batchEntriesRef() { return batchEntries; }
+  try { if (!S.calcBatch || S.calcBatch.length !== batchEntries.length) S.calcBatch = JSON.parse(JSON.stringify(batchEntries)); } catch (e) {}
 
   function snapshotEquip() { return CALC_EQUIPMENT.filter(function (e) { return equipQty[e.id] > 0; }).map(function (e) { return { name:e.name, qty:equipQty[e.id] }; }); }
 
@@ -2171,6 +2231,7 @@ $('#shBar button').addEventListener('click',()=>exitShared());
     lastFinal = final;
   }
   function renderBatch() {
+    if (window.__earnRender) window.__earnRender();
     var list = document.getElementById('batch-list');
     if (batchEntries.length===0) list.innerHTML = '<div class="batch-empty">No commissions added yet.</div>';
     else {
