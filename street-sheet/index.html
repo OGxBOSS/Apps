@@ -12,7 +12,7 @@
 /* One app shell: content on top, a contextual action panel above a fixed tab bar */
 :root{
  --bg:#edf0f6;--surface:#ffffff;--raise:#f3f5f9;--fg:#0e1526;--mut:#5d6b82;--line:#e3e8f0;
- --acc:#2563ff;--acc-ink:#ffffff;--acc-soft:rgba(37,99,255,.11);--bar:#e3e8f0;--bar-ink:#1c2433;--cb:#ca8a04;--cb-soft:rgba(250,204,21,.3);
+ --acc:#2563ff;--acc-ink:#ffffff;--acc-soft:rgba(37,99,255,.11);--bar:#e3e8f0;--bar-ink:#1c2433;--cb:#a16207;--cb-soft:rgba(202,138,4,.17);
  --good:#14a14a;--good-soft:rgba(20,161,74,.15);--bad:#dc2626;--bad-soft:rgba(220,38,38,.13);--warn:#c96a00;
  --shadow:0 1px 2px rgba(14,21,38,.06),0 8px 24px rgba(14,21,38,.06);
  --hl:#0e1526;
@@ -20,11 +20,11 @@
 }
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
  --bg:#080a0e;--surface:#12151b;--raise:#1a1e27;--fg:#eef2f8;--mut:#98a5ba;--line:#242a35;
- --acc:#4f86ff;--acc-soft:rgba(79,134,255,.17);--bar:#2b3344;--bar-ink:#e9edf6;--cb:#facc15;--cb-soft:rgba(250,204,21,.2);--good:#34c76a;--good-soft:rgba(52,199,106,.17);--bad:#f26a6a;--bad-soft:rgba(242,106,106,.16);--warn:#f2a03c;
+ --acc:#4f86ff;--acc-soft:rgba(79,134,255,.17);--bar:#2b3344;--bar-ink:#e9edf6;--cb:#eab308;--cb-soft:rgba(234,179,8,.18);--good:#34c76a;--good-soft:rgba(52,199,106,.17);--bad:#f26a6a;--bad-soft:rgba(242,106,106,.16);--warn:#f2a03c;
  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);--hl:#ffffff;color-scheme:dark}}
 :root[data-theme="dark"]{
  --bg:#080a0e;--surface:#12151b;--raise:#1a1e27;--fg:#eef2f8;--mut:#98a5ba;--line:#242a35;
- --acc:#4f86ff;--acc-soft:rgba(79,134,255,.17);--bar:#2b3344;--bar-ink:#e9edf6;--cb:#facc15;--cb-soft:rgba(250,204,21,.2);--good:#34c76a;--good-soft:rgba(52,199,106,.17);--bad:#f26a6a;--bad-soft:rgba(242,106,106,.16);--warn:#f2a03c;
+ --acc:#4f86ff;--acc-soft:rgba(79,134,255,.17);--bar:#2b3344;--bar-ink:#e9edf6;--cb:#eab308;--cb-soft:rgba(234,179,8,.18);--good:#34c76a;--good-soft:rgba(52,199,106,.17);--bad:#f26a6a;--bad-soft:rgba(242,106,106,.16);--warn:#f2a03c;
  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);--hl:#ffffff;color-scheme:dark}
 *{box-sizing:border-box}
 html{height:100%;overflow:hidden;overscroll-behavior:none}
@@ -55,10 +55,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-of
 @keyframes dl{0%{transform:translateY(-130%)}60%{transform:translateY(6%)}100%{transform:none}}@keyframes gl{to{background-position:-250% 0}}
 #confetti{position:fixed;inset:0;width:100%;height:100%;z-index:49;pointer-events:none}
 #gpsPill{position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);right:10px;z-index:30;padding:7px 14px 7px 30px;border-radius:999px;background:var(--acc);color:#fff;font-size:13px;font-weight:800;box-shadow:0 6px 18px rgba(8,12,22,.3);opacity:0;transform:translateY(-10px);pointer-events:none;transition:opacity .2s,transform .2s}
-#gpsPill.show{opacity:1;transform:none}#gpsPill.bad{background:var(--warn)}
+#gpsPill.show{opacity:1;transform:none}#gpsPill.show.busy{animation:gpp 2.2s ease-in-out infinite}@keyframes gpp{0%,100%{opacity:1}50%{opacity:.1}}#gpsPill.bad{background:var(--warn)}
 #gpsPill::before{content:'';position:absolute;left:12px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:#fff}
 #gpsPill.busy::before{animation:gp 1s ease-out infinite}
-#gpsPill.busy{animation:gpPulse 1.8s ease-in-out infinite}@keyframes gpPulse{0%,100%{opacity:1}50%{opacity:.06}}
 @keyframes gp{0%{box-shadow:0 0 0 0 rgba(255,255,255,.8)}100%{box-shadow:0 0 0 9px rgba(255,255,255,0)}}
 #kpi{display:grid;grid-template-columns:42px repeat(4,1fr);gap:4px}
 #kpi>*{position:relative;background:var(--raise);border:0;border-radius:11px;padding:5px 1px 4px;text-align:center;font:inherit;color:inherit}
@@ -99,6 +98,8 @@ td input:focus{background:var(--acc-soft)}
 .cl{display:block;margin:14px 0 6px;font-size:12px;font-weight:700;color:var(--mut)}.cs-b>.cl:first-child{margin-top:0}
 .cei b{display:block;font-size:14.5px}.cei small{color:var(--mut);font-size:12px;font-weight:600}
 .cdet{padding:6px 4px 2px;color:var(--mut)}
+td input.a.srch{animation:sp 1s ease-in-out infinite}.a.srch::placeholder{font-size:12px;font-weight:700;letter-spacing:0;color:var(--acc);opacity:1}
+@keyframes sp{50%{opacity:.35}}
 #tb tr.fd:not(.turn){display:none}
 .turn .mi i:not(.g):not(.r){max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fa{flex:none;width:26px;height:24px;margin-right:8px;border:0;border-radius:8px;background:rgba(120,130,150,.22);display:grid;place-items:center;padding:0}.fa svg{width:18px;height:18px;stroke:var(--bar-ink);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
@@ -351,8 +352,27 @@ body.kb #stDrawer,body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb
 #v-approval .bb-btn{flex:1; min-width:0; height:44px; padding:0 4px; border-radius:12px; border:1px solid var(--border); background:#12141a; color:var(--muted); font:inherit; font-size:13.5px; font-weight:800; cursor:pointer;}
 #v-approval .bb-btn.on{background:var(--accent); border-color:var(--accent); color:#fff;}
 #v-approval .bb-btn:active{transform:scale(.97);}
+#v-approval .overlay{position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; z-index:60; padding:20px;}
+#v-approval .overlay.active{display:flex;}
+#v-approval .overlay-card{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; width:260px; text-align:center;}
+#v-approval .overlay-card.wide{width:100%; max-width:420px; max-height:82vh; overflow-y:auto; text-align:left;}
+#v-approval .overlay-card h3{margin:0 0 14px; font-size:14px;}
+#v-approval .overlay-close{margin-top:14px; width:100%;}
 #v-approval .settings-section{border-bottom:1px solid var(--border); padding-bottom:14px; margin-bottom:14px;}
-#v-approval .settings-section h3{font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:700; cursor:pointer;}
+#v-approval .settings-section h3,#v-approval .settings-tier summary{font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:700; cursor:pointer;}
+#v-approval .settings-tier{border-bottom:1px solid var(--border); padding:10px 0;}
+#v-approval .pk-head{display:flex;align-items:center;justify-content:space-between;margin:0 0 8px;}#v-approval .pk-head b{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);}
+#v-approval .pk-grp{margin-bottom:8px;border:1px solid var(--border);border-radius:11px;background:#12141a;overflow:hidden;}
+#v-approval .pk-gh{display:flex;align-items:center;gap:10px;width:100%;padding:12px 12px;border:0;background:transparent;color:var(--text);font:inherit;text-align:left;cursor:pointer;}
+#v-approval .pk-gh b{flex:1;font-size:15px;}#v-approval .pk-gh small{color:var(--muted);font-size:12px;}#v-approval .pk-gh .chev{color:var(--muted);font-size:22px;transition:transform .15s;}#v-approval .pk-grp.open .chev{transform:rotate(90deg);}
+#v-approval .pk-grp .pk-list{padding:0 8px 4px;}#v-approval .pk-grp .pk-row{background:var(--card);}
+#v-approval .pk-add{width:38px;height:38px;border-radius:50%;border:1px solid var(--accent);background:var(--accent-soft);color:var(--accent);font-size:24px;line-height:1;font-weight:600;cursor:pointer;padding:0;}
+#v-approval .pk-row{display:flex;align-items:center;gap:8px;padding:8px 6px;margin-bottom:6px;border:1px solid var(--border);border-radius:11px;background:#12141a;}
+#v-approval .pk-row.drag{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 6px 18px rgba(0,0,0,.4);position:relative;z-index:2;}
+#v-approval .pk-grip{flex:none;width:30px;text-align:center;color:var(--muted);font-size:22px;line-height:1;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;padding:8px 0;}#v-approval .pk-grip.off{visibility:hidden;}
+#v-approval .pk-t{flex:1;min-width:0;}#v-approval .pk-t b{display:block;font-size:14.5px;}#v-approval .pk-t small{color:var(--muted);font-size:12px;}
+#v-approval .pk-edit{flex:none;height:36px;padding:0 14px;border-radius:9px;border:1px solid var(--border);background:var(--card);color:var(--accent);font:inherit;font-size:13.5px;font-weight:700;cursor:pointer;}
+#v-approval select.s-input{height:40px;}
 #v-approval .settings-slot{margin:10px 0 4px; padding-left:6px; border-left:2px solid var(--border);}
 #v-approval .settings-slot-label{font-size:12px; color:var(--accent); font-weight:700; margin-bottom:4px;}
 #v-approval .s-label{font-size:11.5px; color:var(--muted); margin:8px 0 3px; font-weight:500;}
@@ -437,28 +457,18 @@ body.kb #stDrawer,body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb
 #v-approval *{box-sizing:border-box}
 #v-approval .card{box-shadow:none;margin:0 0 14px}
 #v-approval .bottom-bar{position:sticky;bottom:0;left:auto;right:auto;margin:10px -16px 0;z-index:5}
+#v-approval .overlay{position:fixed}
 #v-approval .step.active{display:block}
 #v-approval .app-header h1{font-size:19px;margin:4px 0}
 
+#v-approval #earn-box .er2{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer}
+#v-approval #earn-box .er2:last-child{border-bottom:0}#v-approval #earn-box .er2 small{display:block;color:var(--muted);font-size:12px}
+#v-approval #earn-box .er2 b.am{color:var(--good)}#v-approval #earn-box .er0{display:flex;justify-content:space-between;font-weight:800;font-size:15px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 
 #v-approval .scroll{display:flex;flex-direction:column;min-height:100%}
 #v-approval .bottom-bar{margin-top:auto}
 #v-approval .step{flex:none}
 #v-approval #step-calc>.back-link{display:none}
-#v-approval .pk-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-#v-approval .pk-head h3{margin:0;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
-#v-approval .pk-plus{width:38px;height:38px;border-radius:10px;border:1px solid var(--accent);background:var(--accent-soft);color:var(--accent);font-size:24px;font-weight:700;line-height:1;cursor:pointer;padding:0}
-#v-approval .pk-item{border:1px solid var(--border);background:#12141a;border-radius:12px;margin-bottom:8px}
-#v-approval .pk-item.drag{box-shadow:0 6px 18px rgba(0,0,0,.5);border-color:var(--accent);position:relative;z-index:2}
-#v-approval .pk-row{display:flex;align-items:center;gap:8px;padding:8px 8px 8px 4px}
-#v-approval .pk-grip{flex:none;width:34px;height:40px;border:0;background:none;color:var(--muted);font-size:20px;touch-action:none;cursor:grab;padding:0}
-#v-approval .pk-info{flex:1;min-width:0}
-#v-approval .pk-name{font-size:14.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#v-approval .pk-sub{font-size:12px;color:var(--muted);margin-top:1px}
-#v-approval .pk-edit-btn{flex:none;height:36px;padding:0 14px;border-radius:9px;border:1px solid var(--border);background:var(--card);color:var(--accent);font:inherit;font-size:13.5px;font-weight:800;cursor:pointer}
-#v-approval .pk-form{padding:4px 12px 12px;border-top:1px solid var(--border)}
-#v-approval .pk-form .two{margin-top:14px}
-#v-approval .pk-err{color:var(--bad);font-size:12px;margin-top:8px}
 </style>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -588,6 +598,17 @@ body.kb #stDrawer,body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb
     <button type="button" class="btn primary" id="cust-generate">Generate Quote</button>
   </div>
 
+  <!-- STEP: PACKAGES -->
+  <div class="step" id="step-pkgs">
+    <button type="button" class="back-link" data-back>← Back</button>
+    <div class="card">
+      <h2>Packages</h2>
+      <div style="color:var(--muted);font-size:11.5px;margin-bottom:12px;">Saved to this device only — edits here won't appear on other phones or browsers.</div>
+      <div id="settings-body"></div>
+    </div>
+    <button type="button" class="btn" id="settings-restore" style="width:100%;">Restore Defaults</button>
+  </div>
+
   <!-- STEP: CALCULATOR (ported) -->
   <div class="step" id="step-calc">
     <button type="button" class="back-link" data-back>← Back</button>
@@ -665,20 +686,6 @@ body.kb #stDrawer,body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb
     <button class="batch-clear-btn" type="button" id="calc-reset-btn">Reset calculator fields</button>
   </div>
 
-  <!-- STEP: PACKAGES -->
-  <div class="step" id="step-packages">
-    <button type="button" class="back-link" data-back>← Back</button>
-    <div class="card">
-      <h2>Edit Packages</h2>
-      <div style="color:var(--muted);font-size:11.5px;margin-bottom:14px;">Saved to this device only — edits here won't appear on other phones or browsers.</div>
-      <div id="settings-body"></div>
-      <div class="settings-actions">
-        <button type="button" class="btn" id="settings-restore">Restore Defaults</button>
-        <button type="button" class="btn primary" id="settings-close" style="margin-top:0;">Done</button>
-      </div>
-    </div>
-  </div>
-
   <!-- STEP: BATCH DETAIL -->
   <div class="step" id="step-batch">
     <button type="button" class="back-link" data-back>← Back</button>
@@ -700,6 +707,7 @@ body.kb #stDrawer,body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb
 
 
 
+
 </div></section>
 <section class="view" id="v-sheets" aria-label="Sheets"><div class="scroll"></div></section>
 <section class="view" id="v-more" aria-label="More"><div class="scroll"></div></section>
@@ -717,7 +725,7 @@ body.kb #stDrawer,body.kb #bot,body.kb #sp,body.kb #kpi,body.kb #goalbar,body.kb
 <div id="shBar" hidden><span></span><button type="button" onclick="exitShared()">Close</button></div>
 <div id="toast" hidden></div>
 <script>
-const VER="0.4.0",LOG=[{"v": "0.4.0", "d": "Oct 16", "n": [{"id": "mapaddr", "t": "New door addresses now come from the downloaded map data only: your side of the street from odd or even, your direction from your last two numbers, and the next mapped address in line. No GPS guessing and no street-pattern guessing. If the map has no next address, or the direction is not known yet (the second door on a street), the box stays empty for you to type"}, {"id": "gpsless", "t": "Location is only used when you start a sheet and at each new door: to download map data when you are somewhere new, pin your route on the map and find the city and state. The launch, turn, cross and 5-minute-return location checks are gone"}, {"id": "cityst", "t": "City and state show on the street bar (also in Simple view) and on every sheet in the Sheets tab"}, {"id": "pillpulse", "t": "Long notices like Downloading map data now fade in and out so you can see and tap whatever is under them"}, {"id": "pkglist", "t": "The Packages screen is now one list of every package with its grade in the name (like A− Deluxe Package). Drag the handle to reorder, tap Edit on the right to change one, and tap + to add a new package"}, {"id": "pillst", "t": "Location and map-data notices (locating, downloading map data, weak signal) now only show on the Street screen. On every other screen you only get team alerts, like a deal or a chat message"}, {"id": "mapless", "t": "Map data downloads far less often while you walk, about every 150 m instead of every 30 m"}, {"id": "brksug", "t": "When the app asks if you are on a break, the first choice is now a suggested start time based on your last door, so one tap starts it"}, {"id": "prices", "t": "Medical / Panic equipment is now $35, and the E credit multiplier is x18"}, {"id": "pkgscreen", "t": "Packages is now its own full screen like Custom and Calculator, not a pop-up. Done takes you back"}, {"id": "earnrm", "t": "The All deals / Earnings box at the top of the calculator is gone, since the Commission Batch below shows the same thing"}, {"id": "apprtab", "t": "The Calculator tab at the bottom of the app is now called Approval (it keeps the calculator icon). Tap it while you are already in Approval to jump back to the home approval screen from anywhere"}, {"id": "calcnav", "t": "The Approval tab's bottom bar now has named buttons (Approval, Custom, Calculator, Packages) instead of emoji icons, and the Approval / Calculator buttons at the top are gone. The bottom Approval and Calculator buttons take you back to exactly where you were. The commission batch is opened with View Full Batch inside the calculator"}, {"id": "noapt", "t": "The APT button on the right side of every row is gone, since AP is now a response. The Note column gets the extra room"}, {"id": "cog", "t": "Settings moved to a cog button at the top left of the Street screen. The More tab is gone"}, {"id": "calctab", "t": "The Calculator tab opens on the customer approval. A small Calculator button at the top right switches to the commission calculator (earnings by sheet and miscellaneous, plus a what-if calculator you can save as a real deal) and either button returns you exactly where you were"}, {"id": "goaltap", "t": "Goal bar is taller and shows doors and deals as two bars that get brighter green every 10%. Tap it to flip between daily and weekly goals"}, {"id": "strsize", "t": "Street rows are as tall as the crossed-street rows, can be collapsed in Simple view too, and have a bigger arrow. Deal odds (Detailed view) is the same height as the goal bar"}, {"id": "streetsbtn", "t": "New Streets button in the bottom panel. It expands the panel upward with every street on the sheet and its door, deal and AP counts. Tap one to jump straight to it"}, {"id": "onebar", "t": "The goal bar is one bar again. It fills with your doors, and deals override it: with a goal of 100 doors and 2 deals, one deal puts the bar at 50% even if you only knocked 20 doors. It brightens every 10%"}, {"id": "strrows", "t": "Street names are always in the rows now (also in Simple view) and scroll with the sheet instead of floating at the top. Simple hides their counts and collapse arrows"}, {"id": "redview", "t": "The Red button is gone. Detailed view shows rejections in red, Simple view does not"}, {"id": "simpledef", "t": "Simple view is the default and the app always starts in it"}, {"id": "colors", "t": "Street bars are a calmer neutral instead of bright blue, and comebacks are dark yellow"}, {"id": "nextaddr", "t": "Next address now follows the map directly: your side of the street from odd or even, your direction from the numbers, and the next address in line. Location is no longer used to override it"}, {"id": "simple", "t": "New Simple view button at the top right of the Street screen. It hides deal odds, rejection colors and street counts for a cleaner sheet. The button then says Detailed to bring everything back"}, {"id": "hdr2", "t": "The top bar is slimmer: the goal bar now shows both doors and deals (like 50 / 100 doors · 1 / 2 deals), so the door, deal and deal % tiles are gone"}, {"id": "ap", "t": "New AP (appointment) response replaces the Add button in responses. Appointments glow green. Comebacks are now dark yellow, and the street bars count appointments instead of comebacks"}, {"id": "gs", "t": "Goals and Stats are now one tab, Goals/Stats. The goals are compact at the top with stats below, and the Weekly/Daily choice moved into the Goals card"}, {"id": "deals", "t": "Deals live on the Sheets tab: every approval shows the customer, date, sheet and commission, tap one for the full details, and each sheet has a small deals button. You can also add an approval with no sheet"}, {"id": "income", "t": "Income and $/hr now come only from deals added through the Calculator tab. The manual Add $ entry is gone"}, {"id": "appr", "t": "The Calc tab is now the Calculator tab, opening on the approval: customer name and credit tier, package menu, approved screen with Accept, package override, custom builder, then the commission calculator and batch, in the same order as your approval app"}, {"id": "dealjump", "t": "New option in Settings: Jump to Approval on a deal. Marking a deal on the street sheet opens the approval with the customer name filled in"}, {"id": "mapfeed", "t": "Map data now updates as you walk, about every 30 m, and old data is cleared after 2 days"}, {"id": "share", "t": "Share a street sheet in team chat (the 📋 button). Teammates tap it to open the full sheet, view only. It never lands in their sheets or stats"}, {"id": "prune", "t": "Chat messages and shared sheets are removed after 3 months so nothing piles up"}, {"id": "brkask", "t": "Take a break now asks when it started: starting now, since your last door, or minutes ago, so your time stays accurate"}, {"id": "editvis", "t": "The address you are typing is no longer hidden behind the panel or keyboard"}, {"id": "trail", "t": "Better address accuracy: while you work a street, the app averages your last 25 seconds of location at each door and tops up map data ahead of you"}, {"id": "oldfix", "t": "Fixed opening an old sheet starting a new one when New sheet each day is on"}, {"id": "crack", "t": "Removed the thin line between the column headings and the street bar"}, {"id": "team", "t": "Team deal alerts: a winner alarm and banner when a teammate gets a deal, including ones you missed while away"}, {"id": "streak", "t": "Shout-outs for 2nd, 3rd and later deals, with over 200 different messages. Three deals sets the pace with a golden banner and confetti"}, {"id": "hold", "t": "A deal is announced 2 minutes after it is logged. Changing or clearing it in that time cancels the alert, so accidental taps never go out"}, {"id": "hours", "t": "Deal alerts only go out and show from 8 AM to 8 PM, and each day's deal count starts fresh at 8 AM"}, {"id": "join", "t": "Join the team screen asks for your name on launch until you join (team TWONADT is built in)"}, {"id": "teamset", "t": "Team settings in More: alerts on/off, alarm sound, your name and a Test button"}, {"id": "chat", "t": "Team chat tab for everyone on your team code, with who is on the team and an unread count. It sits between Stats and Sheets, and Sheets and Calc swapped places"}, {"id": "stk", "t": "Every street is now sticky at the top of the sheet, with its deals, comebacks and doors counts and the city and state from your GPS. The column headings now sit directly under the odds bar and the street bars with no gaps"}, {"id": "fold", "t": "Tap a street to collapse or expand its doors. The double arrow button on the first street bar collapses all the street bars into one small Streets row, and tap that row to open them again"}, {"id": "cbrem", "t": "Comeback reminders: an alert 10 minutes before your chosen comeback time (T, W and M remind at 9 AM that day), while the app is open. You can turn it off in More"}, {"id": "addr3", "t": "House numbers now come from where you are standing and the map data first. The street pattern is only a backup when there is no map data. While GPS checks, the address box says locating"}, {"id": "turn2", "t": "Turn screen: tap a street you were already on to turn back onto it, even if you type it differently (St or Street, capitals), and numbering picks up where you left that street. The Return key works too"}, {"id": "qmark", "t": "A ? key above the address keyboard for houses you cannot read"}, {"id": "tapout", "t": "Tap anywhere outside a text box to close the keyboard, and the chat keyboard closes after you send"}, {"id": "brkask2", "t": "If you have not added a door for 5 minutes, the app asks whether you are on a break"}, {"id": "search", "t": "Search on the Sheets tab: finds names, notes, addresses and streets, then opens the sheet at the first match, highlighted in yellow"}, {"id": "daily", "t": "New option in More: start a new sheet automatically the first time you open Street on a new date (off by default)"}, {"id": "cols", "t": "Slimmer Response column gives the Note column more room, and long notes slide into view like a ticker: pause, slide, hold 1 second, reset"}, {"id": "hdr", "t": "Sheet header now sits right under the odds bar, with no gap"}, {"id": "panel", "t": "The response panel no longer shows NEW DOOR (tap outside it to close), and Add and Edit now live in its left column"}, {"id": "defaults", "t": "New installs start with the new default responses, and Has Our Service is now Has Service"}, {"id": "gps1", "t": "Location is steadier: the app waits up to 8 seconds for the most accurate reading instead of taking the first rough one"}, {"id": "gps2", "t": "Map data download is more reliable (longer wait and an extra backup server)"}, {"id": "gps3", "t": "New Location check in More tests your GPS and map data and tells you exactly what is wrong"}, {"id": "wn", "t": "The What's new popup shows only changes you have not seen yet"}, {"id": "pn", "t": "Patch notes page under More keeps one entry per day"}, {"id": "brk", "t": "Take a break button next to NEW DOOR pauses your time and every stat until you press NEW DOOR again"}, {"id": "resp10", "t": "Up to 10 customizable responses, with drag-to-reorder in Edit responses"}, {"id": "clr", "t": "Tap a selected response again to clear it"}, {"id": "kb", "t": "Panels and fields now sit right above the keyboard instead of jumping to the top"}, {"id": "ver", "t": "Version number shown in the top-left corner"}, {"id": "clean", "t": "Full code cleanup: dead code removed, nothing changed in how it works"}, {"id": "v2a", "t": "Redesigned app with Street, Goals, Stats, Calc, Sheets and More tabs"}, {"id": "v2b", "t": "Sticky street rows with deals, comebacks and rejections at a glance; tap one to jump to it"}, {"id": "v2c", "t": "Sheets tab to open, review and delete past street sheets"}, {"id": "v2d", "t": "GPS address help using real house numbers from OpenStreetMap, with notification pills for location status"}, {"id": "v2e", "t": "Doors per hour pace, deal odds, goals, and $ per hour tracking"}, {"id": "v2f", "t": "Sounds and haptics, thinner header, and iPhone keyboard and zoom fixes"}, {"id": "v2g", "t": "Automatic backup copy of your sheets to protect against data loss"}]}, {"v": "0.0.1", "d": "Oct 9", "n": [{"id": "v1a", "t": "First version: street sheets with address, response, name, note and APT"}, {"id": "v1b", "t": "Comebacks list, goals, deal odds and a route map of your doors"}]}],RELAY="https://street-sheet-default-rtdb.firebaseio.com",TEAMCODE="TWONADT";
+const VER="0.4.0",LOG=[{"v": "0.4.0", "d": "Oct 22", "n": [{"id": "pkgscreen", "t": "The Packages screen is now its own page in the Approval tab instead of a pop-up, with A credit and B credit grouped and collapsed by default (D, E and Bulk stay single rows)"}, {"id": "apprtab", "t": "The Calculator tab is now called Approval (same calculator icon). Tapping Approval again while you are in it takes you back to the first approval screen"}, {"id": "brksug", "t": "When it asks if you are on a break, the top button suggests the break start time based on your last door"}, {"id": "prices", "t": "Medical / Panic equipment is now $35 and the E credit multiplier is 18"}, {"id": "earnrm", "t": "Removed the earnings box at the top of the Calculator screen, since the commission batch below shows the same thing"}, {"id": "pillfix", "t": "Map data and weak signal notifications now only show on the Street screen, and map data downloads much less often (once per area, never more than once every 45 seconds)"}, {"id": "pkglist", "t": "Packages screen redesigned: all packages in one list with the credit grade in the name (like A\u2212 Deluxe Package). Drag the \u2261 handle to reorder, tap Edit on the right to change one, and tap + to add a new package"}, {"id": "eqsec", "t": "Equipment price adjustments moved into their own collapsible Equipment price section under the packages"}, {"id": "maponly", "t": "Addresses now come only from the downloaded map data: your side of the street from odd or even, your direction from the numbers going up or down, and the next address in line. No GPS guessing, no locating delay"}, {"id": "gpslite", "t": "Location is used far less: only when you start a new sheet and when you press NEW DOOR (to pin your route and download map data if you walked into a new area). The launch check, the 5 minute return check, the Turn and Cross checks and the constant background tracking are gone"}, {"id": "citystate", "t": "City and state show on the street you start on (also in Simple view)"}, {"id": "pillpulse", "t": "The location and map download notification now fades in and out so you can tap the buttons under it"}, {"id": "dealdef", "t": "Marking a deal now jumps to the Approval screen by default, and Auto-open responses is off by default. Both were switched for everyone, and you can change them back in Settings"}, {"id": "qfopen", "t": "Marking a deal also opens your QuickFill login in a new browser tab (you can turn this off in Settings)"}, {"id": "setfix", "t": "Settings opens reliably from the cog"}]},{"v": "0.3.0", "d": "Oct 15", "n": [{"id": "calcnav", "t": "The Calculator tab's bottom bar now has named buttons (Approval, Custom, Calculator, Packages) instead of emoji icons, and the Approval / Calculator buttons at the top are gone. The bottom Approval and Calculator buttons take you back to exactly where you were. The commission batch is opened with View Full Batch inside the calculator"}, {"id": "noapt", "t": "The APT button on the right side of every row is gone, since AP is now a response. The Note column gets the extra room"}, {"id": "cog", "t": "Settings moved to a cog button at the top left of the Street screen. The More tab is gone"}, {"id": "calctab", "t": "The Calculator tab opens on the customer approval. A small Calculator button at the top right switches to the commission calculator (earnings by sheet and miscellaneous, plus a what-if calculator you can save as a real deal) and either button returns you exactly where you were"}, {"id": "goaltap", "t": "Goal bar is taller and shows doors and deals as two bars that get brighter green every 10%. Tap it to flip between daily and weekly goals"}, {"id": "strsize", "t": "Street rows are as tall as the crossed-street rows, can be collapsed in Simple view too, and have a bigger arrow. Deal odds (Detailed view) is the same height as the goal bar"}, {"id": "streetsbtn", "t": "New Streets button in the bottom panel. It expands the panel upward with every street on the sheet and its door, deal and AP counts. Tap one to jump straight to it"}, {"id": "onebar", "t": "The goal bar is one bar again. It fills with your doors, and deals override it: with a goal of 100 doors and 2 deals, one deal puts the bar at 50% even if you only knocked 20 doors. It brightens every 10%"}, {"id": "strrows", "t": "Street names are always in the rows now (also in Simple view) and scroll with the sheet instead of floating at the top. Simple hides their counts and collapse arrows"}, {"id": "redview", "t": "The Red button is gone. Detailed view shows rejections in red, Simple view does not"}, {"id": "simpledef", "t": "Simple view is the default and the app always starts in it"}, {"id": "colors", "t": "Street bars are a calmer neutral instead of bright blue, and comebacks are dark yellow"}, {"id": "nextaddr", "t": "Next address now follows the map directly: your side of the street from odd or even, your direction from the numbers, and the next address in line. Location is no longer used to override it"}, {"id": "simple", "t": "New Simple view button at the top right of the Street screen. It hides deal odds, rejection colors and street counts for a cleaner sheet. The button then says Detailed to bring everything back"}, {"id": "hdr2", "t": "The top bar is slimmer: the goal bar now shows both doors and deals (like 50 / 100 doors · 1 / 2 deals), so the door, deal and deal % tiles are gone"}, {"id": "ap", "t": "New AP (appointment) response replaces the Add button in responses. Appointments glow green. Comebacks are now dark yellow, and the street bars count appointments instead of comebacks"}, {"id": "gs", "t": "Goals and Stats are now one tab, Goals/Stats. The goals are compact at the top with stats below, and the Weekly/Daily choice moved into the Goals card"}, {"id": "deals", "t": "Deals live on the Sheets tab: every approval shows the customer, date, sheet and commission, tap one for the full details, and each sheet has a small deals button. You can also add an approval with no sheet"}, {"id": "income", "t": "Income and $/hr now come only from deals added through the Calculator tab. The manual Add $ entry is gone"}, {"id": "appr", "t": "The Calc tab is now the Calculator tab, opening on the approval: customer name and credit tier, package menu, approved screen with Accept, package override, custom builder, then the commission calculator and batch, in the same order as your approval app"}, {"id": "dealjump", "t": "New option in Settings: Jump to Approval on a deal. Marking a deal on the street sheet opens the approval with the customer name filled in"}, {"id": "mapfeed", "t": "Map data now updates as you walk, about every 30 m, and old data is cleared after 2 days"}, {"id": "share", "t": "Share a street sheet in team chat (the 📋 button). Teammates tap it to open the full sheet, view only. It never lands in their sheets or stats"}, {"id": "prune", "t": "Chat messages and shared sheets are removed after 3 months so nothing piles up"}, {"id": "brkask", "t": "Take a break now asks when it started: starting now, since your last door, or minutes ago, so your time stays accurate"}, {"id": "editvis", "t": "The address you are typing is no longer hidden behind the panel or keyboard"}, {"id": "trail", "t": "Better address accuracy: while you work a street, the app averages your last 25 seconds of location at each door and tops up map data ahead of you"}, {"id": "oldfix", "t": "Fixed opening an old sheet starting a new one when New sheet each day is on"}, {"id": "crack", "t": "Removed the thin line between the column headings and the street bar"}]}, {"v": "0.2.0", "d": "Oct 14", "n": [{"id": "team", "t": "Team deal alerts: a winner alarm and banner when a teammate gets a deal, including ones you missed while away"}, {"id": "streak", "t": "Shout-outs for 2nd, 3rd and later deals, with over 200 different messages. Three deals sets the pace with a golden banner and confetti"}, {"id": "hold", "t": "A deal is announced 2 minutes after it is logged. Changing or clearing it in that time cancels the alert, so accidental taps never go out"}, {"id": "hours", "t": "Deal alerts only go out and show from 8 AM to 8 PM, and each day's deal count starts fresh at 8 AM"}, {"id": "join", "t": "Join the team screen asks for your name on launch until you join (team TWONADT is built in)"}, {"id": "teamset", "t": "Team settings in More: alerts on/off, alarm sound, your name and a Test button"}, {"id": "chat", "t": "Team chat tab for everyone on your team code, with who is on the team and an unread count. It sits between Stats and Sheets, and Sheets and Calc swapped places"}, {"id": "stk", "t": "Every street is now sticky at the top of the sheet, with its deals, comebacks and doors counts and the city and state from your GPS. The column headings now sit directly under the odds bar and the street bars with no gaps"}, {"id": "fold", "t": "Tap a street to collapse or expand its doors. The double arrow button on the first street bar collapses all the street bars into one small Streets row, and tap that row to open them again"}, {"id": "cbrem", "t": "Comeback reminders: an alert 10 minutes before your chosen comeback time (T, W and M remind at 9 AM that day), while the app is open. You can turn it off in More"}, {"id": "addr3", "t": "House numbers now come from where you are standing and the map data first. The street pattern is only a backup when there is no map data. While GPS checks, the address box says locating"}, {"id": "turn2", "t": "Turn screen: tap a street you were already on to turn back onto it, even if you type it differently (St or Street, capitals), and numbering picks up where you left that street. The Return key works too"}, {"id": "qmark", "t": "A ? key above the address keyboard for houses you cannot read"}, {"id": "tapout", "t": "Tap anywhere outside a text box to close the keyboard, and the chat keyboard closes after you send"}, {"id": "brkask", "t": "If you have not added a door for 5 minutes, the app asks whether you are on a break"}, {"id": "search", "t": "Search on the Sheets tab: finds names, notes, addresses and streets, then opens the sheet at the first match, highlighted in yellow"}, {"id": "daily", "t": "New option in More: start a new sheet automatically the first time you open Street on a new date (off by default)"}, {"id": "cols", "t": "Slimmer Response column gives the Note column more room, and long notes slide into view like a ticker: pause, slide, hold 1 second, reset"}, {"id": "hdr", "t": "Sheet header now sits right under the odds bar, with no gap"}, {"id": "panel", "t": "The response panel no longer shows NEW DOOR (tap outside it to close), and Add and Edit now live in its left column"}, {"id": "defaults", "t": "New installs start with the new default responses, and Has Our Service is now Has Service"}, {"id": "gps1", "t": "Location is steadier: the app waits up to 8 seconds for the most accurate reading instead of taking the first rough one"}, {"id": "gps2", "t": "Map data download is more reliable (longer wait and an extra backup server)"}, {"id": "gps3", "t": "New Location check in More tests your GPS and map data and tells you exactly what is wrong"}, {"id": "wn", "t": "The What's new popup shows only changes you have not seen yet"}, {"id": "pn", "t": "Patch notes page under More keeps one entry per day"}]}, {"v": "0.1.1", "d": "Oct 10", "n": [{"id": "brk", "t": "Take a break button next to NEW DOOR pauses your time and every stat until you press NEW DOOR again"}, {"id": "resp10", "t": "Up to 10 customizable responses, with drag-to-reorder in Edit responses"}, {"id": "clr", "t": "Tap a selected response again to clear it"}, {"id": "kb", "t": "Panels and fields now sit right above the keyboard instead of jumping to the top"}, {"id": "ver", "t": "Version number shown in the top-left corner"}, {"id": "clean", "t": "Full code cleanup: dead code removed, nothing changed in how it works"}]}, {"v": "0.1.0", "d": "Oct 9", "n": [{"id": "v2a", "t": "Redesigned app with Street, Goals, Stats, Calc, Sheets and More tabs"}, {"id": "v2b", "t": "Sticky street rows with deals, comebacks and rejections at a glance; tap one to jump to it"}, {"id": "v2c", "t": "Sheets tab to open, review and delete past street sheets"}, {"id": "v2d", "t": "GPS address help using real house numbers from OpenStreetMap, with notification pills for location status"}, {"id": "v2e", "t": "Doors per hour pace, deal odds, goals, and $ per hour tracking"}, {"id": "v2f", "t": "Sounds and haptics, thinner header, and iPhone keyboard and zoom fixes"}, {"id": "v2g", "t": "Automatic backup copy of your sheets to protect against data loss"}]}, {"v": "0.0.1", "d": "Oct 9", "n": [{"id": "v1a", "t": "First version: street sheets with address, response, name, note and APT"}, {"id": "v1b", "t": "Comebacks list, goals, deal odds and a route map of your doors"}]}],RELAY="https://street-sheet-default-rtdb.firebaseio.com",TEAMCODE="TWONADT";
 const K='doortracker.v1',$=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9);
 const DEF=[['deal','DEAL!','Deal','deal'],['rej','NO','Rejection','rej'],['cb','CB','Come Back','cb'],['ap','AP','Appointment','appt'],['v','Apt/V','Apartment/Vacant','vac'],['dnq','DNQ','Renter/Cred Fail','other'],['svc','✅','Has Service','other']].map(a=>({id:a[0],sym:a[1],label:a[2],type:a[3]}));
 const TYPES={deal:'Deal',rej:'Rejection',cb:'Comeback',appt:'Appointment',nh:'Not home',vac:'Vacant',other:'Other'};
@@ -731,12 +739,12 @@ let fresh0=false,S;try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
 const okS=x=>x&&x.sessions&&x.sessions.length;
 if(!okS(S)){try{const b=JSON.parse(localStorage.getItem(K+'.bak'));if(okS(b))S=b}catch(e){}}
 else if(S.sessions.some(x=>x.rows&&x.rows.length)){try{localStorage.setItem(K+'.bak',JSON.stringify(S))}catch(e){}}
-function ns(){return{id:uid(),date:Date.now(),street:'',dir:0,seg:0,fresh:false,cross:false,rows:[]}}
-if(!S||!S.sessions||!S.sessions.length){fresh0=true;const s=ns();S={resp:DEF.map(x=>({...x})),showRed:false,auto:true,jump:false,sessions:[s],cur:s.id}}
+function ns(){return{id:uid(),date:Date.now(),street:'',step:-2,seg:0,fresh:false,cross:false,rows:[]}}
+if(!S||!S.sessions||!S.sessions.length){fresh0=true;const s=ns();S={resp:DEF.map(x=>({...x})),showRed:false,auto:false,dealJump:true,qf:true,defs2:1,jump:false,sessions:[s],cur:s.id}}
 let SH=null;const cs=()=>SH||S.sessions.find(x=>x.id===S.cur)||S.sessions[0];
 let CL=null,wt,qt;const dirty=new Set();
 async function flush(){if(!CL)return;const ids=[...dirty];dirty.clear();try{
- await CL.doc('settings').set({json:JSON.stringify({resp:S.resp,showRed:S.showRed,auto:S.auto,daily:S.daily,cbRem:S.cbRem,calcBatch:S.calcBatch,dealJump:S.dealJump,apAdded:S.apAdded,jump:S.jump,geo:S.geo,snd:S.snd,cur:S.cur,pay:S.pay,payMode:S.payMode,goal:S.goal,order:S.sessions.map(x=>x.id),t:S.t})});
+ await CL.doc('settings').set({json:JSON.stringify({resp:S.resp,showRed:S.showRed,auto:S.auto,daily:S.daily,cbRem:S.cbRem,calcBatch:S.calcBatch,dealJump:S.dealJump,qf:S.qf,defs2:S.defs2,apAdded:S.apAdded,jump:S.jump,geo:S.geo,snd:S.snd,cur:S.cur,pay:S.pay,payMode:S.payMode,goal:S.goal,order:S.sessions.map(x=>x.id),t:S.t})});
  for(const id of ids){const x=S.sessions.find(y=>y.id===id);if(x)await CL.doc('sheet_'+id).set({json:JSON.stringify(x)})}
 }catch(e){ids.forEach(i=>dirty.add(i))}}
 const save=()=>{S.t=Date.now();let ok=true;const js=JSON.stringify(S);try{localStorage.setItem(K,js)}catch(e){ok=false}
@@ -744,6 +752,7 @@ const save=()=>{S.t=Date.now();let ok=true;const js=JSON.stringify(S);try{localS
  if(!ok)gpsPill('Storage full · back up your data','bad',6000);
  clearTimeout(mt);if(mirrorReady)mt=setTimeout(()=>idb.set('state',JSON.stringify(S)),800);dirty.add(S.cur);clearTimeout(wt);wt=setTimeout(flush,600)};
 function migA(){if(S.apAdded)return;S.apAdded=1;if(!S.resp.some(x=>x.type==='appt')){const i=S.resp.findIndex(x=>x.type==='cb');S.resp.splice(i<0?S.resp.length:i+1,0,{id:'ap',sym:'AP',label:'Appointment',type:'appt'})}save()}
+const QF_URL='https://momentumsales.quickfill.com/account/login?returnUrl=%2F';
 const R=id=>S.resp.find(r=>r.id===id);
 const doors=s=>s.rows.filter(r=>r.t==='door'),hasTurn=s=>s.rows.some(x=>x.t==='mark'&&x.txt.startsWith('↪'));
 function migB(){const nh=S.resp.filter(x=>x.type==='nh');if(!nh.length)return;
@@ -754,8 +763,10 @@ function dk(t){const d=new Date(t);return d.getFullYear()+'-'+(d.getMonth()+1)+'
 function DEFG(){return{mode:'week',metric:'doors',doors:{day:80,week:400},deals:{day:2,week:10}}}
 function migC(){let ch=false;if(!S.pay||typeof S.pay!=='object'){S.pay={};ch=true}if(!S.goal){S.goal=DEFG();ch=true}
  S.sessions.forEach(x=>{if(x.pay!==undefined){const k=dk(x.date);if(x.pay&&!S.pay[k])S.pay[k]=x.pay;delete x.pay;ch=true}});if(ch)save()}
+function migS(){let ch=false;S.sessions.forEach(s=>s.rows.forEach(r=>{if(r.srch){r.srch=0;delete r.fb;ch=true}}));if(ch)save()}
+function migE(){if(S.defs2)return;S.defs2=1;S.auto=false;S.dealJump=true;S.qf=true;save()}
 function migD(){let ch=false;S.resp.forEach(x=>{if(x.label==='Has Our Service'){x.label='Has Service';ch=true}});if(ch)save()}
-function migrate(){migA();migB();migC();migD()}
+function migrate(){migA();migB();migC();migD();migS();migE()}
 migrate();
 const brkSpans=()=>{const a=[];S.sessions.forEach(s=>s.rows.forEach(r=>{if(r.brk)a.push([r.ts,r.end||Date.now()])}));return a};
 const brkIn=(x,y,B)=>B.reduce((t,v)=>t+Math.max(0,Math.min(v[1],y)-Math.max(v[0],x)),0);
@@ -812,7 +823,7 @@ const fold=new Set(s.fold||[]),force=new Set(),nSeg=segOf.length,off=false;
    return}
   const x=R(r.r),T=typ(r),cls=T==='appt'?'gl':T==='cb'?'cbl':(T==='rej'&&showRed())?'rd':'',pc=T==='deal'?'deal':T==='appt'?'ap':T==='cb'?'cb':(T==='rej'&&showRed())?'rd':'';
   tb.append(h('tr',{class:cls+(r.id===curId?' cur':''),'data-id':r.id},
-   h('td',{class:'ad'+(has(r.addr,q)?' hit':'')},h('input',{class:'a','data-f':'addr',inputmode:'numeric',value:r.addr||'',placeholder:'#','aria-label':'Address'})),
+   h('td',{class:'ad'+(has(r.addr,q)?' hit':'')},h('input',{class:'a'+(r.srch?' srch':''),'data-f':'addr',inputmode:'numeric',value:r.addr||'',placeholder:r.srch?'locating…':'#','aria-label':'Address'})),
    h('td',{class:x&&(has(x.label,q)||has(x.sym,q))||has(r.d,q)?'hit':''},h('button',{class:'rb','data-resp':1,'aria-label':'Response'},x&&x.type!=='nh'?h('span',{class:'pill '+pc},x.sym+(r.d?' '+r.d:'')):null)),
    h('td',{class:has(r.name,q)?'hit':''},h('input',{'data-f':'name',value:r.name||'',placeholder:'Name',autocapitalize:'words','aria-label':'Name'})),
    h('td',{class:has(r.note,q)?'hit':''},h('input',{'data-f':'note',value:r.note||'',placeholder:'Note','aria-label':'Note'}))));
@@ -855,7 +866,7 @@ function setTab(t){
  if(t==='goals')t='stats';
  if(SH&&t!=='street')exitShared(true);
  if(!$('#ov').hidden){const o=$('#ov');o.hidden=true;o.className='';$('#main').style.paddingBottom=''}
- stClose();tab=t;if(t!=='street'){const g=$('#gpsPill');if(g)g.className=''}if(t!=='street')hq='';else dailyCheck();
+ stClose();{const g=$('#gpsPill');if(g&&g.dataset.gps&&t!=='street')g.className=''}tab=t;if(t!=='street')hq='';else dailyCheck();
  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+t));
  document.querySelectorAll('#tabs button').forEach(b=>{const on=b.dataset.t===t;b.classList.toggle('on',on);b.setAttribute('aria-current',on?'page':'false')});
  renderPanel();render();
@@ -904,17 +915,18 @@ function takeBreak(ago){if(openBrk())return;const s=cs(),ds=doors(s),l=ds[ds.len
  s.rows.push({id:uid(),t:'mark',txt:'☕ Break',brk:1,ts,end:null});save();render();bottom();brkUI();tick(1);gpsPill(ago?'Break started '+Math.round(ago)+' min ago · time is paused':'Break started · time is paused','ok',2600)}
 // Asks when the break actually started so the stats stay honest
 function breakAsk(idleMin){if(openBrk())return;
- const go=m=>{close();takeBreak(m)};
+ const go=m=>{close();takeBreak(m)},o=[];
  const b=(t,m,c)=>h('button',{class:'b'+(c?' p':''),type:'button',onclick:()=>go(m)},t);
  const ci=h('input',{class:'in',type:'number',inputmode:'numeric',min:'1',max:'240',placeholder:'Minutes ago',style:'flex:1'});
  const ok=()=>{const m=Math.min(240,Math.max(1,parseInt(ci.value,10)||0));if(m)go(m)};
  ci.addEventListener('keydown',e=>{if(e.key==='Enter')ok()});
- const ds=doors(cs()),l=ds[ds.length-1],sug=l&&dk(l.ts)===dk(Date.now())?(Date.now()-l.ts)/6e4-1:0;
- const rows=sug>=1?[b('Suggested · '+Math.round(sug)+' min ago',sug,1),b('Starting now',0)]:[b('Starting now',0,1)];
+ const rows=[b('Starting now',0,1)];
+ const sug=idleMin>=3?idleMin-1:0;
+ if(sug>=2){const t0=new Date(Date.now()-sug*6e4).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});rows.unshift(h('button',{class:'b p',type:'button',style:'grid-column:1/-1',onclick:()=>go(sug)},'Suggested: started at '+t0,h('small',{style:'color:inherit;opacity:.85'},sug+' min ago')));rows[1].classList.remove('p')}
  sheet('How long have you been on break?',p('Pick when it started so your time stays accurate.'),h('div',{class:'gd c2'},...rows,...[5,10,15,20,30,45].map(m=>b(m+' min ago',m))),h('div',{style:'display:flex;gap:8px;margin-top:8px'},ci,h('button',{class:'b p',type:'button',style:'min-width:70px',onclick:ok},'Start')),h('button',{class:'b',style:'width:100%;margin-top:8px',onclick:close},'Cancel'))}
 function endBreak(){const b=openBrk();if(b){b.end=Date.now();save();brkUI();return true}return false}
 const ndRow=()=>h('div',{class:'ndrow'},h('button',{class:'brkb',type:'button',onclick:()=>{if(openBrk())return;const ds=doors(cs()),l=ds[ds.length-1];breakAsk(l&&dk(l.ts)===dk(Date.now())?Math.round((Date.now()-l.ts)/6e4):0)}},'Take a break'),h('button',{id:'nd',onclick:()=>{tick(2);add()}},'NEW DOOR'));
-function doCross(){mark('⇄ Crossed street',s=>{s.dir=s.dir?-s.dir:0;s.cross=true})}
+function doCross(){mark('⇄ Crossed street',s=>{s.step=-(s.step||-2);s.cross=true})}
 function streetNames(s){const out=[{n:s.street0||'',leg:0}];let k=0;s.rows.forEach(r=>{if(r.t==='mark'&&r.txt.startsWith('↪')){k++;out.push({n:r.txt.replace(/^↪ Turned onto /,''),leg:r.leg!=null?r.leg:k})}});return out}
 function doTurn(){
  const s0=cs(),all=streetNames(s0),cur=s0.leg||0,maxLeg=Math.max(0,...all.map(x=>x.leg));
@@ -926,16 +938,16 @@ function doTurn(){
   $('#ov').hidden=true;
   mark('↪ Turned onto '+n,s=>{const m=s.rows[s.rows.length-1],old=s.leg||0;m.leg=leg;
    if(s.street0==null)s.street0=s.street||'';
-   s.ls=s.ls||{};s.ls[old]=s.dir||0;s.street=n;s.leg=leg;s.cross=false;s.ret=null;s.fresh=true;s.dir=0;
-   if(leg!==old&&all.some(x=>x.leg===leg)){const d=doors(s).filter(x=>(x.leg||0)===leg).pop();if(d){s.ret=d.id;s.fresh=false}if(s.ls[leg]!=null)s.dir=Math.sign(s.ls[leg])||0}});
- };
+   s.ls=s.ls||{};s.ls[old]=s.step;s.street=n;s.leg=leg;s.cross=false;s.ret=null;s.fresh=true;
+   if(leg!==old&&all.some(x=>x.leg===leg)){const d=doors(s).filter(x=>(x.leg||0)===leg).pop();if(d){s.ret=d.id;s.fresh=false}if(s.ls[leg]!=null)s.step=s.ls[leg]}});
+  };
  i.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();go(i.value)}});
  sheet('Turned onto…',prev.length?h('div',{class:'sug'},prev.slice(0,6).map(x=>h('button',{type:'button',class:'b',onclick:()=>go(x.n,x.leg)},x.n))):null,i,h('button',{class:'b p',style:'width:100%',onclick:()=>go(i.value)},'Save turn'));i.focus()}
 let revId=null;   // a sheet you opened on purpose to look at (from Sheets or a search) is never replaced by the new-day sheet
 function dailyCheck(){if(!S.daily)return;const s=cs();if(S.cur===revId||S.sessions[S.sessions.length-1]!==s||dk(s.date)===dk(Date.now()))return;
  if(!s.rows.length){s.date=Date.now();save();return}
- const n=ns();S.sessions.push(n);S.cur=n.id;curId=null;save();toast('New day, new sheet');pingSheet(n)}
-function newSheet(){revId=null;const s=ns();S.sessions.push(s);S.cur=s.id;save();if(!$('#ov').hidden)close();setTab('street');$('#st').focus();pingSheet(s)}
+ const n=ns();S.sessions.push(n);S.cur=n.id;curId=null;save();toast('New day, new sheet')}
+function newSheet(){revId=null;const s=ns();S.sessions.push(s);S.cur=s.id;save();if(!$('#ov').hidden)close();setTab('street');$('#st').focus();probe()}
 function goDoor(r){const s=S.sessions.find(x=>x.rows.includes(r));if(!s)return;if(S.cur!==s.id){S.cur=s.id;save()}revId=s.id;setTab('street');jump(r.id)}
 let spPrev=null,curId=null,gpPrev=null,bhOn=null,cheerTxt='',ct;
 function setCur(id){curId=id;document.querySelectorAll('tr.cur').forEach(e=>e.classList.remove('cur'));const e=id&&rowEl(id);if(e)e.classList.add('cur')}
@@ -1003,15 +1015,25 @@ function paySheet(){
   days.length?h('div',{class:'sec'},'Past days'):null,h('div',{},days),
   h('button',{class:'b',style:'width:100%;margin-top:10px',onclick:close},'Close'));
 }
+function legGaps(ds,l){
+ const cur=[],oth=[],prv=[];
+ for(let i=1;i<ds.length;i++){const a=ds[i-1],b=ds[i];if(a.seg!==b.seg)continue;const d=eff(b)-eff(a);if(!isFinite(d)||!d||Math.abs(d)>40)continue;
+  if(b.seg===l.seg)cur.push(d);else if((b.leg||0)===(l.leg||0))oth.push(d);else prv.push(d)}
+ return{cur,oth,prv}}
+function nextGap(s,ds){
+ const l=ds[ds.length-1],G=legGaps(ds,l),dir=Math.sign(s.step||-2)||-1,w=G.cur.slice(-6);
+ const mag=a=>{const c={};a.slice(-8).forEach((v,i)=>{const m=Math.abs(v);c[m]=(c[m]||0)+1+i*.01});let b=0,bv=-1;for(const m in c)if(c[m]>bv){bv=c[m];b=+m}return b};
+ if(w.length>=2){for(let p=1;p<=3;p++){if(w.length<(p===1?2:p===2?3:5))continue;let ok=true;for(let i=p;i<w.length;i++)if(w[i]!==w[i-p]){ok=false;break}if(ok)return{g:w[w.length-p],sd:2}}}
+ if(w.length){const c={};w.forEach((v,i)=>{c[v]=(c[v]||0)+1+i*.01});let best=w[w.length-1];for(const v in c)if(c[v]>c[best])best=+v;return{g:best,sd:3}}
+ const pool=G.oth.length?G.oth:G.prv;if(pool.length)return{g:dir*mag(pool),sd:4};
+ return{g:s.step||-2,sd:4}}
 let gpsT,gpsT0=0;
-const locPill=(...a)=>{if(tab==='street')gpsPill(...a)};
-function gpsPill(txt,cls,ms){const g=$('#gpsPill');if(!g)return;clearTimeout(gpsT);g.className='show '+cls;g.textContent=txt;if(ms)gpsT=setTimeout(()=>{g.className=''},ms)}
-function gpsDone(kind,txt,quiet){const w=quiet?0:Math.max(0,900-(Date.now()-gpsT0));setTimeout(()=>{
- if(kind==='ok'){if(quiet){const g=$('#gpsPill');if(g&&g.classList.contains('busy'))g.className=''}else locPill(txt||'Located ✓','ok',2200)}
- else if(kind==='net')locPill('Poor connection · map data not downloaded','bad',2800)
- else if(kind==='weak')locPill('Weak signal','bad',2200)
- else if(kind==='blocked')locPill('Location is blocked','bad',3500)
- else locPill('No location','bad',2200)},w)}
+function gpsPill(txt,cls,ms){const g=$('#gpsPill');if(!g)return;g.dataset.gps='';clearTimeout(gpsT);g.className='show '+cls;g.textContent=txt;if(ms)gpsT=setTimeout(()=>{g.className=''},ms)}
+const gpsOK=()=>tab==='street'&&!SH;
+function gp(t,c,ms){if(!gpsOK())return;gpsPill(t,c,ms);const g=$('#gpsPill');if(g)g.dataset.gps='1'}
+function gpsDone(kind,txt){const w=Math.max(0,900-(Date.now()-gpsT0));setTimeout(()=>{
+ if(!gpsOK()){const g=$('#gpsPill');if(g&&g.dataset.gps)g.className='';return}
+ if(kind==='ok')gp(txt||'Located ✓','ok',2200);else if(kind==='net')gp('Could not download map data','bad',2800);else if(kind==='weak')gp('Weak signal','bad',2200);else if(kind==='blocked')gp('Location is blocked','bad',3500);else gp('No location','bad',2200)},w)}
 const cityTry={};
 function cityOf(s,la,lo){
  if(s.city||Date.now()-(cityTry[s.id]||0)<6e4)return;cityTry[s.id]=Date.now();
@@ -1019,16 +1041,22 @@ function cityOf(s,la,lo){
   const a=d&&d.address,c=a&&(a.city||a.town||a.village||a.hamlet||a.suburb||a.county);if(!c||s.city)return;
   const iso=a['ISO3166-2-lvl4']||'',st=/^US-/.test(iso)?iso.slice(3):a.state;
   s.city=c+(st?', '+st:'');save();if(cs()===s&&tab==='street')render()}).catch(()=>{})}catch(e){}}
+function nameFromGps(s,r){
+ if((s.street||'').trim()||hasTurn(s))return;
+ try{fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=17&lat='+r.lat+'&lon='+r.lng).then(x=>x.json()).then(d=>{
+  const a=d&&d.address,n=a&&(a.road||a.pedestrian||a.residential||a.footway);
+  if(!n||(s.street||'').trim()||hasTurn(s))return;
+  s.street=n;s.street0=n;save();const i=$('#st');if(cs()===s&&i&&document.activeElement!==i)i.value=n}).catch(()=>{})}catch(e){}}
 // ===== Real addresses from OpenStreetMap =====
-const AR=600,AGE=2*864e5,COVER=280;let netFail=false,adErr='';
+const AR=600,AGE=2*864e5;let netFail=false,adErr='';
 let ADT=[];const adReady=(async()=>{try{localStorage.removeItem('doortracker.addr.v1')}catch(e){}try{ADT=JSON.parse(await idb.get('addr')||'[]').filter(t=>Date.now()-t.t<AGE)}catch(e){ADT=[]}})();
 const hav=(a,b,c,d)=>{const k=Math.PI/180,x=(c-a)*k,y=(d-b)*k*Math.cos((a+c)/2*k);return 6371000*Math.sqrt(x*x+y*y)};
 const ABBR={st:'street',str:'street',ave:'avenue',av:'avenue',rd:'road',dr:'drive',ln:'lane',ct:'court',blvd:'boulevard',pkwy:'parkway',pky:'parkway',pl:'place',ter:'terrace',cir:'circle',hwy:'highway'};
 const SUF=new Set(['street','avenue','road','drive','lane','court','boulevard','parkway','place','terrace','circle','way','highway','north','south','east','west','n','s','e','w']);
 const core=s=>String(s||'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(Boolean).map(w=>ABBR[w]||w).filter(w=>!SUF.has(w)).join(' ');
 const sameSt=(a,b)=>{const x=core(a),y=core(b);return !!x&&!!y&&(x===y||(x.length>=4&&y.length>=4&&(x.includes(y)||y.includes(x))))};
-function adList(la,lo){const out=[],seen=new Set();ADT.forEach(t=>{if(la==null||hav(la,lo,t.la,t.lo)<AR+300)t.l.forEach(a=>{const k=a[0]+'|'+a[1]+'|'+a[2]+'|'+a[3];if(!seen.has(k)){seen.add(k);out.push({n:a[0],st:a[1],la:a[2],lo:a[3]})}})});return out}
-const adCovered=(la,lo)=>ADT.some(t=>Date.now()-t.t<AGE&&hav(la,lo,t.la,t.lo)<COVER);
+function adList(la,lo){const out=[],seen=new Set();ADT.forEach(t=>{if(hav(la,lo,t.la,t.lo)<AR+300)t.l.forEach(a=>{const k=a[0]+'|'+a[1]+'|'+a[2]+'|'+a[3];if(!seen.has(k)){seen.add(k);out.push({n:a[0],st:a[1],la:a[2],lo:a[3]})}})});return out}
+const adCovered=(la,lo)=>ADT.some(t=>Date.now()-t.t<AGE&&hav(la,lo,t.la,t.lo)<250);
 async function adFetch(la,lo,rad){
  adErr='';rad=rad||320;
  const q='[out:json][timeout:25];(node["addr:housenumber"](around:'+rad+','+la+','+lo+');way["addr:housenumber"](around:'+rad+','+la+','+lo+'););out center tags qt;';
@@ -1043,50 +1071,72 @@ async function adFetch(la,lo,rad){
    idb.set('addr',JSON.stringify(ADT));
    return true}catch(e){adErr+=hn+(e&&e.name==='AbortError'?' timed out. ':' blocked or offline. ')}}
  return false}
-// Name of the street at a point: the nearest mapped houses vote
-function streetAt(la,lo){
- const k=adList(la,lo).map(a=>({a,d:hav(la,lo,a.la,a.lo)})).sort((x,y)=>x.d-y.d).slice(0,3);
+function adStreet(s,fix,L,store){
+ const near=L.filter(a=>hav(fix.la,fix.lo,a.la,a.lo)<200);if(!near.length)return null;
+ for(const q of [s.street,s.mapSt&&s.mapSt.leg===(s.leg||0)&&s.mapSt.name]){if(!q)continue;const f=near.find(a=>sameSt(a.st,q));if(f)return f.st}
+ const k=near.map(a=>({a,d:hav(fix.la,fix.lo,a.la,a.lo)})).sort((x,y)=>x.d-y.d).slice(0,3);
  if(!k.length||k[0].d>45)return null;
- const c={};k.forEach(o=>c[o.a.st]=(c[o.a.st]||0)+1);return Object.keys(c).sort((x,y)=>c[y]-c[x])[0]}
-// Learns which way the numbers are going from your last two doors on the same side of the street
-function learnDir(s,ds,l){const q=ds[ds.indexOf(l)-1];if(!q||q.seg!==l.seg||(q.leg||0)!==(l.leg||0))return;const d=eff(l)-eff(q);if(isFinite(d)&&d&&Math.abs(d)<=40&&d%2===0)s.dir=Math.sign(d)}
-// The next door address comes from the downloaded map data only: the same side of the street (odd or even, flipped after Cross), your direction (numbers going up or down), and the next mapped number on that street. Nothing is guessed: no map data or no known direction means no address
-function mapSeq(s,prevN,crossed,l){
- const st=(s.street||'').trim();if(prevN==null||!l||!s.dir||!st)return null;
- const P=l.lat!=null?l:null,L=adList(P?P.lat:null,P?P.lng:null),par=(((prevN%2)+2)%2)^(crossed?1:0),by=new Set();
- L.forEach(a=>{if(a.n%2===par&&sameSt(a.st,st)&&(!P||hav(P.lat,P.lng,a.la,a.lo)<700))by.add(a.n)});
- const nums=[...by].sort((x,y)=>x-y);if(nums.length<2)return null;
+ const c={};k.forEach(o=>c[o.a.st]=(c[o.a.st]||0)+1);const nm=Object.keys(c).sort((x,y)=>c[y]-c[x])[0];
+ if(store)s.mapSt={leg:s.leg||0,name:nm};return nm}
+// Next address in line, from map data alone: the next number on this side of the street, in the direction you are walking
+function mapSeq(s,ctx,l,P0){
+ if(ctx.prevN==null||!l)return null;
+ let P=P0||(l.lat!=null?{la:l.lat,lo:l.lng}:null);
+ if(!P){const g=doors(s).filter(x=>x.lat!=null).pop();P=g?{la:g.lat,lo:g.lng}:(lastFix&&Date.now()-lastFix.t<36e5?{la:lastFix.la,lo:lastFix.lo}:null)}
+ if(!P)return null;
+ const L=adList(P.la,P.lo);if(L.length<4)return null;
+ const st=adStreet(s,{la:P.la,lo:P.lo},L,false);if(!st)return null;
+ const par=(((ctx.prevN%2)+2)%2)^(ctx.crossed?1:0),by={};
+ L.forEach(a=>{if(a.n%2===par&&sameSt(a.st,st)&&hav(P.la,P.lo,a.la,a.lo)<500)by[a.n]=1});
+ const nums=Object.keys(by).map(Number).sort((x,y)=>x-y);if(nums.length<2)return null;
+ let dir=Math.sign(s.step||-2)||-1;
+ if(!ctx.crossed){const ds=doors(s),i=ds.indexOf(l),q=i>0?ds[i-1]:null;if(q&&q.seg===l.seg&&isFinite(eff(q))&&isFinite(eff(l))){const d=eff(l)-eff(q);if(d&&Math.abs(d)<=40&&(((d%2)+2)%2)===0)dir=Math.sign(d)}}
  let n=null;
- if(s.dir>0)n=nums.find(x=>crossed?x>=prevN-1:x>prevN);else nums.forEach(x=>{if(crossed?x<=prevN+1:x<prevN)n=x});
- return n}
-// Watches for a few seconds and keeps the best reading
-function locate(cb,err,max){
- let best=null,done=false,code='err',wid,to;
+ if(dir>0)n=nums.find(x=>ctx.crossed?x>=ctx.prevN-1:x>ctx.prevN);else nums.forEach(x=>{if(ctx.crossed?x<=ctx.prevN+1:x<ctx.prevN)n=x});
+ return n==null?null:{n,st}}
+function locate(cb,err,max,t0){
+ t0=t0||Date.now();let best=null,bs=1e9,done=false,code='err',wid,to;
  const fin=()=>{if(done)return;done=true;clearTimeout(to);try{navigator.geolocation.clearWatch(wid)}catch(e){}best?cb(best):err(code)};
- try{wid=navigator.geolocation.watchPosition(p=>{const c=p.coords;if(!best||c.accuracy<best.accuracy)best=c;if(c.accuracy<=20)fin()},e=>{if(e&&e.code===1){code='blocked';best=null;fin()}},{enableHighAccuracy:true,timeout:15000,maximumAge:0});to=setTimeout(fin,max||8000)}catch(e){err('err')}}
+ try{wid=navigator.geolocation.watchPosition(p=>{const c=p.coords,dt=Math.abs((p.timestamp||Date.now())-t0)/1e3,sc=c.accuracy+1.4*dt;if(sc<bs){bs=sc;best=c}if(c.accuracy<=15&&dt<4)fin()},e=>{if(e&&e.code===1){code='blocked';best=null;fin()}},{enableHighAccuracy:true,timeout:15000,maximumAge:0});to=setTimeout(fin,max||8000)}catch(e){err('err')}}
 function fixNow(cb,err,max,quiet){
  if(S.geo===false||!navigator.geolocation)return;
- gpsT0=Date.now();if(!quiet)locPill('Locating…','busy',0);locate(cb,err,max)}
+ gpsT0=Date.now();if(!quiet)gp('Locating…','busy',0);locate(c=>cb(c),err,max,gpsT0)}
+let dlT=0,dlDid=false;
 async function getMap(fix){
- await adReady;
- if(!adCovered(fix.la,fix.lo)){locPill('Downloading map data…','busy',0);netFail=!(await adFetch(fix.la,fix.lo,450))}else netFail=false;
+ await adReady;dlDid=false;
+ if(!adCovered(fix.la,fix.lo)){
+  // at most one download attempt every 45 seconds (a new sheet always tries), so a bad signal never makes it hammer the server
+  if(fix.force||Date.now()-dlT>45e3){dlT=Date.now();dlDid=true;gp('Downloading map data…','busy',0);netFail=!(await adFetch(fix.la,fix.lo,420))}else netFail=false}
+ else netFail=false
  return adList(fix.la,fix.lo).length>=4}
-// New sheet: one location check to download map data if you are somewhere new, and to find the city and state
-function pingSheet(s){
+const shortSt=n=>String(n||'').replace(/\b(Street|Avenue|Road|Drive|Lane|Court|Boulevard|Parkway|Place|Terrace|Circle)\b/g,m=>({Street:'St',Avenue:'Ave',Road:'Rd',Drive:'Dr',Lane:'Ln',Court:'Ct',Boulevard:'Blvd',Parkway:'Pkwy',Place:'Pl',Terrace:'Ter',Circle:'Cir'}[m]));
+function probe(){
+ const s=cs();
  fixNow(async c=>{
-  if(!(c.accuracy<=100)){gpsDone('weak');return}
-  const fix={la:c.latitude,lo:c.longitude};cityOf(s,fix.la,fix.lo);
-  const ok=await getMap(fix);gpsDone(!ok&&netFail?'net':'ok')},k=>gpsDone(k),8000)}
-// New door: one location check that pins the door on your route, tops up map data if you walked outside the downloaded area, and fills a still-empty address once the map arrives
-function pingDoor(r,s,ctx){
- fixNow(async c=>{
-  if(!(c.accuracy<=60)){gpsDone('weak',null,true);return}
-  r.lat=+c.latitude.toFixed(6);r.lng=+c.longitude.toFixed(6);r.acc=Math.round(c.accuracy);
-  const fix={la:c.latitude,lo:c.longitude};cityOf(s,r.lat,r.lng);
-  const ok=await getMap(fix);
-  if(!(s.street||'').trim()&&!hasTurn(s)){const n=streetAt(fix.la,fix.lo);if(n){s.street=s.street0=n;const i=$('#st');if(cs()===s&&i&&document.activeElement!==i)i.value=n}}
-  if(!r.addr&&!r.pred){let n=null;try{n=mapSeq(s,ctx.prevN,ctx.crossed,ctx.l)}catch(e){}if(n!=null&&setAddr(r,n)&&S.auto&&$('#ov').hidden)openResp(r)}
-  save();gpsDone(!ok&&netFail?'net':'ok',null,true)},k=>gpsDone(k,null,true),8000,true)}
+  if(!(c.accuracy<=80)){gpsDone('weak');return}
+  const fix={la:c.latitude,lo:c.longitude,acc:c.accuracy};lastFix={la:c.latitude,lo:c.longitude,t:Date.now()};
+  cityOf(s,fix.la,fix.lo);
+  const ok=await getMap({...fix,force:true});nameSheet(s,fix,{lat:fix.la,lng:fix.lo});
+  gpsDone(!ok&&netFail?'net':'ok',ok?'Map ready ✓':'Located ✓')},k=>gpsDone(k))}
+// An unnamed sheet takes the name of the street the map says you are standing on
+function nameSheet(s,fix,r){
+ if((s.street||'').trim()||hasTurn(s))return;
+ const L=adList(fix.la,fix.lo),st=L.length>=4?adStreet(s,fix,L,true):null;
+ if(st){s.street=s.street0=st;const i=$('#st');if(cs()===s&&i&&document.activeElement!==i)i.value=st;save();if(cs()===s&&tab==='street')render()}
+ else nameFromGps(s,r)}
+async function gpsCheck(){
+ const out=h('div',{style:'white-space:pre-wrap;font-size:15px;line-height:1.6;color:var(--fg)'});out.textContent='Locating (up to 8 seconds)…';
+ sheet('Location check',out,h('button',{class:'b',style:'width:100%;margin-top:10px',onclick:close},'Close'));
+ const say=t=>{out.textContent+='\n'+t};
+ if(!navigator.geolocation){out.textContent='This phone has no location support here.';return}
+ locate(async c=>{
+  out.textContent='Location: found, accurate to '+Math.round(c.accuracy)+' m '+(c.accuracy<=50?'(good)':c.accuracy<=80?'(OK for the launch check only)':'(too weak, door addresses will skip GPS)');
+  say('Downloading nearby addresses…');
+  const fix={la:c.latitude,lo:c.longitude,acc:c.accuracy};
+  const was=adCovered(fix.la,fix.lo);const ok=was||await adFetch(fix.la,fix.lo);
+  const n=adList(fix.la,fix.lo).length;
+  say(ok?'Map data: '+(was?'already saved on this phone':'downloaded')+', '+n+' addresses nearby'+(n<4?' (too few in OpenStreetMap here, so the street pattern is used)':' (good)'):'Map data: FAILED. '+adErr+'Check your signal and try again.');
+ },k=>{out.textContent=k==='blocked'?'Location is blocked. On iPhone: Settings > Privacy > Location Services > Safari Websites (or the Door Tracker app) > While Using. Then reopen the app.':'No location came back. Go outside or near a window and try again.'})}
 function setAddr(r,n){
  if(r.addr!==r.pred)return false;
  const e=rowEl(r.id),i=e&&e.querySelector('[data-f=addr]');
@@ -1094,6 +1144,18 @@ function setAddr(r,n){
  r.addr=r.pred=String(n);if(i){i.value=r.addr;if(document.activeElement===i)i.select()}
  const o=$('#ov'),t=o.firstChild&&o.firstChild.querySelector('h3');if(!o.hidden&&t&&t.textContent.startsWith('Response')&&curId===r.id)t.textContent='Response – '+r.addr;
  return true}
+let lastFix=null;
+// Pressing NEW DOOR: pin the door on the route, and if you are outside the downloaded map data, download it (then redo the address from the map if it was only a pattern guess)
+function ping(r,s,ctx){
+ fixNow(async c=>{
+  if(!(c.accuracy<=80))return;
+  r.lat=+c.latitude.toFixed(6);r.lng=+c.longitude.toFixed(6);r.acc=Math.round(c.accuracy);lastFix={la:c.latitude,lo:c.longitude,t:Date.now()};cityOf(s,r.lat,r.lng);save();
+  const fix={la:c.latitude,lo:c.longitude,acc:c.accuracy},had=adCovered(fix.la,fix.lo);
+  let ok=true;if(!had)ok=await getMap(fix);
+  nameSheet(s,fix,r);
+  if(r.fill!=='m'&&ctx.prevN!=null&&ctx.l){let q=null;try{q=mapSeq(s,ctx,ctx.l,{la:r.lat,lo:r.lng})}catch(e){}if(q&&setAddr(r,q.n))r.fill='m'}
+  if(!had&&dlDid)gpsDone(ok?'ok':'net',ok?'Map ready ✓':null);
+  save()},k=>{if(k==='blocked')gpsDone(k)},9000,true)}
 function askStreet(){const i=h('input',{class:'in',placeholder:'Street name',autocapitalize:'words',id:'askSt'});
  const go=()=>{const n=i.value.trim(),s=cs();s.asked=true;s.street=n;s.street0=n;$('#st').value=n;save();$('#ov').hidden=true;add()};
  i.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
@@ -1104,20 +1166,23 @@ function add(){
  {const s0=cs();if(!(s0.street||'').trim()&&!s0.rows.length&&!s0.asked){askStreet();return}}
  const s=cs(),ds=doors(s);let l=ds[ds.length-1];
  if(s.ret){const q=ds.find(d=>d.id===s.ret);if(q)l=q}
+ const dsb=l?ds.slice(0,ds.indexOf(l)+1):ds;let a='',base=null;
+ if(l&&!s.fresh&&isFinite(eff(l))){const p=eff(l);base=s.cross?{n:p+Math.sign(s.step||-2),sd:6}:(q=>({n:p+q.g,sd:q.sd}))(nextGap(s,dsb));if(base.n>0)a=String(base.n)}
  const crossed=!!s.cross,prevN=(l&&!s.fresh&&isFinite(eff(l)))?eff(l):null;
- if(l&&!crossed)learnDir(s,ds,l);
- let a='';try{const n=mapSeq(s,prevN,crossed,l);if(n!=null)a=String(n)}catch(e){}
+ // Next address comes from the downloaded map: same side of the street (odd or even), same direction, next number in line. The street pattern is only the backup when the map has no data here
+ let seq=null;try{seq=mapSeq(s,{prevN,crossed},l)}catch(e){}
+ let fill='';if(seq){a=String(seq.n);fill='m'}else if(a)fill='p';
  s.fresh=false;s.cross=false;s.ret=null;
- const r={id:uid(),t:'door',addr:a,pred:a,r:null,d:'',when:null,name:'',note:'',ts:Date.now(),seg:s.seg,leg:s.leg||0};
+ const r={id:uid(),t:'door',addr:a,pred:a,r:null,d:'',when:null,name:'',note:'',ts:Date.now(),seg:s.seg,leg:s.leg||0,fill};
  if(s.fold&&s.fold.length){const last=s.rows.filter(x=>x.t==='mark'&&x.txt.startsWith('↪')).length;s.fold=s.fold.filter(k=>k!==last)}
- s.rows.push(r);curId=r.id;save();render();bottom();pingDoor(r,s,{prevN,crossed,l});
+ s.rows.push(r);curId=r.id;save();render();bottom();ping(r,s,{prevN,crossed,l});
  const nn=doors(s).length;if(nn%10===0){pop($('#goalbar'),nn%50===0);fx('door');cheer(nn%100===0?'DOOR '+nn+'! 🔥':nn%50===0?'Door '+nn+' 🔥':'Door '+nn)}
- if(a&&S.auto)openResp(r);else if(!a){const i=rowEl(r.id).querySelector('[data-f=addr]');i.focus();i.select()}
+ if(a&&S.auto)openResp(r);else{const i=rowEl(r.id).querySelector('[data-f=addr]');i.focus();i.select()}
 }
 const tb=$('#tb');
 tb.addEventListener('input',e=>{const f=e.target.dataset.f;if(!f)return;const r=cs().rows.find(x=>x.id===e.target.closest('tr').dataset.id);r[f]=e.target.value;save();if(f==='addr'){const v=e.target.value;if(v.includes('?')||v.replace(/\D/g,'').length>=need(r))advance(r)}});
 tb.addEventListener('change',e=>{if(e.target.dataset.f!=='addr')return;const s=cs(),r=s.rows.find(x=>x.id===e.target.closest('tr').dataset.id),ds=doors(s),p=ds[ds.indexOf(r)-1];
- if(p&&p.seg===r.seg){const d=eff(r)-eff(p);if(d&&Math.abs(d)<=40&&d%2===0)s.dir=Math.sign(d)}save()});
+ if(p&&p.seg===r.seg){const d=eff(r)-eff(p);if(d&&Math.abs(d)<=40)s.step=d}save()});
 tb.addEventListener('focusin',e=>{const tr=e.target.closest('tr');if(tr&&tr.dataset.id){setCur(tr.dataset.id);setTimeout(fit,50);setTimeout(revealRow,350);setTimeout(revealRow,750)}});
 tb.addEventListener('click',e=>{const tr=e.target.closest('tr'),r=tr&&tr.dataset.id&&cs().rows.find(x=>x.id===tr.dataset.id);if(!r)return;setCur(r.id);if(e.target.closest('[data-resp]'))openResp(r);});
 
@@ -1141,7 +1206,7 @@ function jump(id){close();const e=rowEl(id);if(!e)return;const m=$('#main');m.sc
 function p(t){return h('p',{class:'h'},t)}
 
 function openResp(r){
- dock(r,'Response – '+(r.addr||'no address'),
+ dock(r,'Response – '+(r.addr||(r.srch?'…':'no address')),
   h('div',{class:'gd c4r'},S.resp.map(x=>h('button',{class:'b'+(r.r===x.id?' on':''),onclick:()=>choose(r,x)},x.sym,h('small',{},x.label))),h('button',{class:'b',onclick:editResp},'Edit')));
 }
 function choose(r,x){
@@ -1149,7 +1214,7 @@ function choose(r,x){
  if(x.type==='cb'||x.type==='appt')cbSheet(r,x);
  else pick(r,x)
 }
-function pick(r,x,d,when){const was=typ(r);r.remDone=0;r.r=x.id;r.d=d||'';r.when=when||null;save();close();if(x.type==='deal'&&was!=='deal'){tick(3);fx('deal');pop($('#goalbar'));pop($('#t5'));cheer('Deal! 💰');r.dealAt=Date.now();teamSendDeal(r);if(S.dealJump){const nm=r.name||'';const sid=cs().id;setTimeout(()=>{setTab('approval');window.__appr&&__appr.start(nm,{sid,rid:r.id})},400)}}else if(was==='deal'&&x.type!=='deal')teamCancel(r);if(S.jump&&!(S.dealJump&&x.type==='deal')&&!['nh','vac','none'].includes(x.type)){const i=rowEl(r.id).querySelector('[data-f=name]');i&&i.focus()}}
+function pick(r,x,d,when){const was=typ(r);r.remDone=0;r.r=x.id;r.d=d||'';r.when=when||null;save();close();if(x.type==='deal'&&was!=='deal'){tick(3);fx('deal');pop($('#goalbar'));pop($('#t5'));cheer('Deal! 💰');r.dealAt=Date.now();teamSendDeal(r);if(S.dealJump){const nm=r.name||'',sid=cs().id;setTab('approval');window.__appr&&__appr.start(nm,{sid,rid:r.id})}if(S.qf!==false){try{window.open(QF_URL,'_blank','noopener')}catch(e){}}}else if(was==='deal'&&x.type!=='deal')teamCancel(r);if(S.jump&&!(S.dealJump&&x.type==='deal')&&!['nh','vac','none'].includes(x.type)){const i=rowEl(r.id).querySelector('[data-f=name]');i&&i.focus()}}
 // Comeback reminders: 10 minutes before the chosen time (T, W and M have no clock time, so those remind at 9 AM that day)
 const dueOf=r=>{
  if(!r||r.t!=='door'){return null}const x=typ(r);if(x!=='cb'&&x!=='appt')return null;
@@ -1262,7 +1327,7 @@ function mapSheet(today){
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(m);
   let ln=[];const cut=()=>{if(ln.length>1)L.polyline(ln,{color:'#2563ff',weight:4,opacity:.8}).addTo(m);ln=[]};
   pts.forEach((r,i)=>{if(i&&hav(pts[i-1].lat,pts[i-1].lng,r.lat,r.lng)>300)cut();ln.push([r.lat,r.lng])});cut();
-  pts.forEach(r=>{const t=typ(r),col=t==='deal'?'#16a34a':t==='appt'?'#16a34a':t==='cb'?'#eab308':t==='rej'&&showRed()?'#dc2626':'#6b7280';
+  pts.forEach(r=>{const t=typ(r),col=t==='deal'?'#16a34a':t==='appt'?'#16a34a':t==='cb'?'#ca8a04':t==='rej'&&showRed()?'#dc2626':'#6b7280';
    L.circleMarker([r.lat,r.lng],{radius:7,color:'#fff',weight:2,fillColor:col,fillOpacity:1}).addTo(m).bindPopup((r.addr||'?')+(r.name?' · '+r.name:''))});
   const b=L.latLngBounds(pts.map(r=>[r.lat,r.lng]));pts.length>1?m.fitBounds(b,{padding:[24,24],maxZoom:18}):m.setView(b.getCenter(),18);
   setTimeout(()=>m.invalidateSize(),60)}).catch(()=>{box.textContent='The map needs an internet connection to load.';box.style.cssText+=';display:flex;align-items:center;justify-content:center;padding:16px;text-align:center;color:var(--mut)'});
@@ -1278,11 +1343,12 @@ function renderMore(){
   h('div',{class:'grp'},
    tog('New sheet each day','Start a fresh sheet the first time you open the Street screen on a new date',()=>!!S.daily,x=>S.daily=x),
    tog('Comeback reminders','Alerts you 10 minutes before a comeback time while the app is open. T, W and M remind at 9 AM',()=>S.cbRem!==false,x=>{S.cbRem=x;if(x&&window.Notification&&Notification.permission==='default')try{Notification.requestPermission()}catch(e){}}),
-   tog('Auto-open responses','Show the response panel as soon as a door is added',()=>S.auto,x=>S.auto=x),
+   tog('Auto-open responses','Show the response panel as soon as a door is added',()=>!!S.auto,x=>S.auto=x),
    tog('Jump to Approval on a deal','Opens the Approval tab with the customer name filled in as soon as you mark a deal',()=>!!S.dealJump,x=>S.dealJump=x),
+   tog('Open QuickFill on a deal','Also opens your QuickFill login in a new browser tab when you mark a deal',()=>S.qf!==false,x=>S.qf=x),
    tog('Jump to Name after a response','Otherwise the panel just closes',()=>S.jump,x=>S.jump=x),
    tog('Sounds & haptics','A soft sound on tab switches, new doors, deals and goals. Vibration works on Android only.',()=>S.snd!==false,x=>{S.snd=x;if(x)tick(1)}),
-   tog('Location & map data','Uses your location when you start a sheet and at each new door: downloads map data, pins your route and shows the city. New door addresses come from the map data only.',()=>S.geo!==false,x=>{S.geo=x;if(x&&navigator.geolocation)try{navigator.geolocation.getCurrentPosition(()=>{},()=>{},{timeout:6000})}catch(e){}})),
+   tog('GPS address help','Uses your location only to start a sheet and at each new door: it pins your route and downloads map data when you enter a new area. Addresses come from the map data.',()=>S.geo!==false,x=>{S.geo=x;if(x&&navigator.geolocation)try{navigator.geolocation.getCurrentPosition(()=>{},()=>{},{timeout:6000})}catch(e){}})),
   h('div',{class:'sec'},'Team'),
   h('div',{class:'grp'},...(!T().name?[nav('Join team'+(teamCode()?' '+teamCode().toUpperCase():''),'Enter your name to get deal alerts',relay()?teamJoin:urlSheet)]:[
    tog('Deal alerts','Team '+teamCode().toUpperCase()+' · as '+T().name,()=>T().on!==false,x=>{T().on=x;x?teamStart():teamStop()}),
@@ -1319,6 +1385,14 @@ function dealsSheet(sid,title){
  const s=S.sessions.find(x=>x.id===sid);
  sheet(title||'Deals',h('div',{class:'cd big'},h('b',{},cmx(dealsFor(sid).reduce((t,b)=>t+(+b.amount||0),0))),h('span',{},'total commission')),box,
   h('div',{class:'two',style:'margin-top:10px'},h('button',{class:'b p',type:'button',onclick:()=>{close();setTab('approval');window.__appr&&__appr.start('',sid?{sid,rid:null}:null)}},'New approval'),h('button',{class:'b',type:'button',onclick:close},'Close')))}
+window.__earnRender=function(){
+ const box=document.getElementById('earn-box');if(!box)return;
+ const B=S.calcBatch||[],tot=B.reduce((t,b)=>t+(+b.amount||0),0),g={};
+ B.forEach(b=>{const k=b.sid&&S.sessions.some(x=>x.id===b.sid)?b.sid:'';(g[k]=g[k]||[]).push(b)});
+ const rows=Object.keys(g).sort((a,b)=>Math.max(...g[b].map(x=>x.ts||0))-Math.max(...g[a].map(x=>x.ts||0))).map(k=>{
+  const ses=k&&S.sessions.find(x=>x.id===k),sum=g[k].reduce((t,b)=>t+(+b.amount||0),0),nm=ses?(ses.street0||ses.street||'Untitled'):'Miscellaneous deals';
+  return h('div',{class:'er2',onclick:()=>dealsSheet(k||null,nm)},h('div',{},h('b',{},nm),h('small',{},(ses?dt(ses.date)+' · ':'No street sheet · ')+g[k].length+(g[k].length===1?' deal':' deals'))),h('b',{class:'am'},cmx(sum)))});
+ box.replaceChildren(h('div',{class:'er0'},h('span',{},'All deals · '+B.length),h('span',{},cmx(tot))),...(rows.length?rows:[h('p',{style:'color:#9aa0ab;font-size:13px;margin:10px 0 0'},'No deals yet. Finish an approval or save a calculator result and it shows up here.')]))};
 let dAll=false;
 function dealsBox(){
  const B=(S.calcBatch||[]).slice().sort((a,b)=>b.ts-a.ts),tot=B.reduce((t,b)=>t+(+b.amount||0),0),box=h('div',{class:'dbox'}),list=h('div'),draw=()=>{
@@ -1335,7 +1409,7 @@ function renderSheets(){
    const d=doors(s),c=statsOf(d),dl=dealsFor(s.id),cur=s.id===S.cur,open=q?shOpen.has(s.id):shOpen.has(s.id)||(cur&&!shOpen.has('x'+s.id));
    const card=h('div',{class:'shc'+(open?' open':'')+(cur?' cur':'')});
    card.append(h('button',{class:'shh',onclick:()=>{if(open){shOpen.delete(s.id);if(cur)shOpen.add('x'+s.id)}else{shOpen.add(s.id);shOpen.delete('x'+s.id)}tick(1);fill()}},
-    h('div',{class:'rt'},h('b',{},s.street0||s.street||'Untitled'),h('small',{},dt(s.date)+(s.city?' · '+s.city:'')+' · '+d.length+' doors · '+c.deal+' deals'+(cur?' · current':'')+(q?' · '+hits+(hits>1?' matches':' match'):''))),dl.length?h('span',{class:'dpill',role:'button',tabindex:'0',onclick:e=>{e.stopPropagation();dealsSheet(s.id,(s.street0||s.street||'Untitled')+' deals')}},cmx(dl.reduce((t,b)=>t+(+b.amount||0),0)).replace(/\.00$/,'')+' · '+dl.length):null,h('span',{class:'chev'},'›')));
+    h('div',{class:'rt'},h('b',{},s.street0||s.street||'Untitled'),h('small',{},dt(s.date)+' · '+d.length+' doors · '+c.deal+' deals'+(cur?' · current':'')+(q?' · '+hits+(hits>1?' matches':' match'):''))),dl.length?h('span',{class:'dpill',role:'button',tabindex:'0',onclick:e=>{e.stopPropagation();dealsSheet(s.id,(s.street0||s.street||'Untitled')+' deals')}},cmx(dl.reduce((t,b)=>t+(+b.amount||0),0)).replace(/\.00$/,'')+' · '+dl.length):null,h('span',{class:'chev'},'›')));
    if(open){
     const cell=(a,b)=>h('div',{class:'cell'},h('b',{},a),h('span',{},b));
     let arm=false;const del=h('button',{class:'btn',onclick:()=>{if(!arm){arm=true;del.textContent='Tap again to delete';return}
@@ -1367,7 +1441,7 @@ tb.addEventListener('touchmove',e=>{if(!trEl)return;const t=e.touches[0],x=t.cli
 tb.addEventListener('touchend',()=>{const el=trEl,d=dx;trEl=null;if(!el)return;if(d<-110)delRow(el);else{el.style.transform='';el.style.opacity=''}});
 tb.addEventListener('touchcancel',reset);
 
-document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{if(b.dataset.t==='approval'&&tab==='approval'){tick(1);window.__appr&&__appr.start('',null);return}if(b.dataset.t!==tab)tick(0);setTab(b.dataset.t)});
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{if(b.dataset.t===tab&&tab==='approval'){tick(0);window.__appr&&__appr.home();return}if(b.dataset.t!==tab)tick(0);setTab(b.dataset.t)});
 $('#goalbar').onclick=()=>{S.goal.mode=S.goal.mode==='week'?'day':'week';gpPrev=null;spPrev=null;save();tick(1);hud(hist());if(tab==='stats')render()};
 $('#cogBtn').onclick=()=>setTab('more');
 S.simple=true;
@@ -1527,7 +1601,7 @@ function shPick(){
   h('button',{class:'b',style:'width:100%;margin-top:8px',onclick:close},'Cancel'))}
 async function shSend(x){
  const t=T();if(!chatOn())return;
- const c=stats(x),slim=JSON.parse(JSON.stringify(x));slim.rows.forEach(r=>{delete r.lat;delete r.lng;delete r.acc});
+ const c=stats(x),slim=JSON.parse(JSON.stringify(x));slim.rows.forEach(r=>{delete r.lat;delete r.lng;delete r.acc;delete r.srch;delete r.fb});
  const j=JSON.stringify(slim),nm=(x.street0||x.street||'Untitled street'),m=('📋 '+nm+' · '+new Date(x.date).toLocaleDateString([],{month:'short',day:'numeric'})+' · '+c.n+' doors').slice(0,200);
  if(j.length>190000){toast('That sheet is too big to share');return}
  const k='p'+uid(),o={k,n:t.name,id:t.id,m,ts:Date.now(),pend:1,sk:'pending'};CH.m.push(o);renderChat(true);
@@ -1604,7 +1678,7 @@ async function cloudInit(){
   let cfg=null;try{cfg=docs.settings&&JSON.parse(docs.settings.json)}catch(e){}
   const ss=cfg?(cfg.order||[]).map(i=>{try{return JSON.parse(docs['sheet_'+i].json)}catch(e){return null}}).filter(Boolean):[];
   if(cfg&&ss.length&&(fresh0||!(S.t>cfg.t))){
-   S={resp:cfg.resp||S.resp,showRed:!!cfg.showRed,auto:cfg.auto!==false,daily:!!cfg.daily,cbRem:cfg.cbRem,calcBatch:cfg.calcBatch,dealJump:!!cfg.dealJump,simple:true,apAdded:cfg.apAdded,jump:!!cfg.jump,geo:cfg.geo,snd:cfg.snd,cur:cfg.cur,pay:cfg.pay||{},payMode:cfg.payMode||'day',goal:cfg.goal||DEFG(),sessions:ss,t:cfg.t,team:S.team};
+   S={resp:cfg.resp||S.resp,showRed:!!cfg.showRed,auto:cfg.auto===true,daily:!!cfg.daily,cbRem:cfg.cbRem,calcBatch:cfg.calcBatch,dealJump:!!cfg.dealJump,qf:cfg.qf,defs2:cfg.defs2,simple:true,apAdded:cfg.apAdded,jump:!!cfg.jump,geo:cfg.geo,snd:cfg.snd,cur:cfg.cur,pay:cfg.pay||{},payMode:cfg.payMode||'day',goal:cfg.goal||DEFG(),sessions:ss,t:cfg.t,team:S.team};
    migrate();S.sessions.forEach(x=>dirty.add(x.id));try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}
    const d=doors(cs());curId=d.length?d[d.length-1].id:null;
    if(dirty.size)flush();
@@ -1680,24 +1754,17 @@ $('#shBar button').addEventListener('click',()=>exitShared());
     }
   };
 
-  /* Packages are one flat list. tier = the credit tier the package shows for, or 'all' for Other Options */
-  function pkgsFromOld(d) {
-    var out = [];
-    TIERS.forEach(function (t) {
-      var sl = d.tiers && d.tiers[t.id]; if (!sl) return;
-      ['up','rec','lesser'].forEach(function (k) { var x = sl[k]; if (x) out.push({ id:t.id+'-'+k, tier:t.id, name:x.name, cams:x.cams, price:x.price, pendant:false, rec:k==='rec' }); });
-    });
-    if (d.basic) out.push({ id:'basic', tier:'all', name:d.basic.name, cams:0, price:d.basic.price, pendant:false, rec:false });
-    if (d.med) out.push({ id:'med', tier:'all', name:d.med.name, cams:0, price:d.med.price, pendant:true, rec:false });
-    return out;
+  function loadPkgData() {
+    try { var raw = localStorage.getItem('capp_pkg_data'); if (raw) return JSON.parse(raw); } catch (e) {}
+    return JSON.parse(JSON.stringify(DEFAULT_PKG_DATA));
   }
-  function loadPkgs() {
-    try { var raw = localStorage.getItem('capp_pkgs'); if (raw) { var a = JSON.parse(raw); if (Array.isArray(a)) return a; } } catch (e) {}
-    try { var old = localStorage.getItem('capp_pkg_data'); if (old) { var o = JSON.parse(old); if (o && o.tiers) return pkgsFromOld(o); } } catch (e) {}
-    return pkgsFromOld(DEFAULT_PKG_DATA);
-  }
-  function savePkgs() { try { localStorage.setItem('capp_pkgs', JSON.stringify(PKGS)); } catch (e) {} }
-  var PKGS = loadPkgs();
+  function savePkgData() { try { localStorage.setItem('capp_pkg_data', JSON.stringify(PKG_DATA)); } catch (e) {} }
+  var PKG_DATA = loadPkgData();
+  // Flat package list: every package belongs to a credit grade. Order in this list is the order shown on the package menu.
+  function seedPkgList(src) { var out = []; TIERS.forEach(function (t) { var r = (src.tiers || {})[t.id] || {}; ['up','rec','lesser'].forEach(function (k) { if (r[k]) out.push({ id:t.id+'_'+k, tier:t.id, name:r[k].name, cams:r[k].cams, price:r[k].price, rec:k==='rec' }); }); }); return out; }
+  function loadPkgList() { try { var raw = localStorage.getItem('capp_pkg_list'); if (raw) { var a = JSON.parse(raw); if (Array.isArray(a)) return a; } } catch (e) {} return seedPkgList(PKG_DATA); }
+  function savePkgList() { try { localStorage.setItem('capp_pkg_list', JSON.stringify(PKG_LIST)); } catch (e) {} }
+  var PKG_LIST = loadPkgList(), pkgEdit = null, pkgOpen = {}, pkgSeen = null;
   (function(){var u="data:image/png;base64,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";Array.prototype.forEach.call(document.querySelectorAll('#v-approval img'),function(i){i.src=u})})();
 
   function loadBatchData() { try { var raw = localStorage.getItem('capp_batch'); if (raw) return JSON.parse(raw); } catch (e) {} try { if (S.calcBatch && S.calcBatch.length) return JSON.parse(JSON.stringify(S.calcBatch)); } catch (e) {} return []; }
@@ -1734,7 +1801,7 @@ $('#shBar button').addEventListener('click',()=>exitShared());
     if (!skipHistory && current && current.id !== id) navHistory.push(current.id);
     Array.prototype.forEach.call(document.querySelectorAll('.step'), function(s){ s.classList.remove('active'); });
     document.getElementById(id).classList.add('active');
-    lastBy[sideOf(id)] = id; document.getElementById('bb-appr').classList.toggle('on', sideOf(id) === 'appr' && id !== 'step-custom' && id !== 'step-packages'); document.getElementById('bb-pkgs').classList.toggle('on', id === 'step-packages'); document.getElementById('bb-custom').classList.toggle('on', id === 'step-custom'); document.getElementById('bb-calc').classList.toggle('on', sideOf(id) === 'calc');
+    lastBy[sideOf(id)] = id; document.getElementById('bb-appr').classList.toggle('on', sideOf(id) === 'appr' && id !== 'step-custom' && id !== 'step-pkgs'); document.getElementById('bb-pkgs').classList.toggle('on', id === 'step-pkgs'); document.getElementById('bb-custom').classList.toggle('on', id === 'step-custom'); document.getElementById('bb-calc').classList.toggle('on', sideOf(id) === 'calc'); if (id === 'step-calc' && window.__earnRender) window.__earnRender();
     if (id === 'step-calc' && !restore) {
       ['credit','equip','deduct','breakdown'].forEach(function (key) {
         document.getElementById(key+'-body').classList.remove('open');
@@ -1807,17 +1874,19 @@ $('#shBar button').addEventListener('click',()=>exitShared());
   /* ---------- PACKAGE MENU ---------- */
   function renderPkgMenu() {
     var list = document.getElementById('pkg-menu-list');
-    var mk = function (p) { return { key:p.id, name:p.name, price:p.price, cams:p.cams||0, pendant:!!p.pendant, rec:!!p.rec }; };
-    var cards = PKGS.filter(function (p) { return p.tier === state.tier; }).map(mk);
-    var others = PKGS.filter(function (p) { return p.tier === 'all'; }).map(mk);
-    list.innerHTML = cards.map(renderPkgCard).join('') + (others.length ? (cards.length ? '<div class="pkg-divider">Other Options</div>' : '') + others.map(renderPkgCard).join('') : '');
+    var cards = PKG_LIST.filter(function (p) { return p.tier === state.tier; }).map(function (p) { return { key:p.id, name:p.name, price:p.price, cams:p.cams, pendant:false, rec:!!p.rec }; });
+    var basicMed = [
+      { key:'basic', name:PKG_DATA.basic.name, price:PKG_DATA.basic.price, cams:0, pendant:false, rec:false },
+      { key:'med', name:PKG_DATA.med.name, price:PKG_DATA.med.price, cams:0, pendant:true, rec:false }
+    ];
+    list.innerHTML = cards.map(renderPkgCard).join('') + '<div class="pkg-divider">Other Options</div>' + basicMed.map(renderPkgCard).join('');
     function renderPkgCard(c) {
       return '<div class="pkg-card'+(c.rec?' rec':'')+(c.key==="med"?' danger':'')+'" data-key="'+c.key+'">'+
         '<div class="pc-name">'+c.name+'</div>'+
         '<div class="pc-detail">'+cameraLabelFromParts(splitCameras(c.cams).doorbell, splitCameras(c.cams).outdoor)+(c.pendant?' · Pendant included':'')+'</div>'+
         '<div class="pc-price">'+fmt(c.price)+'</div></div>';
     }
-    var all = cards.concat(others);
+    var all = cards.concat(basicMed);
     Array.prototype.forEach.call(list.querySelectorAll('.pkg-card'), function (card) {
       card.addEventListener('click', function () {
         var c = all.filter(function (x) { return x.key === card.getAttribute('data-key'); })[0];
@@ -1908,92 +1977,63 @@ $('#shBar button').addEventListener('click',()=>exitShared());
     document.getElementById('cust-last-name').value = '';
     show('step-wheel', true);
   }
+  function closeOverlays() { }
   function onSide(x) { var c = document.querySelector('#v-approval .step.active'); return !!c && sideOf(c.id) === x; }
-  document.getElementById('bb-appr').addEventListener('click', function () { if (onSide('calc')) switchSide('appr'); else resetAll(); });
-  document.getElementById('bb-custom').addEventListener('click', function () { show('step-custom'); });
-  document.getElementById('bb-calc').addEventListener('click', function () { if (onSide('appr')) switchSide('calc'); else show('step-calc'); });
-  document.getElementById('bb-pkgs').addEventListener('click', function () { renderSettingsEditor(); show('step-packages'); var sc = document.querySelector('#v-approval .scroll'); if (sc) sc.scrollTop = 0; });
-  document.getElementById('settings-close').addEventListener('click', function () { if (navHistory.length) goBack(); else resetAll(); });
+  document.getElementById('bb-appr').addEventListener('click', function () { closeOverlays(); if (onSide('calc')) switchSide('appr'); else resetAll(); });
+  document.getElementById('bb-custom').addEventListener('click', function () { closeOverlays(); show('step-custom'); });
+  document.getElementById('bb-calc').addEventListener('click', function () { closeOverlays(); if (onSide('appr')) switchSide('calc'); else show('step-calc'); });
+  document.getElementById('bb-pkgs').addEventListener('click', function () { closeOverlays(); pkgEdit = null; renderSettingsEditor(); show('step-pkgs'); });
   document.getElementById('settings-restore').addEventListener('click', function () {
-    PKGS = pkgsFromOld(DEFAULT_PKG_DATA); savePkgs(); pkOpen = null;
+    PKG_DATA = JSON.parse(JSON.stringify(DEFAULT_PKG_DATA)); savePkgData(); PKG_LIST = seedPkgList(PKG_DATA); savePkgList(); pkgEdit = null;
     EQUIP_PRICE = JSON.parse(JSON.stringify(DEFAULT_EQUIP_PRICE)); saveEquipPriceData();
     renderSettingsEditor();
   });
 
   /* ---------- SETTINGS EDITOR ---------- */
-  var pkOpen = null;
-  function tierName(id) { var t = TIERS.filter(function (x) { return x.id === id; })[0]; return t ? t.name : ''; }
-  function pkTitle(p) { return (p.tier === 'all' ? '' : tierName(p.tier) + ' ') + p.name; }
-  function pkMk(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
-  function pkEsc(v) { return String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
-  function pkDrag(e, item, box) {
-    e.preventDefault(); item.classList.add('drag');
-    var sc = document.querySelector('#v-approval .scroll'), y = e.clientY;
-    function reorder() {
-      var nx = null;
-      for (var i = 0; i < box.children.length; i++) { var c = box.children[i]; if (c === item) continue; var b = c.getBoundingClientRect(); if (y < b.top + b.height / 2) { nx = c; break; } }
-      if (nx !== item.nextSibling) box.insertBefore(item, nx);
-    }
-    var timer = setInterval(function () { var r = sc.getBoundingClientRect(); if (y < r.top + 70) sc.scrollTop -= 10; else if (y > r.bottom - 130) sc.scrollTop += 10; reorder(); }, 16);
-    function mv(ev) { y = ev.clientY; }
-    function up() {
-      clearInterval(timer); removeEventListener('pointermove', mv); removeEventListener('pointerup', up); removeEventListener('pointercancel', up);
-      item.classList.remove('drag');
-      var order = Array.prototype.map.call(box.children, function (c) { return c.getAttribute('data-id'); });
-      PKGS = order.map(function (id) { return PKGS.filter(function (p) { return p.id === id; })[0]; }).filter(Boolean); savePkgs();
-    }
-    addEventListener('pointermove', mv); addEventListener('pointerup', up); addEventListener('pointercancel', up);
+  function setByPath(obj, path, val) { var parts = path.split('.'), o = obj; for (var i=0;i<parts.length-1;i++) o = o[parts[i]]; o[parts[parts.length-1]] = val; }
+  function getByPath(obj, path) { return path.split('.').reduce(function (o,k) { return o && o[k]; }, obj); }
+  function editRow(path, label, val, type) {
+    return '<div class="s-label">'+label+'</div><input class="s-input" data-path="'+path+'" type="'+type+'" value="'+(val===null||val===undefined?'':val)+'">';
   }
-  function pkForm(p, box) {
-    var f = pkMk('div', 'pk-form');
-    var opts = TIERS.map(function (t) { return '<option value="'+t.id+'"'+(p.tier===t.id?' selected':'')+'>'+t.name+'</option>'; }).join('') + '<option value="all"'+(p.tier==='all'?' selected':'')+'>All grades (Other Options)</option>';
-    f.innerHTML = '<div class="s-label">Name</div><input class="s-input" data-k="name" type="text" value="'+pkEsc(p.name)+'">'+
-      '<div class="s-label">Credit grade it shows for</div><select class="s-input" data-k="tier">'+opts+'</select>'+
-      '<div class="s-label">Cameras (doorbell counts toward 4)</div><input class="s-input" data-k="cams" type="number" inputmode="numeric" min="0" max="'+MAX_CAMS+'" value="'+(p.cams||0)+'">'+
-      '<div class="s-label">Price (blank = TBD)</div><input class="s-input" data-k="price" type="number" inputmode="decimal" step="0.01" value="'+(p.price==null?'':p.price)+'">'+
-      '<div class="s-label">Medical pendant included</div><div class="yn-row"><div class="yn-btn'+(p.pendant?' active':'')+'" data-yn="pendant" data-val="yes">Yes</div><div class="yn-btn'+(!p.pendant?' active':'')+'" data-yn="pendant" data-val="no">No</div></div>'+
-      '<div class="s-label">Highlight as recommended</div><div class="yn-row"><div class="yn-btn'+(p.rec?' active':'')+'" data-yn="rec" data-val="yes">Yes</div><div class="yn-btn'+(!p.rec?' active':'')+'" data-yn="rec" data-val="no">No</div></div>'+
-      '<div class="pk-err" hidden></div><div class="two"><button type="button" class="btn" data-act="del">Delete</button><button type="button" class="btn primary" data-act="save" style="margin-top:0">Save</button></div>';
-    var yn = { pendant: !!p.pendant, rec: !!p.rec }, err = f.querySelector('.pk-err'), arm = false;
-    Array.prototype.forEach.call(f.querySelectorAll('[data-yn]'), function (b) {
-      b.addEventListener('click', function () {
-        var k = b.getAttribute('data-yn'); yn[k] = b.getAttribute('data-val') === 'yes';
-        Array.prototype.forEach.call(f.querySelectorAll('[data-yn="'+k+'"]'), function (x) { x.classList.toggle('active', x === b); });
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+  function tierName(id) { var t = TIERS.filter(function (x) { return x.id === id; })[0]; return t ? t.name : id; }
+  function pkRow(id, label, sub, drag) {
+    return '<div class="pk-row" data-id="'+id+'"><span class="pk-grip'+(drag?'':' off')+'"'+(drag?' data-grip="1" aria-label="Drag to reorder"':'')+'>'+(drag?'≡':'')+'</span><div class="pk-t"><b>'+esc(label)+'</b><small>'+sub+'</small></div><button type="button" class="pk-edit" data-edit="'+id+'">Edit</button></div>';
+  }
+  function wirePkgDrag(listEl) {
+    Array.prototype.forEach.call(listEl.querySelectorAll('[data-grip]'), function (g) {
+      g.addEventListener('pointerdown', function (e) {
+        e.preventDefault(); var row = g.closest('.pk-row'); row.classList.add('drag');
+        function move(ev) {
+          var rows = Array.prototype.filter.call(listEl.children, function (r) { return r !== row; }), before = null;
+          for (var i = 0; i < rows.length; i++) { var b = rows[i].getBoundingClientRect(); if (ev.clientY < b.top + b.height / 2) { before = rows[i]; break; } }
+          if (before) { if (row.nextElementSibling !== before) listEl.insertBefore(row, before); } else if (row.nextElementSibling) listEl.appendChild(row);
+        }
+        function up() {
+          document.removeEventListener('pointermove', move); document.removeEventListener('pointerup', up); document.removeEventListener('pointercancel', up); row.classList.remove('drag');
+          var order = Array.prototype.map.call(listEl.children, function (r) { return r.getAttribute('data-id'); });
+          var slots = []; PKG_LIST.forEach(function (p, i) { if (order.indexOf(p.id) >= 0) slots.push(i); }); var sorted = order.map(function (id) { return PKG_LIST.filter(function (p) { return p.id === id; })[0]; }); slots.forEach(function (si, k) { PKG_LIST[si] = sorted[k]; }); savePkgList();
+        }
+        document.addEventListener('pointermove', move); document.addEventListener('pointerup', up); document.addEventListener('pointercancel', up);
       });
-    });
-    f.querySelector('[data-act="del"]').addEventListener('click', function (e) {
-      if (!arm) { arm = true; e.target.textContent = 'Tap again to delete'; return; }
-      PKGS = PKGS.filter(function (x) { return x !== p; }); savePkgs(); pkOpen = null; renderPkgList();
-    });
-    f.querySelector('[data-act="save"]').addEventListener('click', function () {
-      var g = function (k) { return f.querySelector('[data-k="'+k+'"]').value; };
-      var name = g('name').trim(), price = g('price') === '' ? null : parseFloat(g('price')), cams = Math.max(0, Math.min(MAX_CAMS, parseInt(g('cams'), 10) || 0));
-      var bad = !name ? 'Give the package a name.' : (price !== null && (isNaN(price) || price < 41.99 || price > 76.99)) ? 'Price must be between $41.99 and $76.99.' : '';
-      if (bad) { err.textContent = bad; err.hidden = false; return; }
-      p.name = name; p.tier = g('tier'); p.cams = cams; p.price = price; p.pendant = yn.pendant; p.rec = yn.rec;
-      savePkgs(); pkOpen = null; renderPkgList();
-    });
-    return f;
-  }
-  function renderPkgList() {
-    var box = document.getElementById('pk-list'); if (!box) return; box.innerHTML = '';
-    PKGS.forEach(function (p) {
-      var item = pkMk('div', 'pk-item'); item.setAttribute('data-id', p.id);
-      var row = pkMk('div', 'pk-row');
-      var grip = pkMk('button', 'pk-grip', '☰'); grip.type = 'button'; grip.setAttribute('aria-label', 'Drag to reorder');
-      grip.addEventListener('pointerdown', function (e) { pkDrag(e, item, box); });
-      var info = pkMk('div', 'pk-info'); info.appendChild(pkMk('div', 'pk-name', pkEsc(pkTitle(p))));
-      info.appendChild(pkMk('div', 'pk-sub', cameraLabelFromParts(splitCameras(p.cams||0).doorbell, splitCameras(p.cams||0).outdoor) + (p.pendant ? ' · Pendant' : '') + ' · ' + fmt(p.price)));
-      var eb = pkMk('button', 'pk-edit-btn', 'Edit'); eb.type = 'button';
-      eb.addEventListener('click', function () { pkOpen = pkOpen === p.id ? null : p.id; renderPkgList(); });
-      row.appendChild(grip); row.appendChild(info); row.appendChild(eb); item.appendChild(row);
-      if (pkOpen === p.id) item.appendChild(pkForm(p, box));
-      box.appendChild(item);
     });
   }
   function renderSettingsEditor() {
-    var html = '<div class="pk-head"><h3>Packages</h3><button type="button" class="pk-plus" id="pk-add" aria-label="Add package">+</button></div><div id="pk-list"></div>';
-    html += '<div class="settings-section" style="border-top:1px solid var(--border);padding-top:14px;margin-top:10px;border-bottom:none;"><h3>Equipment Price Increases</h3>';
+    var body = document.getElementById('settings-body');
+    var sc0 = document.querySelector('#v-approval .scroll'); if (sc0 && pkgEdit !== pkgSeen) { sc0.scrollTop = 0; } pkgSeen = pkgEdit;
+    if (pkgEdit) { renderPkgEdit(body); return; }
+    var html = '<div class="pk-head"><b>All packages</b><button type="button" class="pk-add" id="pk-add" aria-label="Add a package">+</button></div>';
+    var GROUPS = [ { key:'A', label:'A credit', tiers:['Ap','Am'] }, { key:'B', label:'B credit', tiers:['Bp','Bm'] }, { key:null, tiers:['D','E','Bulk'] } ];
+    function rowsFor(tiers) { return PKG_LIST.filter(function (p) { return tiers.indexOf(p.tier) >= 0; }); }
+    function prow(p) { return pkRow(p.id, tierName(p.tier)+' '+p.name, p.cams+(p.cams===1?' camera':' cameras')+' · '+fmt(p.price)+(p.rec?' · ★':''), true); }
+    GROUPS.forEach(function (g) {
+      var L = rowsFor(g.tiers);
+      if (!g.key) { html += '<div class="pk-list" data-list="single">'+L.map(prow).join('')+'</div>'; return; }
+      var open = !!pkgOpen[g.key];
+      html += '<div class="pk-grp'+(open?' open':'')+'"><button type="button" class="pk-gh" data-grp="'+g.key+'"><b>'+g.label+'</b><small>'+L.length+(L.length===1?' package':' packages')+'</small><span class="chev">›</span></button>'+(open?'<div class="pk-list" data-list="'+g.key+'">'+L.map(prow).join('')+'</div>':'')+'</div>';
+    });
+    html += '<div class="pkg-divider">Other options</div>'+pkRow('basic', PKG_DATA.basic.name, fmt(PKG_DATA.basic.price), false)+pkRow('med', PKG_DATA.med.name, fmt(PKG_DATA.med.price), false);
+    html += '<details class="settings-tier eq-sec"><summary>Equipment price</summary><div class="s-label" style="margin:8px 0 2px;">Adds to the MMR on the calculator</div>';
     CALC_EQUIPMENT.forEach(function (e) {
       var ep = EQUIP_PRICE[e.id] || { increase:0, diminishing:false };
       html += '<div class="settings-slot"><div class="settings-slot-label">'+e.name+'</div>'+
@@ -2003,14 +2043,12 @@ $('#shBar button').addEventListener('click',()=>exitShared());
         '<div class="yn-row"><div class="yn-btn eq-dim-btn'+(ep.diminishing?' active':'')+'" data-equip="'+e.id+'" data-val="yes">On</div><div class="yn-btn eq-dim-btn'+(!ep.diminishing?' active':'')+'" data-equip="'+e.id+'" data-val="no">Off</div></div>'+
         '</div>';
     });
-    html += '</div>';
-    document.getElementById('settings-body').innerHTML = html;
-    renderPkgList();
-    document.getElementById('pk-add').addEventListener('click', function () {
-      var id = 'p' + Date.now().toString(36);
-      PKGS.push({ id:id, tier:'Ap', name:'New Package', cams:0, price:54.99, pendant:false, rec:false }); savePkgs(); pkOpen = id; renderPkgList();
-      var f = document.querySelector('#pk-list .pk-item:last-child'); if (f && f.scrollIntoView) f.scrollIntoView({ block:'center' });
-    });
+    html += '</details>';
+    body.innerHTML = html;
+    Array.prototype.forEach.call(body.querySelectorAll('.pk-list'), wirePkgDrag);
+    Array.prototype.forEach.call(body.querySelectorAll('[data-grp]'), function (b) { b.addEventListener('click', function () { var k = b.getAttribute('data-grp'); pkgOpen[k] = !pkgOpen[k]; renderSettingsEditor(); }); });
+    document.getElementById('pk-add').addEventListener('click', function () { pkgEdit = 'new'; renderSettingsEditor(); });
+    Array.prototype.forEach.call(body.querySelectorAll('[data-edit]'), function (b) { b.addEventListener('click', function () { pkgEdit = b.getAttribute('data-edit'); renderSettingsEditor(); }); });
     Array.prototype.forEach.call(document.querySelectorAll('#settings-body [data-equip-price]'), function (inp) {
       inp.addEventListener('change', function () {
         var id = inp.getAttribute('data-equip-price'), v = inp.value === '' ? 0 : parseFloat(inp.value);
@@ -2026,6 +2064,38 @@ $('#shBar button').addEventListener('click',()=>exitShared());
         Array.prototype.forEach.call(document.querySelectorAll('.eq-dim-btn[data-equip="'+id+'"]'), function (b) { b.classList.toggle('active', b===btn); });
         saveEquipPriceData();
       });
+    });
+  }
+  function renderPkgEdit(body) {
+    var id = pkgEdit, isNew = id === 'new', other = id === 'basic' || id === 'med';
+    var p = isNew ? { tier:TIERS[0].id, name:'', cams:1, price:'', rec:false } : other ? { name:PKG_DATA[id].name, price:PKG_DATA[id].price } : PKG_LIST.filter(function (x) { return x.id === id; })[0];
+    if (!p) { pkgEdit = null; renderSettingsEditor(); return; }
+    var rec = !!p.rec, html = '<button type="button" class="back-link" id="pk-back">‹ Packages</button><div class="settings-section" style="border-bottom:none;"><h3>'+(isNew?'New package':'Edit package')+'</h3>';
+    if (!other) html += '<div class="s-label">Credit grade</div><select class="s-input" id="pk-tier">'+TIERS.map(function (t) { return '<option value="'+t.id+'"'+(t.id===p.tier?' selected':'')+'>'+t.name+'</option>'; }).join('')+'</select>';
+    html += '<div class="s-label">Name</div><input class="s-input" id="pk-name" type="text" value="'+esc(p.name)+'" placeholder="Deluxe Package">';
+    if (!other) html += '<div class="s-label">Cameras</div><input class="s-input" id="pk-cams" type="number" value="'+p.cams+'">';
+    html += '<div class="s-label">Price</div><input class="s-input" id="pk-price" type="number" step="0.01" value="'+(p.price==null?'':p.price)+'">';
+    if (!other) html += '<div class="s-label" style="margin-top:8px;">Highlight as recommended</div><div class="yn-row" id="pk-rec"><div class="yn-btn'+(rec?' active':'')+'" data-val="yes">Yes</div><div class="yn-btn'+(!rec?' active':'')+'" data-val="no">No</div></div>';
+    html += '<div id="pk-err" style="color:var(--bad);font-size:12.5px;margin-top:8px;display:none;"></div><div class="settings-actions"><button type="button" class="btn primary" id="pk-save" style="margin-top:0;">Save</button>'+((isNew||other)?'':'<button type="button" class="btn" id="pk-del" style="color:var(--bad);">Delete</button>')+'</div></div>';
+    body.innerHTML = html;
+    document.getElementById('pk-back').addEventListener('click', function () { pkgEdit = null; renderSettingsEditor(); });
+    if (!other) wireYN('pk-rec', function (v) { rec = v; });
+    var del = document.getElementById('pk-del'), arm = false;
+    if (del) del.addEventListener('click', function () { if (!arm) { arm = true; del.textContent = 'Tap again to delete'; return; } PKG_LIST = PKG_LIST.filter(function (x) { return x.id !== id; }); savePkgList(); pkgEdit = null; renderSettingsEditor(); });
+    document.getElementById('pk-save').addEventListener('click', function () {
+      var err = document.getElementById('pk-err'), name = document.getElementById('pk-name').value.trim(), price = parseFloat(document.getElementById('pk-price').value);
+      function bad(m) { err.textContent = m; err.style.display = 'block'; }
+      if (!name) return bad('Give the package a name.');
+      if (isNaN(price) || price < 41.99 || price > 76.99) return bad('Price must be between $41.99 and $76.99.');
+      if (other) { PKG_DATA[id].name = name; PKG_DATA[id].price = price; savePkgData(); }
+      else {
+        var tier = document.getElementById('pk-tier').value, cams = Math.max(0, parseInt(document.getElementById('pk-cams').value, 10) || 0), o;
+        if (isNew) { o = { id:'p'+Date.now().toString(36), tier:tier }; var at = -1; PKG_LIST.forEach(function (x, i) { if (x.tier === tier) at = i; }); if (at < 0) PKG_LIST.push(o); else PKG_LIST.splice(at+1, 0, o); } else o = p;
+        o.tier = tier; o.name = name; o.cams = cams; o.price = price; o.rec = rec;
+        if (rec) PKG_LIST.forEach(function (x) { if (x !== o && x.tier === tier) x.rec = false; });
+        savePkgList(); pkgOpen[(tier==='Ap'||tier==='Am')?'A':(tier==='Bp'||tier==='Bm')?'B':'x'] = true;
+      }
+      pkgEdit = null; renderSettingsEditor();
     });
   }
 
@@ -2127,6 +2197,7 @@ $('#shBar button').addEventListener('click',()=>exitShared());
     lastFinal = final;
   }
   function renderBatch() {
+    if (window.__earnRender) window.__earnRender();
     var list = document.getElementById('batch-list');
     if (batchEntries.length===0) list.innerHTML = '<div class="batch-empty">No commissions added yet.</div>';
     else {
@@ -2212,7 +2283,7 @@ $('#shBar button').addEventListener('click',()=>exitShared());
 
   show('step-wheel', true);
 
-  window.__appr = { start:function(n,link){ resetAll(); state.link = link || null; var p=String(n||'').trim().split(/\s+/); document.getElementById('cust-first-name').value=p[0]||''; document.getElementById('cust-last-name').value=p.slice(1).join(' '); }, batch:function(){ batchEntries = loadBatchData(); renderBatch(); }, set:function(a){ batchEntries = a; saveBatchData(); renderBatch(); } };
+  window.__appr = { home:function(){ closeOverlays(); resetAll(); var sc=document.querySelector('#v-approval .scroll'); if(sc) sc.scrollTop=0; }, start:function(n,link){ resetAll(); state.link = link || null; var p=String(n||'').trim().split(/\s+/); document.getElementById('cust-first-name').value=p[0]||''; document.getElementById('cust-last-name').value=p.slice(1).join(' '); }, batch:function(){ batchEntries = loadBatchData(); renderBatch(); }, set:function(a){ batchEntries = a; saveBatchData(); renderBatch(); } };
   /* ---------- JINGLE ---------- */
   function playJingle() {
     try {
