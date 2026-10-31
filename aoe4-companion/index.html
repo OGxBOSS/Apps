@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AoE4 Companion</title>
+<meta name="description" content="Age of Empires IV civilization win rates by rank, map stats and build orders.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23e0a93b'/%3E%3Cpath d='M8 22l10-10 3 3-10 10z M16 8l8 0 0 3-3 3-5-3z' fill='%230f1318'/%3E%3C/svg%3E">
+<style>
+/* ============================== Tokens ============================== */
+:root{
+  --bg:#0e1217; --panel:#161b22; --panel2:#1c232c; --line:#27303b; --line2:#323d4a;
+  --text:#e7eaef; --muted:#8994a4; --accent:#e3ab3a; --accent-ink:#1b1405;
+  --prim:rgba(227,171,58,.07); --sec:rgba(88,166,255,.07); --sec-ink:#6cb2ff;
+  --good:#4cc38a; --bad:#ef6b6b; --wl:62%; --shadow:0 10px 30px rgba(0,0,0,.45);
+  --food:#e06a62; --wood:#b98b57; --gold:#e6c44f; --stone:#98a2af;
+  --rowh:42px; --civw:minmax(120px,1.15fr);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --bg:#f4f5f7; --panel:#ffffff; --panel2:#f0f2f5; --line:#dde1e7; --line2:#c9cfd8;
+    --text:#161a20; --muted:#667182; --accent:#b97d0a; --accent-ink:#fff;
+    --prim:rgba(185,125,10,.07); --sec:rgba(30,110,200,.07); --sec-ink:#1c6cc4;
+    --good:#13895a; --bad:#c93a3a; --wl:36%; --shadow:0 10px 30px rgba(0,0,0,.15);
+    color-scheme:light;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+[hidden]{display:none!important}
+.num{font-variant-numeric:tabular-nums}
+svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
+
+/* ============================== Shared controls ============================== */
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 10px;white-space:nowrap;line-height:1.2}
+.btn:hover{border-color:var(--line2)}
+.btn:focus-visible,.row:focus-visible,.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--bad)}
+.btn.sm{padding:3px 8px;font-size:12px}
+.btn .lbl{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.btn b{font-weight:600}
+.seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:2px;gap:2px}
+.seg button{background:transparent;border:0;border-radius:6px;padding:5px 10px;color:var(--muted);white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.dd{position:relative}
+.menu{position:absolute;top:calc(100% + 6px);left:0;min-width:230px;max-height:min(62vh,440px);overflow:auto;background:var(--panel);border:1px solid var(--line2);border-radius:10px;box-shadow:var(--shadow);z-index:60;padding:4px}
+.menu button{display:flex;justify-content:space-between;gap:16px;width:100%;background:none;border:0;border-radius:6px;padding:7px 10px;text-align:left;color:var(--text);font-weight:400}
+.menu button:hover:not(:disabled){background:var(--panel2)}
+.menu button[aria-selected="true"]{background:var(--prim);color:var(--accent);font-weight:600}
+.menu button:disabled{opacity:.35;cursor:not-allowed}
+.menu .r{color:var(--muted);font-variant-numeric:tabular-nums}
+.menu .note{padding:6px 10px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:4px}
+.menu .grp{padding:6px 10px 2px;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+
+/* ============================== Dashboard ============================== */
+.sticky{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 12px 8px;max-width:980px;margin:0 auto}
+.brand{font-weight:700;letter-spacing:.02em;margin-right:6px}
+.brand span{color:var(--accent)}
+.bar .spacer{flex:1}
+.status{max-width:980px;margin:0 auto;padding:0 12px 8px;color:var(--muted);font-size:12px;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center}
+.status .pill{border-radius:99px;padding:1px 8px;border:1px solid var(--line2);font-size:11px}
+.status .warn{color:var(--bad);border-color:var(--bad)}
+.status .ok{color:var(--good);border-color:var(--good)}
+.status button{padding:0 6px;border:0;background:none;color:var(--muted)}
+.status button:hover{color:var(--text)}
+.wrap{max-width:980px;margin:0 auto}
+.grid{display:grid;grid-template-columns:var(--civw) 1fr 1fr;align-items:stretch}
+.grp3{display:grid;grid-template-columns:1.05fr 1fr .9fr;align-items:center;text-align:right}
+.head{border-top:0}
+.head .c{padding:6px 8px}
+.head .civ{display:flex;flex-direction:column;gap:6px;justify-content:flex-end}
+.head .civ .t{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.head .g{border-left:1px solid var(--line)}
+.head .g.p{background:var(--prim)} .head .g.s{background:var(--sec)}
+.head .gt{display:flex;align-items:center;min-height:30px;font-weight:600;font-size:13px;gap:6px}
+.head .g.p .gt{color:var(--accent)} .head .g.s .gt{color:var(--sec-ink)}
+.head .gt .btn{padding:3px 8px;font-size:13px;font-weight:600;max-width:100%;overflow:hidden}
+.head .gt .btn span{overflow:hidden;text-overflow:ellipsis}
+.head .sub{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding-top:2px}
+.togglebtn{width:100%;justify-content:center;font-size:12px;padding:5px 6px;white-space:normal;text-align:center}
+.row{display:grid;grid-template-columns:var(--civw) 1fr 1fr;min-height:var(--rowh);border-bottom:1px solid var(--line);cursor:pointer;user-select:none;transition:opacity .15s,background .15s}
+.row:hover{background:var(--panel)}
+.row>div{padding:4px 8px;display:flex;align-items:center}
+.row .civcell{gap:8px;min-width:0}
+.row .nm{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+.flag{width:24px;height:16px;object-fit:cover;border-radius:2px;flex:none;box-shadow:0 0 0 1px rgba(128,128,128,.35)}
+.mono{width:24px;height:16px;border-radius:3px;flex:none;display:inline-grid;place-items:center;font-size:9px;font-weight:700;color:#fff;letter-spacing:.02em}
+.hammer{flex:none;width:28px;height:28px;display:inline-grid;place-items:center;padding:0;border-radius:7px;background:transparent;border:1px solid transparent;color:var(--muted)}
+.hammer:hover{color:var(--accent);border-color:var(--line2);background:var(--panel2)}
+.row .g{border-left:1px solid var(--line);align-items:center}
+.row .g.p{background:var(--prim)} .row .g.s{background:var(--sec)}
+.row .g .grp3{width:100%}
+.row .wr{font-weight:700;font-size:15px}
+.row .gm,.row .pk{color:var(--muted)}
+.row.off{opacity:.42}
+.row.off .nm{text-decoration:line-through;text-decoration-color:rgba(128,128,128,.6)}
+.row.off:hover{opacity:.7}
+.divider{padding:6px 10px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:var(--panel);border-bottom:1px solid var(--line)}
+.banner{margin:12px;padding:10px 12px;border:1px solid var(--bad);border-radius:8px;color:var(--bad);background:rgba(239,107,107,.07)}
+.foot{padding:16px 12px 40px;color:var(--muted);font-size:12px;max-width:980px;margin:0 auto}
+.foot a{color:var(--muted)}
+@media (max-width:640px){
+  :root{--civw:128px;--rowh:46px}
+  html,body{font-size:13px}
+  .brand{display:none}
+  .bar{padding:8px 8px 6px;gap:6px}
+  .bar .spacer{display:none}
+  .seg button{padding:5px 8px}
+  .btn{padding:6px 8px}
+  .head .c{padding:5px 5px}
+  .row>div{padding:3px 5px}
+  .row .civcell{gap:5px}
+  .row .nm{font-size:11.5px;white-space:normal;line-height:1.1;text-overflow:clip;overflow-wrap:anywhere}  .flag,.mono{width:20px;height:14px}
+  .hammer{width:24px;height:24px}
+  .row .wr{font-size:13px}
+  .row .gm,.row .pk{font-size:11px}
+  .head .sub{font-size:9.5px;letter-spacing:0}
+  .head .gt{font-size:11.5px;min-height:28px}
+  .head .gt .btn{font-size:11.5px;padding:3px 5px}
+  .head .civ .t{display:none}
+  .status{padding:0 8px 6px}
+  .btn#btnCreate .tx{display:none}
+}
+
+/* ============================== Build orders ============================== */
+.bhead{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:40;flex-wrap:wrap}
+.bhead h1{font-size:16px;margin:0;flex:1;min-width:120px}
+.blayout{display:grid;grid-template-columns:210px 1fr;gap:0;max-width:1100px;margin:0 auto;min-height:calc(100vh - 56px)}
+.civlist{border-right:1px solid var(--line);padding:8px;overflow:auto;max-height:calc(100vh - 56px);position:sticky;top:56px;align-self:start}
+.civlist button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:0;border-radius:7px;padding:6px 8px}
+.civlist button:hover{background:var(--panel)}
+.civlist button[aria-current="true"]{background:var(--prim);color:var(--accent);font-weight:600}
+.civlist .cnt{margin-left:auto;color:var(--muted);font-size:11px;background:var(--panel2);border-radius:99px;padding:0 7px}
+.bmain{padding:12px;min-width:0}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.chip{background:var(--panel2);border:1px solid var(--line);border-radius:99px;padding:4px 12px}
+.chip[aria-current="true"]{border-color:var(--accent);color:var(--accent)}
+.empty{border:1px dashed var(--line2);border-radius:12px;padding:28px 16px;text-align:center;color:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.card .ch{padding:12px 14px;border-bottom:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.card .ch h2{margin:0;font-size:17px;flex:1;min-width:140px}
+.notes{padding:10px 14px;color:var(--muted);border-bottom:1px solid var(--line);white-space:pre-wrap}
+.age{padding:5px 14px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);background:var(--panel2);border-bottom:1px solid var(--line)}
+.step{display:grid;grid-template-columns:34px 54px 56px 1fr;gap:8px;padding:8px 14px;border-bottom:1px solid var(--line);align-items:start}
+.step .n{color:var(--muted)}
+.step .res{display:flex;gap:4px;flex-wrap:wrap}
+.step .tx{grid-column:4}
+.res span{display:inline-flex;align-items:center;gap:4px;border-radius:6px;padding:0 6px;font-size:12px;background:var(--panel2);border:1px solid var(--line)}
+.res i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.rf i{background:var(--food)} .rw i{background:var(--wood)} .rg i{background:var(--gold)} .rs i{background:var(--stone)}
+.stepmeta{display:flex;flex-direction:column;gap:3px}
+@media (max-width:700px){
+  .blayout{grid-template-columns:1fr}
+  .civlist{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px}
+  .civlist button{width:auto;flex:none;border:1px solid var(--line);white-space:nowrap}
+  .step{grid-template-columns:28px 1fr;}
+  .step .tx{grid-column:2}
+}
+/* overlays */
+.overlay{position:fixed;inset:0;background:var(--bg);z-index:100;overflow:auto}
+.editor{max-width:820px;margin:0 auto;padding:12px 12px 80px}
+.editor label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:10px 0 4px}
+.editor input,.editor select,.editor textarea{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 9px}
+.editor textarea{min-height:60px;resize:vertical}
+.erow{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px;margin-bottom:8px;display:grid;gap:6px;grid-template-columns:repeat(8,minmax(0,1fr))}
+.erow .full{grid-column:1/-1}
+.erow .c2{grid-column:span 2}
+.erow small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;margin-bottom:2px}
+.erow .acts{display:flex;gap:4px;justify-content:flex-end;align-items:center;grid-column:span 2}
+.editor .actions{position:fixed;left:0;right:0;bottom:0;padding:10px 12px;background:var(--bg);border-top:1px solid var(--line);display:flex;gap:8px;justify-content:center;z-index:5}
+@media (max-width:560px){.erow{grid-template-columns:repeat(4,minmax(0,1fr))}.erow .c2{grid-column:span 2}.erow .acts{grid-column:1/-1}}
+.play{display:flex;flex-direction:column;min-height:100%;max-width:900px;margin:0 auto;padding:12px}
+.play .top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.play .top .grow{flex:1}
+.clock{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.big{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:18px 0}
+.big .stp{color:var(--muted)}
+.big .ctext{font-size:clamp(24px,5vw,40px);font-weight:700;line-height:1.15}
+.big .res span{font-size:clamp(16px,3vw,22px);padding:3px 10px}
+.big .meta{display:flex;gap:14px;flex-wrap:wrap;font-size:18px;color:var(--muted)}
+.big .meta b{color:var(--text)}
+.big .due{color:var(--accent)}
+.nextup{border-top:1px solid var(--line);padding-top:10px;color:var(--muted)}
+.nextup div{padding:3px 0}
+.pnav{display:flex;gap:10px;position:sticky;bottom:0;background:var(--bg);padding:10px 0}
+.pnav .btn{flex:1;justify-content:center;font-size:18px;padding:16px}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--panel);border:1px solid var(--line2);padding:8px 14px;border-radius:8px;box-shadow:var(--shadow);z-index:200}
+</style>
+</head>
+<body>
+<noscript>This app needs JavaScript.</noscript>
+
+<!-- ============================== Dashboard view ============================== -->
+<main id="viewDash">
+  <div class="sticky">
+    <header class="bar">
+      <div class="brand">AoE<span>4</span> Companion</div>
+      <div class="seg" id="segMode" role="group" aria-label="Game mode">
+        <button data-v="1v1" aria-pressed="true">1v1</button>
+        <button data-v="team" aria-pressed="false">Team Games</button>
+      </div>
+      <div class="dd" id="ddMin"><button class="btn" id="btnMin" aria-haspopup="listbox" aria-expanded="false"><span class="lbl">Min</span><b></b></button><div class="menu" role="listbox" hidden></div></div>
+      <div class="dd" id="ddMax"><button class="btn" id="btnMax" aria-haspopup="listbox" aria-expanded="false"><span class="lbl">Max</span><b></b></button><div class="menu" role="listbox" hidden></div></div>
+      <div class="seg" id="segPool" role="group" aria-label="Map pool">
+        <button data-v="ranked" aria-pressed="true">Ranked Maps</button>
+        <button data-v="all" aria-pressed="false">All Maps</button>
+      </div>
+      <span class="spacer"></span>
+      <button class="btn accent" id="btnCreate" title="Create a build order"><svg class="i" viewBox="0 0 24 24"><path d="M2.5 19.2 11 10.7l2.3 2.3-8.5 8.5a1.6 1.6 0 0 1-2.3 0 1.6 1.6 0 0 1 0-2.3zM14 2l8 3.2-2 2.2-1.7-.7-1.4 1.4 1 1-2.4 2.4-1-1-1.2 1.2-2.7-2.7 1.2-1.2-1-1L14 6.4l1 1 1.4-1.4L14 4.6z"/></svg><span class="tx">Create Build</span></button>
+    </header>
+    <div class="status" id="status"></div>
+    <div class="wrap"><div class="grid head" id="head"></div></div>
+  </div>
+  <div class="wrap" id="rows"></div>
+  <div class="foot" id="foot"></div>
+</main>
+
+<!-- ============================== Build-order view ============================== -->
+<main id="viewBuilds" hidden>
+  <div class="bhead">
+    <button class="btn" id="bBack">← Stats</button>
+    <h1 id="bTitle">Build Orders</h1>
+    <button class="btn accent" id="bNew">+ New build</button>
+    <button class="btn" id="bImport" title="Import builds from a JSON file">Import</button>
+    <button class="btn" id="bExport" title="Export all builds to a JSON file">Export</button>
+    <input type="file" id="bFile" accept="application/json,.json" hidden>
+  </div>
+  <div class="blayout">
+    <nav class="civlist" id="civList" aria-label="Civilizations"></nav>
+    <section class="bmain" id="bMain"></section>
+  </div>
+</main>
+<div id="overlay" class="overlay" hidden></div>
+
+<script>
+"use strict";
+/* =====================================================================
+ *  AoE4 Companion — single-file app (HTML + CSS + JS, no dependencies)
+ *  Data: AoE4World public API (https://aoe4world.com/api)
+ *  Sections: 1 Config · 2 Storage · 3 Data layer · 4 Dashboard · 5 Builds
+ * ===================================================================== */
+
+/* ---------- 1. Config ---------- */
+const API = 'https://aoe4world.com/api/v0';
+const MODES = {
+  '1v1':  { stats: 'rm_solo', games: 'rm_solo', label: '1v1 Ranked' },
+  'team': { stats: 'rm_2v2',  games: 'rm_team', label: 'Team Ranked (2v2)' },
+};
+const FRESH_MS   = 55 * 60e3;   // cache considered fresh (no refetch)
+const REFRESH_MS = 60 * 60e3;   // auto-refresh interval while the app is open
+const STALE_MS   = 100 * 60e3;  // older than this => "may be outdated"
+const POOL_PAGES = 3, POOL_MIN_SHARE = 0.02, POOL_MIN_N = 3;
+
+// Ranked tiers (Season Points / rating). Source: official "Ranked Season Updates" tier table.
+const RANK_NAMES = ['Bronze I','Bronze II','Bronze III','Silver I','Silver II','Silver III','Gold I','Gold II','Gold III',
+  'Platinum I','Platinum II','Platinum III','Diamond I','Diamond II','Diamond III','Conqueror I','Conqueror II','Conqueror III'];
+const RANK_MIN = [0,400,450,500,600,650,700,800,900,1000,1100,1150,1200,1300,1350,1400,1500,1600];
+const RANKS = RANK_NAMES.map((name, i) => ({ name, min: RANK_MIN[i], max: i < 17 ? RANK_MIN[i + 1] - 1 : Infinity }));
+const rankRange = r => r.max === Infinity ? `${r.min}+` : `${r.min}–${r.max}`;
+
+/* AoE4World only serves fixed rating buckets (<499, 500-699, 700-999, 1000-1199, 1200-1399, >700, >1000,
+ * >1200, >1400, >1700). Any selected range is therefore built from "atoms" aligned to those edges; atom
+ * counts are summed (and ">1400" − ">1700" gives 1400–1699). */
+const ATOMS = [
+  { lo: 0,    hi: 500,      parts: { '<499': 1 } },
+  { lo: 500,  hi: 700,      parts: { '500-699': 1 } },
+  { lo: 700,  hi: 1000,     parts: { '700-999': 1 } },
+  { lo: 1000, hi: 1200,     parts: { '1000-1199': 1 } },
+  { lo: 1200, hi: 1400,     parts: { '1200-1399': 1 } },
+  { lo: 1400, hi: 1700,     parts: { '>1400': 1, '>1700': -1 } },
+  { lo: 1700, hi: Infinity, parts: { '>1700': 1 } },
+];
+const OPEN_BUCKET = { 700: '>700', 1000: '>1000', 1200: '>1200', 1400: '>1400', 1700: '>1700' };
+
+const CIVS = { // slug -> [display name, flag code | null]
+  abbasid_dynasty:['Abbasid Dynasty',null], ayyubids:['Ayyubids','eg'], byzantines:['Byzantines','gr'], chinese:['Chinese','cn'],
+  delhi_sultanate:['Delhi Sultanate','in'], english:['English','gb-eng'], french:['French','fr'], golden_horde:['Golden Horde',null],
+  holy_roman_empire:['Holy Roman Empire','de'], house_of_lancaster:['House of Lancaster','gb-eng'], japanese:['Japanese','jp'],
+  jeanne_darc:["Jeanne d'Arc",'fr'], jin_dynasty:['Jin Dynasty',null], knights_templar:['Knights Templar',null],
+  macedonian_dynasty:['Macedonian Dynasty','gr'], malians:['Malians','ml'], mongols:['Mongols','mn'], order_of_the_dragon:['Order of the Dragon','hu'],
+  ottomans:['Ottomans','tr'], rus:['Rus','ru'], sengoku_daimyo:['Sengoku Daimyo','jp'], tughlaq_dynasty:['Tughlaq Dynasty','in'],
+  zhu_xis_legacy:["Zhu Xi's Legacy",'cn'],
+};
+const civName = s => CIVS[s]?.[0] || s.replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase());
+const DEFAULT_MAP = { id: 163361, name: 'Dry Arabia' };
+
+/* ---------- 2. Storage ---------- */
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('aoe4c.' + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem('aoe4c.' + k, JSON.stringify(v)); return true; } catch { return false; } },
+};
+const S = Object.assign({ mode: '1v1', min: 12, max: 17, pool: 'ranked', sort: 'total', mapId: DEFAULT_MAP.id }, store.get('settings', {}));
+S.min = Math.min(Math.max(+S.min | 0, 0), 17); S.max = Math.min(Math.max(+S.max | 0, S.min), 17);
+if (!MODES[S.mode]) S.mode = '1v1';
+const saveSettings = () => store.set('settings', S);
+let disabled = new Set(store.get('disabled', []));
+const saveDisabled = () => store.set('disabled', [...disabled]);
+
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+const $ = (s, r = document) => r.querySelector(s);
+const uid = () => (crypto.randomUUID ? crypto.randomUUID() : 'b' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8));
+
+/* ---------- 3. Data layer ---------- */
+let cache = store.get('cache', {});         // url -> { t, j }
+const inflight = {}, failed = new Map();
+let refreshing = false, lastRefresh = 0, lastManual = 0;
+
+function saveCache() {
+  const now = Date.now();
+  for (const k of Object.keys(cache)) if (now - cache[k].t > 24 * 3600e3) delete cache[k];
+  const keys = Object.keys(cache).sort((a, b) => cache[b].t - cache[a].t);
+  keys.slice(150).forEach(k => delete cache[k]);
+  if (!store.set('cache', cache)) { keys.slice(40).forEach(k => delete cache[k]); store.set('cache', cache); }
+}
+async function fetchJSON(url) {
+  const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 20000);
+  try {
+    const r = await fetch(url, { signal: ctl.signal });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return await r.json();
+  } finally { clearTimeout(to); }
+}
+/** Cached GET: reuses fresh cache, otherwise fetches; on failure keeps whatever was cached before. */
+function get(key, loader, force) {
+  const c = cache[key];
+  if (c && !force && Date.now() - c.t < FRESH_MS) return Promise.resolve(c);
+  if (inflight[key]) return inflight[key];
+  return inflight[key] = (async () => {
+    try { const j = await loader(); cache[key] = { t: Date.now(), j }; saveCache(); failed.delete(key); }
+    catch (e) { failed.set(key, e.message || String(e)); }
+    finally { delete inflight[key]; }
+    return cache[key] || null;
+  })();
+}
+const q = r => r ? `?rating=${encodeURIComponent(r)}` : '';
+const civUrl = r => `${API}/stats/${MODES[S.mode].stats}/civilizations${q(r)}`;
+const mapStatsUrl = (id, r) => `${API}/stats/${MODES[S.mode].stats}/maps/${id}${q(r)}`;
+const mapsListUrl = () => `${API}/stats/${MODES[S.mode].stats}/maps`;
+const poolKey = () => 'pool:' + S.mode;
+
+/** Selected rank range -> data window (snapped outward to API bucket edges) + the requests it needs. */
+function windowInfo() {
+  const lo = RANKS[S.min].min, hiEx = RANKS[S.max].max === Infinity ? Infinity : RANKS[S.max].max + 1;
+  const used = ATOMS.filter(a => a.lo < hiEx && a.hi > lo);
+  const effLo = used[0].lo, effHi = used[used.length - 1].hi;
+  let parts = {};
+  if (effLo === 0 && effHi === Infinity) parts = { '': 1 };
+  else if (effHi === Infinity && OPEN_BUCKET[effLo]) parts = { [OPEN_BUCKET[effLo]]: 1 };
+  else for (const a of used) for (const [k, c] of Object.entries(a.parts)) parts[k] = (parts[k] || 0) + c;
+  for (const k of Object.keys(parts)) if (!parts[k]) delete parts[k];
+  const exact = effLo === lo && effHi === hiEx;
+  const fmt = (a, b) => b === Infinity ? `${a}+` : `${a}–${b - 1}`;
+  return { parts, effLo, effHi, exact, label: fmt(effLo, effHi), asked: fmt(lo, hiEx) };
+}
+
+/** Sum the cached pieces of a window into per-civ totals. Returns null if any piece is missing. */
+function aggregate(urlFor) {
+  const { parts } = windowInfo();
+  const acc = new Map(); let oldest = Infinity;
+  for (const [r, co] of Object.entries(parts)) {
+    const c = cache[urlFor(r)];
+    if (!c || !Array.isArray(c.j?.data)) return null;
+    oldest = Math.min(oldest, c.t);
+    for (const row of c.j.data) {
+      const g = row.games_count || 0, pg = row.player_games_count ?? g;
+      const w = row.win_count != null ? row.win_count : (row.win_rate != null ? row.win_rate / 100 * g : 0);
+      const o = acc.get(row.civilization) || { g: 0, w: 0, pg: 0 };
+      o.g += co * g; o.w += co * w; o.pg += co * pg; acc.set(row.civilization, o);
+    }
+  }
+  let tot = 0; acc.forEach(o => { o.g = Math.max(0, o.g); o.w = Math.max(0, o.w); o.pg = Math.max(0, o.pg); tot += o.pg; });
+  const out = new Map();
+  acc.forEach((o, k) => out.set(k, { wr: o.g > 0 ? o.w / o.g * 100 : null, g: Math.round(o.g), pick: tot > 0 ? o.pg / tot * 100 : null }));
+  return { civs: out, t: oldest };
+}
+
+/** Ranked pool: the API has no pool endpoint, so infer it from maps seen in the most recent ranked games. */
+async function loadPool(force) {
+  return get(poolKey(), async () => {
+    const lb = MODES[S.mode].games, counts = new Map(); let total = 0;
+    const pages = await Promise.all(Array.from({ length: POOL_PAGES }, (_, i) =>
+      fetchJSON(`${API}/games?leaderboard=${lb}&per_page=50&page=${i + 1}`)));
+    for (const p of pages) for (const g of p.games || []) {
+      if (g.map_id == null) continue; total++;
+      const c = counts.get(g.map_id) || { id: g.map_id, name: g.map, n: 0 }; c.n++; counts.set(g.map_id, c);
+    }
+    if (!total) throw new Error('no games returned');
+    const maps = [...counts.values()].filter(m => m.n >= POOL_MIN_N && m.n / total >= POOL_MIN_SHARE);
+    return { maps, sample: total };
+  }, force);
+}
+const loadMapsList = force => get(mapsListUrl(), () => fetchJSON(mapsListUrl()), force);
+
+function mapOptions() {
+  const list = [...(cache[mapsListUrl()]?.j?.data || [])].sort((a, b) => b.games_count - a.games_count);
+  if (S.pool === 'all') return { maps: list, warn: null, sample: null };
+  const pool = cache[poolKey()]?.j;
+  if (!pool) return { maps: list, warn: 'Ranked pool could not be determined — showing all maps.', sample: null };
+  const ids = new Set(pool.maps.map(m => m.id));
+  return { maps: list.filter(m => ids.has(m.map_id)), warn: null, sample: pool.sample };
+}
+function ensureMapSelection() {
+  const { maps } = mapOptions();
+  if (!maps.length || maps.some(m => m.map_id === S.mapId)) return;
+  S.mapId = (maps.find(m => m.map_id === DEFAULT_MAP.id) || maps[0]).map_id; saveSettings();
+}
+const mapNameOf = id => (cache[mapsListUrl()]?.j?.data || []).find(m => m.map_id === id)?.map || (id === DEFAULT_MAP.id ? DEFAULT_MAP.name : 'Selected map');
+
+async function refresh(force = false) {
+  if (refreshing) return; refreshing = true; render();
+  try {
+    await Promise.all([loadMapsList(force), loadPool(force)]);
+    ensureMapSelection();
+    const { parts } = windowInfo(), rs = Object.keys(parts);
+    await Promise.all([
+      ...rs.map(r => get(civUrl(r), () => fetchJSON(civUrl(r)), force)),
+      ...rs.map(r => get(mapStatsUrl(S.mapId, r), () => fetchJSON(mapStatsUrl(S.mapId, r)), force)),
+    ]);
+    if (force) lastRefresh = Date.now();
+  } finally { refreshing = false; render(); }
+}
+// Hourly refresh while open (only refetches what the current view needs), plus catch-up when the tab wakes up.
+setInterval(() => refresh(true), REFRESH_MS);
+document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - lastRefresh > REFRESH_MS) refresh(true); });
+
+/* ---------- 4. Dashboard ---------- */
+const hammerSvg = '<svg class="i" viewBox="0 0 24 24"><path d="M2.5 19.2 11 10.7l2.3 2.3-8.5 8.5a1.6 1.6 0 0 1-2.3 0 1.6 1.6 0 0 1 0-2.3zM14 2l8 3.2-2 2.2-1.7-.7-1.4 1.4 1 1-2.4 2.4-1-1-1.2 1.2-2.7-2.7 1.2-1.2-1-1L14 6.4l1 1 1.4-1.4L14 4.6z"/></svg>';
+const fmtG = n => n == null ? '—' : n >= 10000 ? (n / 1000).toFixed(n >= 100000 ? 0 : 1) + 'k' : String(n);
+const hue = s => { let h = 0; for (const c of s) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
+function flagHtml(slug) {
+  const code = CIVS[slug]?.[1], name = civName(slug);
+  const mono = `<span class="mono" style="background:hsl(${hue(slug)} 45% 38%)" aria-hidden="true">${esc(name.split(/[\s']+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase())}</span>`;
+  return code ? `<img class="flag" src="https://flagcdn.com/w40/${code}.png" alt="" loading="lazy" data-slug="${slug}">` : mono;
+}
+document.addEventListener('error', e => {
+  const t = e.target;
+  if (t && t.tagName === 'IMG' && t.classList.contains('flag')) {
+    const s = t.dataset.slug, name = civName(s);
+    const m = document.createElement('span'); m.className = 'mono'; m.style.background = `hsl(${hue(s)} 45% 38%)`;
+    m.textContent = name.split(/[\s']+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase(); t.replaceWith(m);
+  }
+}, true);
+
+function cells(st, avail) {
+  if (!avail) return `<div class="wr num" style="color:var(--muted)">—</div><div class="gm num">—</div><div class="pk num">—</div>`;
+  if (!st || st.wr == null) return `<div class="wr num" style="color:var(--muted)">—</div><div class="gm num">${st ? fmtG(st.g) : '—'}</div><div class="pk num">${st && st.pick != null ? st.pick.toFixed(1) + '%' : '—'}</div>`;
+  const h = Math.max(0, Math.min(1, (st.wr - 45) / 10)) * 130;
+  return `<div class="wr num" style="color:hsl(${h.toFixed(0)} 62% var(--wl))">${st.wr.toFixed(1)}%</div>` +
+         `<div class="gm num" title="${st.g.toLocaleString()} games">${fmtG(st.g)}</div><div class="pk num">${st.pick != null ? st.pick.toFixed(1) + '%' : '—'}</div>`;
+}
+
+let open = null; // which dropdown is open: 'min' | 'max' | 'map' | null
+function closeMenus() { open = null; document.querySelectorAll('.menu').forEach(m => m.hidden = true); document.querySelectorAll('[aria-expanded]').forEach(b => b.setAttribute('aria-expanded', 'false')); }
+function placeMenu(menu) {
+  menu.style.left = '0px'; menu.style.right = 'auto';
+  const r = menu.getBoundingClientRect(), over = r.right - (innerWidth - 8);
+  if (over > 0) menu.style.left = -over + 'px';
+  if (r.left < 8) menu.style.left = (8 - r.left) + 'px';
+}
+function rankMenu(which) {
+  const menu = $(which === 'min' ? '#ddMin .menu' : '#ddMax .menu');
+  menu.innerHTML = RANKS.map((r, i) => {
+    const bad = which === 'min' ? i > S.max : i < S.min;
+    const sel = (which === 'min' ? S.min : S.max) === i;
+    return `<button role="option" aria-selected="${sel}" data-i="${i}" ${bad ? 'disabled' : ''}><span>${r.name}</span><span class="r">${rankRange(r)}</span></button>`;
+  }).join('');
+  const sel = menu.querySelector('[aria-selected="true"]'); if (sel) setTimeout(() => sel.scrollIntoView({ block: 'nearest' }), 0);
+}
+
+function render() { renderControls(); renderHead(); renderRows(); renderStatus(); renderFoot(); }
+
+function renderControls() {
+  document.querySelectorAll('#segMode button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === S.mode));
+  document.querySelectorAll('#segPool button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === S.pool));
+  $('#btnMin b').textContent = RANKS[S.min].name; $('#btnMax b').textContent = RANKS[S.max].name;
+  $('#btnMin').title = `Minimum rank (${rankRange(RANKS[S.min])})`; $('#btnMax').title = `Maximum rank (${rankRange(RANKS[S.max])})`;
+}
+
+function mapButtonHtml() {
+  return `<button class="btn" id="btnMap" aria-haspopup="listbox" aria-expanded="${open === 'map'}" title="Choose map"><span>${esc(mapNameOf(S.mapId))}</span><span aria-hidden="true">▾</span></button>`;
+}
+function renderHead() {
+  const total = S.sort === 'total';
+  const mapCol = `<div class="dd" style="max-width:100%">${mapButtonHtml()}<div class="menu" id="mapMenu" role="listbox" hidden></div></div>`;
+  const totCol = `<span>Total · all maps</span>`;
+  const sub = `<div class="grp3 sub"><span>Win</span><span>Games</span><span>Pick</span></div>`;
+  $('#head').innerHTML =
+    `<div class="c civ"><div class="t">Civilization</div><button class="btn togglebtn" id="btnSort" title="Swap primary and secondary statistics">⇄ ${total ? 'Win Rate by Map' : 'Total Win Rate'}</button></div>` +
+    `<div class="c g p"><div class="gt">${total ? totCol : mapCol}</div>${sub}</div>` +
+    `<div class="c g s"><div class="gt">${total ? mapCol : totCol}</div>${sub}</div>`;
+  if (open === 'map') openMapMenu(true);
+}
+
+function renderRows() {
+  const total = aggregate(civUrl), mp = aggregate(r => mapStatsUrl(S.mapId, r));
+  const slugs = new Set(Object.keys(CIVS)); total?.civs.forEach((_, k) => slugs.add(k)); mp?.civs.forEach((_, k) => slugs.add(k));
+  const byTotal = S.sort === 'total', P = byTotal ? total : mp, Sx = byTotal ? mp : total;
+  const key = s => { const v = P?.civs.get(s)?.wr; return v == null ? -1 : v; };
+  const list = [...slugs].sort((a, b) => (disabled.has(a) - disabled.has(b)) || (key(b) - key(a)) || civName(a).localeCompare(civName(b)));
+  const nOff = list.filter(s => disabled.has(s)).length;
+  let html = '', divided = false;
+  if (!total && !mp && failed.size && !refreshing) html += `<div class="banner">Couldn’t load statistics from AoE4World (${esc([...failed.values()][0])}). Nothing is shown rather than guessing — it will retry automatically.</div>`;
+  for (const s of list) {
+    if (disabled.has(s) && !divided) { divided = true; html += `<div class="divider">Disabled · ${nOff}</div>`; }
+    const off = disabled.has(s), n = civName(s);
+    html += `<div class="row${off ? ' off' : ''}" role="button" tabindex="0" aria-pressed="${!off}" data-slug="${s}" title="${off ? 'Click to enable' : 'Click to disable'} ${esc(n)}">` +
+      `<div class="civcell">${flagHtml(s)}<span class="nm">${esc(n)}</span><button class="hammer" data-build="${s}" title="Build orders — ${esc(n)}" aria-label="Build orders for ${esc(n)}">${hammerSvg}</button></div>` +
+      `<div class="g p"><div class="grp3">${cells(P?.civs.get(s), !!P)}</div></div>` +
+      `<div class="g s"><div class="grp3">${cells(Sx?.civs.get(s), !!Sx)}</div></div></div>`;
+  }
+  $('#rows').innerHTML = html;
+}
+
+function renderStatus() {
+  const w = windowInfo(), tot = aggregate(civUrl), mp = aggregate(r => mapStatsUrl(S.mapId, r));
+  const t = Math.min(tot?.t ?? Infinity, mp?.t ?? Infinity);
+  const outdated = isFinite(t) && Date.now() - t > STALE_MS;
+  const pieces = [`<span>${MODES[S.mode].label}</span>`,
+    `<span title="${w.exact ? '' : `You selected ${w.asked}; AoE4World only offers fixed rating buckets, so the data covers the nearest enclosing range.`}">Rating <b class="num">${w.label}</b>${w.exact ? '' : ' <span class="pill">nearest available</span>'}</span>`];
+  if (refreshing) pieces.push('<span class="pill">Updating…</span>');
+  else if (!isFinite(t)) pieces.push(failed.size ? '<span class="pill warn">No data</span>' : '<span class="pill">Loading…</span>');
+  else pieces.push(`<span class="pill ${outdated || failed.size ? 'warn' : 'ok'}" title="${new Date(t).toLocaleString()}">${outdated || failed.size ? 'May be outdated · ' : 'Updated '}${new Date(t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>`);
+  pieces.push('<button id="btnReload" title="Refresh now" aria-label="Refresh now">↻</button>');
+  $('#status').innerHTML = pieces.join('');
+}
+function renderFoot() {
+  $('#foot').innerHTML = 'Stats from <a href="https://aoe4world.com" target="_blank" rel="noopener">AoE4World</a> (ranked games, recalculated daily; refreshed here hourly). ' +
+    'Win rate = wins ÷ games; pick rate = share of all player-games. Click a row to dim a civ and move it to the bottom. Unofficial fan tool.';
+}
+
+function openMapMenu(keep) {
+  const menu = $('#mapMenu'); if (!menu) return;
+  const { maps, warn, sample } = mapOptions();
+  menu.innerHTML = (maps.length ? maps.map(m => `<button role="option" aria-selected="${m.map_id === S.mapId}" data-map="${m.map_id}"><span>${esc(m.map)}</span><span class="r num">${fmtG(m.games_count)}</span></button>`).join('')
+    : `<div class="note">No maps loaded yet.</div>`) +
+    (warn ? `<div class="note">${esc(warn)}</div>` : '') +
+    (S.pool === 'ranked' && sample ? `<div class="note">Ranked pool inferred from the last ${sample} ranked games. Numbers = total games (all ratings).</div>` : '');
+  menu.hidden = false; placeMenu(menu); open = 'map';
+  $('#btnMap')?.setAttribute('aria-expanded', 'true');
+  if (!keep) menu.querySelector('[aria-selected="true"]')?.scrollIntoView({ block: 'nearest' });
+}
+
+/* dashboard events */
+$('#segMode').onclick = e => { const v = e.target.dataset?.v; if (v && v !== S.mode) { S.mode = v; saveSettings(); closeMenus(); refresh(); } };
+$('#segPool').onclick = e => { const v = e.target.dataset?.v; if (v && v !== S.pool) { S.pool = v; saveSettings(); closeMenus(); ensureMapSelection(); refresh(); } };
+for (const which of ['min', 'max']) {
+  const dd = $(which === 'min' ? '#ddMin' : '#ddMax'), btn = dd.querySelector('button.btn'), menu = dd.querySelector('.menu');
+  btn.onclick = e => { e.stopPropagation(); const was = open === which; closeMenus(); if (was) return; rankMenu(which); menu.hidden = false; placeMenu(menu); btn.setAttribute('aria-expanded', 'true'); open = which; };
+  menu.onclick = e => {
+    const b = e.target.closest('button[data-i]'); if (!b || b.disabled) return;
+    S[which] = +b.dataset.i; if (S.min > S.max) { if (which === 'min') S.max = S.min; else S.min = S.max; }
+    saveSettings(); closeMenus(); refresh();
+  };
+}
+$('#head').onclick = e => {
+  if (e.target.closest('#btnSort')) { S.sort = S.sort === 'total' ? 'map' : 'total'; saveSettings(); closeMenus(); render(); return; }
+  if (e.target.closest('#btnMap')) { e.stopPropagation(); if (open === 'map') closeMenus(); else { closeMenus(); openMapMenu(); } return; }
+  const b = e.target.closest('button[data-map]');
+  if (b) { S.mapId = +b.dataset.map; saveSettings(); closeMenus(); render(); refresh(); }
+};
+function toggleCiv(slug) { disabled.has(slug) ? disabled.delete(slug) : disabled.add(slug); saveDisabled(); renderRows(); }
+$('#rows').onclick = e => {
+  const h = e.target.closest('[data-build]'); if (h) { e.stopPropagation(); location.hash = '#/builds/' + h.dataset.build; return; }
+  const r = e.target.closest('.row'); if (r) toggleCiv(r.dataset.slug);
+};
+$('#rows').onkeydown = e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('row')) { e.preventDefault(); toggleCiv(e.target.dataset.slug); } };
+$('#status').onclick = e => { if (e.target.closest('#btnReload') && Date.now() - lastManual > 30000) { lastManual = Date.now(); refresh(true); } };
+$('#btnCreate').onclick = () => { location.hash = '#/builds/new'; };
+document.addEventListener('click', e => { if (!e.target.closest('.menu')) closeMenus(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenus(); });
+
+/* ---------- 5. Build orders ---------- */
+const AGES = ['', 'Dark Age', 'Feudal Age', 'Castle Age', 'Imperial Age'];
+let builds = store.get('builds', []);
+const saveBuilds = () => store.set('builds', builds);
+let bCiv = store.get('buildCiv', 'english'), bSel = null, editing = null;
+const hasHistory = () => history.length > 1;
+function toast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2200); }
+
+function route() {
+  const h = location.hash.replace(/^#\/?/, '').split('/');
+  const isBuilds = h[0] === 'builds';
+  $('#viewDash').hidden = isBuilds; $('#viewBuilds').hidden = !isBuilds;
+  if (!isBuilds) { closeOverlay(); return; }
+  if (h[1] === 'new') { bSel = null; renderBuilds(); startEdit(null); return; }
+  if (h[1] && (CIVS[h[1]] || builds.some(b => b.civ === h[1]))) { if (bCiv !== h[1]) bSel = null; bCiv = h[1]; store.set('buildCiv', bCiv); }
+  closeOverlay(); renderBuilds();
+}
+window.addEventListener('hashchange', route);
+$('#bBack').onclick = () => { closeOverlay(); location.hash = '#/'; };
+
+function resChips(s) {
+  const o = [['f','food',s.f],['w','wood',s.w],['g','gold',s.g],['s','stone',s.s]].filter(x => x[2] !== '' && x[2] != null && !isNaN(x[2]));
+  return o.length ? `<div class="res">${o.map(([k, n, v]) => `<span class="r${k}" title="Villagers on ${n}"><i></i>${+v}</span>`).join('')}</div>` : '';
+}
+function renderBuilds() {
+  const counts = {}; builds.forEach(b => counts[b.civ] = (counts[b.civ] || 0) + 1);
+  const slugs = Object.keys(CIVS).sort((a, b) => civName(a).localeCompare(civName(b)));
+  $('#civList').innerHTML = slugs.map(s => `<button data-civ="${s}" aria-current="${s === bCiv}">${flagHtml(s)}<span>${esc(civName(s))}</span>${counts[s] ? `<span class="cnt">${counts[s]}</span>` : ''}</button>`).join('');
+  $('#bTitle').textContent = `Build Orders · ${civName(bCiv)}`;
+  const mine = builds.filter(b => b.civ === bCiv);
+  if (!mine.some(b => b.id === bSel)) bSel = mine[0]?.id || null;
+  const b = mine.find(x => x.id === bSel);
+  let html = '';
+  if (mine.length) html += `<div class="chips">${mine.map(x => `<button class="chip" data-sel="${x.id}" aria-current="${x.id === bSel}">${esc(x.name)}</button>`).join('')}</div>`;
+  if (!b) html += `<div class="empty"><p><b>No build orders for ${esc(civName(bCiv))} yet.</b></p><p>Write down your opener once, then run it step-by-step in Play mode during a game.</p><button class="btn accent" id="emptyNew">+ Create ${esc(civName(bCiv))} build</button></div>`;
+  else {
+    let lastAge = null;
+    const steps = b.steps.map((s, i) => {
+      const age = s.age && s.age !== lastAge ? `<div class="age">${esc(s.age)}</div>` : ''; if (s.age) lastAge = s.age;
+      return age + `<div class="step"><div class="n num">${i + 1}</div><div class="stepmeta"><span class="num">${esc(s.time || '')}</span></div><div class="num" title="Population">${s.pop !== '' && s.pop != null ? esc(s.pop) + ' <span style="color:var(--muted)">pop</span>' : ''}</div><div>${esc(s.text)}${resChips(s)}</div></div>`;
+    }).join('');
+    html += `<article class="card"><div class="ch"><h2>${esc(b.name)}</h2>` +
+      `<button class="btn accent" data-act="play">▶ Play</button><button class="btn" data-act="edit">Edit</button><button class="btn" data-act="dup">Duplicate</button><button class="btn danger" data-act="del">Delete</button></div>` +
+      (b.notes ? `<div class="notes">${esc(b.notes)}</div>` : '') + steps + `</article>`;
+  }
+  $('#bMain').innerHTML = html;
+}
+$('#civList').onclick = e => { const b = e.target.closest('[data-civ]'); if (b) location.hash = '#/builds/' + b.dataset.civ; };
+$('#bMain').onclick = e => {
+  if (e.target.closest('#emptyNew')) return startEdit(null);
+  const c = e.target.closest('[data-sel]'); if (c) { bSel = c.dataset.sel; return renderBuilds(); }
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  const b = builds.find(x => x.id === bSel); if (!b) return;
+  if (a.dataset.act === 'play') startPlay(b);
+  if (a.dataset.act === 'edit') startEdit(b);
+  if (a.dataset.act === 'dup') { const c2 = JSON.parse(JSON.stringify(b)); c2.id = uid(); c2.name += ' (copy)'; builds.push(c2); bSel = c2.id; saveBuilds(); renderBuilds(); toast('Duplicated'); }
+  if (a.dataset.act === 'del' && confirm(`Delete “${b.name}”?`)) { builds = builds.filter(x => x.id !== b.id); saveBuilds(); renderBuilds(); }
+};
+$('#bNew').onclick = () => startEdit(null);
+$('#bExport').onclick = () => {
+  const blob = new Blob([JSON.stringify({ app: 'aoe4-companion', version: 1, builds }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'aoe4-build-orders.json'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+};
+$('#bImport').onclick = () => $('#bFile').click();
+$('#bFile').onchange = async e => {
+  const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+  try {
+    const j = JSON.parse(await f.text()), arr = Array.isArray(j) ? j : j.builds; if (!Array.isArray(arr)) throw 0;
+    let n = 0;
+    for (const x of arr) {
+      if (!x || typeof x.name !== 'string' || !Array.isArray(x.steps)) continue;
+      builds.push({ id: uid(), civ: CIVS[x.civ] ? x.civ : bCiv, name: x.name.slice(0, 120), notes: String(x.notes || '').slice(0, 4000),
+        steps: x.steps.slice(0, 300).map(s => ({ time: String(s.time ?? '').slice(0, 8), pop: s.pop ?? '', age: AGES.includes(s.age) ? s.age : '', f: s.f ?? '', w: s.w ?? '', g: s.g ?? '', s: s.s ?? '', text: String(s.text ?? '').slice(0, 500) })) }); n++;
+    }
+    saveBuilds(); renderBuilds(); toast(`Imported ${n} build${n === 1 ? '' : 's'}`);
+  } catch { toast('That file is not a valid build-order export'); }
+};
+
+/* overlay: editor */
+function closeOverlay() { stopClock(); const o = $('#overlay'); o.hidden = true; o.innerHTML = ''; document.body.style.overflow = ''; document.removeEventListener('keydown', playKeys); }
+const blankStep = () => ({ time: '', pop: '', age: '', f: '', w: '', g: '', s: '', text: '' });
+function startEdit(b) {
+  editing = b ? JSON.parse(JSON.stringify(b)) : { id: null, civ: bCiv, name: '', notes: '', steps: [blankStep()] };
+  drawEditor(); document.body.style.overflow = 'hidden';
+}
+function drawEditor() {
+  const E = editing, o = $('#overlay'); o.hidden = false;
+  o.innerHTML = `<div class="editor"><div style="display:flex;align-items:center;gap:8px"><h2 style="flex:1;margin:0">${E.id ? 'Edit' : 'New'} build order</h2><button class="btn" data-e="cancel">Cancel</button></div>
+    <label for="eCiv">Civilization</label><select id="eCiv">${Object.keys(CIVS).sort((a, b) => civName(a).localeCompare(civName(b))).map(s => `<option value="${s}" ${s === E.civ ? 'selected' : ''}>${esc(civName(s))}</option>`).join('')}</select>
+    <label for="eName">Name</label><input id="eName" maxlength="120" placeholder="e.g. Fast Castle into Knights" value="${esc(E.name)}">
+    <label for="eNotes">Strategy notes (optional)</label><textarea id="eNotes" maxlength="4000" placeholder="Map, matchup, key timings, what to scout…">${esc(E.notes)}</textarea>
+    <label>Steps</label>
+    <div id="eSteps">${E.steps.map((s, i) => `<div class="erow" data-i="${i}">
+      <div class="c2"><small>Time</small><input data-f="time" placeholder="0:45" value="${esc(s.time)}"></div>
+      <div class="c2"><small>Pop</small><input data-f="pop" type="number" min="0" placeholder="e.g. 12" value="${esc(s.pop)}"></div>
+      <div class="c2"><small>Age marker</small><select data-f="age">${AGES.map(a => `<option ${a === s.age ? 'selected' : ''} value="${a}">${a || '—'}</option>`).join('')}</select></div>
+      <div class="acts"><button class="btn sm" data-e="up" title="Move up">↑</button><button class="btn sm" data-e="down" title="Move down">↓</button><button class="btn sm danger" data-e="rm" title="Remove">✕</button></div>
+      <div class="c2"><small>Food vills</small><input data-f="f" type="number" min="0" value="${esc(s.f)}"></div>
+      <div class="c2"><small>Wood vills</small><input data-f="w" type="number" min="0" value="${esc(s.w)}"></div>
+      <div class="c2"><small>Gold vills</small><input data-f="g" type="number" min="0" value="${esc(s.g)}"></div>
+      <div class="c2"><small>Stone vills</small><input data-f="s" type="number" min="0" value="${esc(s.s)}"></div>
+      <div class="full"><small>Action</small><input data-f="text" maxlength="500" placeholder="What to do at this step" value="${esc(s.text)}"></div></div>`).join('')}</div>
+    <button class="btn" data-e="add">+ Add step</button>
+    <div class="actions"><button class="btn" data-e="cancel">Cancel</button><button class="btn accent" data-e="save">Save build</button></div></div>`;
+}
+function syncEditor() {
+  const E = editing; if (!E) return;
+  E.civ = $('#eCiv').value; E.name = $('#eName').value; E.notes = $('#eNotes').value;
+  document.querySelectorAll('#eSteps .erow').forEach(r => r.querySelectorAll('[data-f]').forEach(el => { E.steps[+r.dataset.i][el.dataset.f] = el.value; }));
+}
+$('#overlay').addEventListener('click', e => {
+  const a = e.target.closest('[data-e]'); if (!a || !editing) return;
+  syncEditor(); const E = editing, i = +a.closest('.erow')?.dataset.i, act = a.dataset.e;
+  if (act === 'cancel') { editing = null; closeOverlay(); location.hash = '#/builds/' + bCiv; return; }
+  if (act === 'add') { E.steps.push(blankStep()); drawEditor(); $('#overlay').scrollTo(0, 1e6); return; }
+  if (act === 'rm') { E.steps.splice(i, 1); if (!E.steps.length) E.steps.push(blankStep()); return drawEditor(); }
+  if (act === 'up' && i > 0) { [E.steps[i - 1], E.steps[i]] = [E.steps[i], E.steps[i - 1]]; return drawEditor(); }
+  if (act === 'down' && i < E.steps.length - 1) { [E.steps[i + 1], E.steps[i]] = [E.steps[i], E.steps[i + 1]]; return drawEditor(); }
+  if (act === 'save') {
+    const steps = E.steps.filter(s => s.text.trim() || s.time || s.pop !== '');
+    if (!E.name.trim()) { toast('Give the build a name'); $('#eName').focus(); return; }
+    if (!steps.length) { toast('Add at least one step'); return; }
+    const out = { id: E.id || uid(), civ: E.civ, name: E.name.trim(), notes: E.notes.trim(), steps };
+    const idx = builds.findIndex(x => x.id === out.id); idx >= 0 ? builds[idx] = out : builds.push(out);
+    saveBuilds(); bCiv = out.civ; bSel = out.id; store.set('buildCiv', bCiv); editing = null; closeOverlay();
+    location.hash = '#/builds/' + bCiv; renderBuilds(); toast('Saved');
+  }
+});
+
+/* overlay: play mode (large single-step view + stopwatch) */
+let P = null, clockT = null;
+const toSecs = t => { const m = /^(\d+):(\d{1,2})$/.exec(String(t).trim()); return m ? +m[1] * 60 + +m[2] : null; };
+const mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+function startPlay(b) { P = { b, i: 0, el: 0, run: false, t0: 0 }; drawPlay(); document.body.style.overflow = 'hidden'; document.addEventListener('keydown', playKeys); }
+function stopClock() { clearInterval(clockT); clockT = null; if (P) P.run = false; P = null; }
+function drawPlay() {
+  const { b, i } = P, s = b.steps[i], o = $('#overlay'); o.hidden = false;
+  const due = P.el > 0 && toSecs(s.time) != null && P.el >= toSecs(s.time);
+  const nxt = b.steps.slice(i + 1, i + 4).map((n, k) => `<div class="num">${i + k + 2}. ${n.time ? `<b>${esc(n.time)}</b> · ` : ''}${esc(n.text)}</div>`).join('');
+  o.innerHTML = `<div class="play"><div class="top"><button class="btn" data-p="exit">✕ Exit</button><div class="grow"><b>${esc(b.name)}</b><div style="color:var(--muted);font-size:12px">${esc(civName(b.civ))}</div></div>
+      <span class="clock" id="clock">${mmss(P.el)}</span><button class="btn" data-p="clock">${P.run ? 'Pause' : 'Start'} timer</button><button class="btn" data-p="reset">Reset</button></div>
+    <div class="big"><div class="stp">Step ${i + 1} of ${b.steps.length}${s.age ? ` · ${esc(s.age)}` : ''}</div>
+      <div class="meta">${s.time ? `<span class="${due ? 'due' : ''}">Time <b>${esc(s.time)}</b></span>` : ''}${s.pop !== '' && s.pop != null ? `<span>Pop <b>${esc(s.pop)}</b></span>` : ''}</div>
+      <div class="ctext">${esc(s.text) || '&nbsp;'}</div>${resChips(s)}</div>
+    ${nxt ? `<div class="nextup"><small style="text-transform:uppercase;letter-spacing:.06em">Up next</small>${nxt}</div>` : ''}
+    <div class="pnav"><button class="btn" data-p="prev" ${i === 0 ? 'disabled' : ''}>← Back</button><button class="btn accent" data-p="next" ${i === b.steps.length - 1 ? 'disabled' : ''}>Next →</button></div></div>`;
+}
+function playKeys(e) {
+  if (!P || e.target.matches('input,textarea,select')) return;
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); playGo(1); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); playGo(-1); }
+  else if (e.key === 'Escape') { closeOverlay(); }
+}
+function playGo(d) { const n = P.i + d; if (n >= 0 && n < P.b.steps.length) { P.i = n; drawPlay(); } }
+$('#overlay').addEventListener('click', e => {
+  const a = e.target.closest('[data-p]'); if (!a || !P) return; const k = a.dataset.p;
+  if (k === 'exit') closeOverlay();
+  else if (k === 'next') playGo(1); else if (k === 'prev') playGo(-1);
+  else if (k === 'reset') { P.el = 0; P.run = false; clearInterval(clockT); drawPlay(); }
+  else if (k === 'clock') {
+    if (P.run) { P.run = false; clearInterval(clockT); }
+    else { P.run = true; P.t0 = Date.now() - P.el * 1000; clockT = setInterval(() => { P.el = (Date.now() - P.t0) / 1000; const c = $('#clock'); if (c) c.textContent = mmss(P.el); }, 250); }
+    drawPlay();
+  }
+});
+
+/* ---------- Boot ---------- */
+render();
+route();
+refresh(false).then(() => { lastRefresh = Date.now(); });
+</script>
+</body>
+</html>
