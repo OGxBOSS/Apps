@@ -129,68 +129,59 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 }
 
 /* ============================== Build orders ============================== */
+:root{--vw:28px;--bld:#f0a040;--age:#35d0e0} /* ADJUSTABLE - --vw: width of each villager column */
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--gold:#a8820a;--wood:#8a5a1f;--stone:#5d6773;--food:#c4443c;--bld:#c26a00;--age:#0a8a99}}
 .bhead{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:40;flex-wrap:wrap}
 .bhead h1{font-size:16px;margin:0;flex:1;min-width:120px}
-.blayout{display:grid;grid-template-columns:210px 1fr;gap:0;max-width:1100px;margin:0 auto;min-height:calc(100vh - 56px)}
+.blayout{display:grid;grid-template-columns:210px 1fr;max-width:1100px;margin:0 auto;min-height:calc(100vh - 56px)}
 .civlist{border-right:1px solid var(--line);padding:8px;overflow:auto;max-height:calc(100vh - 56px);position:sticky;top:56px;align-self:start}
 .civlist button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:0;border-radius:7px;padding:6px 8px}
 .civlist button:hover{background:var(--panel)}
 .civlist button[aria-current="true"]{background:var(--prim);color:var(--accent);font-weight:600}
 .civlist .cnt{margin-left:auto;color:var(--muted);font-size:11px;background:var(--panel2);border-radius:99px;padding:0 7px}
-.bmain{padding:12px;min-width:0}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-.chip{background:var(--panel2);border:1px solid var(--line);border-radius:99px;padding:4px 12px}
-.chip[aria-current="true"]{border-color:var(--accent);color:var(--accent)}
+.bmain{padding:12px 12px 90px;min-width:0}
 .empty{border:1px dashed var(--line2);border-radius:12px;padding:28px 16px;text-align:center;color:var(--muted)}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.card .ch{padding:12px 14px;border-bottom:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.card .ch h2{margin:0;font-size:17px;flex:1;min-width:140px}
-.notes{padding:10px 14px;color:var(--muted);border-bottom:1px solid var(--line);white-space:pre-wrap}
-.age{padding:5px 14px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);background:var(--panel2);border-bottom:1px solid var(--line)}
-.step{display:grid;grid-template-columns:34px 54px 56px 1fr;gap:8px;padding:8px 14px;border-bottom:1px solid var(--line);align-items:start}
-.step .n{color:var(--muted)}
-.step .res{display:flex;gap:4px;flex-wrap:wrap}
-.step .tx{grid-column:4}
-.res span{display:inline-flex;align-items:center;gap:4px;border-radius:6px;padding:0 6px;font-size:12px;background:var(--panel2);border:1px solid var(--line)}
-.res i{width:8px;height:8px;border-radius:50%;display:inline-block}
-.rf i{background:var(--food)} .rw i{background:var(--wood)} .rg i{background:var(--gold)} .rs i{background:var(--stone)}
-.stepmeta{display:flex;flex-direction:column;gap:3px}
 @media (max-width:700px){
   .blayout{grid-template-columns:1fr}
   .civlist{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px}
   .civlist button{width:auto;flex:none;border:1px solid var(--line);white-space:nowrap}
-  .step{grid-template-columns:28px 1fr;}
-  .step .tx{grid-column:2}
 }
-/* overlays */
-.overlay{position:fixed;inset:0;background:var(--bg);z-index:100;overflow:auto}
-.editor{max-width:820px;margin:0 auto;padding:12px 12px 80px}
-.editor label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:10px 0 4px}
-.editor input,.editor select,.editor textarea{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 9px}
-.editor textarea{min-height:60px;resize:vertical}
-.erow{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px;margin-bottom:8px;display:grid;gap:6px;grid-template-columns:repeat(8,minmax(0,1fr))}
-.erow .full{grid-column:1/-1}
-.erow .c2{grid-column:span 2}
-.erow small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;margin-bottom:2px}
-.erow .acts{display:flex;gap:4px;justify-content:flex-end;align-items:center;grid-column:span 2}
-.editor .actions{position:fixed;left:0;right:0;bottom:0;padding:10px 12px;background:var(--bg);border-top:1px solid var(--line);display:flex;gap:8px;justify-content:center;z-index:5}
-@media (max-width:560px){.erow{grid-template-columns:repeat(4,minmax(0,1fr))}.erow .c2{grid-column:span 2}.erow .acts{grid-column:1/-1}}
-.play{display:flex;flex-direction:column;min-height:100%;max-width:900px;margin:0 auto;padding:12px}
-.play .top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.play .top .grow{flex:1}
-.clock{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
-.big{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:18px 0}
-.big .stp{color:var(--muted)}
-.big .ctext{font-size:clamp(24px,5vw,40px);font-weight:700;line-height:1.15}
-.big .res span{font-size:clamp(16px,3vw,22px);padding:3px 10px}
-.big .meta{display:flex;gap:14px;flex-wrap:wrap;font-size:18px;color:var(--muted)}
-.big .meta b{color:var(--text)}
-.big .due{color:var(--accent)}
-.nextup{border-top:1px solid var(--line);padding-top:10px;color:var(--muted)}
-.nextup div{padding:3px 0}
-.pnav{display:flex;gap:10px;position:sticky;bottom:0;background:var(--bg);padding:10px 0}
-.pnav .btn{flex:1;justify-content:center;font-size:18px;padding:16px}
-.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--panel);border:1px solid var(--line2);padding:8px 14px;border-radius:8px;box-shadow:var(--shadow);z-index:200}
+/* resource / keyword colors (shared by text, villager columns and toolbar) */
+.k-f{color:var(--food)} .k-w{color:var(--wood)} .k-g{color:var(--gold)} .k-s{color:var(--stone)}
+.k-b{color:var(--bld)} .k-a{color:var(--age);font-weight:700} .k-x{color:var(--bad);font-weight:700}
+.tx .k-b,.pv .k-b{text-decoration:underline}
+/* build sheet */
+.sheet{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:14px}
+.bn{padding:8px 12px;font-size:clamp(22px,5vw,30px);font-weight:800;line-height:1.15} /* ADJUSTABLE - banner title size */
+.bname{width:100%;background:transparent;color:inherit;border:1px dashed currentColor;border-radius:6px;font:inherit;padding:2px 6px}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--line);background:var(--panel2)}
+.sw{width:22px;height:22px;border-radius:50%;border:2px solid transparent;padding:0}
+.sw[aria-pressed="true"]{border-color:var(--text)}
+.tools select{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:4px 6px}
+.vh,.vl{display:grid;grid-template-columns:repeat(5,var(--vw));text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.vh{justify-content:end;padding:3px 10px 3px 0;font-size:11px;border-bottom:1px solid var(--line)}
+.st{display:grid;grid-template-columns:22px 1fr auto;gap:4px 8px;padding:9px 10px;border-bottom:1px solid var(--line);align-items:start}
+.st:not(.ed){cursor:pointer}
+.st.cur{box-shadow:inset 3px 0 var(--accent);background:var(--prim)}
+.st.done{opacity:.4}
+.st.done .tx{text-decoration:line-through}
+.sn{color:var(--muted);font-size:12px;padding-top:3px}
+.tx{white-space:pre-wrap;font-size:16px;font-weight:600;overflow-wrap:anywhere} /* ADJUSTABLE - step text size */
+.vl .e{opacity:.25}
+.st.ed{grid-template-columns:22px 1fr}
+.st.ed .pv,.st.ed .vl,.st.ed .sa{grid-column:2}
+.st.ed .vl{grid-template-columns:repeat(5,1fr);gap:4px;max-width:260px}
+.st textarea{width:100%;resize:none;overflow:hidden;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:15px}
+.vl input{width:100%;min-width:0;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 2px;text-align:center;font-weight:700}
+.pv{white-space:pre-wrap;font-size:15px;font-weight:600} .pv:empty{display:none}
+.sa{display:flex;gap:4px}
+.add{display:block;width:100%;background:none;border:1px dashed var(--line2);border-radius:10px;padding:12px;color:var(--muted);font-weight:600}
+.add:hover{color:var(--accent);border-color:var(--accent)}
+.add.in{border:0;border-radius:0;padding:10px}
+.fmt{position:fixed;left:0;right:0;bottom:0;display:flex;gap:6px;align-items:center;overflow-x:auto;padding:8px 10px;background:var(--panel);border-top:1px solid var(--line2);z-index:50}
+.fmt .hint{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;flex:none}
+.fmt .btn{flex:none}
+.toast{position:fixed;left:50%;bottom:70px;transform:translateX(-50%);background:var(--panel);border:1px solid var(--line2);padding:8px 14px;border-radius:8px;box-shadow:var(--shadow);z-index:200}
 </style>
 </head>
 <body>
@@ -226,7 +217,7 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
   <div class="bhead">
     <button class="btn" id="bBack">← Stats</button>
     <h1 id="bTitle">Build Orders</h1>
-    <button class="btn accent" id="bNew">+ New build</button>
+    <button class="btn" id="bEdit">Edit</button>
     <button class="btn" id="bImport" title="Import builds from a JSON file">Import</button>
     <button class="btn" id="bExport" title="Export all builds to a JSON file">Export</button>
     <input type="file" id="bFile" accept="application/json,.json" hidden>
@@ -236,7 +227,7 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
     <section class="bmain" id="bMain"></section>
   </div>
 </main>
-<div id="overlay" class="overlay" hidden></div>
+<div class="fmt" id="fmt" hidden></div>
 
 <script>
 "use strict";
@@ -286,6 +277,7 @@ const CIVS = { // slug -> [display name, flag code | null]
   macedonian_dynasty:['Macedonian Dynasty','gr'], malians:['Malians','ml'], mongols:['Mongols','mn'], order_of_the_dragon:['Order of the Dragon','hu'],
   ottomans:['Ottomans','tr'], rus:['Rus','ru'], sengoku_daimyo:['Sengoku Daimyo','jp'], tughlaq_dynasty:['Tughlaq Dynasty','in'],
   zhu_xis_legacy:["Zhu Xi's Legacy",'cn'],
+  vikings:['Vikings',null], scots:['Scots','gb-sct'],
 };
 const civName = s => CIVS[s]?.[0] || s.replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase());
 const DEFAULT_MAP = { id: 163361, name: 'Dry Arabia' };
@@ -576,66 +568,164 @@ document.addEventListener('click', e => { if (!e.target.closest('.menu')) closeM
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenus(); });
 
 /* ---------- 5. Build orders ---------- */
-const AGES = ['', 'Dark Age', 'Feudal Age', 'Castle Age', 'Imperial Age'];
-let builds = store.get('builds', []);
+// ── CONFIG ──
+const MAX_BUILDS = 6; // ADJUSTABLE - max builds per civilization on one screen
+const BANNERS = [ // ADJUSTABLE - banner colors (background / text)
+  { k: 'y', bg: '#ffe600', fg: '#000' }, { k: 'b', bg: '#2d63c8', fg: '#fff' }, { k: 'r', bg: '#d83a3a', fg: '#fff' },
+  { k: 'g', bg: '#2f9e5b', fg: '#fff' }, { k: 'p', bg: '#7a4fc9', fg: '#fff' }, { k: 'k', bg: '#000', fg: '#fff' },
+];
+const RES = [['f', 'Food'], ['w', 'Wood'], ['g', 'Gold'], ['s', 'Stone'], ['b', 'Build']]; // the 5 villager jobs
+const TAGS = [...RES, ['a', 'Age'], ['x', 'Alert'], ['n', 'Plain']]; // toolbar color tags: {f:text}
+const AUTO = [ // ADJUSTABLE - words colored automatically: [class, regex source]
+  ['a', 'dark age|feudal|castle|imperial|age up|age'],
+  ['f', 'food|berries|berry|sheep|deer|boar|fish|farms?|mills?'],
+  ['w', 'wood|lumber|trees?|strag(?:gler)?s?'],
+  ['g', 'gold|mines?'],
+  ['s', 'stone'],
+  ['b', 'houses?|barracks|stables?|archery range|range|camps?|market|blacksmith|monastery|keep|tc|town center|walls?|docks?|outpost|prod'],
+];
+const AUTO_RE = new RegExp('\\b(' + AUTO.map(a => a[1]).join('|') + ')\\b', 'gi');
+const AUTO_T = AUTO.map(([c, p]) => [c, new RegExp('^(?:' + p + ')$', 'i')]);
+
+// ── STATE ──
+const blankStep = () => ({ text: '', f: '', w: '', g: '', s: '', b: '' });
+const normBuild = b => Object.assign({ color: 'y' }, b, { // keeps unknown legacy fields (time, pop...) untouched
+  id: b.id || uid(), civ: CIVS[b.civ] ? b.civ : 'english', name: String(b.name ?? 'Build').slice(0, 120),
+  steps: (Array.isArray(b.steps) ? b.steps : []).slice(0, 300).map(s => Object.assign(blankStep(), s, { text: String(s?.text ?? '').slice(0, 500) })),
+});
+let builds = store.get('builds', []).map(normBuild);
 const saveBuilds = () => store.set('builds', builds);
-let bCiv = store.get('buildCiv', 'english'), bSel = null, editing = null;
-const hasHistory = () => history.length > 1;
+let bCiv = store.get('buildCiv', 'english'); if (!CIVS[bCiv]) bCiv = 'english';
+let edit = false, lastTA = null, focusSel = null;
+const done = new Set(); // in-game "step finished" marks (not saved)
+const civSlugs = Object.keys(CIVS).sort((a, b) => civName(a).localeCompare(civName(b)));
+const rowKey = (b, i) => b.id + ':' + i;
+const clearDone = b => [...done].forEach(k => k.startsWith(b.id + ':') && done.delete(k));
+const grow = t => { t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px'; };
 function toast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2200); }
 
+// ── RICH TEXT ──  manual tags {f:text} override; otherwise AUTO words get colored
+const rich = t => String(t).split(/(\{[fwgsbaxn]:[^}]*\})/).map(p => {
+  const m = /^\{([fwgsbaxn]):([^}]*)\}$/.exec(p);
+  return m ? `<span class="k-${m[1]}">${esc(m[2])}</span>`
+    : esc(p).replace(AUTO_RE, w => `<span class="k-${AUTO_T.find(([, re]) => re.test(w))[0]}">${w}</span>`);
+}).join('');
+
+// ── ROUTING ──
 function route() {
-  const h = location.hash.replace(/^#\/?/, '').split('/');
-  const isBuilds = h[0] === 'builds';
-  $('#viewDash').hidden = isBuilds; $('#viewBuilds').hidden = !isBuilds;
-  if (!isBuilds) { closeOverlay(); return; }
-  if (h[1] === 'new') { bSel = null; renderBuilds(); startEdit(null); return; }
-  if (h[1] && (CIVS[h[1]] || builds.some(b => b.civ === h[1]))) { if (bCiv !== h[1]) bSel = null; bCiv = h[1]; store.set('buildCiv', bCiv); }
-  closeOverlay(); renderBuilds();
+  const h = location.hash.replace(/^#\/?/, '').split('/'), isB = h[0] === 'builds';
+  $('#viewDash').hidden = isB; $('#viewBuilds').hidden = !isB;
+  if (!isB) { $('#fmt').hidden = true; return; }
+  if (h[1] === 'new') { addBuild(); history.replaceState(null, '', '#/builds/' + bCiv); return; }
+  if (CIVS[h[1]]) { bCiv = h[1]; store.set('buildCiv', bCiv); }
+  renderBuilds();
 }
 window.addEventListener('hashchange', route);
-$('#bBack').onclick = () => { closeOverlay(); location.hash = '#/'; };
+$('#bBack').onclick = () => { location.hash = '#/'; };
+$('#bEdit').onclick = () => { edit = !edit; renderBuilds(); };
 
-function resChips(s) {
-  const o = [['f','food',s.f],['w','wood',s.w],['g','gold',s.g],['s','stone',s.s]].filter(x => x[2] !== '' && x[2] != null && !isNaN(x[2]));
-  return o.length ? `<div class="res">${o.map(([k, n, v]) => `<span class="r${k}" title="Villagers on ${n}"><i></i>${+v}</span>`).join('')}</div>` : '';
+// ── RENDER ──
+function cardHtml(b) {
+  const c = BANNERS.find(x => x.k === b.color) || BANNERS[0];
+  const cur = edit ? -1 : b.steps.findIndex((_, i) => !done.has(rowKey(b, i)));
+  const banner = `<div class="bn" style="background:${c.bg};color:${c.fg}">` +
+    (edit ? `<input class="bname" data-f="name" maxlength="120" placeholder="Build name" value="${esc(b.name)}">` : esc(b.name)) + '</div>';
+  const tools = !edit ? '' : `<div class="tools">${BANNERS.map(x => `<button class="sw" data-act="color" data-k="${x.k}" aria-pressed="${x.k === b.color}" aria-label="Banner color" style="background:${x.bg}"></button>`).join('')}` +
+    `<select data-f="civ" aria-label="Civilization">${civSlugs.map(s => `<option value="${s}"${s === b.civ ? ' selected' : ''}>${esc(civName(s))}</option>`).join('')}</select>` +
+    `<button class="btn sm" data-act="dup">Duplicate</button><button class="btn sm danger" data-act="del">Delete</button></div>`;
+  const head = edit ? '' : `<div class="vh">${RES.map(([k, n]) => `<span class="k-${k}" title="${n} villagers">${n[0]}</span>`).join('')}</div>`;
+  const rows = b.steps.map((s, i) => {
+    const vl = RES.map(([k]) => edit
+      ? `<input type="number" inputmode="numeric" min="0" max="99" placeholder="${k.toUpperCase()}" data-r="${k}" class="k-${k}" value="${esc(s[k])}">`
+      : s[k] !== '' && s[k] != null ? `<span class="k-${k}">${esc(s[k])}</span>` : '<span class="e">·</span>').join('');
+    return `<div class="st${edit ? ' ed' : ''}${done.has(rowKey(b, i)) ? ' done' : ''}${i === cur ? ' cur' : ''}" data-i="${i}"><span class="sn">${i + 1}</span>` +
+      (edit ? `<textarea rows="1" data-f="text" placeholder="e.g. rally 2 to gold + house, then rally strag">${esc(s.text)}</textarea><div class="pv">${rich(s.text)}</div>`
+            : `<div class="tx">${rich(s.text)}</div>`) +
+      `<div class="vl">${vl}</div>` +
+      (edit ? '<div class="sa"><button class="btn sm" data-act="up">↑</button><button class="btn sm" data-act="down">↓</button><button class="btn sm danger" data-act="rm">✕</button></div>' : '') + '</div>';
+  }).join('');
+  return `<section class="sheet" data-b="${b.id}">${banner}${tools}${head}${rows}<button class="add in" data-act="add-step">+ Step</button></section>`;
 }
 function renderBuilds() {
   const counts = {}; builds.forEach(b => counts[b.civ] = (counts[b.civ] || 0) + 1);
-  const slugs = Object.keys(CIVS).sort((a, b) => civName(a).localeCompare(civName(b)));
-  $('#civList').innerHTML = slugs.map(s => `<button data-civ="${s}" aria-current="${s === bCiv}">${flagHtml(s)}<span>${esc(civName(s))}</span>${counts[s] ? `<span class="cnt">${counts[s]}</span>` : ''}</button>`).join('');
+  $('#civList').innerHTML = civSlugs.map(s => `<button data-civ="${s}" aria-current="${s === bCiv}">${flagHtml(s)}<span>${esc(civName(s))}</span>${counts[s] ? `<span class="cnt">${counts[s]}</span>` : ''}</button>`).join('');
   $('#bTitle').textContent = `Build Orders · ${civName(bCiv)}`;
+  $('#bEdit').textContent = edit ? 'Done' : 'Edit'; $('#bEdit').classList.toggle('accent', edit);
   const mine = builds.filter(b => b.civ === bCiv);
-  if (!mine.some(b => b.id === bSel)) bSel = mine[0]?.id || null;
-  const b = mine.find(x => x.id === bSel);
-  let html = '';
-  if (mine.length) html += `<div class="chips">${mine.map(x => `<button class="chip" data-sel="${x.id}" aria-current="${x.id === bSel}">${esc(x.name)}</button>`).join('')}</div>`;
-  if (!b) html += `<div class="empty"><p><b>No build orders for ${esc(civName(bCiv))} yet.</b></p><p>Write down your opener once, then run it step-by-step in Play mode during a game.</p><button class="btn accent" id="emptyNew">+ Create ${esc(civName(bCiv))} build</button></div>`;
-  else {
-    let lastAge = null;
-    const steps = b.steps.map((s, i) => {
-      const age = s.age && s.age !== lastAge ? `<div class="age">${esc(s.age)}</div>` : ''; if (s.age) lastAge = s.age;
-      return age + `<div class="step"><div class="n num">${i + 1}</div><div class="stepmeta"><span class="num">${esc(s.time || '')}</span></div><div class="num" title="Population">${s.pop !== '' && s.pop != null ? esc(s.pop) + ' <span style="color:var(--muted)">pop</span>' : ''}</div><div>${esc(s.text)}${resChips(s)}</div></div>`;
-    }).join('');
-    html += `<article class="card"><div class="ch"><h2>${esc(b.name)}</h2>` +
-      `<button class="btn accent" data-act="play">▶ Play</button><button class="btn" data-act="edit">Edit</button><button class="btn" data-act="dup">Duplicate</button><button class="btn danger" data-act="del">Delete</button></div>` +
-      (b.notes ? `<div class="notes">${esc(b.notes)}</div>` : '') + steps + `</article>`;
-  }
-  $('#bMain').innerHTML = html;
+  $('#bMain').innerHTML = mine.length
+    ? mine.map(cardHtml).join('') + (mine.length < MAX_BUILDS ? '<button class="add" data-act="new-build">+ New build</button>' : '')
+    : `<div class="empty"><p><b>No build orders for ${esc(civName(bCiv))} yet.</b></p><button class="btn accent" data-act="new-build">+ Create build</button></div>`;
+  $('#fmt').hidden = !edit;
+  document.querySelectorAll('#bMain textarea').forEach(grow);
+  if (focusSel) { const el = $(focusSel); focusSel = null; el?.focus(); el?.select?.(); }
 }
+function addBuild() {
+  const n = builds.filter(x => x.civ === bCiv).length;
+  const b = normBuild({ civ: bCiv, name: 'New build', color: BANNERS[n % BANNERS.length].k, steps: [blankStep()] });
+  builds.push(b); saveBuilds(); edit = true; focusSel = `.sheet[data-b="${b.id}"] .bname`; renderBuilds();
+}
+const stepSel = (b, i) => `.sheet[data-b="${b.id}"] .st[data-i="${i}"] textarea`;
+
+// ── EVENTS ──
 $('#civList').onclick = e => { const b = e.target.closest('[data-civ]'); if (b) location.hash = '#/builds/' + b.dataset.civ; };
-$('#bMain').onclick = e => {
-  if (e.target.closest('#emptyNew')) return startEdit(null);
-  const c = e.target.closest('[data-sel]'); if (c) { bSel = c.dataset.sel; return renderBuilds(); }
-  const a = e.target.closest('[data-act]'); if (!a) return;
-  const b = builds.find(x => x.id === bSel); if (!b) return;
-  if (a.dataset.act === 'play') startPlay(b);
-  if (a.dataset.act === 'edit') startEdit(b);
-  if (a.dataset.act === 'dup') { const c2 = JSON.parse(JSON.stringify(b)); c2.id = uid(); c2.name += ' (copy)'; builds.push(c2); bSel = c2.id; saveBuilds(); renderBuilds(); toast('Duplicated'); }
-  if (a.dataset.act === 'del' && confirm(`Delete “${b.name}”?`)) { builds = builds.filter(x => x.id !== b.id); saveBuilds(); renderBuilds(); }
-};
-$('#bNew').onclick = () => startEdit(null);
+$('#bMain').addEventListener('click', e => {
+  const a = e.target.closest('[data-act]'), sheet = e.target.closest('.sheet'), row = e.target.closest('.st');
+  const b = sheet && builds.find(x => x.id === sheet.dataset.b), i = row ? +row.dataset.i : -1;
+  if (!a) { // view mode: tap a step to mark it done
+    if (edit || !row || !b) return;
+    const k = rowKey(b, i); done.has(k) ? done.delete(k) : done.add(k); return renderBuilds();
+  }
+  const act = a.dataset.act;
+  if (act === 'new-build') return addBuild();
+  if (!b) return;
+  if (act === 'add-step') { b.steps.push(blankStep()); focusSel = stepSel(b, b.steps.length - 1); }
+  else if (act === 'color') b.color = a.dataset.k;
+  else if (act === 'rm') { b.steps.splice(i, 1); if (!b.steps.length) b.steps.push(blankStep()); }
+  else if (act === 'up' && i > 0) { [b.steps[i - 1], b.steps[i]] = [b.steps[i], b.steps[i - 1]]; focusSel = stepSel(b, i - 1); }
+  else if (act === 'down' && i < b.steps.length - 1) { [b.steps[i + 1], b.steps[i]] = [b.steps[i], b.steps[i + 1]]; focusSel = stepSel(b, i + 1); }
+  else if (act === 'dup') { const c = normBuild(JSON.parse(JSON.stringify(b))); c.id = uid(); c.name += ' (copy)'; builds.splice(builds.indexOf(b) + 1, 0, c); }
+  else if (act === 'del') { if (!confirm(`Delete “${b.name}”?`)) return; builds = builds.filter(x => x !== b); }
+  else return;
+  clearDone(b); saveBuilds(); renderBuilds();
+});
+$('#bMain').addEventListener('input', e => { // typing never re-renders, so focus is kept
+  const t = e.target, row = t.closest('.st'), sheet = t.closest('.sheet'), b = sheet && builds.find(x => x.id === sheet.dataset.b);
+  if (!b) return;
+  if (t.dataset.r) b.steps[+row.dataset.i][t.dataset.r] = t.value.slice(0, 2);
+  else if (t.dataset.f === 'text') { b.steps[+row.dataset.i].text = t.value; grow(t); row.querySelector('.pv').innerHTML = rich(t.value); }
+  else if (t.dataset.f === 'name') b.name = t.value;
+  else return;
+  saveBuilds();
+});
+$('#bMain').addEventListener('change', e => { // reassign a build to another civilization
+  const t = e.target, b = builds.find(x => x.id === t.closest('.sheet')?.dataset.b);
+  if (b && t.dataset.f === 'civ') { b.civ = t.value; saveBuilds(); location.hash = '#/builds/' + b.civ; }
+});
+$('#bMain').addEventListener('keydown', e => { // Enter = next step, Backspace on an empty step = delete it
+  const t = e.target; if (t.dataset?.f !== 'text') return;
+  const b = builds.find(x => x.id === t.closest('.sheet').dataset.b), i = +t.closest('.st').dataset.i;
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); b.steps.splice(i + 1, 0, blankStep()); focusSel = stepSel(b, i + 1); }
+  else if (e.key === 'Backspace' && !t.value && b.steps.length > 1) { e.preventDefault(); b.steps.splice(i, 1); focusSel = stepSel(b, Math.max(0, i - 1)); }
+  else return;
+  clearDone(b); saveBuilds(); renderBuilds();
+});
+$('#bMain').addEventListener('focusin', e => { if (e.target.tagName === 'TEXTAREA') lastTA = e.target; });
+
+// ── COLOR TOOLBAR ── wraps the selected text of the last-focused step in a {tag:...}
+$('#fmt').innerHTML = '<span class="hint">Color</span>' + TAGS.map(([k, n]) => `<button class="btn sm k-${k}" data-k="${k}">${n}</button>`).join('');
+$('#fmt').addEventListener('mousedown', e => e.preventDefault()); // keep the keyboard / selection
+$('#fmt').addEventListener('click', e => {
+  const k = e.target.closest('[data-k]')?.dataset.k, ta = lastTA;
+  if (!k || !ta || !ta.isConnected) return;
+  const a = ta.selectionStart, z = ta.selectionEnd;
+  ta.setRangeText(`{${k}:${ta.value.slice(a, z)}}`, a, z, 'end');
+  if (a === z) ta.setSelectionRange(a + 3, a + 3);
+  ta.dispatchEvent(new Event('input', { bubbles: true })); ta.focus();
+});
+
+// ── IMPORT / EXPORT ──
 $('#bExport').onclick = () => {
-  const blob = new Blob([JSON.stringify({ app: 'aoe4-companion', version: 1, builds }, null, 2)], { type: 'application/json' });
+  const blob = new Blob([JSON.stringify({ app: 'aoe4-companion', version: 2, builds }, null, 2)], { type: 'application/json' });
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'aoe4-build-orders.json'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 };
 $('#bImport').onclick = () => $('#bFile').click();
@@ -644,102 +734,10 @@ $('#bFile').onchange = async e => {
   try {
     const j = JSON.parse(await f.text()), arr = Array.isArray(j) ? j : j.builds; if (!Array.isArray(arr)) throw 0;
     let n = 0;
-    for (const x of arr) {
-      if (!x || typeof x.name !== 'string' || !Array.isArray(x.steps)) continue;
-      builds.push({ id: uid(), civ: CIVS[x.civ] ? x.civ : bCiv, name: x.name.slice(0, 120), notes: String(x.notes || '').slice(0, 4000),
-        steps: x.steps.slice(0, 300).map(s => ({ time: String(s.time ?? '').slice(0, 8), pop: s.pop ?? '', age: AGES.includes(s.age) ? s.age : '', f: s.f ?? '', w: s.w ?? '', g: s.g ?? '', s: s.s ?? '', text: String(s.text ?? '').slice(0, 500) })) }); n++;
-    }
+    for (const x of arr) { if (x && typeof x.name === 'string' && Array.isArray(x.steps)) { builds.push(normBuild({ ...x, id: uid(), civ: CIVS[x.civ] ? x.civ : bCiv })); n++; } }
     saveBuilds(); renderBuilds(); toast(`Imported ${n} build${n === 1 ? '' : 's'}`);
   } catch { toast('That file is not a valid build-order export'); }
 };
-
-/* overlay: editor */
-function closeOverlay() { stopClock(); const o = $('#overlay'); o.hidden = true; o.innerHTML = ''; document.body.style.overflow = ''; document.removeEventListener('keydown', playKeys); }
-const blankStep = () => ({ time: '', pop: '', age: '', f: '', w: '', g: '', s: '', text: '' });
-function startEdit(b) {
-  editing = b ? JSON.parse(JSON.stringify(b)) : { id: null, civ: bCiv, name: '', notes: '', steps: [blankStep()] };
-  drawEditor(); document.body.style.overflow = 'hidden';
-}
-function drawEditor() {
-  const E = editing, o = $('#overlay'); o.hidden = false;
-  o.innerHTML = `<div class="editor"><div style="display:flex;align-items:center;gap:8px"><h2 style="flex:1;margin:0">${E.id ? 'Edit' : 'New'} build order</h2><button class="btn" data-e="cancel">Cancel</button></div>
-    <label for="eCiv">Civilization</label><select id="eCiv">${Object.keys(CIVS).sort((a, b) => civName(a).localeCompare(civName(b))).map(s => `<option value="${s}" ${s === E.civ ? 'selected' : ''}>${esc(civName(s))}</option>`).join('')}</select>
-    <label for="eName">Name</label><input id="eName" maxlength="120" placeholder="e.g. Fast Castle into Knights" value="${esc(E.name)}">
-    <label for="eNotes">Strategy notes (optional)</label><textarea id="eNotes" maxlength="4000" placeholder="Map, matchup, key timings, what to scout…">${esc(E.notes)}</textarea>
-    <label>Steps</label>
-    <div id="eSteps">${E.steps.map((s, i) => `<div class="erow" data-i="${i}">
-      <div class="c2"><small>Time</small><input data-f="time" placeholder="0:45" value="${esc(s.time)}"></div>
-      <div class="c2"><small>Pop</small><input data-f="pop" type="number" min="0" placeholder="e.g. 12" value="${esc(s.pop)}"></div>
-      <div class="c2"><small>Age marker</small><select data-f="age">${AGES.map(a => `<option ${a === s.age ? 'selected' : ''} value="${a}">${a || '—'}</option>`).join('')}</select></div>
-      <div class="acts"><button class="btn sm" data-e="up" title="Move up">↑</button><button class="btn sm" data-e="down" title="Move down">↓</button><button class="btn sm danger" data-e="rm" title="Remove">✕</button></div>
-      <div class="c2"><small>Food vills</small><input data-f="f" type="number" min="0" value="${esc(s.f)}"></div>
-      <div class="c2"><small>Wood vills</small><input data-f="w" type="number" min="0" value="${esc(s.w)}"></div>
-      <div class="c2"><small>Gold vills</small><input data-f="g" type="number" min="0" value="${esc(s.g)}"></div>
-      <div class="c2"><small>Stone vills</small><input data-f="s" type="number" min="0" value="${esc(s.s)}"></div>
-      <div class="full"><small>Action</small><input data-f="text" maxlength="500" placeholder="What to do at this step" value="${esc(s.text)}"></div></div>`).join('')}</div>
-    <button class="btn" data-e="add">+ Add step</button>
-    <div class="actions"><button class="btn" data-e="cancel">Cancel</button><button class="btn accent" data-e="save">Save build</button></div></div>`;
-}
-function syncEditor() {
-  const E = editing; if (!E) return;
-  E.civ = $('#eCiv').value; E.name = $('#eName').value; E.notes = $('#eNotes').value;
-  document.querySelectorAll('#eSteps .erow').forEach(r => r.querySelectorAll('[data-f]').forEach(el => { E.steps[+r.dataset.i][el.dataset.f] = el.value; }));
-}
-$('#overlay').addEventListener('click', e => {
-  const a = e.target.closest('[data-e]'); if (!a || !editing) return;
-  syncEditor(); const E = editing, i = +a.closest('.erow')?.dataset.i, act = a.dataset.e;
-  if (act === 'cancel') { editing = null; closeOverlay(); location.hash = '#/builds/' + bCiv; return; }
-  if (act === 'add') { E.steps.push(blankStep()); drawEditor(); $('#overlay').scrollTo(0, 1e6); return; }
-  if (act === 'rm') { E.steps.splice(i, 1); if (!E.steps.length) E.steps.push(blankStep()); return drawEditor(); }
-  if (act === 'up' && i > 0) { [E.steps[i - 1], E.steps[i]] = [E.steps[i], E.steps[i - 1]]; return drawEditor(); }
-  if (act === 'down' && i < E.steps.length - 1) { [E.steps[i + 1], E.steps[i]] = [E.steps[i], E.steps[i + 1]]; return drawEditor(); }
-  if (act === 'save') {
-    const steps = E.steps.filter(s => s.text.trim() || s.time || s.pop !== '');
-    if (!E.name.trim()) { toast('Give the build a name'); $('#eName').focus(); return; }
-    if (!steps.length) { toast('Add at least one step'); return; }
-    const out = { id: E.id || uid(), civ: E.civ, name: E.name.trim(), notes: E.notes.trim(), steps };
-    const idx = builds.findIndex(x => x.id === out.id); idx >= 0 ? builds[idx] = out : builds.push(out);
-    saveBuilds(); bCiv = out.civ; bSel = out.id; store.set('buildCiv', bCiv); editing = null; closeOverlay();
-    location.hash = '#/builds/' + bCiv; renderBuilds(); toast('Saved');
-  }
-});
-
-/* overlay: play mode (large single-step view + stopwatch) */
-let P = null, clockT = null;
-const toSecs = t => { const m = /^(\d+):(\d{1,2})$/.exec(String(t).trim()); return m ? +m[1] * 60 + +m[2] : null; };
-const mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
-function startPlay(b) { P = { b, i: 0, el: 0, run: false, t0: 0 }; drawPlay(); document.body.style.overflow = 'hidden'; document.addEventListener('keydown', playKeys); }
-function stopClock() { clearInterval(clockT); clockT = null; if (P) P.run = false; P = null; }
-function drawPlay() {
-  const { b, i } = P, s = b.steps[i], o = $('#overlay'); o.hidden = false;
-  const due = P.el > 0 && toSecs(s.time) != null && P.el >= toSecs(s.time);
-  const nxt = b.steps.slice(i + 1, i + 4).map((n, k) => `<div class="num">${i + k + 2}. ${n.time ? `<b>${esc(n.time)}</b> · ` : ''}${esc(n.text)}</div>`).join('');
-  o.innerHTML = `<div class="play"><div class="top"><button class="btn" data-p="exit">✕ Exit</button><div class="grow"><b>${esc(b.name)}</b><div style="color:var(--muted);font-size:12px">${esc(civName(b.civ))}</div></div>
-      <span class="clock" id="clock">${mmss(P.el)}</span><button class="btn" data-p="clock">${P.run ? 'Pause' : 'Start'} timer</button><button class="btn" data-p="reset">Reset</button></div>
-    <div class="big"><div class="stp">Step ${i + 1} of ${b.steps.length}${s.age ? ` · ${esc(s.age)}` : ''}</div>
-      <div class="meta">${s.time ? `<span class="${due ? 'due' : ''}">Time <b>${esc(s.time)}</b></span>` : ''}${s.pop !== '' && s.pop != null ? `<span>Pop <b>${esc(s.pop)}</b></span>` : ''}</div>
-      <div class="ctext">${esc(s.text) || '&nbsp;'}</div>${resChips(s)}</div>
-    ${nxt ? `<div class="nextup"><small style="text-transform:uppercase;letter-spacing:.06em">Up next</small>${nxt}</div>` : ''}
-    <div class="pnav"><button class="btn" data-p="prev" ${i === 0 ? 'disabled' : ''}>← Back</button><button class="btn accent" data-p="next" ${i === b.steps.length - 1 ? 'disabled' : ''}>Next →</button></div></div>`;
-}
-function playKeys(e) {
-  if (!P || e.target.matches('input,textarea,select')) return;
-  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); playGo(1); }
-  else if (e.key === 'ArrowLeft') { e.preventDefault(); playGo(-1); }
-  else if (e.key === 'Escape') { closeOverlay(); }
-}
-function playGo(d) { const n = P.i + d; if (n >= 0 && n < P.b.steps.length) { P.i = n; drawPlay(); } }
-$('#overlay').addEventListener('click', e => {
-  const a = e.target.closest('[data-p]'); if (!a || !P) return; const k = a.dataset.p;
-  if (k === 'exit') closeOverlay();
-  else if (k === 'next') playGo(1); else if (k === 'prev') playGo(-1);
-  else if (k === 'reset') { P.el = 0; P.run = false; clearInterval(clockT); drawPlay(); }
-  else if (k === 'clock') {
-    if (P.run) { P.run = false; clearInterval(clockT); }
-    else { P.run = true; P.t0 = Date.now() - P.el * 1000; clockT = setInterval(() => { P.el = (Date.now() - P.t0) / 1000; const c = $('#clock'); if (c) c.textContent = mmss(P.el); }, 250); }
-    drawPlay();
-  }
-});
 
 /* ---------- Boot ---------- */
 render();
