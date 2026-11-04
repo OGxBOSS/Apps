@@ -27,6 +27,7 @@
   }
 }
 *{box-sizing:border-box}
+body{padding-bottom:var(--dock,64px)} /* ADJUSTABLE - fallback height of the fixed bottom panel */
 html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
@@ -63,6 +64,9 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 .brand{font-weight:700;letter-spacing:.02em;margin-right:6px}
 .brand span{color:var(--accent)}
 .bar .spacer{flex:1}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--panel);border-top:1px solid var(--line2);padding-bottom:env(safe-area-inset-bottom,0px)}
+.dock .bar{padding:8px 10px}
+.dock .menu{top:auto;bottom:calc(100% + 6px)}
 .status{max-width:980px;margin:0 auto;padding:0 12px 8px;color:var(--muted);font-size:12px;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center}
 .status .pill{border-radius:99px;padding:1px 8px;border:1px solid var(--line2);font-size:11px}
 .status .warn{color:var(--bad);border-color:var(--bad)}
@@ -83,6 +87,8 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 .head .gt .btn{padding:3px 8px;font-size:13px;font-weight:600;max-width:100%;overflow:hidden}
 .head .gt .btn span{overflow:hidden;text-overflow:ellipsis}
 .head .sub{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding-top:2px}
+.sub button{background:none;border:0;color:inherit;font:inherit;text-transform:inherit;letter-spacing:inherit;padding:4px 0;text-align:right;white-space:nowrap}
+.sub button.on{color:var(--text);font-weight:700}
 .togglebtn{width:100%;justify-content:center;font-size:12px;padding:5px 6px;white-space:normal;text-align:center}
 .row{display:grid;grid-template-columns:var(--civw) 1fr 1fr;min-height:var(--rowh);border-bottom:1px solid var(--line);cursor:pointer;user-select:none;transition:opacity .15s,background .15s}
 .row:hover{background:var(--panel)}
@@ -178,10 +184,10 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 .add{display:block;width:100%;background:none;border:1px dashed var(--line2);border-radius:10px;padding:12px;color:var(--muted);font-weight:600}
 .add:hover{color:var(--accent);border-color:var(--accent)}
 .add.in{border:0;border-radius:0;padding:10px}
-.fmt{position:fixed;left:0;right:0;bottom:0;display:flex;gap:6px;align-items:center;overflow-x:auto;padding:8px 10px;background:var(--panel);border-top:1px solid var(--line2);z-index:50}
+.fmt{position:fixed;left:0;right:0;bottom:var(--dock,64px);display:flex;gap:6px;align-items:center;overflow-x:auto;padding:8px 10px;background:var(--panel);border-top:1px solid var(--line2);z-index:50}
 .fmt .hint{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;flex:none}
 .fmt .btn{flex:none}
-.toast{position:fixed;left:50%;bottom:70px;transform:translateX(-50%);background:var(--panel);border:1px solid var(--line2);padding:8px 14px;border-radius:8px;box-shadow:var(--shadow);z-index:200}
+.toast{position:fixed;left:50%;bottom:calc(var(--dock,64px) + 12px);transform:translateX(-50%);background:var(--panel);border:1px solid var(--line2);padding:8px 14px;border-radius:8px;box-shadow:var(--shadow);z-index:200}
 </style>
 </head>
 <body>
@@ -190,7 +196,7 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 <!-- ============================== Dashboard view ============================== -->
 <main id="viewDash">
   <div class="sticky">
-    <header class="bar">
+    <div class="dock"><header class="bar">
       <div class="brand">AoE<span>4</span> Companion</div>
       <div class="seg" id="segMode" role="group" aria-label="Game mode">
         <button data-v="1v1" aria-pressed="true">1v1</button>
@@ -204,7 +210,7 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
       </div>
       <span class="spacer"></span>
       <button class="btn accent" id="btnCreate" title="Create a build order"><svg class="i" viewBox="0 0 24 24"><path d="M2.5 19.2 11 10.7l2.3 2.3-8.5 8.5a1.6 1.6 0 0 1-2.3 0 1.6 1.6 0 0 1 0-2.3zM14 2l8 3.2-2 2.2-1.7-.7-1.4 1.4 1 1-2.4 2.4-1-1-1.2 1.2-2.7-2.7 1.2-1.2-1-1L14 6.4l1 1 1.4-1.4L14 4.6z"/></svg><span class="tx">Create Build</span></button>
-    </header>
+    </header></div>
     <div class="status" id="status"></div>
     <div class="wrap"><div class="grid head" id="head"></div></div>
   </div>
@@ -214,14 +220,15 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 
 <!-- ============================== Build-order view ============================== -->
 <main id="viewBuilds" hidden>
-  <div class="bhead">
+  <div class="bhead"><h1 id="bTitle">Build Orders</h1></div>
+  <div class="dock"><div class="bar">
     <button class="btn" id="bBack">← Stats</button>
-    <h1 id="bTitle">Build Orders</h1>
+    <span class="spacer"></span>
     <button class="btn" id="bEdit">Edit</button>
     <button class="btn" id="bImport" title="Import builds from a JSON file">Import</button>
     <button class="btn" id="bExport" title="Export all builds to a JSON file">Export</button>
     <input type="file" id="bFile" accept="application/json,.json" hidden>
-  </div>
+  </div></div>
   <div class="blayout">
     <nav class="civlist" id="civList" aria-label="Civilizations"></nav>
     <section class="bmain" id="bMain"></section>
@@ -287,9 +294,12 @@ const store = {
   get(k, d) { try { const v = localStorage.getItem('aoe4c.' + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
   set(k, v) { try { localStorage.setItem('aoe4c.' + k, JSON.stringify(v)); return true; } catch { return false; } },
 };
-const S = Object.assign({ mode: '1v1', min: 12, max: 17, pool: 'ranked', sort: 'total', mapId: DEFAULT_MAP.id }, store.get('settings', {}));
+const S = Object.assign({ mode: '1v1', min: 12, max: 17, pool: 'ranked', sort: 'total', skey: 'wr', sdir: 'desc', scol: 'p', mapId: DEFAULT_MAP.id }, store.get('settings', {}));
 S.min = Math.min(Math.max(+S.min | 0, 0), 17); S.max = Math.min(Math.max(+S.max | 0, S.min), 17);
 if (!MODES[S.mode]) S.mode = '1v1';
+if (!['wr', 'g', 'pick'].includes(S.skey)) S.skey = 'wr';
+if (S.sdir !== 'asc') S.sdir = 'desc';
+if (S.scol !== 's') S.scol = 'p';
 const saveSettings = () => store.set('settings', S);
 let disabled = new Set(store.get('disabled', []));
 const saveDisabled = () => store.set('disabled', [...disabled]);
@@ -481,11 +491,15 @@ function renderHead() {
   const total = S.sort === 'total';
   const mapCol = `<div class="dd" style="max-width:100%">${mapButtonHtml()}<div class="menu" id="mapMenu" role="listbox" hidden></div></div>`;
   const totCol = `<span>Total · all maps</span>`;
-  const sub = `<div class="grp3 sub"><span>Win</span><span>Games</span><span>Pick</span></div>`;
+  // tappable column labels: sort by that statistic (tap again to flip high/low)
+  const sub = col => `<div class="grp3 sub">${[['wr', 'Win'], ['g', 'Games'], ['pick', 'Pick']].map(([k, n]) => {
+    const on = S.scol === col && S.skey === k;
+    return `<button class="${on ? 'on' : ''}" data-sk="${k}" data-col="${col}" aria-label="Sort by ${n}">${n}${on ? (S.sdir === 'asc' ? ' ▲' : ' ▼') : ''}</button>`;
+  }).join('')}</div>`;
   $('#head').innerHTML =
     `<div class="c civ"><div class="t">Civilization</div><button class="btn togglebtn" id="btnSort" title="Swap primary and secondary statistics">⇄ ${total ? 'Win Rate by Map' : 'Total Win Rate'}</button></div>` +
-    `<div class="c g p"><div class="gt">${total ? totCol : mapCol}</div>${sub}</div>` +
-    `<div class="c g s"><div class="gt">${total ? mapCol : totCol}</div>${sub}</div>`;
+    `<div class="c g p"><div class="gt">${total ? totCol : mapCol}</div>${sub('p')}</div>` +
+    `<div class="c g s"><div class="gt">${total ? mapCol : totCol}</div>${sub('s')}</div>`;
   if (open === 'map') openMapMenu(true);
 }
 
@@ -493,8 +507,10 @@ function renderRows() {
   const total = aggregate(civUrl), mp = aggregate(r => mapStatsUrl(S.mapId, r));
   const slugs = new Set(Object.keys(CIVS)); total?.civs.forEach((_, k) => slugs.add(k)); mp?.civs.forEach((_, k) => slugs.add(k));
   const byTotal = S.sort === 'total', P = byTotal ? total : mp, Sx = byTotal ? mp : total;
-  const key = s => { const v = P?.civs.get(s)?.wr; return v == null ? -1 : v; };
-  const list = [...slugs].sort((a, b) => (disabled.has(a) - disabled.has(b)) || (key(b) - key(a)) || civName(a).localeCompare(civName(b)));
+  const src = S.scol === 's' ? Sx : P, dir = S.sdir === 'asc' ? 1 : -1;
+  const val = s => src?.civs.get(s)?.[S.skey] ?? null;
+  const byStat = (a, b) => { const x = val(a), y = val(b); return x == null || y == null ? (x == null) - (y == null) : (x - y) * dir; }; // missing data always last
+  const list = [...slugs].sort((a, b) => (disabled.has(a) - disabled.has(b)) || byStat(a, b) || civName(a).localeCompare(civName(b)));
   const nOff = list.filter(s => disabled.has(s)).length;
   let html = '', divided = false;
   if (!total && !mp && failed.size && !refreshing) html += `<div class="banner">Couldn’t load statistics from AoE4World (${esc([...failed.values()][0])}). Nothing is shown rather than guessing — it will retry automatically.</div>`;
@@ -551,7 +567,13 @@ for (const which of ['min', 'max']) {
   };
 }
 $('#head').onclick = e => {
-  if (e.target.closest('#btnSort')) { S.sort = S.sort === 'total' ? 'map' : 'total'; saveSettings(); closeMenus(); render(); return; }
+  const sk = e.target.closest('[data-sk]');
+  if (sk) {
+    const same = S.scol === sk.dataset.col && S.skey === sk.dataset.sk;
+    S.scol = sk.dataset.col; S.skey = sk.dataset.sk; S.sdir = same && S.sdir === 'desc' ? 'asc' : 'desc';
+    saveSettings(); closeMenus(); render(); return;
+  }
+  if (e.target.closest('#btnSort')) { S.sort = S.sort === 'total' ? 'map' : 'total'; S.scol = 'p'; S.skey = 'wr'; S.sdir = 'desc'; saveSettings(); closeMenus(); render(); return; }
   if (e.target.closest('#btnMap')) { e.stopPropagation(); if (open === 'map') closeMenus(); else { closeMenus(); openMapMenu(); } return; }
   const b = e.target.closest('button[data-map]');
   if (b) { S.mapId = +b.dataset.map; saveSettings(); closeMenus(); render(); refresh(); }
@@ -740,6 +762,10 @@ $('#bFile').onchange = async e => {
 };
 
 /* ---------- Boot ---------- */
+if (location.hash) history.replaceState(null, '', location.pathname + location.search); // always launch on the stats dashboard
+// ── DOCK HEIGHT ── keeps page content clear of the fixed bottom panel
+const dockObs = new ResizeObserver(es => es.forEach(en => { if (en.target.offsetHeight) document.documentElement.style.setProperty('--dock', en.target.offsetHeight + 'px'); }));
+document.querySelectorAll('.dock').forEach(d => dockObs.observe(d));
 render();
 route();
 refresh(false).then(() => { lastRefresh = Date.now(); });
