@@ -157,7 +157,7 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 .k-b{color:var(--bld)} .k-a{color:var(--age);font-weight:700} .k-x{color:var(--bad);font-weight:700}
 .tx .k-b,.pv .k-b{text-decoration:underline}
 /* build sheet */
-.sheet{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:14px}
+.sheet{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-bottom:14px}
 .bn{padding:8px 12px;font-size:clamp(22px,5vw,30px);font-weight:800;line-height:1.15} /* ADJUSTABLE - banner title size */
 .bname{width:100%;background:transparent;color:inherit;border:1px dashed currentColor;border-radius:6px;font:inherit;padding:2px 6px}
 .tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--line);background:var(--panel2)}
@@ -188,6 +188,37 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 .fmt .hint{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;flex:none}
 .fmt .btn{flex:none}
 .toast{position:fixed;left:50%;bottom:calc(var(--dock,64px) + 12px);transform:translateX(-50%);background:var(--panel);border:1px solid var(--line2);padding:8px 14px;border-radius:8px;box-shadow:var(--shadow);z-index:200}
+/* ── wheel (execution view), id box, color popup, options editor ── */
+.wheel{position:relative;overflow-y:auto;max-height:var(--wheelh,52vh);padding:var(--wpad,16vh) 0;scrollbar-width:thin} /* ADJUSTABLE - wheel height and end padding */
+.wheel .st{opacity:.5;transition:opacity .25s,background .25s}
+.wheel .st.past{opacity:.28}
+.wheel .st .tx{font-size:14px}
+.wheel .st.cur{opacity:1;padding:16px 10px;background:var(--prim);box-shadow:inset 4px 0 var(--accent)}
+.wheel .st.cur .tx{font-size:24px;font-weight:800} /* ADJUSTABLE - focused step text size */
+.wheel .st.cur .vl{font-size:20px}
+.wheel .st.br{padding-left:22px}
+.tag{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:2px}
+.chosen{font-size:12px;color:var(--muted);font-weight:500}
+.obtn{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.obtn .btn{flex:1 1 0;min-width:0;min-height:54px;justify-content:center;font-size:16px;font-weight:700;white-space:normal;text-align:center}
+.obtn.many .btn{flex:1 1 40%}
+.bn{border-radius:9px 9px 0 0}
+.idbox{display:flex;height:38px;border:1px solid currentColor;border-radius:8px;overflow:hidden}
+.idbox select,.idbox input{height:100%;background:transparent;color:inherit;border:0;border-radius:0;font:inherit;font-size:15px;font-weight:700;padding:0 8px;min-width:0}
+.idbox select{border-right:1px solid currentColor;max-width:45%}
+.idbox select option{color:#000}
+.idbox input{flex:1}
+.tools{position:relative}
+.tools .grow{flex:1}
+.sw0{width:30px;height:30px;border-radius:50%;border:2px solid var(--text);padding:0}
+.pal{position:absolute;top:100%;left:8px;z-index:30;display:grid;grid-template-columns:repeat(7,30px);gap:6px;padding:10px;background:var(--panel);border:1px solid var(--line2);border-radius:10px;box-shadow:var(--shadow)}
+.pal button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line2);padding:0}
+.st.ed .ob{grid-column:2;margin-top:6px}
+.oc{background:var(--panel2);border-left:3px solid var(--accent);border-radius:8px;margin-bottom:8px;padding:6px 0}
+.oh{display:flex;gap:6px;align-items:center;padding:0 8px 4px}
+.oh .lt{font-weight:800;color:var(--accent)}
+.oname{flex:1;min-width:0;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-weight:700}
+.oc .st{border-bottom:0;padding:6px 8px}
 </style>
 </head>
 <body>
@@ -591,11 +622,18 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenus()
 
 /* ---------- 5. Build orders ---------- */
 // ── CONFIG ──
-const MAX_BUILDS = 6; // ADJUSTABLE - max builds per civilization on one screen
-const BANNERS = [ // ADJUSTABLE - banner colors (background / text)
-  { k: 'y', bg: '#ffe600', fg: '#000' }, { k: 'b', bg: '#2d63c8', fg: '#fff' }, { k: 'r', bg: '#d83a3a', fg: '#fff' },
-  { k: 'g', bg: '#2f9e5b', fg: '#fff' }, { k: 'p', bg: '#7a4fc9', fg: '#fff' }, { k: 'k', bg: '#000', fg: '#fff' },
-];
+const MAX_BUILDS = 6;   // ADJUSTABLE - max builds per civilization on one screen
+const MAX_OPTIONS = 8;  // ADJUSTABLE - max options in one Options Step
+const LEGACY_COLORS = { y: '#ffe600', b: '#2d63c8', r: '#d83a3a', g: '#2f9e5b', p: '#7a4fc9', k: '#000000' }; // old color keys; also the cycle for new builds
+const hslHex = (h, s, l) => {
+  l /= 100; const a = s / 100 * Math.min(l, 1 - l);
+  const f = n => { const k = (n + h / 30) % 12; return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))).toString(16).padStart(2, '0'); };
+  return '#' + f(0) + f(8) + f(4);
+};
+const PALETTE = [ // ADJUSTABLE - banner color choices: 3 shades x 12 hues, then neutrals
+  ...[78, 58, 36].flatMap(l => Array.from({ length: 12 }, (_, i) => hslHex(i * 30, 85, l))),
+  '#000000', '#3a3f47', '#7b838f', '#c3c8d0', '#ffffff', '#ffe600'];
+const inkFor = c => { const n = parseInt(c.slice(1), 16); return 0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255) > 150 ? '#000' : '#fff'; };
 const RES = [['f', 'Food'], ['w', 'Wood'], ['g', 'Gold'], ['s', 'Stone'], ['b', 'Build']]; // the 5 villager jobs
 const TAGS = [...RES, ['a', 'Age'], ['x', 'Alert'], ['n', 'Plain']]; // toolbar color tags: {f:text}
 const AUTO = [ // ADJUSTABLE - words colored automatically: [class, regex source]
@@ -609,20 +647,26 @@ const AUTO = [ // ADJUSTABLE - words colored automatically: [class, regex source
 const AUTO_RE = new RegExp('\\b(' + AUTO.map(a => a[1]).join('|') + ')\\b', 'gi');
 const AUTO_T = AUTO.map(([c, p]) => [c, new RegExp('^(?:' + p + ')$', 'i')]);
 
-// ── STATE ──
+// ── STATE ──  a step may carry opts: [{ name, steps: [...] }] (an Options / flex step)
 const blankStep = () => ({ text: '', f: '', w: '', g: '', s: '', b: '' });
-const normBuild = b => Object.assign({ color: 'y' }, b, { // keeps unknown legacy fields (time, pop...) untouched
+const normStep = (s, leaf) => {
+  const o = Object.assign(blankStep(), s, { text: String(s?.text ?? '').slice(0, 500) });
+  if (leaf || !Array.isArray(s?.opts)) delete o.opts;
+  else o.opts = s.opts.slice(0, MAX_OPTIONS).map(x => ({ name: String(x?.name ?? '').slice(0, 60), steps: (Array.isArray(x?.steps) ? x.steps : []).slice(0, 100).map(t => normStep(t, true)) }));
+  return o;
+};
+const normBuild = b => Object.assign({}, b, { // keeps unknown legacy fields untouched
   id: b.id || uid(), civ: CIVS[b.civ] ? b.civ : 'english', name: String(b.name ?? 'Build').slice(0, 120),
-  steps: (Array.isArray(b.steps) ? b.steps : []).slice(0, 300).map(s => Object.assign(blankStep(), s, { text: String(s?.text ?? '').slice(0, 500) })),
+  color: /^#[0-9a-f]{6}$/i.test(b.color) ? b.color : LEGACY_COLORS[b.color] || '#ffe600',
+  steps: (Array.isArray(b.steps) ? b.steps : []).slice(0, 300).map(s => normStep(s)),
 });
 let builds = store.get('builds', []).map(normBuild);
 const saveBuilds = () => store.set('builds', builds);
 let bCiv = store.get('buildCiv', 'english'); if (!CIVS[bCiv]) bCiv = 'english';
-let edit = false, lastTA = null, focusSel = null;
-const done = new Set(); // in-game "step finished" marks (not saved)
+let edit = false, lastTA = null, focusSel = null, palOpen = null;
+const chosen = {}, pos = {}, wheelTop = {}; // in-game only: picked option per options step, focused step per build, wheel scroll
 const civSlugs = Object.keys(CIVS).sort((a, b) => civName(a).localeCompare(civName(b)));
-const rowKey = (b, i) => b.id + ':' + i;
-const clearDone = b => [...done].forEach(k => k.startsWith(b.id + ':') && done.delete(k));
+const letter = k => String.fromCharCode(65 + k);
 const grow = t => { t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px'; };
 function toast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2200); }
 
@@ -632,6 +676,17 @@ const rich = t => String(t).split(/(\{[fwgsbaxn]:[^}]*\})/).map(p => {
   return m ? `<span class="k-${m[1]}">${esc(m[2])}</span>`
     : esc(p).replace(AUTO_RE, w => `<span class="k-${AUTO_T.find(([, re]) => re.test(w))[0]}">${w}</span>`);
 }).join('');
+
+// ── ACTIVE SEQUENCE ──  main steps, with only the picked branch spliced in after its Options Step
+function seqOf(b) {
+  const out = [];
+  b.steps.forEach((s, i) => {
+    out.push({ s, i });
+    const br = s.opts?.[chosen[b.id + ':' + i]];
+    if (br) br.steps.forEach((t, j) => out.push({ s: t, i, o: chosen[b.id + ':' + i], j, tag: j === 0 ? br.name || letter(chosen[b.id + ':' + i]) : '' }));
+  });
+  return out;
+}
 
 // ── ROUTING ──
 function route() {
@@ -644,31 +699,52 @@ function route() {
 }
 window.addEventListener('hashchange', route);
 $('#bBack').onclick = () => { location.hash = '#/'; };
-$('#bEdit').onclick = () => { edit = !edit; renderBuilds(); };
+$('#bEdit').onclick = () => { edit = !edit; palOpen = null; renderBuilds(); };
 
-// ── RENDER ──
+// ── RENDER: EDIT MODE ──
+const vlInputs = s => RES.map(([k]) => `<input type="number" inputmode="numeric" min="0" max="99" placeholder="${k.toUpperCase()}" data-r="${k}" class="k-${k}" value="${esc(s[k])}">`).join('');
+function rowHtml(s, num, at, extra, i) { // i is set only for main-list steps (the only ones that can be Options Steps)
+  const isOpt = s.opts && i !== undefined;
+  return `<div class="st ed${isOpt ? ' opt' : ''}" ${at}><span class="sn">${num}</span>` +
+    `<textarea rows="1" data-f="text" placeholder="${isOpt ? 'Decision, e.g. after aging up choose a plan' : 'e.g. rally 2 to gold + house, then rally strag'}">${esc(s.text)}</textarea><div class="pv">${rich(s.text)}</div>` +
+    `<div class="vl">${vlInputs(s)}</div><div class="sa">${extra}<button class="btn sm" data-act="up">↑</button><button class="btn sm" data-act="down">↓</button><button class="btn sm danger" data-act="rm">✕</button></div>` +
+    (isOpt ? `<div class="ob">${s.opts.map((o, k) => `<div class="oc" data-i="${i}" data-o="${k}"><div class="oh"><span class="lt">${letter(k)}</span>` +
+      `<input class="oname" data-f="oname" maxlength="60" placeholder="Option name" value="${esc(o.name)}"><button class="btn sm danger" data-act="orm">✕</button></div>` +
+      o.steps.map((t, j) => rowHtml(t, letter(k) + (j + 1), `data-i="${i}" data-o="${k}" data-j="${j}"`, '')).join('') +
+      `<button class="add in" data-act="add-ostep">+ Step</button></div>`).join('')}<button class="add in" data-act="add-opt">+ Option</button></div>` : '') + '</div>';
+}
+
+// ── RENDER: EXECUTION (WHEEL) MODE ──
+function viewRow(b, it, idx, cur) {
+  const s = it.s, ci = chosen[b.id + ':' + it.i];
+  const vl = RES.map(([k]) => s[k] !== '' && s[k] != null ? `<span class="k-${k}">${esc(s[k])}</span>` : '<span class="e">·</span>').join('');
+  let extra = '';
+  if (s.opts && it.o == null) extra = idx === cur
+    ? `<div class="obtn${s.opts.length > 3 ? ' many' : ''}">${s.opts.map((o, k) => `<button class="btn${ci === k ? ' accent' : ''}" data-act="pick" data-i="${it.i}" data-k="${k}">${esc(o.name || letter(k))}</button>`).join('')}</div>`
+    : `<div class="chosen">${s.opts[ci] ? '→ ' + esc(s.opts[ci].name || letter(ci)) : '⑂ ' + s.opts.map((o, k) => esc(o.name || letter(k))).join(' / ')}</div>`;
+  return `<div class="st${idx === cur ? ' cur' : ''}${idx < cur ? ' past' : ''}${it.o != null ? ' br' : ''}" data-x="${idx}"><span class="sn">${idx + 1}</span>` +
+    `<div class="tx">${it.tag ? `<div class="tag">${esc(it.tag)}</div>` : ''}${rich(s.text)}${extra}</div><div class="vl">${vl}</div></div>`;
+}
+
 function cardHtml(b) {
-  const c = BANNERS.find(x => x.k === b.color) || BANNERS[0];
-  const cur = edit ? -1 : b.steps.findIndex((_, i) => !done.has(rowKey(b, i)));
-  const banner = `<div class="bn" style="background:${c.bg};color:${c.fg}">` +
-    (edit ? `<input class="bname" data-f="name" maxlength="120" placeholder="Build name" value="${esc(b.name)}">` : esc(b.name)) + '</div>';
-  const tools = !edit ? '' : `<div class="tools">${BANNERS.map(x => `<button class="sw" data-act="color" data-k="${x.k}" aria-pressed="${x.k === b.color}" aria-label="Banner color" style="background:${x.bg}"></button>`).join('')}` +
-    `<select data-f="civ" aria-label="Civilization">${civSlugs.map(s => `<option value="${s}"${s === b.civ ? ' selected' : ''}>${esc(civName(s))}</option>`).join('')}</select>` +
-    `<button class="btn sm" data-act="dup">Duplicate</button><button class="btn sm danger" data-act="del">Delete</button></div>`;
-  const head = edit ? '' : `<div class="vh">${RES.map(([k, n]) => `<span class="k-${k}" title="${n} villagers">${n[0]}</span>`).join('')}</div>`;
-  const rows = b.steps.map((s, i) => {
-    const vl = RES.map(([k]) => edit
-      ? `<input type="number" inputmode="numeric" min="0" max="99" placeholder="${k.toUpperCase()}" data-r="${k}" class="k-${k}" value="${esc(s[k])}">`
-      : s[k] !== '' && s[k] != null ? `<span class="k-${k}">${esc(s[k])}</span>` : '<span class="e">·</span>').join('');
-    return `<div class="st${edit ? ' ed' : ''}${done.has(rowKey(b, i)) ? ' done' : ''}${i === cur ? ' cur' : ''}" data-i="${i}"><span class="sn">${i + 1}</span>` +
-      (edit ? `<textarea rows="1" data-f="text" placeholder="e.g. rally 2 to gold + house, then rally strag">${esc(s.text)}</textarea><div class="pv">${rich(s.text)}</div>`
-            : `<div class="tx">${rich(s.text)}</div>`) +
-      `<div class="vl">${vl}</div>` +
-      (edit ? '<div class="sa"><button class="btn sm" data-act="up">↑</button><button class="btn sm" data-act="down">↓</button><button class="btn sm danger" data-act="rm">✕</button></div>' : '') + '</div>';
-  }).join('');
-  return `<section class="sheet" data-b="${b.id}">${banner}${tools}${head}${rows}<button class="add in" data-act="add-step">+ Step</button></section>`;
+  const bg = b.color;
+  const banner = `<div class="bn" style="background:${bg};color:${inkFor(bg)}">` + (edit
+    ? `<div class="idbox"><select data-f="civ" aria-label="Civilization">${civSlugs.map(s => `<option value="${s}"${s === b.civ ? ' selected' : ''}>${esc(civName(s))}</option>`).join('')}</select>` +
+      `<input class="bname" data-f="name" maxlength="120" placeholder="Build name" value="${esc(b.name)}"></div>` : esc(b.name)) + '</div>';
+  const tools = !edit ? '' : `<div class="tools"><button class="sw0" data-act="pal" aria-label="Banner color" style="background:${bg}"></button>` +
+    (palOpen === b.id ? `<div class="pal">${PALETTE.map(c => `<button data-act="color" data-c="${c}" aria-label="${c}" style="background:${c}"></button>`).join('')}</div>` : '') +
+    '<span class="grow"></span><button class="btn sm" data-act="dup">Duplicate</button><button class="btn sm danger" data-act="del">Delete</button></div>';
+  let body;
+  if (edit) body = b.steps.map((s, i) => rowHtml(s, i + 1, `data-i="${i}"`, `<button class="btn sm${s.opts ? ' accent' : ''}" data-act="opts" title="Options (flex) step">⑂</button>`, i)).join('');
+  else {
+    const seq = seqOf(b), cur = Math.min(pos[b.id] ?? 0, seq.length - 1); pos[b.id] = cur;
+    body = `<div class="vh">${RES.map(([k, n]) => `<span class="k-${k}" title="${n} villagers">${n[0]}</span>`).join('')}</div>` +
+      `<div class="wheel" data-b="${b.id}">${seq.map((it, idx) => viewRow(b, it, idx, cur)).join('')}</div>`;
+  }
+  return `<section class="sheet" data-b="${b.id}">${banner}${tools}${body}<button class="add in" data-act="add-step">+ Step</button></section>`;
 }
 function renderBuilds() {
+  document.querySelectorAll('.wheel').forEach(w => { wheelTop[w.dataset.b] = w.scrollTop; });
   const counts = {}; builds.forEach(b => counts[b.civ] = (counts[b.civ] || 0) + 1);
   $('#civList').innerHTML = civSlugs.map(s => `<button data-civ="${s}" aria-current="${s === bCiv}">${flagHtml(s)}<span>${esc(civName(s))}</span>${counts[s] ? `<span class="cnt">${counts[s]}</span>` : ''}</button>`).join('');
   $('#bTitle').textContent = `Build Orders · ${civName(bCiv)}`;
@@ -679,57 +755,88 @@ function renderBuilds() {
     : `<div class="empty"><p><b>No build orders for ${esc(civName(bCiv))} yet.</b></p><button class="btn accent" data-act="new-build">+ Create build</button></div>`;
   $('#fmt').hidden = !edit;
   document.querySelectorAll('#bMain textarea').forEach(grow);
+  document.querySelectorAll('.wheel').forEach(w => { // roll the focused step to the center (animated when it was already on screen)
+    const c = w.querySelector('.cur'), id = w.dataset.b; if (!c) return;
+    const to = c.offsetTop - (w.clientHeight - c.offsetHeight) / 2;
+    if (wheelTop[id] == null) w.scrollTop = to; else { w.scrollTop = wheelTop[id]; w.scrollTo({ top: to, behavior: 'smooth' }); }
+  });
   if (focusSel) { const el = $(focusSel); focusSel = null; el?.focus(); el?.select?.(); }
 }
 function addBuild() {
-  const n = builds.filter(x => x.civ === bCiv).length;
-  const b = normBuild({ civ: bCiv, name: 'New build', color: BANNERS[n % BANNERS.length].k, steps: [blankStep()] });
+  const n = builds.filter(x => x.civ === bCiv).length, cycle = Object.values(LEGACY_COLORS);
+  const b = normBuild({ civ: bCiv, name: 'New build', color: cycle[n % cycle.length], steps: [blankStep()] });
   builds.push(b); saveBuilds(); edit = true; focusSel = `.sheet[data-b="${b.id}"] .bname`; renderBuilds();
 }
-const stepSel = (b, i) => `.sheet[data-b="${b.id}"] .st[data-i="${i}"] textarea`;
+
+// ── EDIT HELPERS ──  a row is a main step (data-i) or a branch step (data-i + data-o + data-j)
+const stepSel = (b, i, o, j) => `.sheet[data-b="${b.id}"] .st[data-i="${i}"]${o == null ? ':not([data-o])' : `[data-o="${o}"][data-j="${j}"]`} > textarea`;
+function ctx(b, row) {
+  const i = +row.dataset.i;
+  if (row.dataset.o === undefined) return { list: b.steps, k: i, s: b.steps[i], sel: k => stepSel(b, k) };
+  const o = +row.dataset.o, list = b.steps[i].opts[o].steps, k = +row.dataset.j;
+  return { list, k, s: list[k], sel: n => stepSel(b, i, o, n) };
+}
+const buildOf = el => builds.find(x => x.id === el.closest('.sheet')?.dataset.b);
 
 // ── EVENTS ──
 $('#civList').onclick = e => { const b = e.target.closest('[data-civ]'); if (b) location.hash = '#/builds/' + b.dataset.civ; };
 $('#bMain').addEventListener('click', e => {
-  const a = e.target.closest('[data-act]'), sheet = e.target.closest('.sheet'), row = e.target.closest('.st');
-  const b = sheet && builds.find(x => x.id === sheet.dataset.b), i = row ? +row.dataset.i : -1;
-  if (!a) { // view mode: tap a step to mark it done
+  const a = e.target.closest('[data-act]'), row = e.target.closest('.st'), oc = e.target.closest('.oc'), b = buildOf(e.target);
+  if (palOpen && !e.target.closest('.pal,[data-act="pal"]')) { palOpen = null; if (!a) renderBuilds(); }
+  if (!a) { // execution mode: tap the focused step to advance, any other step to jump to it
     if (edit || !row || !b) return;
-    const k = rowKey(b, i); done.has(k) ? done.delete(k) : done.add(k); return renderBuilds();
+    const x = +row.dataset.x, cur = Math.min(pos[b.id] ?? 0, seqOf(b).length - 1);
+    pos[b.id] = x === cur ? Math.min(x + 1, seqOf(b).length - 1) : x; return renderBuilds();
   }
   const act = a.dataset.act;
   if (act === 'new-build') return addBuild();
   if (!b) return;
-  if (act === 'add-step') { b.steps.push(blankStep()); focusSel = stepSel(b, b.steps.length - 1); }
-  else if (act === 'color') b.color = a.dataset.k;
-  else if (act === 'rm') { b.steps.splice(i, 1); if (!b.steps.length) b.steps.push(blankStep()); }
-  else if (act === 'up' && i > 0) { [b.steps[i - 1], b.steps[i]] = [b.steps[i], b.steps[i - 1]]; focusSel = stepSel(b, i - 1); }
-  else if (act === 'down' && i < b.steps.length - 1) { [b.steps[i + 1], b.steps[i]] = [b.steps[i], b.steps[i + 1]]; focusSel = stepSel(b, i + 1); }
-  else if (act === 'dup') { const c = normBuild(JSON.parse(JSON.stringify(b))); c.id = uid(); c.name += ' (copy)'; builds.splice(builds.indexOf(b) + 1, 0, c); }
+  if (act === 'pick') { // choosing an option is the decision made AT the Options Step; focus jumps into the branch
+    const i = +a.dataset.i; chosen[b.id + ':' + i] = +a.dataset.k;
+    const q = seqOf(b); pos[b.id] = Math.min(q.findIndex(z => z.i === i && z.o == null) + 1, q.length - 1); return renderBuilds();
+  }
+  if (act === 'pal') { palOpen = palOpen === b.id ? null : b.id; return renderBuilds(); }
+  if (act === 'color') { b.color = a.dataset.c; palOpen = null; }
+  else if (act === 'add-step') { b.steps.push(blankStep()); focusSel = stepSel(b, b.steps.length - 1); }
+  else if (act === 'add-ostep') { const L = b.steps[+oc.dataset.i].opts[+oc.dataset.o].steps; L.push(blankStep()); focusSel = stepSel(b, +oc.dataset.i, +oc.dataset.o, L.length - 1); }
+  else if (act === 'add-opt') { const s = b.steps[+row.dataset.i]; if (s.opts.length >= MAX_OPTIONS) return; s.opts.push({ name: '', steps: [blankStep()] }); }
+  else if (act === 'orm') {
+    const s = b.steps[+oc.dataset.i]; if (s.opts.length <= 2) return toast('An options step needs at least 2 options');
+    s.opts.splice(+oc.dataset.o, 1); delete chosen[b.id + ':' + oc.dataset.i];
+  } else if (act === 'opts') {
+    const c = ctx(b, row), key = b.id + ':' + c.k;
+    if (c.s.opts) { if (c.s.opts.some(o => o.steps.some(t => t.text)) && !confirm('Remove all options from this step?')) return; delete c.s.opts; delete chosen[key]; }
+    else c.s.opts = [{ name: '', steps: [blankStep()] }, { name: '', steps: [blankStep()] }];
+  } else if (act === 'rm') { const c = ctx(b, row); c.list.splice(c.k, 1); if (!c.list.length) c.list.push(blankStep()); }
+  else if (act === 'up' || act === 'down') {
+    const c = ctx(b, row), n = c.k + (act === 'up' ? -1 : 1); if (n < 0 || n >= c.list.length) return;
+    [c.list[n], c.list[c.k]] = [c.list[c.k], c.list[n]]; focusSel = c.sel(n);
+  } else if (act === 'dup') { const c = normBuild(JSON.parse(JSON.stringify(b))); c.id = uid(); c.name += ' (copy)'; builds.splice(builds.indexOf(b) + 1, 0, c); }
   else if (act === 'del') { if (!confirm(`Delete “${b.name}”?`)) return; builds = builds.filter(x => x !== b); }
   else return;
-  clearDone(b); saveBuilds(); renderBuilds();
+  saveBuilds(); renderBuilds();
 });
 $('#bMain').addEventListener('input', e => { // typing never re-renders, so focus is kept
-  const t = e.target, row = t.closest('.st'), sheet = t.closest('.sheet'), b = sheet && builds.find(x => x.id === sheet.dataset.b);
+  const t = e.target, row = t.closest('.st'), oc = t.closest('.oc'), b = buildOf(t);
   if (!b) return;
-  if (t.dataset.r) b.steps[+row.dataset.i][t.dataset.r] = t.value.slice(0, 2);
-  else if (t.dataset.f === 'text') { b.steps[+row.dataset.i].text = t.value; grow(t); row.querySelector('.pv').innerHTML = rich(t.value); }
+  if (t.dataset.f === 'oname') b.steps[+oc.dataset.i].opts[+oc.dataset.o].name = t.value;
+  else if (t.dataset.r) ctx(b, row).s[t.dataset.r] = t.value.slice(0, 2);
+  else if (t.dataset.f === 'text') { ctx(b, row).s.text = t.value; grow(t); row.querySelector(':scope > .pv').innerHTML = rich(t.value); }
   else if (t.dataset.f === 'name') b.name = t.value;
   else return;
   saveBuilds();
 });
 $('#bMain').addEventListener('change', e => { // reassign a build to another civilization
-  const t = e.target, b = builds.find(x => x.id === t.closest('.sheet')?.dataset.b);
+  const t = e.target, b = buildOf(t);
   if (b && t.dataset.f === 'civ') { b.civ = t.value; saveBuilds(); location.hash = '#/builds/' + b.civ; }
 });
 $('#bMain').addEventListener('keydown', e => { // Enter = next step, Backspace on an empty step = delete it
   const t = e.target; if (t.dataset?.f !== 'text') return;
-  const b = builds.find(x => x.id === t.closest('.sheet').dataset.b), i = +t.closest('.st').dataset.i;
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); b.steps.splice(i + 1, 0, blankStep()); focusSel = stepSel(b, i + 1); }
-  else if (e.key === 'Backspace' && !t.value && b.steps.length > 1) { e.preventDefault(); b.steps.splice(i, 1); focusSel = stepSel(b, Math.max(0, i - 1)); }
+  const b = buildOf(t), c = ctx(b, t.closest('.st'));
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); c.list.splice(c.k + 1, 0, blankStep()); focusSel = c.sel(c.k + 1); }
+  else if (e.key === 'Backspace' && !t.value && c.list.length > 1) { e.preventDefault(); c.list.splice(c.k, 1); focusSel = c.sel(Math.max(0, c.k - 1)); }
   else return;
-  clearDone(b); saveBuilds(); renderBuilds();
+  saveBuilds(); renderBuilds();
 });
 $('#bMain').addEventListener('focusin', e => { if (e.target.tagName === 'TEXTAREA') lastTA = e.target; });
 
@@ -747,7 +854,7 @@ $('#fmt').addEventListener('click', e => {
 
 // ── IMPORT / EXPORT ──
 $('#bExport').onclick = () => {
-  const blob = new Blob([JSON.stringify({ app: 'aoe4-companion', version: 2, builds }, null, 2)], { type: 'application/json' });
+  const blob = new Blob([JSON.stringify({ app: 'aoe4-companion', version: 3, builds }, null, 2)], { type: 'application/json' });
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'aoe4-build-orders.json'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 };
 $('#bImport').onclick = () => $('#bFile').click();
