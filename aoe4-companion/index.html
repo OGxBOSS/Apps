@@ -14,7 +14,7 @@
   --prim:rgba(227,171,58,.07); --sec:rgba(88,166,255,.07); --sec-ink:#6cb2ff;
   --good:#4cc38a; --bad:#ef6b6b; --wl:62%; --shadow:0 10px 30px rgba(0,0,0,.45);
   --food:#e06a62; --wood:#b98b57; --gold:#e6c44f; --stone:#98a2af;
-  --rowh:42px; --civw:minmax(120px,1.15fr);
+  --rowh:42px; --civw:minmax(120px,1.15fr); --hw:40px; /* ADJUSTABLE - width of the build (hammer) button column */
   color-scheme:dark;
 }
 @media (prefers-color-scheme:light){
@@ -27,7 +27,7 @@
   }
 }
 *{box-sizing:border-box}
-body{padding-bottom:var(--dock,64px)} /* ADJUSTABLE - fallback height of the fixed bottom panel */
+html,body{height:100%;overflow:hidden;overscroll-behavior:none} /* app shell: only inner panels scroll */
 html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
@@ -74,7 +74,7 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 .status button{padding:0 6px;border:0;background:none;color:var(--muted)}
 .status button:hover{color:var(--text)}
 .wrap{max-width:980px;margin:0 auto}
-.grid{display:grid;grid-template-columns:var(--civw) 1fr 1fr;align-items:stretch}
+.grid{display:grid;grid-template-columns:var(--hw) var(--civw) 1fr 1fr;align-items:stretch}
 .grp3{display:grid;grid-template-columns:1.05fr 1fr .9fr;align-items:center;text-align:right}
 .head{border-top:0}
 .head .c{padding:6px 8px}
@@ -90,7 +90,7 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 .sub button{background:none;border:0;color:inherit;font:inherit;text-transform:inherit;letter-spacing:inherit;padding:4px 0;text-align:right;white-space:nowrap}
 .sub button.on{color:var(--text);font-weight:700}
 .togglebtn{width:100%;justify-content:center;font-size:12px;padding:5px 6px;white-space:normal;text-align:center}
-.row{display:grid;grid-template-columns:var(--civw) 1fr 1fr;min-height:var(--rowh);border-bottom:1px solid var(--line);cursor:pointer;user-select:none;transition:opacity .15s,background .15s}
+.row{display:grid;grid-template-columns:var(--hw) var(--civw) 1fr 1fr;min-height:var(--rowh);border-bottom:1px solid var(--line);cursor:pointer;user-select:none;transition:opacity .15s,background .15s}
 .row:hover{background:var(--panel)}
 .row>div{padding:4px 8px;display:flex;align-items:center}
 .row .civcell{gap:8px;min-width:0}
@@ -112,7 +112,7 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 .foot{padding:16px 12px 40px;color:var(--muted);font-size:12px;max-width:980px;margin:0 auto}
 .foot a{color:var(--muted)}
 @media (max-width:640px){
-  :root{--civw:128px;--rowh:46px}
+  :root{--civw:128px;--rowh:46px;--hw:36px}
   html,body{font-size:13px}
   .brand{display:none}
   .bar{padding:8px 8px 6px;gap:6px}
@@ -219,6 +219,32 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 .oh .lt{font-weight:800;color:var(--accent)}
 .oname{flex:1;min-width:0;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-weight:700}
 .oc .st{border-bottom:0;padding:6px 8px}
+/* ── app shell, build button cell, flags, wide build rows, forks ── */
+#viewDash,#viewBuilds{display:flex;flex-direction:column;height:100dvh}
+.sticky,.bhead{flex:none}
+.scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:var(--dock,64px)}
+.row .hcell{padding:0;border-right:1px solid var(--line)}
+.row .hammer{width:100%;height:100%;border-radius:0;border:0;font-size:17px}
+.head .hc{border:0}
+.flag{width:26px;height:20px;object-fit:contain;box-shadow:none} /* ADJUSTABLE - flag size */
+.mono{width:26px;height:20px}
+@media (max-width:640px){.flag,.mono{width:22px;height:17px}}
+.blayout{flex:1;min-height:0;width:100%;grid-template-rows:minmax(0,1fr)}
+.bmain{overflow-y:auto;min-height:0;overscroll-behavior:contain;padding-bottom:calc(var(--dock,64px) + 70px)}
+@media (min-width:701px){.civlist{position:static;max-height:none;padding-bottom:calc(var(--dock,64px) + 8px)}}
+@media (max-width:700px){.blayout{grid-template-rows:auto minmax(0,1fr)}}
+.wheel .st{grid-template-columns:22px 1fr}
+.wheel .st .vl{grid-column:2;display:flex;flex-wrap:wrap;gap:4px 14px;justify-content:flex-start}
+.vl i{font-style:normal;font-size:.62em;opacity:.7;margin-right:3px}
+.fork{display:flex;gap:8px;margin-top:12px}
+.fork.many{flex-wrap:wrap}
+.fc{flex:1 1 0;min-width:0}
+.fork.many .fc{flex:1 1 40%}
+.fc .btn{width:100%;min-height:54px;justify-content:center;font-size:16px;font-weight:700;white-space:normal;text-align:center}
+.fc ol{margin:6px 0 0;padding-left:18px;font-size:13px;font-weight:500;color:var(--muted)}
+.wheel .st.cur .fc ol{font-size:14px;color:var(--text)}
+.ob{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px}
+.ob .add{grid-column:1/-1}
 </style>
 </head>
 <body>
@@ -245,8 +271,7 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
     <div class="status" id="status"></div>
     <div class="wrap"><div class="grid head" id="head"></div></div>
   </div>
-  <div class="wrap" id="rows"></div>
-  <div class="foot" id="foot"></div>
+  <div class="scroll" id="scroll"><div class="wrap" id="rows"></div><div class="foot" id="foot"></div></div>
 </main>
 
 <!-- ============================== Build-order view ============================== -->
@@ -466,18 +491,48 @@ document.addEventListener('visibilitychange', () => { if (!document.hidden && Da
 const hammerSvg = '<svg class="i" viewBox="0 0 24 24"><path d="M2.5 19.2 11 10.7l2.3 2.3-8.5 8.5a1.6 1.6 0 0 1-2.3 0 1.6 1.6 0 0 1 0-2.3zM14 2l8 3.2-2 2.2-1.7-.7-1.4 1.4 1 1-2.4 2.4-1-1-1.2 1.2-2.7-2.7 1.2-1.2-1-1L14 6.4l1 1 1.4-1.4L14 4.6z"/></svg>';
 const fmtG = n => n == null ? '—' : n >= 10000 ? (n / 1000).toFixed(n >= 100000 ? 0 : 1) + 'k' : String(n);
 const hue = s => { let h = 0; for (const c of s) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
+// ── FLAGS ── official in-game flags from AoE4World. File names carry a hash; if one stops loading we fall back to a country flag, then to initials.
+const FLAG_BASE = 'https://static.aoe4world.com/assets/flags/';
+const FLAG_FILES = {
+  abbasid_dynasty: 'abbasid_dynasty-b722e3e4ee862226395c692e73cd14c18bc96c3469874d2e0d918305c70f8a69',
+  ayyubids: 'ayyubids-9ba464806c83e293ac43e19e55dddb80f1fba7b7f5bcb6f7e53b48c4b9c83c9e',
+  byzantines: 'byzantines-cfe0492a2ed33b486946a92063989a9500ae54d9301178ee55ba6b4d4c7ceb84',
+  chinese: 'chinese-2d4edb3d7fc7ab5e1e2df43bd644aba4d63992be5a2110ba3163a4907d0f3d4e',
+  delhi_sultanate: 'delhi_sultanate-7f92025d0623b8e224533d9f28b9cd7c51a5ff416ef3edaf7cc3e948ee290708',
+  english: 'english-8c6c905d0eb11d6d314b9810b2a0b9c09eec69afb38934f55b329df36468daf2',
+  french: 'french-aed0afa1c5843ed8a3d123eb8dda03e63c9ea9a4c74a75424b0bcbb5e429704e',
+  golden_horde: 'golden_horde-c99fa291c46ddaea1eb73568291c0687d81136044c97ff660a556bef3b56c06d',
+  house_of_lancaster: 'house_of_lancaster-eb59b86336771c7ab996d411a9d12d71045b3639b06753301fde4a3a675b5d40',
+  holy_roman_empire: 'holy_roman_empire-fc0be4151234fc9ac8f83e10c83b4befe79f22f7a8f6ec1ff03745d61adddb4c',
+  japanese: 'japanese-16a9b5bae87a5494d5a002cf7a2c2c5de5cead128a965cbf3a89eeee8292b997',
+  jeanne_darc: 'jeanne_darc-aeec47c19181d6af7b08a015e8a109853d7169d02494b25208d3581e38d022eb',
+  jin_dynasty: 'jin_dynasty-47df3dbf923c3cdd6b00da5691517e862dc60b2abc1945c6fa75f8c3f54a28b7',
+  knights_templar: 'knights_templar-939b2e79f7a74d99f2cf75756efc9d1db17fd344fbbc86c9bd8c411ef78b2350',
+  macedonian_dynasty: 'macedonian_dynasty-835dcf7fc5e8a9c7d35c8d441d3954579e63dab02f3960ef033bccd72c4a457e',
+  malians: 'malians-edb6f54659da3f9d0c5c51692fd4b0b1619850be429d67dbe9c3a9d53ab17ddd',
+  mongols: 'mongols-7ce0478ab2ca1f95d0d879fecaeb94119629538e951002ac6cb936433c575105',
+  order_of_the_dragon: 'order_of_the_dragon-cad6fa9212fd59f9b52aaa83b4a6173f07734d38d37200f976bcd46827667424',
+  ottomans: 'ottomans-83c752dcbe46ad980f6f65dd719b060f8fa2d0707ab8e2ddb1ae5d468fc019a2',
+  rus: 'rus-05a92d16ef88fd9f9c3b2aff69a0158ae27293b2fcdd1baa0339416d5134c109',
+  scots: 'scots-846ab3cc817714bee02975a97b60b4991c3e79ee8d8905f6460dcdcd07d4e025',
+  sengoku_daimyo: 'sengoku_daimyo-047c5091475909b0e159c08768078cd6811ac7a3d2173ac5f497325b1ec549a0',
+  tughlaq_dynasty: 'tughlaq_dynasty-4789aaee7cc51e9a24ff4707136eea14366ca5995772a9ee3bc2ac941c40c9d2',
+  vikings: 'vikings-1b22fd2d6bd467d27d25d3664ea6e4734dc97a444b6920e26d3910427e704f2a',
+  zhu_xis_legacy: 'zhu_xis_legacy-c4d119a5fc11f2355f41d206a8b65bea8bab2286d09523a81b7d662d1aad0762',
+};
+const initials = n => n.split(/[\s']+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
 function flagHtml(slug) {
-  const code = CIVS[slug]?.[1], name = civName(slug);
-  const mono = `<span class="mono" style="background:hsl(${hue(slug)} 45% 38%)" aria-hidden="true">${esc(name.split(/[\s']+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase())}</span>`;
-  return code ? `<img class="flag" src="https://flagcdn.com/w40/${code}.png" alt="" loading="lazy" data-slug="${slug}">` : mono;
+  const f = FLAG_FILES[slug], code = CIVS[slug]?.[1], cc = code ? `https://flagcdn.com/w40/${code}.png` : '';
+  if (f) return `<img class="flag" src="${FLAG_BASE}${f}.png"${cc ? ` data-fb="${cc}"` : ''} alt="" loading="lazy" referrerpolicy="no-referrer" data-slug="${slug}">`;
+  if (cc) return `<img class="flag" src="${cc}" alt="" loading="lazy" data-slug="${slug}">`;
+  return `<span class="mono" style="background:hsl(${hue(slug)} 45% 38%)" aria-hidden="true">${esc(initials(civName(slug)))}</span>`;
 }
 document.addEventListener('error', e => {
   const t = e.target;
-  if (t && t.tagName === 'IMG' && t.classList.contains('flag')) {
-    const s = t.dataset.slug, name = civName(s);
-    const m = document.createElement('span'); m.className = 'mono'; m.style.background = `hsl(${hue(s)} 45% 38%)`;
-    m.textContent = name.split(/[\s']+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase(); t.replaceWith(m);
-  }
+  if (!(t && t.tagName === 'IMG' && t.classList.contains('flag'))) return;
+  if (t.dataset.fb) { t.src = t.dataset.fb; delete t.dataset.fb; return; }
+  const s = t.dataset.slug, m = document.createElement('span');
+  m.className = 'mono'; m.style.background = `hsl(${hue(s)} 45% 38%)`; m.textContent = initials(civName(s)); t.replaceWith(m);
 }, true);
 
 function cells(st, avail) {
@@ -528,7 +583,7 @@ function renderHead() {
     return `<button class="${on ? 'on' : ''}" data-sk="${k}" data-col="${col}" aria-label="Sort by ${n}">${n}${on ? (S.sdir === 'asc' ? ' ▲' : ' ▼') : ''}</button>`;
   }).join('')}</div>`;
   $('#head').innerHTML =
-    `<div class="c civ"><div class="t">Civilization</div><button class="btn togglebtn" id="btnSort" title="Swap primary and secondary statistics">⇄ ${total ? 'Win Rate by Map' : 'Total Win Rate'}</button></div>` +
+    `<div class="c hc" aria-hidden="true"></div><div class="c civ"><div class="t">Civilization</div><button class="btn togglebtn" id="btnSort" title="Swap primary and secondary statistics">⇄ ${total ? 'Win Rate by Map' : 'Total Win Rate'}</button></div>` +
     `<div class="c g p"><div class="gt">${total ? totCol : mapCol}</div>${sub('p')}</div>` +
     `<div class="c g s"><div class="gt">${total ? mapCol : totCol}</div>${sub('s')}</div>`;
   if (open === 'map') openMapMenu(true);
@@ -549,7 +604,7 @@ function renderRows() {
     if (disabled.has(s) && !divided) { divided = true; html += `<div class="divider">Disabled · ${nOff}</div>`; }
     const off = disabled.has(s), n = civName(s);
     html += `<div class="row${off ? ' off' : ''}" role="button" tabindex="0" aria-pressed="${!off}" data-slug="${s}" title="${off ? 'Click to enable' : 'Click to disable'} ${esc(n)}">` +
-      `<div class="civcell">${flagHtml(s)}<span class="nm">${esc(n)}</span><button class="hammer" data-build="${s}" title="Build orders — ${esc(n)}" aria-label="Build orders for ${esc(n)}">${hammerSvg}</button></div>` +
+      `<div class="hcell"><button class="hammer" data-build="${s}" title="Build orders — ${esc(n)}" aria-label="Build orders for ${esc(n)}">${hammerSvg}</button></div><div class="civcell">${flagHtml(s)}<span class="nm">${esc(n)}</span></div>` +
       `<div class="g p"><div class="grp3">${cells(P?.civs.get(s), !!P)}</div></div>` +
       `<div class="g s"><div class="grp3">${cells(Sx?.civs.get(s), !!Sx)}</div></div></div>`;
   }
@@ -717,13 +772,15 @@ function rowHtml(s, num, at, extra, i) { // i is set only for main-list steps (t
 // ── RENDER: EXECUTION (WHEEL) MODE ──
 function viewRow(b, it, idx, cur) {
   const s = it.s, ci = chosen[b.id + ':' + it.i];
-  const vl = RES.map(([k]) => s[k] !== '' && s[k] != null ? `<span class="k-${k}">${esc(s[k])}</span>` : '<span class="e">·</span>').join('');
+  const vl = RES.map(([k, n]) => s[k] !== '' && s[k] != null ? `<span class="k-${k}" title="${n} villagers"><i>${n[0]}</i>${esc(s[k])}</span>` : '').join('');
   let extra = '';
-  if (s.opts && it.o == null) extra = idx === cur
-    ? `<div class="obtn${s.opts.length > 3 ? ' many' : ''}">${s.opts.map((o, k) => `<button class="btn${ci === k ? ' accent' : ''}" data-act="pick" data-i="${it.i}" data-k="${k}">${esc(o.name || letter(k))}</button>`).join('')}</div>`
-    : `<div class="chosen">${s.opts[ci] ? '→ ' + esc(s.opts[ci].name || letter(ci)) : '⑂ ' + s.opts.map((o, k) => esc(o.name || letter(k))).join(' / ')}</div>`;
+  if (s.opts && it.o == null) { // Options Step: the forks sit side by side
+    const cols = s.opts.map((o, k) => `<div class="fc"><button class="btn${ci === k ? ' accent' : ''}" data-act="pick" data-i="${it.i}" data-k="${k}">${esc(o.name || letter(k))}</button>` +
+      (ci == null ? `<ol>${o.steps.filter(t => t.text).map(t => `<li>${rich(t.text)}</li>`).join('')}</ol>` : '') + '</div>').join('');
+    extra = `<div class="fork${s.opts.length > 3 ? ' many' : ''}">${cols}</div>`;
+  }
   return `<div class="st${idx === cur ? ' cur' : ''}${idx < cur ? ' past' : ''}${it.o != null ? ' br' : ''}" data-x="${idx}"><span class="sn">${idx + 1}</span>` +
-    `<div class="tx">${it.tag ? `<div class="tag">${esc(it.tag)}</div>` : ''}${rich(s.text)}${extra}</div><div class="vl">${vl}</div></div>`;
+    `<div class="tx">${it.tag ? `<div class="tag">${esc(it.tag)}</div>` : ''}${rich(s.text)}${extra}</div>${vl ? `<div class="vl">${vl}</div>` : ''}</div>`;
 }
 
 function cardHtml(b) {
@@ -738,8 +795,7 @@ function cardHtml(b) {
   if (edit) body = b.steps.map((s, i) => rowHtml(s, i + 1, `data-i="${i}"`, `<button class="btn sm${s.opts ? ' accent' : ''}" data-act="opts" title="Options (flex) step">⑂</button>`, i)).join('');
   else {
     const seq = seqOf(b), cur = Math.min(pos[b.id] ?? 0, seq.length - 1); pos[b.id] = cur;
-    body = `<div class="vh">${RES.map(([k, n]) => `<span class="k-${k}" title="${n} villagers">${n[0]}</span>`).join('')}</div>` +
-      `<div class="wheel" data-b="${b.id}">${seq.map((it, idx) => viewRow(b, it, idx, cur)).join('')}</div>`;
+    body = `<div class="wheel" data-b="${b.id}">${seq.map((it, idx) => viewRow(b, it, idx, cur)).join('')}</div>`;
   }
   return `<section class="sheet" data-b="${b.id}">${banner}${tools}${body}<button class="add in" data-act="add-step">+ Step</button></section>`;
 }
