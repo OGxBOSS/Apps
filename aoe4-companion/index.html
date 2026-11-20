@@ -161,8 +161,6 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 .bn{padding:8px 12px;font-size:clamp(22px,5vw,30px);font-weight:800;line-height:1.15} /* ADJUSTABLE - banner title size */
 .bname{width:100%;background:transparent;color:inherit;border:1px dashed currentColor;border-radius:6px;font:inherit;padding:2px 6px}
 .tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--line);background:var(--panel2)}
-.sw{width:22px;height:22px;border-radius:50%;border:2px solid transparent;padding:0}
-.sw[aria-pressed="true"]{border-color:var(--text)}
 .tools select{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:4px 6px}
 .vh,.vl{display:grid;grid-template-columns:repeat(5,var(--vw));text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
 .vh{justify-content:end;padding:3px 10px 3px 0;font-size:11px;border-bottom:1px solid var(--line)}
@@ -198,10 +196,6 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 .wheel .st.cur .vl{font-size:20px}
 .wheel .st.br{padding-left:22px}
 .tag{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:2px}
-.chosen{font-size:12px;color:var(--muted);font-weight:500}
-.obtn{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.obtn .btn{flex:1 1 0;min-width:0;min-height:54px;justify-content:center;font-size:16px;font-weight:700;white-space:normal;text-align:center}
-.obtn.many .btn{flex:1 1 40%}
 .bn{border-radius:9px 9px 0 0}
 .idbox{display:flex;height:38px;border:1px solid currentColor;border-radius:8px;overflow:hidden}
 .idbox select,.idbox input{height:100%;background:transparent;color:inherit;border:0;border-radius:0;font:inherit;font-size:15px;font-weight:700;padding:0 8px;min-width:0}
@@ -210,7 +204,6 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 .idbox input{flex:1}
 .tools{position:relative}
 .tools .grow{flex:1}
-.sw0{width:30px;height:30px;border-radius:50%;border:2px solid var(--text);padding:0}
 .pal{position:absolute;top:100%;left:8px;z-index:30;display:grid;grid-template-columns:repeat(7,30px);gap:6px;padding:10px;background:var(--panel);border:1px solid var(--line2);border-radius:10px;box-shadow:var(--shadow)}
 .pal button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line2);padding:0}
 .st.ed .ob{grid-column:2;margin-top:6px}
@@ -245,6 +238,79 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 .wheel .st.cur .fc ol{font-size:14px;color:var(--text)}
 .ob{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px}
 .ob .add{grid-column:1/-1}
+/* ── overhaul: beefy type, thick borders, big hammer, wrapping color bar ── */
+html,body{font:600 16px/1.3 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif} /* ADJUSTABLE - base text size / weight */
+:root{--rowh:58px;--hw:56px} /* ADJUSTABLE - row height / hammer column width */
+.btn{border-width:2px;border-color:var(--line2);border-radius:10px;padding:9px 13px;font-size:15px;font-weight:700}
+.btn.sm{padding:6px 11px;font-size:14px}
+.btn.accent{border-color:var(--accent)}
+.seg{border-width:2px;padding:3px}
+.seg button{padding:8px 12px;font-size:15px;font-weight:700}
+.dock{border-top:3px solid var(--line2)}
+.dock .bar{padding:8px;gap:6px}
+.menu button{padding:10px 12px;font-size:16px;font-weight:700}
+.status{font-size:13px;font-weight:700}
+.head .g{border-left:2px solid var(--line2)}
+.head .sub{font-size:12px;font-weight:800}
+.head .gt,.head .gt .btn{font-size:15px;font-weight:800}
+.row{border-bottom:2px solid var(--line)}
+.row .g{border-left:2px solid var(--line2)}
+.row .nm{font-size:17px;font-weight:800}
+.row .wr{font-size:20px;font-weight:800}
+.row .gm,.row .pk{font-size:15px;font-weight:700;color:var(--text);opacity:.75}
+.row .hcell{background:var(--panel2);border-right:2px solid var(--line2)}
+.row .hammer{color:var(--text)}
+.row .hammer:hover{background:var(--prim)}
+svg.hm{width:32px;height:32px}
+#btnCreate{font-size:17px;font-weight:800;padding:8px 16px;gap:8px}
+#btnCreate svg{width:32px;height:32px}
+.bhead h1{font-size:19px;font-weight:800}
+.civlist button{font-size:16px;font-weight:700;padding:9px 10px}
+.civlist .cnt{font-size:13px}
+.sheet{border:2px solid var(--line2);border-radius:12px}
+.bn{font-size:clamp(24px,5.5vw,32px);font-weight:800}
+.bmain{overflow-x:hidden;padding:10px 10px calc(var(--dock,64px) + var(--fmt,0px) + 16px)}
+.st{padding:8px;border-bottom:2px solid var(--line);min-width:0}
+.st.ed{grid-template-columns:22px minmax(0,1fr);gap:4px 6px}
+.st textarea{border:2px solid var(--line2);font-size:16px;font-weight:700;padding:7px 8px;min-width:0}
+.st.ed .vl{grid-template-columns:repeat(5,minmax(0,1fr));max-width:none}
+.vl input{border:2px solid var(--line2);padding:7px 2px;font-size:16px;font-weight:800}
+.st.ed .sa .btn{padding:6px 14px;font-size:17px}
+.add{border-width:2px;font-weight:800;font-size:16px;padding:12px}
+.oname{border:2px solid var(--line2);font-size:16px;font-weight:800}
+.ob{grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+.oc{min-width:0;border-left-width:4px}
+.tools{padding:6px 8px}
+.sw0{width:36px;height:36px;border-width:3px}
+.idbox{height:44px;border-width:2px}
+.idbox select,.idbox input{font-size:16px;font-weight:800}
+.wheel .st .tx{font-size:17px;font-weight:700}
+.wheel .st.cur .tx{font-size:26px;font-weight:800}
+.wheel .st .vl{font-size:15px;font-weight:800}
+.wheel .st.cur .vl{font-size:20px}
+.fc .btn{min-height:58px;font-size:17px}
+.fmt{flex-wrap:wrap;overflow:visible;gap:6px;padding:8px;border-top:3px solid var(--line2)}
+.fmt .hint{font-size:12px;font-weight:800}
+.tg{display:inline-flex;align-items:stretch;border:2px solid var(--line2);border-radius:10px;overflow:hidden;background:var(--panel2)}
+.tg button{border:0;background:none;font-weight:800;font-size:15px;padding:6px 10px}
+.tg .dot{width:30px;padding:0;border-right:2px solid var(--line2)}
+.tg .rmx{color:var(--muted);padding:6px 8px}
+.tg.add-tag{padding:6px 14px;font-size:20px;color:var(--accent);cursor:pointer}
+.cpick{position:fixed;left:50%;top:50%;width:1px;height:1px;opacity:0;pointer-events:none}
+@media (max-width:640px){
+  :root{--hw:48px;--civw:112px;--rowh:56px}
+  html,body{font-size:15px}
+  .lg{display:none}
+  .row .nm{font-size:14px;line-height:1.1}
+  .row .wr{font-size:15px}
+  .row .gm,.row .pk{font-size:12.5px}
+  .head .sub{font-size:10.5px}
+  .head .gt,.head .gt .btn{font-size:13px}
+  svg.hm{width:28px;height:28px}
+  #btnCreate svg{width:34px;height:34px}
+  .btn{padding:8px 10px}
+  .seg button{padding:7px 9px}
+}
 </style>
 </head>
 <body>
@@ -257,16 +323,16 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
       <div class="brand">AoE<span>4</span> Companion</div>
       <div class="seg" id="segMode" role="group" aria-label="Game mode">
         <button data-v="1v1" aria-pressed="true">1v1</button>
-        <button data-v="team" aria-pressed="false">Team Games</button>
+        <button data-v="team" aria-pressed="false">Team<span class="lg"> Games</span></button>
       </div>
       <div class="dd" id="ddMin"><button class="btn" id="btnMin" aria-haspopup="listbox" aria-expanded="false"><span class="lbl">Min</span><b></b></button><div class="menu" role="listbox" hidden></div></div>
       <div class="dd" id="ddMax"><button class="btn" id="btnMax" aria-haspopup="listbox" aria-expanded="false"><span class="lbl">Max</span><b></b></button><div class="menu" role="listbox" hidden></div></div>
       <div class="seg" id="segPool" role="group" aria-label="Map pool">
-        <button data-v="ranked" aria-pressed="true">Ranked Maps</button>
-        <button data-v="all" aria-pressed="false">All Maps</button>
+        <button data-v="ranked" aria-pressed="true">Ranked<span class="lg"> Maps</span></button>
+        <button data-v="all" aria-pressed="false">All<span class="lg"> Maps</span></button>
       </div>
       <span class="spacer"></span>
-      <button class="btn accent" id="btnCreate" title="Create a build order"><svg class="i" viewBox="0 0 24 24"><path d="M2.5 19.2 11 10.7l2.3 2.3-8.5 8.5a1.6 1.6 0 0 1-2.3 0 1.6 1.6 0 0 1 0-2.3zM14 2l8 3.2-2 2.2-1.7-.7-1.4 1.4 1 1-2.4 2.4-1-1-1.2 1.2-2.7-2.7 1.2-1.2-1-1L14 6.4l1 1 1.4-1.4L14 4.6z"/></svg><span class="tx">Create Build</span></button>
+      <button class="btn accent" id="btnCreate" title="Create a build order"><svg class="i hm" viewBox="0 0 32 32"><path d="M5 27 18 13.5" stroke="#6b3f17" stroke-width="5" stroke-linecap="round"/><path d="M5 27 18 13.5" stroke="#c4843a" stroke-width="2" stroke-linecap="round"/><g transform="rotate(45 19 12.5)"><rect x="9" y="7" width="20" height="11" rx="2.5" fill="#8a96a6" stroke="#2b323c" stroke-width="2"/><rect x="11" y="9" width="16" height="3" rx="1.5" fill="#cfd8e3"/><rect x="9" y="7" width="5" height="11" rx="2" fill="#5c6776" stroke="#2b323c" stroke-width="2"/></g></svg><span class="tx">Create Build</span></button>
     </header></div>
     <div class="status" id="status"></div>
     <div class="wrap"><div class="grid head" id="head"></div></div>
@@ -488,7 +554,7 @@ setInterval(() => refresh(true), REFRESH_MS);
 document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - lastRefresh > REFRESH_MS) refresh(true); });
 
 /* ---------- 4. Dashboard ---------- */
-const hammerSvg = '<svg class="i" viewBox="0 0 24 24"><path d="M2.5 19.2 11 10.7l2.3 2.3-8.5 8.5a1.6 1.6 0 0 1-2.3 0 1.6 1.6 0 0 1 0-2.3zM14 2l8 3.2-2 2.2-1.7-.7-1.4 1.4 1 1-2.4 2.4-1-1-1.2 1.2-2.7-2.7 1.2-1.2-1-1L14 6.4l1 1 1.4-1.4L14 4.6z"/></svg>';
+const hammerSvg = '<svg class="i hm" viewBox="0 0 32 32"><path d="M5 27 18 13.5" stroke="#6b3f17" stroke-width="5" stroke-linecap="round"/><path d="M5 27 18 13.5" stroke="#c4843a" stroke-width="2" stroke-linecap="round"/><g transform="rotate(45 19 12.5)"><rect x="9" y="7" width="20" height="11" rx="2.5" fill="#8a96a6" stroke="#2b323c" stroke-width="2"/><rect x="11" y="9" width="16" height="3" rx="1.5" fill="#cfd8e3"/><rect x="9" y="7" width="5" height="11" rx="2" fill="#5c6776" stroke="#2b323c" stroke-width="2"/></g></svg>';
 const fmtG = n => n == null ? '—' : n >= 10000 ? (n / 1000).toFixed(n >= 100000 ? 0 : 1) + 'k' : String(n);
 const hue = s => { let h = 0; for (const c of s) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
 // ── FLAGS ── official in-game flags from AoE4World. File names carry a hash; if one stops loading we fall back to a country flag, then to initials.
@@ -671,7 +737,7 @@ $('#rows').onclick = e => {
 };
 $('#rows').onkeydown = e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('row')) { e.preventDefault(); toggleCiv(e.target.dataset.slug); } };
 $('#status').onclick = e => { if (e.target.closest('#btnReload') && Date.now() - lastManual > 30000) { lastManual = Date.now(); refresh(true); } };
-$('#btnCreate').onclick = () => { location.hash = '#/builds/new'; };
+$('#btnCreate').onclick = () => { location.hash = '#/builds/' + store.get('buildCiv', 'english'); }; // opens the build screen (does not create a build)
 document.addEventListener('click', e => { if (!e.target.closest('.menu')) closeMenus(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenus(); });
 
@@ -699,7 +765,6 @@ const AUTO = [ // ADJUSTABLE - words colored automatically: [class, regex source
   ['s', 'stone'],
   ['b', 'houses?|barracks|stables?|archery range|range|camps?|market|blacksmith|monastery|keep|tc|town center|walls?|docks?|outpost|prod'],
 ];
-const AUTO_RE = new RegExp('\\b(' + AUTO.map(a => a[1]).join('|') + ')\\b', 'gi');
 const AUTO_T = AUTO.map(([c, p]) => [c, new RegExp('^(?:' + p + ')$', 'i')]);
 
 // ── STATE ──  a step may carry opts: [{ name, steps: [...] }] (an Options / flex step)
@@ -725,11 +790,29 @@ const letter = k => String.fromCharCode(65 + k);
 const grow = t => { t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px'; };
 function toast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2200); }
 
-// ── RICH TEXT ──  manual tags {f:text} override; otherwise AUTO words get colored
-const rich = t => String(t).split(/(\{[fwgsbaxn]:[^}]*\})/).map(p => {
-  const m = /^\{([fwgsbaxn]):([^}]*)\}$/.exec(p);
-  return m ? `<span class="k-${m[1]}">${esc(m[2])}</span>`
-    : esc(p).replace(AUTO_RE, w => `<span class="k-${AUTO_T.find(([, re]) => re.test(w))[0]}">${w}</span>`);
+// ── TAG COLORS ──  every color is a CSS variable, so editing one recolors every build on every civilization
+const TAG_VARS = { f: '--food', w: '--wood', g: '--gold', s: '--stone', b: '--bld', a: '--age', x: '--bad' };
+let colors = store.get('colors', {});        // user overrides of the built-in tag colors
+let customTags = store.get('tags', []);      // user tags: [{ id, name, color }] (e.g. SURV)
+const saveColors = () => store.set('colors', colors), saveTags = () => store.set('tags', customTags);
+function applyColors() {
+  const r = document.documentElement.style;
+  for (const [k, v] of Object.entries(TAG_VARS)) colors[k] ? r.setProperty(v, colors[k]) : r.removeProperty(v);
+  customTags.forEach(t => r.setProperty('--t-' + t.id, t.color));
+}
+const escRe = x => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+let AUTO_RE;
+const buildAuto = () => { AUTO_RE = new RegExp('\\b(' + [...customTags.map(t => escRe(t.name)), ...AUTO.map(a => a[1])].join('|') + ')\\b', 'gi'); };
+
+// ── RICH TEXT ──  manual tags {f:text} / {c1:text} override; otherwise AUTO and custom words get colored
+const tagSpan = (k, inner) => TAG_VARS[k] ? `<span class="k-${k}">${inner}</span>`
+  : customTags.some(t => t.id === k) ? `<span style="color:var(--t-${k})">${inner}</span>` : inner;
+const rich = t => String(t).split(/(\{[a-z0-9]+:[^}]*\})/).map(p => {
+  const m = /^\{([a-z0-9]+):([^}]*)\}$/.exec(p);
+  return m ? tagSpan(m[1], esc(m[2])) : esc(p).replace(AUTO_RE, w => {
+    const c = customTags.find(t => t.name.toLowerCase() === w.toLowerCase());
+    return c ? tagSpan(c.id, w) : `<span class="k-${AUTO_T.find(([, re]) => re.test(w))[0]}">${w}</span>`;
+  });
 }).join('');
 
 // ── ACTIVE SEQUENCE ──  main steps, with only the picked branch spliced in after its Options Step
@@ -896,17 +979,48 @@ $('#bMain').addEventListener('keydown', e => { // Enter = next step, Backspace o
 });
 $('#bMain').addEventListener('focusin', e => { if (e.target.tagName === 'TEXTAREA') lastTA = e.target; });
 
-// ── COLOR TOOLBAR ── wraps the selected text of the last-focused step in a {tag:...}
-$('#fmt').innerHTML = '<span class="hint">Color</span>' + TAGS.map(([k, n]) => `<button class="btn sm k-${k}" data-k="${k}">${n}</button>`).join('');
+// ── COLOR BAR ── dot = pick that color, label = apply it to the selected text, ＋ = add your own color-coded word
+function renderFmt() {
+  const tg = (k, label, style, extra = '') => `<span class="tg"><button class="dot" data-pick="${k}" style="background:var(${style})" aria-label="Change color"></button><button class="lbl" data-k="${k}" ${k.length === 1 ? `class="k-${k}"` : ''}>${label}</button>${extra}</span>`;
+  $('#fmt').innerHTML = '<span class="hint">Color</span>' +
+    TAGS.map(([k, n]) => k === 'n' ? `<span class="tg"><button class="lbl" data-k="n">${n}</button></span>`
+      : `<span class="tg"><button class="dot" data-pick="${k}" style="background:var(${TAG_VARS[k]})" aria-label="Change ${n} color"></button><button class="lbl k-${k}" data-k="${k}">${n}</button></span>`).join('') +
+    customTags.map(t => `<span class="tg"><button class="dot" data-pick="${t.id}" style="background:var(--t-${t.id})" aria-label="Change color"></button><button class="lbl" data-k="${t.id}" style="color:var(--t-${t.id})">${esc(t.name)}</button><button class="rmx" data-rmtag="${t.id}" aria-label="Remove tag">✕</button></span>`).join('') +
+    '<button class="tg add-tag" data-addtag aria-label="Add a color-coded word">＋</button><button class="tg add-tag" data-resetcolors title="Reset built-in colors">↺</button>';
+}
+function refreshTags() { applyColors(); buildAuto(); renderFmt(); renderBuilds(); }
+const cpick = document.body.appendChild(Object.assign(document.createElement('input'), { type: 'color', className: 'cpick' }));
+let pickKey = null;
+function openPicker(k) { // native color picker; changes apply live
+  pickKey = k;
+  const cur = customTags.find(t => t.id === k)?.color || getComputedStyle(document.documentElement).getPropertyValue(TAG_VARS[k]).trim();
+  cpick.value = /^#[0-9a-f]{6}$/i.test(cur) ? cur : '#ffffff'; cpick.click();
+}
+cpick.addEventListener('input', () => {
+  const t = customTags.find(x => x.id === pickKey);
+  if (t) { t.color = cpick.value; saveTags(); } else if (TAG_VARS[pickKey]) { colors[pickKey] = cpick.value; saveColors(); } else return;
+  applyColors();
+});
+function wrapTag(k) { // wraps the selection (or inserts the tag word) in the last-focused step
+  const ta = lastTA; if (!ta || !ta.isConnected) return;
+  const a = ta.selectionStart, z = ta.selectionEnd, c = customTags.find(t => t.id === k), txt = ta.value.slice(a, z) || (c ? c.name : '');
+  ta.setRangeText(`{${k}:${txt}}`, a, z, 'end');
+  if (!txt) ta.setSelectionRange(a + k.length + 2, a + k.length + 2);
+  ta.dispatchEvent(new Event('input', { bubbles: true })); ta.focus();
+}
 $('#fmt').addEventListener('mousedown', e => e.preventDefault()); // keep the keyboard / selection
 $('#fmt').addEventListener('click', e => {
-  const k = e.target.closest('[data-k]')?.dataset.k, ta = lastTA;
-  if (!k || !ta || !ta.isConnected) return;
-  const a = ta.selectionStart, z = ta.selectionEnd;
-  ta.setRangeText(`{${k}:${ta.value.slice(a, z)}}`, a, z, 'end');
-  if (a === z) ta.setSelectionRange(a + 3, a + 3);
-  ta.dispatchEvent(new Event('input', { bubbles: true })); ta.focus();
+  const q = sel => e.target.closest(sel);
+  if (q('[data-pick]')) return openPicker(q('[data-pick]').dataset.pick);
+  if (q('[data-rmtag]')) { customTags = customTags.filter(t => t.id !== q('[data-rmtag]').dataset.rmtag); saveTags(); return refreshTags(); }
+  if (q('[data-resetcolors]')) { colors = {}; saveColors(); return refreshTags(); }
+  if (q('[data-addtag]')) {
+    const name = (prompt('New color-coded word (e.g. SURV)') || '').trim().slice(0, 20); if (!name) return;
+    const id = 'c' + Date.now().toString(36); customTags.push({ id, name, color: '#7bd88f' }); saveTags(); refreshTags(); return openPicker(id);
+  }
+  if (q('[data-k]')) wrapTag(q('[data-k]').dataset.k);
 });
+applyColors(); buildAuto(); renderFmt();
 
 // ── IMPORT / EXPORT ──
 $('#bExport').onclick = () => {
@@ -929,6 +1043,7 @@ if (location.hash) history.replaceState(null, '', location.pathname + location.s
 // ── DOCK HEIGHT ── keeps page content clear of the fixed bottom panel
 const dockObs = new ResizeObserver(es => es.forEach(en => { if (en.target.offsetHeight) document.documentElement.style.setProperty('--dock', en.target.offsetHeight + 'px'); }));
 document.querySelectorAll('.dock').forEach(d => dockObs.observe(d));
+new ResizeObserver(() => document.documentElement.style.setProperty('--fmt', $('#fmt').hidden ? '0px' : $('#fmt').offsetHeight + 'px')).observe($('#fmt'));
 render();
 route();
 refresh(false).then(() => { lastRefresh = Date.now(); });
