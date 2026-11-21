@@ -296,7 +296,17 @@ svg.hm{width:32px;height:32px}
 .tg .dot{width:30px;padding:0;border-right:2px solid var(--line2)}
 .tg .rmx{color:var(--muted);padding:6px 8px}
 .tg.add-tag{padding:6px 14px;font-size:20px;color:var(--accent);cursor:pointer}
-.cpick{position:fixed;left:50%;top:50%;width:1px;height:1px;opacity:0;pointer-events:none}
+.cpop{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--dock,64px) + var(--fmt,0px) + 8px);z-index:210;width:min(360px,calc(100vw - 16px));max-height:calc(100dvh - var(--dock,64px) - var(--fmt,0px) - 24px);overflow:auto;background:var(--panel);border:2px solid var(--line2);border-radius:12px;box-shadow:var(--shadow);padding:10px}
+.cpop .ch{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.cpop .ch b{flex:1;min-width:0;font-size:17px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cpop .sw0{display:inline-block;flex:none;border:3px solid var(--line2);border-radius:8px}
+.cpop .sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(32px,1fr));gap:7px}
+.cpop .sw button{aspect-ratio:1;width:100%;border-radius:50%;border:2px solid var(--line2);padding:0}
+.cpop .sw button[aria-pressed="true"]{outline:3px solid var(--text);outline-offset:2px}
+.cpop .cr{display:flex;align-items:center;gap:10px;margin-top:12px}
+.cpop label{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);flex:none}
+.cpop input[type=color]{width:52px;height:40px;border:2px solid var(--line2);border-radius:8px;padding:2px;background:var(--bg);cursor:pointer}
+.cpop .hex{flex:1;min-width:0;background:var(--bg);border:2px solid var(--line2);border-radius:8px;padding:8px;font-weight:800;text-transform:uppercase}
 @media (max-width:640px){
   :root{--hw:48px;--civw:112px;--rowh:56px}
   html,body{font-size:15px}
@@ -830,14 +840,14 @@ function seqOf(b) {
 function route() {
   const h = location.hash.replace(/^#\/?/, '').split('/'), isB = h[0] === 'builds';
   $('#viewDash').hidden = isB; $('#viewBuilds').hidden = !isB;
-  if (!isB) { $('#fmt').hidden = true; return; }
+  if (!isB) { $('#fmt').hidden = true; closePicker(); return; }
   if (h[1] === 'new') { addBuild(); history.replaceState(null, '', '#/builds/' + bCiv); return; }
   if (CIVS[h[1]]) { bCiv = h[1]; store.set('buildCiv', bCiv); }
   renderBuilds();
 }
 window.addEventListener('hashchange', route);
 $('#bBack').onclick = () => { location.hash = '#/'; };
-$('#bEdit').onclick = () => { edit = !edit; palOpen = null; renderBuilds(); };
+$('#bEdit').onclick = () => { edit = !edit; palOpen = null; closePicker(); renderBuilds(); };
 
 // ── RENDER: EDIT MODE ──
 const vlInputs = s => RES.map(([k]) => `<input type="number" inputmode="numeric" min="0" max="99" placeholder="${k.toUpperCase()}" data-r="${k}" class="k-${k}" value="${esc(s[k])}">`).join('');
@@ -989,18 +999,49 @@ function renderFmt() {
     '<button class="tg add-tag" data-addtag aria-label="Add a color-coded word">＋</button><button class="tg add-tag" data-resetcolors title="Reset built-in colors">↺</button>';
 }
 function refreshTags() { applyColors(); buildAuto(); renderFmt(); renderBuilds(); }
-const cpick = document.body.appendChild(Object.assign(document.createElement('input'), { type: 'color', className: 'cpick' }));
-let pickKey = null;
-function openPicker(k) { // native color picker; changes apply live
-  pickKey = k;
-  const cur = customTags.find(t => t.id === k)?.color || getComputedStyle(document.documentElement).getPropertyValue(TAG_VARS[k]).trim();
-  cpick.value = /^#[0-9a-f]{6}$/i.test(cur) ? cur : '#ffffff'; cpick.click();
+// ── COLOR PICKER ── an on-screen popup (swatches + full color wheel + hex). It replaces a hidden native
+// picker opened from code, which iPhone/Android browsers block (and always block right after prompt()).
+let pickKey = null, cpop = null;
+const isHex = c => /^#[0-9a-f]{6}$/i.test(c);
+const curColor = k => {
+  const c = customTags.find(t => t.id === k)?.color || (TAG_VARS[k] ? getComputedStyle(document.documentElement).getPropertyValue(TAG_VARS[k]).trim() : '');
+  return isHex(c) ? c.toLowerCase() : '#ffffff';
+};
+function setTagColor(k, c) {
+  if (!isHex(c)) return; c = c.toLowerCase();
+  const t = customTags.find(x => x.id === k);
+  if (t) { t.color = c; saveTags(); } else if (TAG_VARS[k]) { colors[k] = c; saveColors(); } else return;
+  applyColors(); syncPicker();
 }
-cpick.addEventListener('input', () => {
-  const t = customTags.find(x => x.id === pickKey);
-  if (t) { t.color = cpick.value; saveTags(); } else if (TAG_VARS[pickKey]) { colors[pickKey] = cpick.value; saveColors(); } else return;
-  applyColors();
-});
+function closePicker() { cpop?.remove(); cpop = null; pickKey = null; }
+function syncPicker() {
+  if (!cpop) return;
+  const c = curColor(pickKey);
+  cpop.querySelector('[data-prev]').style.background = c;
+  cpop.querySelectorAll('[data-c]').forEach(b => b.setAttribute('aria-pressed', b.dataset.c.toLowerCase() === c));
+  const wheel = cpop.querySelector('input[type=color]'); if (wheel.value !== c) wheel.value = c;
+  const hex = cpop.querySelector('.hex'); if (document.activeElement !== hex) hex.value = c.toUpperCase();
+}
+function openPicker(k) {
+  closePicker(); pickKey = k;
+  const name = customTags.find(t => t.id === k)?.name || TAGS.find(([x]) => x === k)?.[1] || k;
+  cpop = document.createElement('div'); cpop.className = 'cpop'; cpop.setAttribute('role', 'dialog'); cpop.setAttribute('aria-label', `Color for ${name}`);
+  cpop.innerHTML = `<div class="ch"><span class="sw0" data-prev></span><b>${esc(name)}</b><button class="btn sm accent" data-done>Done</button></div>` +
+    `<div class="sw">${PALETTE.map(c => `<button data-c="${c}" aria-label="${c}" style="background:${c}"></button>`).join('')}</div>` +
+    `<div class="cr"><label>Any color <input type="color"></label><input class="hex" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Hex color" placeholder="#RRGGBB"></div>`;
+  document.body.appendChild(cpop);
+  cpop.addEventListener('click', e => {
+    const b = e.target.closest('[data-c]'); if (b) return setTagColor(pickKey, b.dataset.c);
+    if (e.target.closest('[data-done]')) closePicker();
+  });
+  const wheel = cpop.querySelector('input[type=color]');
+  wheel.addEventListener('input', () => setTagColor(pickKey, wheel.value));
+  wheel.addEventListener('change', () => setTagColor(pickKey, wheel.value));
+  cpop.querySelector('.hex').addEventListener('input', e => { let v = e.target.value.trim(); if (v && v[0] !== '#') v = '#' + v; setTagColor(pickKey, v); });
+  syncPicker();
+}
+document.addEventListener('click', e => { if (cpop && !e.target.closest('.cpop,[data-pick],[data-addtag]')) closePicker(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && cpop) closePicker(); });
 function wrapTag(k) { // wraps the selection (or inserts the tag word) in the last-focused step
   const ta = lastTA; if (!ta || !ta.isConnected) return;
   const a = ta.selectionStart, z = ta.selectionEnd, c = customTags.find(t => t.id === k), txt = ta.value.slice(a, z) || (c ? c.name : '');
@@ -1012,8 +1053,8 @@ $('#fmt').addEventListener('mousedown', e => e.preventDefault()); // keep the ke
 $('#fmt').addEventListener('click', e => {
   const q = sel => e.target.closest(sel);
   if (q('[data-pick]')) return openPicker(q('[data-pick]').dataset.pick);
-  if (q('[data-rmtag]')) { customTags = customTags.filter(t => t.id !== q('[data-rmtag]').dataset.rmtag); saveTags(); return refreshTags(); }
-  if (q('[data-resetcolors]')) { colors = {}; saveColors(); return refreshTags(); }
+  if (q('[data-rmtag]')) { const id = q('[data-rmtag]').dataset.rmtag; if (pickKey === id) closePicker(); customTags = customTags.filter(t => t.id !== id); saveTags(); return refreshTags(); }
+  if (q('[data-resetcolors]')) { colors = {}; saveColors(); refreshTags(); return syncPicker(); }
   if (q('[data-addtag]')) {
     const name = (prompt('New color-coded word (e.g. SURV)') || '').trim().slice(0, 20); if (!name) return;
     const id = 'c' + Date.now().toString(36); customTags.push({ id, name, color: '#7bd88f' }); saveTags(); refreshTags(); return openPicker(id);
