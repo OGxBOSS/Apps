@@ -770,14 +770,13 @@ const PALETTE = [ // ADJUSTABLE - banner color choices: 3 shades x 12 hues, then
   '#000000', '#3a3f47', '#7b838f', '#c3c8d0', '#ffffff', '#ffe600'];
 const inkFor = c => { const n = parseInt(c.slice(1), 16); return 0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255) > 150 ? '#000' : '#fff'; };
 const RES = [['f', 'Food'], ['w', 'Wood'], ['g', 'Gold'], ['s', 'Stone'], ['b', 'Build']]; // the 5 villager jobs
-const TAGS = [...RES, ['a', 'Age'], ['x', 'Alert'], ['n', 'Plain']]; // toolbar color tags: {f:text}
+const TAGS = [['f', 'Food'], ['w', 'Wood'], ['g', 'Gold'], ['s', 'Stone'], ['a', 'Age']]; // toolbar style tags: {f:text}
 const AUTO = [ // ADJUSTABLE - words colored automatically: [class, regex source]
   ['a', 'dark age|feudal|castle|imperial|age up|age'],
   ['f', 'food|berries|berry|sheep|deer|boar|fish|farms?|mills?'],
   ['w', 'wood|lumber|trees?|strag(?:gler)?s?'],
   ['g', 'gold|mines?'],
   ['s', 'stone'],
-  ['b', 'houses?|barracks|stables?|archery range|range|camps?|market|blacksmith|monastery|keep|tc|town center|walls?|docks?|outpost|prod'],
 ];
 const AUTO_T = AUTO.map(([c, p]) => [c, new RegExp('^(?:' + p + ')$', 'i')]);
 
@@ -805,12 +804,12 @@ const grow = t => { t.style.height = 'auto'; t.style.height = t.scrollHeight + '
 function toast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2200); }
 
 // ── TAG COLORS ──  every color is a CSS variable, so editing one recolors every build on every civilization
-const TAG_VARS = { f: '--food', w: '--wood', g: '--gold', s: '--stone', b: '--bld', a: '--age', x: '--bad' };
+const TAG_VARS = { f: '--food', w: '--wood', g: '--gold', s: '--stone', a: '--age' }; // Build/Alert/Plain tags removed; --bld still colors the villager Build column
 let colors = store.get('colors', {});        // user overrides of the built-in tag colors
 let customTags = store.get('tags', []);      // user tags: [{ id, name, color }] (e.g. SURV)
 let looks = store.get('looks', {});         // per tag: { u: underline, nc: no color } (built-in and custom)
 const saveColors = () => store.set('colors', colors), saveTags = () => store.set('tags', customTags), saveLooks = () => store.set('looks', looks);
-const lookOf = k => ({ u: looks[k]?.u ?? k === 'b', c: !looks[k]?.nc }); // Build is underlined by default
+const lookOf = k => ({ u: !!looks[k]?.u, c: !looks[k]?.nc }); // nothing is underlined unless you turn it on
 function applyColors() { // --tc-<tag> = text color (or plain), --td-<tag> = underline or none; all live
   const r = document.documentElement.style;
   for (const [k, v] of Object.entries(TAG_VARS)) colors[k] ? r.setProperty(v, colors[k]) : r.removeProperty(v);
@@ -1007,8 +1006,7 @@ $('#bMain').addEventListener('focusin', e => { if (e.target.tagName === 'TEXTARE
 // ── COLOR BAR ── dot = pick that color, label = apply it to the selected text, ＋ = add your own color-coded word
 function renderFmt() {
   const tg = (k, label, style, extra = '') => `<span class="tg"><button class="dot" data-pick="${k}" style="background:var(${style})" aria-label="Change color"></button><button class="lbl" data-k="${k}" ${k.length === 1 ? `class="k-${k}"` : ''}>${label}</button>${extra}</span>`;
-  const items = TAGS.map(([k, n]) => k === 'n' ? `<span class="tg"><button class="lbl" data-k="n">${n}</button></span>`
-      : `<span class="tg"><button class="dot" data-pick="${k}" style="background:var(${TAG_VARS[k]})" aria-label="Change ${n} style">✎</button><button class="lbl k-${k}" data-k="${k}" style="${lookCss(k)}">${n}</button></span>`).concat(
+  const items = TAGS.map(([k, n]) => `<span class="tg"><button class="dot" data-pick="${k}" style="background:var(${TAG_VARS[k]})" aria-label="Change ${n} style">✎</button><button class="lbl k-${k}" data-k="${k}" style="${lookCss(k)}">${n}</button></span>`).concat(
     customTags.map(t => `<span class="tg"><button class="dot" data-pick="${t.id}" style="background:var(--t-${t.id})" aria-label="Change style">✎</button><button class="lbl" data-k="${t.id}" style="${lookCss(t.id)}">${esc(t.name)}</button><button class="rmx" data-rmtag="${t.id}" aria-label="Remove tag">✕</button></span>`));
   const plus = '<button class="tg add-tag" data-addtag aria-label="Add a color-coded word">＋</button>';
   items.push(`<span class="tgrp">${items.pop()}${plus}</span>`); // keeps ＋ on the same row as the last word
