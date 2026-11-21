@@ -705,7 +705,7 @@ function renderStatus() {
 }
 function renderFoot() {
   $('#foot').innerHTML = 'Stats from <a href="https://aoe4world.com" target="_blank" rel="noopener">AoE4World</a> (ranked games, recalculated daily; refreshed here hourly). ' +
-    'Win rate = wins ÷ games; pick rate = share of all player-games. Click a row to dim a civ and move it to the bottom. Unofficial fan tool.';
+    'Win rate = wins ÷ games; pick rate = share of all player-games. Click a row to dim a civ and move it to the bottom. Unofficial fan tool. · Version 6';
 }
 
 function openMapMenu(keep) {
@@ -807,6 +807,9 @@ function toast(msg) { const t = document.createElement('div'); t.className = 'to
 const TAG_VARS = { f: '--food', w: '--wood', g: '--gold', s: '--stone', a: '--age' }; // Build/Alert/Plain tags removed; --bld still colors the villager Build column
 let colors = store.get('colors', {});        // user overrides of the built-in tag colors
 let customTags = store.get('tags', []);      // user tags: [{ id, name, color }] (e.g. SURV)
+let hiddenTags = new Set(store.get('hiddenTags', [])); // built-in words (Food, Wood, …) you deleted
+const saveHidden = () => store.set('hiddenTags', [...hiddenTags]);
+const liveBuiltin = k => !!TAG_VARS[k] && !hiddenTags.has(k);
 let looks = store.get('looks', {});         // per tag: { u: underline, nc: no color } (built-in and custom)
 const saveColors = () => store.set('colors', colors), saveTags = () => store.set('tags', customTags), saveLooks = () => store.set('looks', looks);
 const lookOf = k => ({ u: !!looks[k]?.u, c: !looks[k]?.nc }); // nothing is underlined unless you turn it on
@@ -826,17 +829,18 @@ let AUTO_RE;
 const anyCase = p => p.replace(/[a-z]/g, c => `[${c}${c.toUpperCase()}]`); // built-in words: any capitalization
 const buildAuto = () => { // custom words: exact capitalization, longest first, checked before built-in words
   const mine = [...new Set(customTags.map(t => t.name))].sort((a, b) => b.length - a.length).map(escRe);
-  AUTO_RE = new RegExp('\\b(' + [...mine, ...AUTO.map(a => anyCase(a[1]))].join('|') + ')\\b', 'g');
+  const all = [...mine, ...AUTO.filter(a => !hiddenTags.has(a[0])).map(a => anyCase(a[1]))];
+  AUTO_RE = all.length ? new RegExp('\\b(' + all.join('|') + ')\\b', 'g') : /(?!)/g; // (?!) = match nothing
 };
 
 // ── RICH TEXT ──  manual tags {f:text} / {c1:text} override; otherwise AUTO and custom words get colored
-const tagSpan = (k, inner) => TAG_VARS[k] ? `<span class="kw k-${k}" style="${lookCss(k)}">${inner}</span>`
+const tagSpan = (k, inner) => liveBuiltin(k) ? `<span class="kw k-${k}" style="${lookCss(k)}">${inner}</span>`
   : customTags.some(t => t.id === k) ? `<span class="kw" style="${lookCss(k)}">${inner}</span>` : inner;
 const rich = t => String(t).split(/(\{[a-z0-9]+:[^}]*\})/).map(p => {
   const m = /^\{([a-z0-9]+):([^}]*)\}$/.exec(p);
   return m ? tagSpan(m[1], esc(m[2])) : esc(p).replace(AUTO_RE, w => {
     const c = customTags.find(t => t.name === w);
-    return tagSpan(c ? c.id : AUTO_T.find(([, re]) => re.test(w))[0], w);
+    const k = c ? c.id : AUTO_T.find(([, re]) => re.test(w))?.[0]; return k ? tagSpan(k, w) : w;
   });
 }).join('');
 
@@ -1005,12 +1009,12 @@ $('#bMain').addEventListener('focusin', e => { if (e.target.tagName === 'TEXTARE
 
 // ── COLOR BAR ── dot = pick that color, label = apply it to the selected text, ＋ = add your own color-coded word
 function renderFmt() {
-  const tg = (k, label, style, extra = '') => `<span class="tg"><button class="dot" data-pick="${k}" style="background:var(${style})" aria-label="Change color"></button><button class="lbl" data-k="${k}" ${k.length === 1 ? `class="k-${k}"` : ''}>${label}</button>${extra}</span>`;
-  const items = TAGS.map(([k, n]) => `<span class="tg"><button class="dot" data-pick="${k}" style="background:var(${TAG_VARS[k]})" aria-label="Change ${n} style">✎</button><button class="lbl k-${k}" data-k="${k}" style="${lookCss(k)}">${n}</button></span>`).concat(
-    customTags.map(t => `<span class="tg"><button class="dot" data-pick="${t.id}" style="background:var(--t-${t.id})" aria-label="Change style">✎</button><button class="lbl" data-k="${t.id}" style="${lookCss(t.id)}">${esc(t.name)}</button><button class="rmx" data-rmtag="${t.id}" aria-label="Remove tag">✕</button></span>`));
+  const rmx = k => `<button class="rmx" data-rmtag="${k}" aria-label="Delete this word">✕</button>`;
+  const items = TAGS.filter(([k]) => !hiddenTags.has(k)).map(([k, n]) => `<span class="tg"><button class="dot" data-pick="${k}" style="background:var(${TAG_VARS[k]})" aria-label="Change ${n} style">✎</button><button class="lbl k-${k}" data-k="${k}" style="${lookCss(k)}">${n}</button>${rmx(k)}</span>`).concat(
+    customTags.map(t => `<span class="tg"><button class="dot" data-pick="${t.id}" style="background:var(--t-${t.id})" aria-label="Change style">✎</button><button class="lbl" data-k="${t.id}" style="${lookCss(t.id)}">${esc(t.name)}</button>${rmx(t.id)}</span>`));
   const plus = '<button class="tg add-tag" data-addtag aria-label="Add a color-coded word">＋</button>';
-  items.push(`<span class="tgrp">${items.pop()}${plus}</span>`); // keeps ＋ on the same row as the last word
-  $('#fmt').innerHTML = '<span class="hint">Style</span>' + items.join('');
+  items.push(items.length ? `<span class="tgrp">${items.pop()}${plus}</span>` : plus); // keeps ＋ on the same row as the last word
+  $('#fmt').innerHTML = '<span class="hint">Style · v6</span>' + items.join('');
 }
 function refreshTags() { applyColors(); buildAuto(); renderFmt(); renderBuilds(); }
 // ── COLOR PICKER ── an on-screen popup (swatches + full color wheel + hex). It replaces a hidden native
@@ -1078,9 +1082,12 @@ $('#fmt').addEventListener('mousedown', e => e.preventDefault()); // keep the ke
 $('#fmt').addEventListener('click', e => {
   const q = sel => e.target.closest(sel);
   if (q('[data-pick]')) return openPicker(q('[data-pick]').dataset.pick);
-  if (q('[data-rmtag]')) { const id = q('[data-rmtag]').dataset.rmtag; if (pickKey === id) closePicker(); customTags = customTags.filter(t => t.id !== id); delete looks[id]; saveTags(); saveLooks(); return refreshTags(); }
+  if (q('[data-rmtag]')) { const id = q('[data-rmtag]').dataset.rmtag; if (pickKey === id) closePicker();
+    if (TAG_VARS[id]) { hiddenTags.add(id); saveHidden(); delete colors[id]; saveColors(); } else { customTags = customTags.filter(t => t.id !== id); saveTags(); }
+    delete looks[id]; saveLooks(); return refreshTags(); }
   if (q('[data-addtag]')) {
     const name = (prompt('New color-coded word (e.g. SURV)') || '').trim().slice(0, 20); if (!name) return;
+    const back = TAGS.find(([k, n]) => hiddenTags.has(k) && n.toLowerCase() === name.toLowerCase()); if (back) { hiddenTags.delete(back[0]); saveHidden(); return refreshTags(); }
     const id = 'c' + Date.now().toString(36); customTags.push({ id, name, color: '#7bd88f' }); saveTags(); refreshTags(); return openPicker(id);
   }
   if (q('[data-k]')) wrapTag(q('[data-k]').dataset.k);
