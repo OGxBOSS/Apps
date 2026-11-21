@@ -145,26 +145,29 @@ input,textarea,select{font:inherit;color:inherit;margin:0}
 .pbar .t2{font-size:13px;font-weight:700;opacity:.75}
 #pBody{position:relative}
 .wheel{padding:34vh 0 22vh}
-.ps{display:grid;grid-template-columns:34px minmax(0,1fr);gap:8px;padding:12px 14px 12px 10px;border-left:4px solid transparent;opacity:.5;transition:opacity .2s,background .2s;cursor:pointer}
+/* ADJUSTABLE - in-game text sizes: --fs normal steps, --fc current step (set by the Aa button) */
+#pBody{--fs:16px;--fc:21px}
+#pBody.ts-s{--fs:14.5px;--fc:18px} #pBody.ts-l{--fs:18px;--fc:25px}
+.ps{display:grid;grid-template-columns:18px minmax(0,1fr);gap:6px;padding:10px 8px 10px 4px;border-left:3px solid transparent;opacity:.5;transition:opacity .2s,background .2s;cursor:pointer}
 .ps.past{opacity:.28}
-.ps.cur{opacity:1;background:var(--tint);border-left-color:var(--accent);padding-top:18px;padding-bottom:18px}
-.pn{font-weight:800;color:var(--muted);font-size:14px;text-align:right;padding-top:3px}
+.ps.cur{opacity:1;background:var(--tint);border-left-color:var(--accent);padding-top:14px;padding-bottom:14px}
+.pn{font-weight:800;color:var(--muted);font-size:11px;text-align:right;padding-top:.35em;font-variant-numeric:tabular-nums}
 .pc{min-width:0}
-.ps.br .pc{border-left:3px solid var(--line);padding-left:12px}
+.ps.br .pc{border-left:2px solid var(--line);padding-left:8px}
 .btag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:3px}
-.ptx{font-size:18px;font-weight:650;line-height:1.32;overflow-wrap:anywhere}
-.ps.cur .ptx{font-size:25px;font-weight:800}
+.ptx{font-size:var(--fs);font-weight:650;line-height:1.3;overflow-wrap:anywhere}
+.ps.cur .ptx{font-size:var(--fc);font-weight:750;line-height:1.25}
 .vil{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .vb{display:inline-flex;align-items:baseline;gap:4px;padding:3px 9px;border-radius:9px;background:var(--surface2);font-weight:800;font-size:15px;font-variant-numeric:tabular-nums}
 .vb i{font-style:normal;font-size:.72em;opacity:.85}
-.ps.cur .vb{font-size:21px;padding:4px 11px}
+.ps.cur .vb{font-size:calc(var(--fc) - 3px);padding:3px 10px}
 .fork{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:8px;margin-top:12px}
-.fk{display:block;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px;text-align:left;font-weight:600;-webkit-user-select:none;user-select:none}
+.fk{display:block;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:10px;text-align:left;font-weight:600;-webkit-user-select:none;user-select:none}
 .fk.on{border-color:var(--accent);background:var(--tint)}
 .fk b{display:block;font-size:18px;font-weight:800}
 .fk ol{margin:6px 0 0;padding-left:18px;font-size:14px;color:var(--muted);font-weight:600}
 .ps.cur .fk ol{color:var(--text)}
-.result{margin:28px 12px 0;padding:16px;background:var(--surface);border-radius:20px}
+.result{margin:28px 8px 0;padding:16px;background:var(--surface);border-radius:20px}
 .result h3{margin:0;font-size:18px}
 .modechip{display:inline-flex;align-items:center;gap:6px;margin-top:6px;min-height:36px;padding:0 12px;border-radius:10px;background:var(--surface2);font-size:14px;font-weight:700;color:var(--muted)}
 .modechip b{color:var(--text)}
@@ -177,7 +180,7 @@ input,textarea,select{font:inherit;color:inherit;margin:0}
 
 /* rich step text: each line is a block, so wrapped lines stay aligned with their indent */
 .ln{padding-left:var(--in,0)}
-.ln.bu{position:relative;padding-left:calc(var(--in,0em) + 1.05em)}
+.ln.bu{position:relative;padding-left:calc(var(--in,0em) + .85em)}
 .ln .bd{position:absolute;left:var(--in,0)}
 .kw{text-decoration-thickness:2px;text-underline-offset:3px}
 
@@ -316,6 +319,7 @@ body.kb .tabs{display:none}
     <header class="top pbar" id="pTop">
       <button class="icon" id="pBack" aria-label="Back">‹</button>
       <div class="ttl"><div class="t1" id="pName"></div><div class="t2" id="pSub"></div></div>
+      <button class="icon" id="pSize" aria-label="Text size" style="font-size:16px">Aa</button>
       <button class="btn" id="pEdit">Edit</button>
     </header>
     <main class="scroll" id="pBody"></main>
@@ -340,7 +344,7 @@ body.kb .tabs{display:none}
  * ══════════════════════════════════════════════════════════════════════ */
 
 /* ───────── 1. Config ───────── */
-const VERSION = 8;
+const VERSION = 10;
 const API = 'https://aoe4world.com/api/v0';
 const MODES = {
   '1v1':  { stats: 'rm_solo', games: 'rm_solo', label: '1v1 Ranked', short: '1v1' },
@@ -432,7 +436,8 @@ const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const letter = k => String.fromCharCode(65 + k);
 const inkFor = c => { const n = parseInt(c.slice(1), 16); return 0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255) > 150 ? '#000' : '#fff'; };
 
-const S = Object.assign({ mode: '1v1', min: 12, max: 17, pool: 'ranked', mapId: DEFAULT_MAP.id, scol: 'map', skey: 'wr', sdir: 'desc' }, store.get('settings', {}));
+const S = Object.assign({ mode: '1v1', min: 12, max: 17, pool: 'ranked', mapId: DEFAULT_MAP.id, scol: 'map', skey: 'wr', sdir: 'desc', ts: 'm' }, store.get('settings', {}));
+if (!['s', 'm', 'l'].includes(S.ts)) S.ts = 'm';
 S.min = clamp(+S.min | 0, 0, 17); S.max = clamp(+S.max | 0, S.min, 17);
 if (!MODES[S.mode]) S.mode = '1v1';
 if (S.pool !== 'all') S.pool = 'ranked';
@@ -920,7 +925,8 @@ function renderPlayer({ first = false } = {}) {
   const b = curBuild(); if (!b) return;
   const top = $('#pTop'); top.style.setProperty('--bc', b.color); top.style.setProperty('--ink', inkFor(b.color));
   $('#pName').textContent = b.name || 'Untitled';
-  $('#pEdit').textContent = route.edit ? 'Done' : 'Edit';
+  $('#pEdit').textContent = route.edit ? 'Done' : 'Edit'; $('#pSize').hidden = !!route.edit;
+  const body0 = $('#pBody'); body0.classList.toggle('ts-s', S.ts === 's'); body0.classList.toggle('ts-l', S.ts === 'l');
   const body = $('#pBody');
   if (route.edit) { body.innerHTML = editorHtml(b); afterEditorRender(first); }
   else {
@@ -954,6 +960,10 @@ function countResult(b, r) {
   });
 }
 $('#pBack').onclick = () => { const b = curBuild(); go(route.edit && b ? '#/build/' + encodeURIComponent(b.id) : '#/builds/' + bCiv); };
+$('#pSize').onclick = () => { // in-game text size: Medium → Large → Small
+  S.ts = { m: 'l', l: 's', s: 'm' }[S.ts]; saveSettings(); renderPlayer();
+  toast(`Text size: ${{ s: 'Small', m: 'Medium', l: 'Large' }[S.ts]}`);
+};
 $('#pEdit').onclick = () => { const b = curBuild(); if (b) go('#/build/' + encodeURIComponent(b.id) + (route.edit ? '' : '/edit')); };
 $('#pBody').addEventListener('click', e => {
   const b = curBuild(); if (!b) return;
@@ -1009,7 +1019,7 @@ function editorHtml(b) {
     </div>
     ${b.steps.map((s, i) => stepEd(s, i + 1, { i }, true)).join('')}
     <button class="add" data-act="add-step">+ Step</button>
-    <p class="tip">Enter starts a new line in the same step. ⇥ / ⇤ indent a line and • makes it a bullet — in game, long lines wrap as a neat block under their indent. Words you add with ＋ are styled as you type, even right next to a number (capitals matter).</p></div>`;
+    <p class="tip">Enter starts a new line in the same step, and • makes a line a bullet. Words you add with ＋ are styled as you type, even right next to a number (capitals matter).</p></div>`;
 }
 function afterEditorRender() {
   $$('#pBody textarea').forEach(grow);
@@ -1117,7 +1127,7 @@ function renderStyleBar() {
   const chips = words.map(t => `<span class="wchip"><button class="wd" data-style="${t.id}" style="background:var(--t-${t.id})" aria-label="Style ${esc(t.name)}">✎</button><button class="wl" data-wrap="${t.id}" style="${lookCss(t.id)}">${esc(t.name)}</button><button class="wx" data-rmw="${t.id}" aria-label="Delete ${esc(t.name)}">✕</button></span>`);
   const add = `<button class="sb plus" data-addw aria-label="Add a styled word">＋${words.length ? '' : ' Styled word'}</button>`;
   chips.push(chips.length ? `<span class="tgrp">${chips.pop()}${add}</span>` : add); // ＋ stays right of the last word
-  $('#styleBar').innerHTML = `<button class="sb" data-ind="-1" aria-label="Outdent">⇤</button><button class="sb" data-ind="1" aria-label="Indent">⇥</button><button class="sb" data-bul aria-label="Bullet">•</button><span class="vsep"></span>` + chips.join('');
+  $('#styleBar').innerHTML = `<button class="sb" data-bul aria-label="Bullet">•</button><span class="vsep"></span>` + chips.join('');
 }
 function refreshWords() {
   applyWordStyles(); buildWords(); renderStyleBar();
