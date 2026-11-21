@@ -155,7 +155,7 @@ svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
 /* resource / keyword colors (shared by text, villager columns and toolbar) */
 .k-f{color:var(--food)} .k-w{color:var(--wood)} .k-g{color:var(--gold)} .k-s{color:var(--stone)}
 .k-b{color:var(--bld)} .k-a{color:var(--age);font-weight:700} .k-x{color:var(--bad);font-weight:700}
-.tx .k-b,.pv .k-b{text-decoration:underline}
+.kw,.tg .lbl{text-decoration-thickness:2px;text-underline-offset:3px}
 /* build sheet */
 .sheet{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-bottom:14px}
 .bn{padding:8px 12px;font-size:clamp(22px,5vw,30px);font-weight:800;line-height:1.15} /* ADJUSTABLE - banner title size */
@@ -303,6 +303,9 @@ svg.hm{width:32px;height:32px}
 .cpop .sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(32px,1fr));gap:7px}
 .cpop .sw button{aspect-ratio:1;width:100%;border-radius:50%;border:2px solid var(--line2);padding:0}
 .cpop .sw button[aria-pressed="true"]{outline:3px solid var(--text);outline-offset:2px}
+.cpop .opt{display:flex;gap:8px;margin-bottom:10px}
+.cpop .opt .btn{flex:1;justify-content:center}
+.cpop .opt .btn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .cpop .cr{display:flex;align-items:center;gap:10px;margin-top:12px}
 .cpop label{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);flex:none}
 .cpop input[type=color]{width:52px;height:40px;border:2px solid var(--line2);border-radius:8px;padding:2px;background:var(--bg);cursor:pointer}
@@ -804,24 +807,32 @@ function toast(msg) { const t = document.createElement('div'); t.className = 'to
 const TAG_VARS = { f: '--food', w: '--wood', g: '--gold', s: '--stone', b: '--bld', a: '--age', x: '--bad' };
 let colors = store.get('colors', {});        // user overrides of the built-in tag colors
 let customTags = store.get('tags', []);      // user tags: [{ id, name, color }] (e.g. SURV)
-const saveColors = () => store.set('colors', colors), saveTags = () => store.set('tags', customTags);
-function applyColors() {
+let looks = store.get('looks', {});         // per tag: { u: underline, nc: no color } (built-in and custom)
+const saveColors = () => store.set('colors', colors), saveTags = () => store.set('tags', customTags), saveLooks = () => store.set('looks', looks);
+const lookOf = k => ({ u: looks[k]?.u ?? k === 'b', c: !looks[k]?.nc }); // Build is underlined by default
+function applyColors() { // --tc-<tag> = text color (or plain), --td-<tag> = underline or none; all live
   const r = document.documentElement.style;
   for (const [k, v] of Object.entries(TAG_VARS)) colors[k] ? r.setProperty(v, colors[k]) : r.removeProperty(v);
   customTags.forEach(t => r.setProperty('--t-' + t.id, t.color));
+  [...Object.keys(TAG_VARS), ...customTags.map(t => t.id)].forEach(k => {
+    const L = lookOf(k);
+    r.setProperty('--tc-' + k, L.c ? `var(${TAG_VARS[k] || '--t-' + k})` : 'currentColor');
+    r.setProperty('--td-' + k, L.u ? 'underline' : 'none');
+  });
 }
+const lookCss = k => `color:var(--tc-${k});text-decoration:var(--td-${k})`;
 const escRe = x => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 let AUTO_RE;
 const buildAuto = () => { AUTO_RE = new RegExp('\\b(' + [...customTags.map(t => escRe(t.name)), ...AUTO.map(a => a[1])].join('|') + ')\\b', 'gi'); };
 
 // ── RICH TEXT ──  manual tags {f:text} / {c1:text} override; otherwise AUTO and custom words get colored
-const tagSpan = (k, inner) => TAG_VARS[k] ? `<span class="k-${k}">${inner}</span>`
-  : customTags.some(t => t.id === k) ? `<span style="color:var(--t-${k})">${inner}</span>` : inner;
+const tagSpan = (k, inner) => TAG_VARS[k] ? `<span class="kw k-${k}" style="${lookCss(k)}">${inner}</span>`
+  : customTags.some(t => t.id === k) ? `<span class="kw" style="${lookCss(k)}">${inner}</span>` : inner;
 const rich = t => String(t).split(/(\{[a-z0-9]+:[^}]*\})/).map(p => {
   const m = /^\{([a-z0-9]+):([^}]*)\}$/.exec(p);
   return m ? tagSpan(m[1], esc(m[2])) : esc(p).replace(AUTO_RE, w => {
     const c = customTags.find(t => t.name.toLowerCase() === w.toLowerCase());
-    return c ? tagSpan(c.id, w) : `<span class="k-${AUTO_T.find(([, re]) => re.test(w))[0]}">${w}</span>`;
+    return tagSpan(c ? c.id : AUTO_T.find(([, re]) => re.test(w))[0], w);
   });
 }).join('');
 
@@ -994,9 +1005,9 @@ function renderFmt() {
   const tg = (k, label, style, extra = '') => `<span class="tg"><button class="dot" data-pick="${k}" style="background:var(${style})" aria-label="Change color"></button><button class="lbl" data-k="${k}" ${k.length === 1 ? `class="k-${k}"` : ''}>${label}</button>${extra}</span>`;
   $('#fmt').innerHTML = '<span class="hint">Color</span>' +
     TAGS.map(([k, n]) => k === 'n' ? `<span class="tg"><button class="lbl" data-k="n">${n}</button></span>`
-      : `<span class="tg"><button class="dot" data-pick="${k}" style="background:var(${TAG_VARS[k]})" aria-label="Change ${n} color"></button><button class="lbl k-${k}" data-k="${k}">${n}</button></span>`).join('') +
-    customTags.map(t => `<span class="tg"><button class="dot" data-pick="${t.id}" style="background:var(--t-${t.id})" aria-label="Change color"></button><button class="lbl" data-k="${t.id}" style="color:var(--t-${t.id})">${esc(t.name)}</button><button class="rmx" data-rmtag="${t.id}" aria-label="Remove tag">✕</button></span>`).join('') +
-    '<button class="tg add-tag" data-addtag aria-label="Add a color-coded word">＋</button><button class="tg add-tag" data-resetcolors title="Reset built-in colors">↺</button>';
+      : `<span class="tg"><button class="dot" data-pick="${k}" style="background:var(${TAG_VARS[k]})" aria-label="Change ${n} color"></button><button class="lbl k-${k}" data-k="${k}" style="${lookCss(k)}">${n}</button></span>`).join('') +
+    customTags.map(t => `<span class="tg"><button class="dot" data-pick="${t.id}" style="background:var(--t-${t.id})" aria-label="Change color"></button><button class="lbl" data-k="${t.id}" style="${lookCss(t.id)}">${esc(t.name)}</button><button class="rmx" data-rmtag="${t.id}" aria-label="Remove tag">✕</button></span>`).join('') +
+    '<button class="tg add-tag" data-addtag aria-label="Add a color-coded word">＋</button>';
 }
 function refreshTags() { applyColors(); buildAuto(); renderFmt(); renderBuilds(); }
 // ── COLOR PICKER ── an on-screen popup (swatches + full color wheel + hex). It replaces a hidden native
@@ -1011,13 +1022,22 @@ function setTagColor(k, c) {
   if (!isHex(c)) return; c = c.toLowerCase();
   const t = customTags.find(x => x.id === k);
   if (t) { t.color = c; saveTags(); } else if (TAG_VARS[k]) { colors[k] = c; saveColors(); } else return;
+  if (looks[k]?.nc) { looks[k].nc = false; saveLooks(); } // picking a color turns color back on
   applyColors(); syncPicker();
+}
+function toggleLook(k, f) { // f: 'c' (color) or 'u' (underline)
+  const L = lookOf(k), o = looks[k] = { u: L.u, nc: !L.c };
+  if (f === 'u') o.u = !o.u; else o.nc = !o.nc;
+  saveLooks(); applyColors(); syncPicker();
 }
 function closePicker() { cpop?.remove(); cpop = null; pickKey = null; }
 function syncPicker() {
   if (!cpop) return;
   const c = curColor(pickKey);
   cpop.querySelector('[data-prev]').style.background = c;
+  const L = lookOf(pickKey);
+  cpop.querySelector('[data-look="c"]').setAttribute('aria-pressed', L.c);
+  cpop.querySelector('[data-look="u"]').setAttribute('aria-pressed', L.u);
   cpop.querySelectorAll('[data-c]').forEach(b => b.setAttribute('aria-pressed', b.dataset.c.toLowerCase() === c));
   const wheel = cpop.querySelector('input[type=color]'); if (wheel.value !== c) wheel.value = c;
   const hex = cpop.querySelector('.hex'); if (document.activeElement !== hex) hex.value = c.toUpperCase();
@@ -1025,13 +1045,15 @@ function syncPicker() {
 function openPicker(k) {
   closePicker(); pickKey = k;
   const name = customTags.find(t => t.id === k)?.name || TAGS.find(([x]) => x === k)?.[1] || k;
-  cpop = document.createElement('div'); cpop.className = 'cpop'; cpop.setAttribute('role', 'dialog'); cpop.setAttribute('aria-label', `Color for ${name}`);
-  cpop.innerHTML = `<div class="ch"><span class="sw0" data-prev></span><b>${esc(name)}</b><button class="btn sm accent" data-done>Done</button></div>` +
+  cpop = document.createElement('div'); cpop.className = 'cpop'; cpop.setAttribute('role', 'dialog'); cpop.setAttribute('aria-label', `Style for ${name}`);
+  cpop.innerHTML = `<div class="ch"><span class="sw0" data-prev></span><b style="${lookCss(k)}">${esc(name)}</b><button class="btn sm accent" data-done>Done</button></div>` +
+    `<div class="opt"><button class="btn" data-look="c">Color</button><button class="btn" data-look="u"><u>Underline</u></button></div>` +
     `<div class="sw">${PALETTE.map(c => `<button data-c="${c}" aria-label="${c}" style="background:${c}"></button>`).join('')}</div>` +
     `<div class="cr"><label>Any color <input type="color"></label><input class="hex" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Hex color" placeholder="#RRGGBB"></div>`;
   document.body.appendChild(cpop);
   cpop.addEventListener('click', e => {
     const b = e.target.closest('[data-c]'); if (b) return setTagColor(pickKey, b.dataset.c);
+    const lk = e.target.closest('[data-look]'); if (lk) return toggleLook(pickKey, lk.dataset.look);
     if (e.target.closest('[data-done]')) closePicker();
   });
   const wheel = cpop.querySelector('input[type=color]');
@@ -1053,8 +1075,7 @@ $('#fmt').addEventListener('mousedown', e => e.preventDefault()); // keep the ke
 $('#fmt').addEventListener('click', e => {
   const q = sel => e.target.closest(sel);
   if (q('[data-pick]')) return openPicker(q('[data-pick]').dataset.pick);
-  if (q('[data-rmtag]')) { const id = q('[data-rmtag]').dataset.rmtag; if (pickKey === id) closePicker(); customTags = customTags.filter(t => t.id !== id); saveTags(); return refreshTags(); }
-  if (q('[data-resetcolors]')) { colors = {}; saveColors(); refreshTags(); return syncPicker(); }
+  if (q('[data-rmtag]')) { const id = q('[data-rmtag]').dataset.rmtag; if (pickKey === id) closePicker(); customTags = customTags.filter(t => t.id !== id); delete looks[id]; saveTags(); saveLooks(); return refreshTags(); }
   if (q('[data-addtag]')) {
     const name = (prompt('New color-coded word (e.g. SURV)') || '').trim().slice(0, 20); if (!name) return;
     const id = 'c' + Date.now().toString(36); customTags.push({ id, name, color: '#7bd88f' }); saveTags(); refreshTags(); return openPicker(id);
