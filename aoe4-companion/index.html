@@ -2,416 +2,369 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0e13">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>AoE4 Companion</title>
-<meta name="description" content="Age of Empires IV civilization win rates by rank, map stats and build orders.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23e0a93b'/%3E%3Cpath d='M8 22l10-10 3 3-10 10z M16 8l8 0 0 3-3 3-5-3z' fill='%230f1318'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23f0b43c'/%3E%3Cpath d='M9 23l9-9 3 3-9 9z M16 9h8v3l-3 3-5-3z' fill='%230b0e13'/%3E%3C/svg%3E">
 <style>
-/* ============================== Tokens ============================== */
+/* ═════════════ Tokens ═════════════ */
 :root{
-  --bg:#0e1217; --panel:#161b22; --panel2:#1c232c; --line:#27303b; --line2:#323d4a;
-  --text:#e7eaef; --muted:#8994a4; --accent:#e3ab3a; --accent-ink:#1b1405;
-  --prim:rgba(227,171,58,.07); --sec:rgba(88,166,255,.07); --sec-ink:#6cb2ff;
-  --good:#4cc38a; --bad:#ef6b6b; --wl:62%; --shadow:0 10px 30px rgba(0,0,0,.45);
-  --food:#e06a62; --wood:#b98b57; --gold:#e6c44f; --stone:#98a2af;
-  --rowh:42px; --civw:minmax(120px,1.15fr); --hw:40px; /* ADJUSTABLE - width of the build (hammer) button column */
+  --bg:#0b0e13; --surface:#151a21; --surface2:#1e252e; --line:#29313c; --text:#eef1f5; --muted:#8c97a6;
+  --accent:#f0b43c; --accent-ink:#1a1204; --tint:rgba(240,180,60,.10); --good:#46c98b; --bad:#f06a6a; --wl:64%;
+  --food:#ff7a6e; --wood:#d0a16a; --gold:#f2cf4a; --stone:#aeb8c4; --bld:#ffa94d;
+  --r:16px; --ui-bottom:64px; --kb:0px;
+  --cols:minmax(0,1fr) repeat(3,clamp(64px,19vw,108px)); /* ADJUSTABLE: stats columns (civ, all maps, map, you) */
   color-scheme:dark;
 }
-@media (prefers-color-scheme:light){
-  :root:not([data-theme="dark"]){
-    --bg:#f4f5f7; --panel:#ffffff; --panel2:#f0f2f5; --line:#dde1e7; --line2:#c9cfd8;
-    --text:#161a20; --muted:#667182; --accent:#b97d0a; --accent-ink:#fff;
-    --prim:rgba(185,125,10,.07); --sec:rgba(30,110,200,.07); --sec-ink:#1c6cc4;
-    --good:#13895a; --bad:#c93a3a; --wl:36%; --shadow:0 10px 30px rgba(0,0,0,.15);
-    color-scheme:light;
-  }
-}
-*{box-sizing:border-box}
-html,body{height:100%;overflow:hidden;overscroll-behavior:none} /* app shell: only inner panels scroll */
-html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
-button,input,select,textarea{font:inherit;color:inherit}
-button{cursor:pointer}
+@media (prefers-color-scheme:light){:root{
+  --bg:#f2f3f6; --surface:#fff; --surface2:#eceef2; --line:#dfe3e9; --text:#12151a; --muted:#677285;
+  --accent:#c98a0c; --accent-ink:#fff; --tint:rgba(201,138,12,.10); --good:#17945f; --bad:#d23c3c; --wl:38%;
+  --food:#d4483d; --wood:#8a5a1f; --gold:#a8820a; --stone:#5d6773; --bld:#c26a00; color-scheme:light;
+}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;overscroll-behavior:none;background:var(--bg);color:var(--text);
+  font:16px/1.35 system-ui,-apple-system,"SF Pro Text","Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+body{position:fixed;inset:0}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+input,textarea,select{font:inherit;color:inherit;margin:0}
 [hidden]{display:none!important}
 .num{font-variant-numeric:tabular-nums}
-svg.i{width:1em;height:1em;fill:currentColor;vertical-align:-.125em}
+.k-f{color:var(--food)} .k-w{color:var(--wood)} .k-g{color:var(--gold)} .k-s{color:var(--stone)} .k-b{color:var(--bld)}
 
-/* ============================== Shared controls ============================== */
-.btn{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 10px;white-space:nowrap;line-height:1.2}
-.btn:hover{border-color:var(--line2)}
-.btn:focus-visible,.row:focus-visible,.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.btn.accent{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
-.btn.ghost{background:transparent}
+/* ═════════════ App shell ═════════════ */
+#app{height:100%;display:flex;flex-direction:column;max-width:760px;margin:0 auto;overflow:hidden;position:relative}
+.view{flex:1;min-height:0;display:flex;flex-direction:column}
+.top{flex:none;display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px 10px;min-height:60px}
+.title{flex:1;min-width:0;font-size:22px;font-weight:800;letter-spacing:-.01em}
+.title span{color:var(--accent)}
+.icon{flex:none;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:20px;font-weight:800;background:var(--surface)}
+.icon.spin{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+.tabs{flex:none;display:grid;grid-template-columns:1fr 1fr;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabs button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0 7px;font-size:12px;font-weight:700;color:var(--muted)}
+.tabs button.on{color:var(--accent)}
+.tabs svg{width:26px;height:26px}
+
+/* shared controls */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 16px;border-radius:14px;background:var(--surface2);font-weight:700;font-size:16px;text-align:center}
+.btn.pri{background:var(--accent);color:var(--accent-ink)}
 .btn.danger{color:var(--bad)}
-.btn.sm{padding:3px 8px;font-size:12px}
-.btn .lbl{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
-.btn b{font-weight:600}
-.seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:2px;gap:2px}
-.seg button{background:transparent;border:0;border-radius:6px;padding:5px 10px;color:var(--muted);white-space:nowrap}
-.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);font-weight:600}
-.dd{position:relative}
-.menu{position:absolute;top:calc(100% + 6px);left:0;min-width:230px;max-height:min(62vh,440px);overflow:auto;background:var(--panel);border:1px solid var(--line2);border-radius:10px;box-shadow:var(--shadow);z-index:60;padding:4px}
-.menu button{display:flex;justify-content:space-between;gap:16px;width:100%;background:none;border:0;border-radius:6px;padding:7px 10px;text-align:left;color:var(--text);font-weight:400}
-.menu button:hover:not(:disabled){background:var(--panel2)}
-.menu button[aria-selected="true"]{background:var(--prim);color:var(--accent);font-weight:600}
-.menu button:disabled{opacity:.35;cursor:not-allowed}
-.menu .r{color:var(--muted);font-variant-numeric:tabular-nums}
-.menu .note{padding:6px 10px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:4px}
-.menu .grp{padding:6px 10px 2px;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.btn.dfill{background:var(--bad);color:#fff}
+.btn.block{width:100%}
+.btn:active,.icon:active,.ib:active{transform:scale(.97)}
+.seg{display:inline-flex;background:var(--surface);border-radius:14px;padding:3px;gap:2px;flex:none}
+.seg button{padding:0 16px;min-height:42px;border-radius:11px;font-weight:800;font-size:15px;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.seg.wide{display:flex;width:100%} .seg.wide button{flex:1}
+.ib{flex:none;width:40px;height:40px;border-radius:12px;background:var(--surface2);font-size:17px;font-weight:800;display:grid;place-items:center}
+.ib.on{background:var(--accent);color:var(--accent-ink)}
+.ib.danger{color:var(--bad)}
+.inp{width:100%;min-width:0;min-height:48px;background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;font-size:17px;font-weight:700;outline:none}
+.inp:focus{border-color:var(--accent)}
+.note{color:var(--muted);font-size:13px;margin:10px 2px}
+.flag{width:36px;height:27px;object-fit:contain;flex:none}
+.mono{width:36px;height:27px;flex:none;border-radius:5px;display:inline-grid;place-items:center;font-size:11px;font-weight:800;color:#fff}
 
-/* ============================== Dashboard ============================== */
-.sticky{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:1px solid var(--line)}
-.bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 12px 8px;max-width:980px;margin:0 auto}
-.brand{font-weight:700;letter-spacing:.02em;margin-right:6px}
-.brand span{color:var(--accent)}
-.bar .spacer{flex:1}
-.dock{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--panel);border-top:1px solid var(--line2);padding-bottom:env(safe-area-inset-bottom,0px)}
-.dock .bar{padding:8px 10px}
-.dock .menu{top:auto;bottom:calc(100% + 6px)}
-.status{max-width:980px;margin:0 auto;padding:0 12px 8px;color:var(--muted);font-size:12px;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center}
-.status .pill{border-radius:99px;padding:1px 8px;border:1px solid var(--line2);font-size:11px}
-.status .warn{color:var(--bad);border-color:var(--bad)}
-.status .ok{color:var(--good);border-color:var(--good)}
-.status button{padding:0 6px;border:0;background:none;color:var(--muted)}
-.status button:hover{color:var(--text)}
-.wrap{max-width:980px;margin:0 auto}
-.grid{display:grid;grid-template-columns:var(--hw) var(--civw) 1fr 1fr;align-items:stretch}
-.grp3{display:grid;grid-template-columns:1.05fr 1fr .9fr;align-items:center;text-align:right}
-.head{border-top:0}
-.head .c{padding:6px 8px}
-.head .civ{display:flex;flex-direction:column;gap:6px;justify-content:flex-end}
-.head .civ .t{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
-.head .g{border-left:1px solid var(--line)}
-.head .g.p{background:var(--prim)} .head .g.s{background:var(--sec)}
-.head .gt{display:flex;align-items:center;min-height:30px;font-weight:600;font-size:13px;gap:6px}
-.head .g.p .gt{color:var(--accent)} .head .g.s .gt{color:var(--sec-ink)}
-.head .gt .btn{padding:3px 8px;font-size:13px;font-weight:600;max-width:100%;overflow:hidden}
-.head .gt .btn span{overflow:hidden;text-overflow:ellipsis}
-.head .sub{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding-top:2px}
-.sub button{background:none;border:0;color:inherit;font:inherit;text-transform:inherit;letter-spacing:inherit;padding:4px 0;text-align:right;white-space:nowrap}
-.sub button.on{color:var(--text);font-weight:700}
-.togglebtn{width:100%;justify-content:center;font-size:12px;padding:5px 6px;white-space:normal;text-align:center}
-.row{display:grid;grid-template-columns:var(--hw) var(--civw) 1fr 1fr;min-height:var(--rowh);border-bottom:1px solid var(--line);cursor:pointer;user-select:none;transition:opacity .15s,background .15s}
-.row:hover{background:var(--panel)}
-.row>div{padding:4px 8px;display:flex;align-items:center}
-.row .civcell{gap:8px;min-width:0}
-.row .nm{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
-.flag{width:24px;height:16px;object-fit:cover;border-radius:2px;flex:none;box-shadow:0 0 0 1px rgba(128,128,128,.35)}
-.mono{width:24px;height:16px;border-radius:3px;flex:none;display:inline-grid;place-items:center;font-size:9px;font-weight:700;color:#fff;letter-spacing:.02em}
-.hammer{flex:none;width:28px;height:28px;display:inline-grid;place-items:center;padding:0;border-radius:7px;background:transparent;border:1px solid transparent;color:var(--muted)}
-.hammer:hover{color:var(--accent);border-color:var(--line2);background:var(--panel2)}
-.row .g{border-left:1px solid var(--line);align-items:center}
-.row .g.p{background:var(--prim)} .row .g.s{background:var(--sec)}
-.row .g .grp3{width:100%}
-.row .wr{font-weight:700;font-size:15px}
-.row .gm,.row .pk{color:var(--muted)}
-.row.off{opacity:.42}
-.row.off .nm{text-decoration:line-through;text-decoration-color:rgba(128,128,128,.6)}
-.row.off:hover{opacity:.7}
-.divider{padding:6px 10px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:var(--panel);border-bottom:1px solid var(--line)}
-.banner{margin:12px;padding:10px 12px;border:1px solid var(--bad);border-radius:8px;color:var(--bad);background:rgba(239,107,107,.07)}
-.foot{padding:16px 12px 40px;color:var(--muted);font-size:12px;max-width:980px;margin:0 auto}
+/* ═════════════ Stats ═════════════ */
+.filters{flex:none;display:flex;flex-wrap:wrap;gap:8px;padding:0 12px 8px}
+.chip{flex:1 1 140px;min-width:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:48px;background:var(--surface);border-radius:14px;padding:4px 14px;text-align:left}
+.chip small{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.chip b{font-size:16px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip b::after{content:" ▾";color:var(--muted);font-size:12px}
+.status{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:0 16px 8px;font-size:12.5px;font-weight:600;color:var(--muted)}
+.pill{border-radius:99px;padding:1px 8px;border:1px solid var(--line);font-size:11.5px}
+.pill.warn{color:var(--bad);border-color:var(--bad)} .pill.ok{color:var(--good);border-color:var(--good)}
+.thead{position:sticky;top:0;z-index:5;display:grid;grid-template-columns:var(--cols);gap:4px;padding:4px 10px;background:var(--bg);border-bottom:1px solid var(--line)}
+.th{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;min-width:0;padding:6px 6px;border-radius:10px;text-align:right}
+.th small{font-size:10.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.th span{font-size:12.5px;font-weight:700;line-height:1.15;max-width:100%;overflow:hidden;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.th.on{background:var(--tint)} .th.on small,.th.on span{color:var(--accent)}
+.th.civh{align-items:flex-start;text-align:left}
+.skey{display:inline-flex;align-items:center;gap:4px;min-height:34px;padding:0 10px;border-radius:10px;background:var(--surface);font-size:13px;font-weight:800}
+.skey em{font-style:normal;color:var(--accent)}
+.crow{display:grid;grid-template-columns:var(--cols);gap:4px;align-items:center;padding:7px 10px;min-height:64px;border-bottom:1px solid var(--line);cursor:pointer;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;transition:background .15s,opacity .2s}
+.crow.press,.crow:active{background:var(--surface)}
+.crow.off{opacity:.4}
+.crow .civ{display:flex;align-items:center;gap:10px;min-width:0}
+.crow .nm{min-width:0;font-weight:800;font-size:15.5px;line-height:1.15;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.crow.off .nm{text-decoration:line-through}
+.bc{flex:none;font-size:11px;font-weight:800;background:var(--tint);color:var(--accent);border-radius:99px;padding:2px 7px}
+.sc{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;min-width:0;align-self:stretch;padding:0 6px;border-radius:10px}
+.sc.on{background:var(--tint)}
+.sc b{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sc b.na{color:var(--muted);font-weight:700}
+.sc small{font-size:11px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.hdiv{display:flex;justify-content:space-between;align-items:center;padding:16px 16px 6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.hdiv button{color:var(--accent);font-weight:800;text-transform:none;letter-spacing:0;font-size:13px;padding:6px 0}
+.banner{margin:12px;padding:12px 14px;border:1px solid var(--bad);border-radius:14px;color:var(--bad);font-size:14px}
+.foot{padding:16px 16px 28px;color:var(--muted);font-size:12.5px;line-height:1.5}
 .foot a{color:var(--muted)}
-@media (max-width:640px){
-  :root{--civw:128px;--rowh:46px;--hw:36px}
-  html,body{font-size:13px}
-  .brand{display:none}
-  .bar{padding:8px 8px 6px;gap:6px}
-  .bar .spacer{display:none}
-  .seg button{padding:5px 8px}
-  .btn{padding:6px 8px}
-  .head .c{padding:5px 5px}
-  .row>div{padding:3px 5px}
-  .row .civcell{gap:5px}
-  .row .nm{font-size:11.5px;white-space:normal;line-height:1.1;text-overflow:clip;overflow-wrap:anywhere}  .flag,.mono{width:20px;height:14px}
-  .hammer{width:24px;height:24px}
-  .row .wr{font-size:13px}
-  .row .gm,.row .pk{font-size:11px}
-  .head .sub{font-size:9.5px;letter-spacing:0}
-  .head .gt{font-size:11.5px;min-height:28px}
-  .head .gt .btn{font-size:11.5px;padding:3px 5px}
-  .head .civ .t{display:none}
-  .status{padding:0 8px 6px}
-  .btn#btnCreate .tx{display:none}
+@media (max-width:380px){
+  :root{--cols:minmax(0,1fr) repeat(3,clamp(60px,18.5vw,72px))}
+  .crow{padding:6px 8px} .thead{padding:4px 8px}
+  .crow .nm{font-size:14px} .crow .civ{gap:8px}
+  .flag,.mono{width:30px;height:23px}
+  .sc b{font-size:16px} .sc{padding:0 4px}
+  .seg button{padding:0 12px}
 }
 
-/* ============================== Build orders ============================== */
-:root{--vw:28px;--bld:#f0a040;--age:#35d0e0} /* ADJUSTABLE - --vw: width of each villager column */
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--gold:#a8820a;--wood:#8a5a1f;--stone:#5d6773;--food:#c4443c;--bld:#c26a00;--age:#0a8a99}}
-.bhead{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:40;flex-wrap:wrap}
-.bhead h1{font-size:16px;margin:0;flex:1;min-width:120px}
-.blayout{display:grid;grid-template-columns:210px 1fr;max-width:1100px;margin:0 auto;min-height:calc(100vh - 56px)}
-.civlist{border-right:1px solid var(--line);padding:8px;overflow:auto;max-height:calc(100vh - 56px);position:sticky;top:56px;align-self:start}
-.civlist button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:0;border-radius:7px;padding:6px 8px}
-.civlist button:hover{background:var(--panel)}
-.civlist button[aria-current="true"]{background:var(--prim);color:var(--accent);font-weight:600}
-.civlist .cnt{margin-left:auto;color:var(--muted);font-size:11px;background:var(--panel2);border-radius:99px;padding:0 7px}
-.bmain{padding:12px 12px 90px;min-width:0}
-.empty{border:1px dashed var(--line2);border-radius:12px;padding:28px 16px;text-align:center;color:var(--muted)}
-@media (max-width:700px){
-  .blayout{grid-template-columns:1fr}
-  .civlist{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px}
-  .civlist button{width:auto;flex:none;border:1px solid var(--line);white-space:nowrap}
-}
-/* resource / keyword colors (shared by text, villager columns and toolbar) */
-.k-f{color:var(--food)} .k-w{color:var(--wood)} .k-g{color:var(--gold)} .k-s{color:var(--stone)}
-.k-b{color:var(--bld)} .k-a{color:var(--age);font-weight:700} .k-x{color:var(--bad);font-weight:700}
-.kw,.tg .lbl{text-decoration-thickness:2px;text-underline-offset:3px}
-/* build sheet */
-.sheet{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-bottom:14px}
-.bn{padding:8px 12px;font-size:clamp(22px,5vw,30px);font-weight:800;line-height:1.15} /* ADJUSTABLE - banner title size */
-.bname{width:100%;background:transparent;color:inherit;border:1px dashed currentColor;border-radius:6px;font:inherit;padding:2px 6px}
-.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--line);background:var(--panel2)}
-.tools select{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:4px 6px}
-.vh,.vl{display:grid;grid-template-columns:repeat(5,var(--vw));text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
-.vh{justify-content:end;padding:3px 10px 3px 0;font-size:11px;border-bottom:1px solid var(--line)}
-.st{display:grid;grid-template-columns:22px 1fr auto;gap:4px 8px;padding:9px 10px;border-bottom:1px solid var(--line);align-items:start}
-.st:not(.ed){cursor:pointer}
-.st.cur{box-shadow:inset 3px 0 var(--accent);background:var(--prim)}
-.st.done{opacity:.4}
-.st.done .tx{text-decoration:line-through}
-.sn{color:var(--muted);font-size:12px;padding-top:3px}
-.tx{white-space:pre-wrap;font-size:16px;font-weight:600;overflow-wrap:anywhere} /* ADJUSTABLE - step text size */
-.vl .e{opacity:.25}
-.st.ed{grid-template-columns:22px 1fr}
-.st.ed .pv,.st.ed .vl,.st.ed .sa{grid-column:2}
-.st.ed .vl{grid-template-columns:repeat(5,1fr);gap:4px;max-width:260px}
-.st textarea{width:100%;resize:none;overflow:hidden;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:15px}
-.vl input{width:100%;min-width:0;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 2px;text-align:center;font-weight:700}
-.pv{white-space:pre-wrap;font-size:15px;font-weight:600} .pv:empty{display:none}
-.sa{display:flex;gap:4px}
-.add{display:block;width:100%;background:none;border:1px dashed var(--line2);border-radius:10px;padding:12px;color:var(--muted);font-weight:600}
-.add:hover{color:var(--accent);border-color:var(--accent)}
-.add.in{border:0;border-radius:0;padding:10px}
-.fmt{position:fixed;left:0;right:0;bottom:var(--dock,64px);display:flex;gap:6px;align-items:center;overflow-x:auto;padding:8px 10px;background:var(--panel);border-top:1px solid var(--line2);z-index:50}
-.fmt .hint{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;flex:none}
-.fmt .btn{flex:none}
-.toast{position:fixed;left:50%;bottom:calc(var(--dock,64px) + 12px);transform:translateX(-50%);background:var(--panel);border:1px solid var(--line2);padding:8px 14px;border-radius:8px;box-shadow:var(--shadow);z-index:200}
-/* ── wheel (execution view), id box, color popup, options editor ── */
-.wheel{position:relative;overflow-y:auto;max-height:var(--wheelh,52vh);padding:var(--wpad,16vh) 0;scrollbar-width:thin} /* ADJUSTABLE - wheel height and end padding */
-.wheel .st{opacity:.5;transition:opacity .25s,background .25s}
-.wheel .st.past{opacity:.28}
-.wheel .st .tx{font-size:14px}
-.wheel .st.cur{opacity:1;padding:16px 10px;background:var(--prim);box-shadow:inset 4px 0 var(--accent)}
-.wheel .st.cur .tx{font-size:24px;font-weight:800} /* ADJUSTABLE - focused step text size */
-.wheel .st.cur .vl{font-size:20px}
-.wheel .st.br{padding-left:22px}
-.tag{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:2px}
-.bn{border-radius:9px 9px 0 0}
-.idbox{display:flex;height:38px;border:1px solid currentColor;border-radius:8px;overflow:hidden}
-.idbox select,.idbox input{height:100%;background:transparent;color:inherit;border:0;border-radius:0;font:inherit;font-size:15px;font-weight:700;padding:0 8px;min-width:0}
-.idbox select{border-right:1px solid currentColor;max-width:45%}
-.idbox select option{color:#000}
-.idbox input{flex:1}
-.tools{position:relative}
-.tools .grow{flex:1}
-.pal{position:absolute;top:100%;left:8px;z-index:30;display:grid;grid-template-columns:repeat(7,30px);gap:6px;padding:10px;background:var(--panel);border:1px solid var(--line2);border-radius:10px;box-shadow:var(--shadow)}
-.pal button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line2);padding:0}
-.st.ed .ob{grid-column:2;margin-top:6px}
-.oc{background:var(--panel2);border-left:3px solid var(--accent);border-radius:8px;margin-bottom:8px;padding:6px 0}
-.oh{display:flex;gap:6px;align-items:center;padding:0 8px 4px}
-.oh .lt{font-weight:800;color:var(--accent)}
-.oname{flex:1;min-width:0;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-weight:700}
-.oc .st{border-bottom:0;padding:6px 8px}
-/* ── app shell, build button cell, flags, wide build rows, forks ── */
-#viewDash,#viewBuilds{display:flex;flex-direction:column;height:100dvh}
-.sticky,.bhead{flex:none}
-.scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:var(--dock,64px)}
-.row .hcell{padding:0;border-right:1px solid var(--line)}
-.row .hammer{width:100%;height:100%;border-radius:0;border:0;font-size:17px}
-.head .hc{border:0}
-.flag{width:26px;height:20px;object-fit:contain;box-shadow:none} /* ADJUSTABLE - flag size */
-.mono{width:26px;height:20px}
-@media (max-width:640px){.flag,.mono{width:22px;height:17px}}
-.blayout{flex:1;min-height:0;width:100%;grid-template-rows:minmax(0,1fr)}
-.bmain{overflow-y:auto;min-height:0;overscroll-behavior:contain;padding-bottom:calc(var(--dock,64px) + 70px)}
-@media (min-width:701px){.civlist{position:static;max-height:none;padding-bottom:calc(var(--dock,64px) + 8px)}}
-@media (max-width:700px){.blayout{grid-template-rows:auto minmax(0,1fr)}}
-.wheel .st{grid-template-columns:22px 1fr}
-.wheel .st .vl{grid-column:2;display:flex;flex-wrap:wrap;gap:4px 14px;justify-content:flex-start}
-.vl i{font-style:normal;font-size:.62em;opacity:.7;margin-right:3px}
-.fork{display:flex;gap:8px;margin-top:12px}
-.fork.many{flex-wrap:wrap}
-.fc{flex:1 1 0;min-width:0}
-.fork.many .fc{flex:1 1 40%}
-.fc .btn{width:100%;min-height:54px;justify-content:center;font-size:16px;font-weight:700;white-space:normal;text-align:center}
-.fc ol{margin:6px 0 0;padding-left:18px;font-size:13px;font-weight:500;color:var(--muted)}
-.wheel .st.cur .fc ol{font-size:14px;color:var(--text)}
-.ob{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px}
-.ob .add{grid-column:1/-1}
-/* ── overhaul: beefy type, thick borders, big hammer, wrapping color bar ── */
-html,body{font:600 16px/1.3 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif} /* ADJUSTABLE - base text size / weight */
-:root{--rowh:58px;--hw:56px} /* ADJUSTABLE - row height / hammer column width */
-.btn{border-width:2px;border-color:var(--line2);border-radius:10px;padding:9px 13px;font-size:15px;font-weight:700}
-.btn.sm{padding:6px 11px;font-size:14px}
-.btn.accent{border-color:var(--accent)}
-.seg{border-width:2px;padding:3px}
-.seg button{padding:8px 12px;font-size:15px;font-weight:700}
-.dock{border-top:3px solid var(--line2)}
-.dock .bar{padding:8px;gap:6px}
-.menu button{padding:10px 12px;font-size:16px;font-weight:700}
-.status{font-size:13px;font-weight:700}
-.head .g{border-left:2px solid var(--line2)}
-.head .sub{font-size:12px;font-weight:800}
-.head .gt,.head .gt .btn{font-size:15px;font-weight:800}
-.row{border-bottom:2px solid var(--line)}
-.row .g{border-left:2px solid var(--line2)}
-.row .nm{font-size:17px;font-weight:800}
-.row .wr{font-size:20px;font-weight:800}
-.row .gm,.row .pk{font-size:15px;font-weight:700;color:var(--text);opacity:.75}
-.row .hcell{background:var(--panel2);border-right:2px solid var(--line2)}
-.row .hammer{color:var(--text)}
-.row .hammer:hover{background:var(--prim)}
-svg.hm{width:32px;height:32px}
-#btnCreate{font-size:17px;font-weight:800;padding:8px 16px;gap:8px}
-#btnCreate svg{width:32px;height:32px}
-.bhead h1{font-size:19px;font-weight:800}
-.civlist button{font-size:16px;font-weight:700;padding:9px 10px}
-.civlist .cnt{font-size:13px}
-.sheet{border:2px solid var(--line2);border-radius:12px}
-.bn{font-size:clamp(24px,5.5vw,32px);font-weight:800}
-.bmain{overflow-x:hidden;padding:10px 10px calc(var(--dock,64px) + var(--fmt,0px) + 16px)}
-.st{padding:8px;border-bottom:2px solid var(--line);min-width:0}
-.st.ed{grid-template-columns:22px minmax(0,1fr);gap:4px 6px}
-.st textarea{border:2px solid var(--line2);font-size:16px;font-weight:700;padding:7px 8px;min-width:0}
-.st.ed .vl{grid-template-columns:repeat(5,minmax(0,1fr));max-width:none}
-.vl input{border:2px solid var(--line2);padding:7px 2px;font-size:16px;font-weight:800}
-.st.ed .sa .btn{padding:6px 14px;font-size:17px}
-.add{border-width:2px;font-weight:800;font-size:16px;padding:12px}
-.oname{border:2px solid var(--line2);font-size:16px;font-weight:800}
-.ob{grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
-.oc{min-width:0;border-left-width:4px}
-.tools{padding:6px 8px}
-.sw0{width:36px;height:36px;border-width:3px}
-.idbox{height:44px;border-width:2px}
-.idbox select,.idbox input{font-size:16px;font-weight:800}
-.wheel .st .tx{font-size:17px;font-weight:700}
-.wheel .st.cur .tx{font-size:26px;font-weight:800}
-.wheel .st .vl{font-size:15px;font-weight:800}
-.wheel .st.cur .vl{font-size:20px}
-.fc .btn{min-height:58px;font-size:17px}
-.fmt{flex-wrap:wrap;overflow:visible;gap:6px;padding:8px;border-top:3px solid var(--line2)}
-.fmt .hint{font-size:12px;font-weight:800}
-.tg{display:inline-flex;align-items:stretch;border:2px solid var(--line2);border-radius:10px;overflow:hidden;background:var(--panel2)}
-.tg button{border:0;background:none;font-weight:800;font-size:15px;padding:6px 10px}
-.tg .dot{width:30px;padding:0;border-right:2px solid var(--line2);color:#fff;font-size:14px;text-shadow:0 0 2px #000,0 0 2px #000}
+/* ═════════════ Builds list ═════════════ */
+.pad{padding:4px 12px 24px}
+.civhead{width:100%;display:flex;align-items:center;gap:14px;background:var(--surface);border-radius:var(--r);padding:14px;text-align:left}
+.civhead .flag,.civhead .mono{width:56px;height:42px}
+.civhead .cn{font-size:21px;font-weight:800}
+.civhead .sub{font-size:13px;color:var(--muted);font-weight:600}
+.civhead .grow{flex:1;min-width:0}
+.chev{color:var(--muted);font-size:20px;font-weight:800}
+.recbar{width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;margin-top:8px;background:var(--surface);border-radius:var(--r);padding:12px 14px;text-align:left;font-weight:700}
+.recbar small{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;width:100%}
+.recbar .rv{font-size:15px} .recbar .rv b{font-size:18px} .recbar .rv em{font-style:normal;color:var(--muted);font-size:13px}
+.recbar .grow{flex:1}
+.sect{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:20px 4px 8px}
+.bcard{width:100%;display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:var(--r);padding:0 14px 0 0;margin-bottom:8px;min-height:68px;text-align:left;overflow:hidden}
+.bcard .sw{align-self:stretch;width:10px;flex:none}
+.bcard .bt{flex:1;min-width:0}
+.bcard .bn{font-size:18px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bcard .bs{font-size:13px;color:var(--muted);font-weight:600}
+.add{display:flex;width:100%;align-items:center;justify-content:center;min-height:56px;border:2px dashed var(--line);border-radius:var(--r);color:var(--muted);font-weight:800;font-size:16px}
+.add:active{border-color:var(--accent);color:var(--accent)}
+.add.sm{min-height:44px;font-size:15px;border-radius:12px}
+.empty{text-align:center;color:var(--muted);padding:28px 16px;background:var(--surface);border-radius:var(--r)}
+.empty b{display:block;color:var(--text);font-size:18px;margin-bottom:12px}
+
+/* ═════════════ Player ═════════════ */
+.pbar{background:var(--bc,#ffe600);color:var(--ink,#000)}
+.pbar .icon,.pbar .btn{background:rgba(0,0,0,.16);color:inherit}
+.pbar .ttl{flex:1;min-width:0}
+.pbar .t1{font-size:20px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pbar .t2{font-size:13px;font-weight:700;opacity:.75}
+#pBody{position:relative}
+.wheel{padding:34vh 0 22vh}
+.ps{display:grid;grid-template-columns:34px minmax(0,1fr);gap:8px;padding:12px 14px 12px 10px;border-left:4px solid transparent;opacity:.5;transition:opacity .2s,background .2s;cursor:pointer}
+.ps.past{opacity:.28}
+.ps.cur{opacity:1;background:var(--tint);border-left-color:var(--accent);padding-top:18px;padding-bottom:18px}
+.pn{font-weight:800;color:var(--muted);font-size:14px;text-align:right;padding-top:3px}
+.pc{min-width:0}
+.ps.br .pc{border-left:3px solid var(--line);padding-left:12px}
+.btag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:3px}
+.ptx{font-size:18px;font-weight:650;line-height:1.32;overflow-wrap:anywhere}
+.ps.cur .ptx{font-size:25px;font-weight:800}
+.vil{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.vb{display:inline-flex;align-items:baseline;gap:4px;padding:3px 9px;border-radius:9px;background:var(--surface2);font-weight:800;font-size:15px;font-variant-numeric:tabular-nums}
+.vb i{font-style:normal;font-size:.72em;opacity:.85}
+.ps.cur .vb{font-size:21px;padding:4px 11px}
+.fork{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:8px;margin-top:12px}
+.fk{display:block;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px;text-align:left;font-weight:600;-webkit-user-select:none;user-select:none}
+.fk.on{border-color:var(--accent);background:var(--tint)}
+.fk b{display:block;font-size:18px;font-weight:800}
+.fk ol{margin:6px 0 0;padding-left:18px;font-size:14px;color:var(--muted);font-weight:600}
+.ps.cur .fk ol{color:var(--text)}
+.result{margin:28px 12px 0;padding:16px;background:var(--surface);border-radius:20px}
+.result h3{margin:0;font-size:18px}
+.modechip{display:inline-flex;align-items:center;gap:6px;margin-top:6px;min-height:36px;padding:0 12px;border-radius:10px;background:var(--surface2);font-size:14px;font-weight:700;color:var(--muted)}
+.modechip b{color:var(--text)}
+.rbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.rbtns .btn{min-height:58px;font-size:17px;font-weight:800}
+.rbtns .win{background:var(--good);color:#04140c}
+.rbtns .loss{background:var(--bad);color:#1c0505}
+.rbtns .skip{grid-column:1/-1;min-height:48px;font-size:16px}
+.rsub{margin-top:12px;font-size:13.5px;font-weight:600;color:var(--muted)}
+
+/* rich step text: each line is a block, so wrapped lines stay aligned with their indent */
+.ln{padding-left:var(--in,0)}
+.ln.bu{position:relative;padding-left:calc(var(--in,0em) + 1.05em)}
+.ln .bd{position:absolute;left:var(--in,0)}
+.kw{text-decoration-thickness:2px;text-underline-offset:3px}
+
+/* ═════════════ Editor ═════════════ */
+.ed{padding:12px 12px 28px}
+.ecard{background:var(--surface);border-radius:var(--r);padding:14px;display:grid;gap:10px;margin-bottom:16px}
+.erow{display:flex;flex-wrap:wrap;gap:8px}
+.erow .btn{flex:1 1 130px}
+.erow .flag,.erow .mono{width:28px;height:21px}
+.swd{width:22px;height:22px;border-radius:7px;border:2px solid var(--line);flex:none}
+.es{background:var(--surface);border-radius:var(--r);padding:10px;margin-bottom:10px;display:grid;gap:8px;min-width:0}
+.es.opt{border:2px solid var(--accent)}
+.esh{display:flex;align-items:center;gap:6px}
+.esh .n{font-weight:800;color:var(--muted);font-size:15px;min-width:30px}
+.esh .grow{flex:1}
+.ta{display:block;width:100%;min-width:0;resize:none;overflow:hidden;min-height:48px;outline:none;margin:0}
+.ta:focus{border-color:var(--accent)}
+.tw{position:relative;min-width:0}
+.tw .hl,.tw .ta{font-size:17px;font-weight:600;line-height:1.35;padding:10px 12px;border:1.5px solid transparent;border-radius:12px;white-space:pre-wrap;overflow-wrap:break-word;word-break:normal;tab-size:2;letter-spacing:normal}
+.tw .hl{position:absolute;inset:0;pointer-events:none;overflow:hidden;color:var(--text)}
+.tw .ta{position:relative;background:transparent;color:transparent;-webkit-text-fill-color:transparent;caret-color:var(--text);border-color:var(--line)}
+.tw .ta::placeholder{color:var(--muted);-webkit-text-fill-color:var(--muted)}
+.tw .ta::selection{background:rgba(120,160,255,.35)}
+.tw .mt{opacity:.45}
+.ta-bg{position:absolute;inset:0;border-radius:12px;background:var(--bg)}
+.oc .ta-bg{background:var(--surface)}
+.vin{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.vi{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;min-width:0}
+.vi input{width:100%;min-width:0;height:44px;text-align:center;background:var(--bg);border:1.5px solid var(--line);border-radius:11px;font-size:18px;font-weight:800;color:inherit;outline:none}
+.vi input:focus{border-color:var(--accent)}
+.ogrid{display:grid;gap:8px}
+.oc{border:2px solid var(--line);border-left:5px solid var(--accent);border-radius:14px;padding:8px;display:grid;gap:8px;min-width:0}
+.oc .es{background:var(--surface2);margin:0}
+.oc .vi input{background:var(--surface)}
+.oh{display:flex;align-items:center;gap:8px}
+.oh .lt{font-weight:900;color:var(--accent);font-size:18px;width:22px;text-align:center}
+.oh .inp{min-height:42px;font-size:16px}
+.tip{color:var(--muted);font-size:13px;line-height:1.5;margin:14px 4px 0}
+
+/* style bar (editor only): indent tools + your words */
+#styleBar{flex:none;display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;background:var(--surface);border-top:1px solid var(--line);max-height:34vh;overflow-y:auto}
+body.kb #styleBar{position:fixed;left:0;right:0;bottom:var(--kb);z-index:50;max-width:760px;margin:0 auto}
+body.kb .tabs{display:none}
+.sb{height:40px;min-width:44px;padding:0 10px;border-radius:11px;background:var(--surface2);font-weight:800;font-size:17px}
+.sb.plus{color:var(--accent)}
+.sb,.wchip{flex:none}
+.vsep{width:1px;height:28px;background:var(--line);margin:0 2px}
+.wchip{display:inline-flex;height:40px;border-radius:11px;background:var(--surface2);overflow:hidden}
+.wchip .wd{width:34px;display:grid;place-items:center;color:#fff;text-shadow:0 0 2px #000,0 0 2px #000;font-size:14px}
+.wchip .wl{padding:0 10px;font-weight:800;font-size:16px;text-decoration-thickness:2px;text-underline-offset:3px}
+.wchip .wx{padding:0 10px 0 4px;color:var(--muted);font-size:14px}
 .tgrp{display:inline-flex;gap:6px;flex:none}
-.tg .rmx{color:var(--muted);padding:6px 8px}
-.tg.add-tag{padding:6px 14px;font-size:20px;color:var(--accent);cursor:pointer}
-.cpop{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--dock,64px) + var(--fmt,0px) + 8px);z-index:210;width:min(360px,calc(100vw - 16px));max-height:calc(100dvh - var(--dock,64px) - var(--fmt,0px) - 24px);overflow:auto;background:var(--panel);border:2px solid var(--line2);border-radius:12px;box-shadow:var(--shadow);padding:10px}
-.cpop .ch{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.cpop .ch b{flex:1;min-width:0;font-size:17px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cpop .sw0{display:inline-block;flex:none;border:3px solid var(--line2);border-radius:8px}
-.cpop .sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(32px,1fr));gap:7px}
-.cpop .sw button{aspect-ratio:1;width:100%;border-radius:50%;border:2px solid var(--line2);padding:0}
-.cpop .sw button[aria-pressed="true"]{outline:3px solid var(--text);outline-offset:2px}
-.cpop .opt{display:flex;gap:8px;margin-bottom:10px}
-.cpop .opt .btn{flex:1;justify-content:center}
-.cpop .opt .btn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.cpop .cr{display:flex;align-items:center;gap:10px;margin-top:12px}
-.cpop label{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);flex:none}
-.cpop input[type=color]{width:52px;height:40px;border:2px solid var(--line2);border-radius:8px;padding:2px;background:var(--bg);cursor:pointer}
-.cpop .hex{flex:1;min-width:0;background:var(--bg);border:2px solid var(--line2);border-radius:8px;padding:8px;font-weight:800;text-transform:uppercase}
-@media (max-width:640px){
-  :root{--hw:48px;--civw:112px;--rowh:56px}
-  html,body{font-size:15px}
-  .lg{display:none}
-  .row .nm{font-size:14px;line-height:1.1}
-  .row .wr{font-size:15px}
-  .row .gm,.row .pk{font-size:12.5px}
-  .head .sub{font-size:10.5px}
-  .head .gt,.head .gt .btn{font-size:13px}
-  svg.hm{width:28px;height:28px}
-  #btnCreate svg{width:34px;height:34px}
-  .btn{padding:8px 10px}
-  .seg button{padding:7px 9px}
-}
+
+/* ═════════════ Sheets & toasts ═════════════ */
+#sheetWrap{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;justify-content:flex-end}
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.5);animation:fade .2s}
+.sheet{position:relative;width:100%;max-width:760px;margin:0 auto;max-height:86%;display:flex;flex-direction:column;background:var(--surface);
+  border-radius:22px 22px 0 0;padding:4px 0 calc(env(safe-area-inset-bottom,0px) + 14px);animation:up .26s cubic-bezier(.2,.8,.2,1)}
+.grab{width:40px;height:5px;border-radius:3px;background:var(--line);margin:6px auto 2px}
+.sh{display:flex;align-items:center;gap:10px;padding:6px 14px 10px 18px}
+.sh h2{flex:1;min-width:0;margin:0;font-size:19px;font-weight:800}
+.sh .icon{width:38px;height:38px;background:var(--surface2);font-size:16px}
+.sbody{overflow-y:auto;overscroll-behavior:contain;padding:0 16px;min-height:0}
+@keyframes up{from{transform:translateY(100%)}} @keyframes fade{from{opacity:0}}
+.olist{display:grid;gap:2px;margin-top:10px}
+.oitem{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:50px;padding:0 14px;border-radius:12px;text-align:left;font-weight:700;font-size:16px}
+.oitem small{color:var(--muted);font-weight:600;font-size:13px;white-space:nowrap}
+.oitem[aria-selected="true"]{background:var(--tint);color:var(--accent)}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rct{position:sticky;top:0;background:var(--surface);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:4px 10px 6px}
+.ropt{display:flex;flex-direction:column;align-items:flex-start;width:100%;padding:8px 10px;border-radius:12px;text-align:left;font-weight:800;font-size:15px}
+.ropt small{font-size:12px;color:var(--muted);font-weight:600}
+.ropt[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)} .ropt[aria-selected="true"] small{color:inherit;opacity:.8}
+.ropt.inr{background:var(--tint)}
+.cvgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+.cv{display:flex;align-items:center;gap:10px;min-height:54px;padding:6px 10px;border-radius:12px;background:var(--surface2);text-align:left;font-weight:700;font-size:15px;line-height:1.15}
+.cv span{flex:1;min-width:0}
+.cv em{font-style:normal;font-size:11px;font-weight:800;color:var(--accent)}
+.cv.on{outline:2px solid var(--accent)}
+.rcard{background:var(--surface2);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.rch{display:flex;justify-content:space-between;font-size:16px;margin-bottom:6px} .rch span{font-weight:800;color:var(--accent)}
+.stp{display:flex;align-items:center;gap:10px;padding:4px 0;font-weight:700}
+.stp span{flex:1} .stp b{min-width:36px;text-align:center;font-size:20px;font-variant-numeric:tabular-nums}
+.stp .ib{background:var(--surface)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.msg{font-size:16px;margin:4px 2px}
+.wprev{font-size:28px;font-weight:800;text-align:center;padding:14px;background:var(--bg);border-radius:14px;text-decoration-thickness:3px;text-underline-offset:5px}
+.looks{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.looks .btn[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.swg{display:grid;grid-template-columns:repeat(auto-fill,minmax(36px,1fr));gap:8px}
+.swb{aspect-ratio:1;width:100%;border-radius:50%;border:2px solid var(--line)}
+.swb[aria-pressed="true"]{outline:3px solid var(--text);outline-offset:2px}
+.cpk{display:flex;align-items:center;gap:10px;margin:14px 0}
+.cpk label{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--muted);font-size:14px;flex:none}
+.cpk input[type=color]{width:56px;height:44px;border:2px solid var(--line);border-radius:12px;padding:2px;background:var(--bg)}
+.cpk .inp{flex:1;text-transform:uppercase}
+#toasts{position:fixed;left:0;right:0;bottom:calc(var(--ui-bottom) + 12px);z-index:200;display:flex;justify-content:center;pointer-events:none;padding:0 12px}
+.toast{pointer-events:auto;display:flex;align-items:center;gap:14px;max-width:560px;background:var(--text);color:var(--bg);padding:10px 12px 10px 16px;border-radius:14px;font-weight:700;font-size:15px;box-shadow:0 10px 30px rgba(0,0,0,.35);animation:up .2s}
+.toast button{color:var(--accent);font-weight:800;padding:6px 8px;border-radius:8px}
+@media (prefers-color-scheme:light){.toast button{color:#f0b43c}}
 </style>
 </head>
 <body>
 <noscript>This app needs JavaScript.</noscript>
+<div id="app">
 
-<!-- ============================== Dashboard view ============================== -->
-<main id="viewDash">
-  <div class="sticky">
-    <div class="dock"><header class="bar">
-      <div class="brand">AoE<span>4</span> Companion</div>
+  <!-- ═════ Stats ═════ -->
+  <section class="view" id="vStats">
+    <header class="top">
+      <div class="title">AoE<span>4</span> Companion</div>
+      <button class="icon" id="btnReload" aria-label="Refresh stats">↻</button>
+    </header>
+    <div class="filters">
       <div class="seg" id="segMode" role="group" aria-label="Game mode">
-        <button data-v="1v1" aria-pressed="true">1v1</button>
-        <button data-v="team" aria-pressed="false">Team<span class="lg"> Games</span></button>
+        <button data-v="1v1">1v1</button><button data-v="team">Team</button>
       </div>
-      <div class="dd" id="ddMin"><button class="btn" id="btnMin" aria-haspopup="listbox" aria-expanded="false"><span class="lbl">Min</span><b></b></button><div class="menu" role="listbox" hidden></div></div>
-      <div class="dd" id="ddMax"><button class="btn" id="btnMax" aria-haspopup="listbox" aria-expanded="false"><span class="lbl">Max</span><b></b></button><div class="menu" role="listbox" hidden></div></div>
-      <div class="seg" id="segPool" role="group" aria-label="Map pool">
-        <button data-v="ranked" aria-pressed="true">Ranked<span class="lg"> Maps</span></button>
-        <button data-v="all" aria-pressed="false">All<span class="lg"> Maps</span></button>
-      </div>
-      <span class="spacer"></span>
-      <button class="btn accent" id="btnCreate" title="Create a build order"><svg class="i hm" viewBox="0 0 32 32"><path d="M5 27 18 13.5" stroke="#6b3f17" stroke-width="5" stroke-linecap="round"/><path d="M5 27 18 13.5" stroke="#c4843a" stroke-width="2" stroke-linecap="round"/><g transform="rotate(45 19 12.5)"><rect x="9" y="7" width="20" height="11" rx="2.5" fill="#8a96a6" stroke="#2b323c" stroke-width="2"/><rect x="11" y="9" width="16" height="3" rx="1.5" fill="#cfd8e3"/><rect x="9" y="7" width="5" height="11" rx="2" fill="#5c6776" stroke="#2b323c" stroke-width="2"/></g></svg><span class="tx">Create Build</span></button>
-    </header></div>
+      <button class="chip" id="chipRank"><small>Rank</small><b></b></button>
+      <button class="chip" id="chipMap"><small>Map</small><b></b></button>
+    </div>
     <div class="status" id="status"></div>
-    <div class="wrap"><div class="grid head" id="head"></div></div>
-  </div>
-  <div class="scroll" id="scroll"><div class="wrap" id="rows"></div><div class="foot" id="foot"></div></div>
-</main>
+    <main class="scroll" id="statsScroll">
+      <div class="thead" id="thead"></div>
+      <div id="rows"></div>
+      <p class="foot" id="foot"></p>
+    </main>
+  </section>
 
-<!-- ============================== Build-order view ============================== -->
-<main id="viewBuilds" hidden>
-  <div class="bhead"><h1 id="bTitle">Build Orders</h1></div>
-  <div class="dock"><div class="bar">
-    <button class="btn" id="bBack">← Stats</button>
-    <span class="spacer"></span>
-    <button class="btn" id="bEdit">Edit</button>
-    <button class="btn" id="bImport" title="Import builds from a JSON file">Import</button>
-    <button class="btn" id="bExport" title="Export all builds to a JSON file">Export</button>
-    <input type="file" id="bFile" accept="application/json,.json" hidden>
-  </div></div>
-  <div class="blayout">
-    <nav class="civlist" id="civList" aria-label="Civilizations"></nav>
-    <section class="bmain" id="bMain"></section>
-  </div>
-</main>
-<div class="fmt" id="fmt" hidden></div>
+  <!-- ═════ Builds (per civ) ═════ -->
+  <section class="view" id="vBuilds" hidden>
+    <header class="top"><div class="title">Build orders</div></header>
+    <main class="scroll" id="bList"></main>
+  </section>
+
+  <!-- ═════ One build: play / edit ═════ -->
+  <section class="view" id="vPlayer" hidden>
+    <header class="top pbar" id="pTop">
+      <button class="icon" id="pBack" aria-label="Back">‹</button>
+      <div class="ttl"><div class="t1" id="pName"></div><div class="t2" id="pSub"></div></div>
+      <button class="btn" id="pEdit">Edit</button>
+    </header>
+    <main class="scroll" id="pBody"></main>
+  </section>
+
+  <div id="styleBar" hidden></div>
+  <nav class="tabs" id="tabs">
+    <button data-tab="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 20V11M12 20V4M19 20v-6M3 20h18"/></svg>Stats</button>
+    <button data-tab="builds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg>Builds</button>
+  </nav>
+</div>
+<div id="sheetWrap" hidden><div class="scrim"></div><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<div id="toasts" aria-live="polite"></div>
 
 <script>
 "use strict";
-/* =====================================================================
- *  AoE4 Companion — single-file app (HTML + CSS + JS, no dependencies)
- *  Data: AoE4World public API (https://aoe4world.com/api)
- *  Sections: 1 Config · 2 Storage · 3 Data layer · 4 Dashboard · 5 Builds
- * ===================================================================== */
+/* ══════════════════════════════════════════════════════════════════════
+ *  AoE4 Companion · v8 — single file (HTML + CSS + JS), no dependencies
+ *  Public stats: AoE4World API · "You": only games you count from a build
+ *  1 Config · 2 Storage · 3 Stats data · 4 UI kit · 5 Router · 6 Stats
+ *  7 Rich text & words · 8 Builds list · 9 Player · 10 Editor · 11 Boot
+ * ══════════════════════════════════════════════════════════════════════ */
 
-/* ---------- 1. Config ---------- */
+/* ───────── 1. Config ───────── */
+const VERSION = 8;
 const API = 'https://aoe4world.com/api/v0';
 const MODES = {
-  '1v1':  { stats: 'rm_solo', games: 'rm_solo', label: '1v1 Ranked' },
-  'team': { stats: 'rm_2v2',  games: 'rm_team', label: 'Team Ranked (2v2)' },
+  '1v1':  { stats: 'rm_solo', games: 'rm_solo', label: '1v1 Ranked', short: '1v1' },
+  'team': { stats: 'rm_2v2',  games: 'rm_team', label: 'Team Ranked (2v2)', short: 'Team' },
 };
-const FRESH_MS   = 55 * 60e3;   // cache considered fresh (no refetch)
-const REFRESH_MS = 60 * 60e3;   // auto-refresh interval while the app is open
-const STALE_MS   = 100 * 60e3;  // older than this => "may be outdated"
+const FRESH_MS = 55 * 60e3, REFRESH_MS = 60 * 60e3, STALE_MS = 100 * 60e3;
 const POOL_PAGES = 3, POOL_MIN_SHARE = 0.02, POOL_MIN_N = 3;
+const MAX_BUILDS = 6;   // ADJUSTABLE - builds per civilization
+const MAX_OPTIONS = 8;  // ADJUSTABLE - options in one choice step
 
-// Ranked tiers (Season Points / rating). Source: official "Ranked Season Updates" tier table.
 const RANK_NAMES = ['Bronze I','Bronze II','Bronze III','Silver I','Silver II','Silver III','Gold I','Gold II','Gold III',
   'Platinum I','Platinum II','Platinum III','Diamond I','Diamond II','Diamond III','Conqueror I','Conqueror II','Conqueror III'];
 const RANK_MIN = [0,400,450,500,600,650,700,800,900,1000,1100,1150,1200,1300,1350,1400,1500,1600];
 const RANKS = RANK_NAMES.map((name, i) => ({ name, min: RANK_MIN[i], max: i < 17 ? RANK_MIN[i + 1] - 1 : Infinity }));
 const rankRange = r => r.max === Infinity ? `${r.min}+` : `${r.min}–${r.max}`;
-
-/* AoE4World only serves fixed rating buckets (<499, 500-699, 700-999, 1000-1199, 1200-1399, >700, >1000,
- * >1200, >1400, >1700). Any selected range is therefore built from "atoms" aligned to those edges; atom
- * counts are summed (and ">1400" − ">1700" gives 1400–1699). */
+const rankShort = n => n.replace('Platinum', 'Plat').replace('Diamond', 'Dia').replace('Conqueror', 'Conq');
+/* AoE4World serves fixed rating buckets; a chosen range is built from "atoms" on those edges (">1400" − ">1700" = 1400–1699). */
 const ATOMS = [
-  { lo: 0,    hi: 500,      parts: { '<499': 1 } },
-  { lo: 500,  hi: 700,      parts: { '500-699': 1 } },
-  { lo: 700,  hi: 1000,     parts: { '700-999': 1 } },
-  { lo: 1000, hi: 1200,     parts: { '1000-1199': 1 } },
-  { lo: 1200, hi: 1400,     parts: { '1200-1399': 1 } },
-  { lo: 1400, hi: 1700,     parts: { '>1400': 1, '>1700': -1 } },
+  { lo: 0, hi: 500, parts: { '<499': 1 } }, { lo: 500, hi: 700, parts: { '500-699': 1 } },
+  { lo: 700, hi: 1000, parts: { '700-999': 1 } }, { lo: 1000, hi: 1200, parts: { '1000-1199': 1 } },
+  { lo: 1200, hi: 1400, parts: { '1200-1399': 1 } }, { lo: 1400, hi: 1700, parts: { '>1400': 1, '>1700': -1 } },
   { lo: 1700, hi: Infinity, parts: { '>1700': 1 } },
 ];
 const OPEN_BUCKET = { 700: '>700', 1000: '>1000', 1200: '>1200', 1400: '>1400', 1700: '>1700' };
-
 const CIVS = { // slug -> [display name, flag code | null]
   abbasid_dynasty:['Abbasid Dynasty',null], ayyubids:['Ayyubids','eg'], byzantines:['Byzantines','gr'], chinese:['Chinese','cn'],
   delhi_sultanate:['Delhi Sultanate','in'], english:['English','gb-eng'], french:['French','fr'], golden_horde:['Golden Horde',null],
@@ -424,155 +377,6 @@ const CIVS = { // slug -> [display name, flag code | null]
 };
 const civName = s => CIVS[s]?.[0] || s.replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase());
 const DEFAULT_MAP = { id: 163361, name: 'Dry Arabia' };
-
-/* ---------- 2. Storage ---------- */
-const store = {
-  get(k, d) { try { const v = localStorage.getItem('aoe4c.' + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
-  set(k, v) { try { localStorage.setItem('aoe4c.' + k, JSON.stringify(v)); return true; } catch { return false; } },
-};
-const S = Object.assign({ mode: '1v1', min: 12, max: 17, pool: 'ranked', sort: 'total', skey: 'wr', sdir: 'desc', scol: 'p', mapId: DEFAULT_MAP.id }, store.get('settings', {}));
-S.min = Math.min(Math.max(+S.min | 0, 0), 17); S.max = Math.min(Math.max(+S.max | 0, S.min), 17);
-if (!MODES[S.mode]) S.mode = '1v1';
-if (!['wr', 'g', 'pick'].includes(S.skey)) S.skey = 'wr';
-if (S.sdir !== 'asc') S.sdir = 'desc';
-if (S.scol !== 's') S.scol = 'p';
-const saveSettings = () => store.set('settings', S);
-let disabled = new Set(store.get('disabled', []));
-const saveDisabled = () => store.set('disabled', [...disabled]);
-
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
-const $ = (s, r = document) => r.querySelector(s);
-const uid = () => (crypto.randomUUID ? crypto.randomUUID() : 'b' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8));
-
-/* ---------- 3. Data layer ---------- */
-let cache = store.get('cache', {});         // url -> { t, j }
-const inflight = {}, failed = new Map();
-let refreshing = false, lastRefresh = 0, lastManual = 0;
-
-function saveCache() {
-  const now = Date.now();
-  for (const k of Object.keys(cache)) if (now - cache[k].t > 24 * 3600e3) delete cache[k];
-  const keys = Object.keys(cache).sort((a, b) => cache[b].t - cache[a].t);
-  keys.slice(150).forEach(k => delete cache[k]);
-  if (!store.set('cache', cache)) { keys.slice(40).forEach(k => delete cache[k]); store.set('cache', cache); }
-}
-async function fetchJSON(url) {
-  const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 20000);
-  try {
-    const r = await fetch(url, { signal: ctl.signal });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return await r.json();
-  } finally { clearTimeout(to); }
-}
-/** Cached GET: reuses fresh cache, otherwise fetches; on failure keeps whatever was cached before. */
-function get(key, loader, force) {
-  const c = cache[key];
-  if (c && !force && Date.now() - c.t < FRESH_MS) return Promise.resolve(c);
-  if (inflight[key]) return inflight[key];
-  return inflight[key] = (async () => {
-    try { const j = await loader(); cache[key] = { t: Date.now(), j }; saveCache(); failed.delete(key); }
-    catch (e) { failed.set(key, e.message || String(e)); }
-    finally { delete inflight[key]; }
-    return cache[key] || null;
-  })();
-}
-const q = r => r ? `?rating=${encodeURIComponent(r)}` : '';
-const civUrl = r => `${API}/stats/${MODES[S.mode].stats}/civilizations${q(r)}`;
-const mapStatsUrl = (id, r) => `${API}/stats/${MODES[S.mode].stats}/maps/${id}${q(r)}`;
-const mapsListUrl = () => `${API}/stats/${MODES[S.mode].stats}/maps`;
-const poolKey = () => 'pool:' + S.mode;
-
-/** Selected rank range -> data window (snapped outward to API bucket edges) + the requests it needs. */
-function windowInfo() {
-  const lo = RANKS[S.min].min, hiEx = RANKS[S.max].max === Infinity ? Infinity : RANKS[S.max].max + 1;
-  const used = ATOMS.filter(a => a.lo < hiEx && a.hi > lo);
-  const effLo = used[0].lo, effHi = used[used.length - 1].hi;
-  let parts = {};
-  if (effLo === 0 && effHi === Infinity) parts = { '': 1 };
-  else if (effHi === Infinity && OPEN_BUCKET[effLo]) parts = { [OPEN_BUCKET[effLo]]: 1 };
-  else for (const a of used) for (const [k, c] of Object.entries(a.parts)) parts[k] = (parts[k] || 0) + c;
-  for (const k of Object.keys(parts)) if (!parts[k]) delete parts[k];
-  const exact = effLo === lo && effHi === hiEx;
-  const fmt = (a, b) => b === Infinity ? `${a}+` : `${a}–${b - 1}`;
-  return { parts, effLo, effHi, exact, label: fmt(effLo, effHi), asked: fmt(lo, hiEx) };
-}
-
-/** Sum the cached pieces of a window into per-civ totals. Returns null if any piece is missing. */
-function aggregate(urlFor) {
-  const { parts } = windowInfo();
-  const acc = new Map(); let oldest = Infinity;
-  for (const [r, co] of Object.entries(parts)) {
-    const c = cache[urlFor(r)];
-    if (!c || !Array.isArray(c.j?.data)) return null;
-    oldest = Math.min(oldest, c.t);
-    for (const row of c.j.data) {
-      const g = row.games_count || 0, pg = row.player_games_count ?? g;
-      const w = row.win_count != null ? row.win_count : (row.win_rate != null ? row.win_rate / 100 * g : 0);
-      const o = acc.get(row.civilization) || { g: 0, w: 0, pg: 0 };
-      o.g += co * g; o.w += co * w; o.pg += co * pg; acc.set(row.civilization, o);
-    }
-  }
-  let tot = 0; acc.forEach(o => { o.g = Math.max(0, o.g); o.w = Math.max(0, o.w); o.pg = Math.max(0, o.pg); tot += o.pg; });
-  const out = new Map();
-  acc.forEach((o, k) => out.set(k, { wr: o.g > 0 ? o.w / o.g * 100 : null, g: Math.round(o.g), pick: tot > 0 ? o.pg / tot * 100 : null }));
-  return { civs: out, t: oldest };
-}
-
-/** Ranked pool: the API has no pool endpoint, so infer it from maps seen in the most recent ranked games. */
-async function loadPool(force) {
-  return get(poolKey(), async () => {
-    const lb = MODES[S.mode].games, counts = new Map(); let total = 0;
-    const pages = await Promise.all(Array.from({ length: POOL_PAGES }, (_, i) =>
-      fetchJSON(`${API}/games?leaderboard=${lb}&per_page=50&page=${i + 1}`)));
-    for (const p of pages) for (const g of p.games || []) {
-      if (g.map_id == null) continue; total++;
-      const c = counts.get(g.map_id) || { id: g.map_id, name: g.map, n: 0 }; c.n++; counts.set(g.map_id, c);
-    }
-    if (!total) throw new Error('no games returned');
-    const maps = [...counts.values()].filter(m => m.n >= POOL_MIN_N && m.n / total >= POOL_MIN_SHARE);
-    return { maps, sample: total };
-  }, force);
-}
-const loadMapsList = force => get(mapsListUrl(), () => fetchJSON(mapsListUrl()), force);
-
-function mapOptions() {
-  const list = [...(cache[mapsListUrl()]?.j?.data || [])].sort((a, b) => b.games_count - a.games_count);
-  if (S.pool === 'all') return { maps: list, warn: null, sample: null };
-  const pool = cache[poolKey()]?.j;
-  if (!pool) return { maps: list, warn: 'Ranked pool could not be determined — showing all maps.', sample: null };
-  const ids = new Set(pool.maps.map(m => m.id));
-  return { maps: list.filter(m => ids.has(m.map_id)), warn: null, sample: pool.sample };
-}
-function ensureMapSelection() {
-  const { maps } = mapOptions();
-  if (!maps.length || maps.some(m => m.map_id === S.mapId)) return;
-  S.mapId = (maps.find(m => m.map_id === DEFAULT_MAP.id) || maps[0]).map_id; saveSettings();
-}
-const mapNameOf = id => (cache[mapsListUrl()]?.j?.data || []).find(m => m.map_id === id)?.map || (id === DEFAULT_MAP.id ? DEFAULT_MAP.name : 'Selected map');
-
-async function refresh(force = false) {
-  if (refreshing) return; refreshing = true; render();
-  try {
-    await Promise.all([loadMapsList(force), loadPool(force)]);
-    ensureMapSelection();
-    const { parts } = windowInfo(), rs = Object.keys(parts);
-    await Promise.all([
-      ...rs.map(r => get(civUrl(r), () => fetchJSON(civUrl(r)), force)),
-      ...rs.map(r => get(mapStatsUrl(S.mapId, r), () => fetchJSON(mapStatsUrl(S.mapId, r)), force)),
-    ]);
-    if (force) lastRefresh = Date.now();
-  } finally { refreshing = false; render(); }
-}
-// Hourly refresh while open (only refetches what the current view needs), plus catch-up when the tab wakes up.
-setInterval(() => refresh(true), REFRESH_MS);
-document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - lastRefresh > REFRESH_MS) refresh(true); });
-
-/* ---------- 4. Dashboard ---------- */
-const hammerSvg = '<svg class="i hm" viewBox="0 0 32 32"><path d="M5 27 18 13.5" stroke="#6b3f17" stroke-width="5" stroke-linecap="round"/><path d="M5 27 18 13.5" stroke="#c4843a" stroke-width="2" stroke-linecap="round"/><g transform="rotate(45 19 12.5)"><rect x="9" y="7" width="20" height="11" rx="2.5" fill="#8a96a6" stroke="#2b323c" stroke-width="2"/><rect x="11" y="9" width="16" height="3" rx="1.5" fill="#cfd8e3"/><rect x="9" y="7" width="5" height="11" rx="2" fill="#5c6776" stroke="#2b323c" stroke-width="2"/></g></svg>';
-const fmtG = n => n == null ? '—' : n >= 10000 ? (n / 1000).toFixed(n >= 100000 ? 0 : 1) + 'k' : String(n);
-const hue = s => { let h = 0; for (const c of s) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
-// ── FLAGS ── official in-game flags from AoE4World. File names carry a hash; if one stops loading we fall back to a country flag, then to initials.
-const FLAG_BASE = 'https://static.aoe4world.com/assets/flags/';
 const FLAG_FILES = {
   abbasid_dynasty: 'abbasid_dynasty-b722e3e4ee862226395c692e73cd14c18bc96c3469874d2e0d918305c70f8a69',
   ayyubids: 'ayyubids-9ba464806c83e293ac43e19e55dddb80f1fba7b7f5bcb6f7e53b48c4b9c83c9e',
@@ -600,524 +404,794 @@ const FLAG_FILES = {
   vikings: 'vikings-1b22fd2d6bd467d27d25d3664ea6e4734dc97a444b6920e26d3910427e704f2a',
   zhu_xis_legacy: 'zhu_xis_legacy-c4d119a5fc11f2355f41d206a8b65bea8bab2286d09523a81b7d662d1aad0762',
 };
+const civSlugs = Object.keys(CIVS).sort((a, b) => civName(a).localeCompare(civName(b)));
+const FLAG_BASE = 'https://static.aoe4world.com/assets/flags/';
+
+const RES = [['f', 'Food'], ['w', 'Wood'], ['g', 'Gold'], ['s', 'Stone'], ['b', 'Build']]; // villager jobs per step
+const BANNER_CYCLE = ['#ffe600', '#2d63c8', '#d83a3a', '#2f9e5b', '#7a4fc9', '#000000'];
+const LEGACY_COLORS = { y: '#ffe600', b: '#2d63c8', r: '#d83a3a', g: '#2f9e5b', p: '#7a4fc9', k: '#000000' };
+const WORD_CYCLE = ['#7bd88f', '#6cb2ff', '#ff8a65', '#ffd54f', '#ce93d8', '#4dd0e1', '#f48fb1'];
+const hslHex = (h, s, l) => { l /= 100; const a = s / 100 * Math.min(l, 1 - l);
+  const f = n => { const k = (n + h / 30) % 12; return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))).toString(16).padStart(2, '0'); };
+  return '#' + f(0) + f(8) + f(4); };
+const PALETTE = [...[78, 58, 36].flatMap(l => Array.from({ length: 12 }, (_, i) => hslHex(i * 30, 85, l))),
+  '#000000', '#3a3f47', '#7b838f', '#c3c8d0', '#ffffff', '#ffe600'];
+
+/* ───────── 2. Storage & state ───────── */
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('aoe4c.' + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem('aoe4c.' + k, JSON.stringify(v)); return true; } catch { return false; } },
+};
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const escRe = x => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const isHex = c => /^#[0-9a-f]{6}$/i.test(c || '');
+const uid = () => crypto.randomUUID ? crypto.randomUUID() : 'b' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const letter = k => String.fromCharCode(65 + k);
+const inkFor = c => { const n = parseInt(c.slice(1), 16); return 0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255) > 150 ? '#000' : '#fff'; };
+
+const S = Object.assign({ mode: '1v1', min: 12, max: 17, pool: 'ranked', mapId: DEFAULT_MAP.id, scol: 'map', skey: 'wr', sdir: 'desc' }, store.get('settings', {}));
+S.min = clamp(+S.min | 0, 0, 17); S.max = clamp(+S.max | 0, S.min, 17);
+if (!MODES[S.mode]) S.mode = '1v1';
+if (S.pool !== 'all') S.pool = 'ranked';
+if (!['all', 'map', 'you'].includes(S.scol)) S.scol = 'map';
+if (!['wr', 'g', 'pick'].includes(S.skey)) S.skey = 'wr';
+if (S.sdir !== 'asc') S.sdir = 'desc';
+delete S.sort;
+const saveSettings = () => store.set('settings', S);
+
+let hidden = new Set(store.get('disabled', []));            // civs you hid on the stats list
+const saveHidden = () => store.set('disabled', [...hidden]);
+let games = store.get('games', []).filter(g => g && CIVS[g.c] && MODES[g.m] && (g.r === 'w' || g.r === 'l')); // { c civ, m mode, r 'w'|'l', t time, b build }
+const saveGames = () => store.set('games', games.slice(-20000));
+function records(mode) { // civ -> { w, l, n, wr }
+  const out = new Map();
+  for (const g of games) if (g.m === mode) { const o = out.get(g.c) || { w: 0, l: 0 }; g.r === 'w' ? o.w++ : o.l++; out.set(g.c, o); }
+  out.forEach(o => { o.n = o.w + o.l; o.wr = o.n ? o.w / o.n * 100 : null; });
+  return out;
+}
+const recOf = (civ, mode) => records(mode).get(civ) || { w: 0, l: 0, n: 0, wr: null };
+
+/* ───────── 3. Stats data (AoE4World) ───────── */
+let cache = store.get('cache', {});
+const inflight = {}, failed = new Map();
+let refreshing = false, queued = null, lastRefresh = 0, lastManual = 0;
+function saveCache() {
+  const now = Date.now();
+  for (const k of Object.keys(cache)) if (now - cache[k].t > 24 * 3600e3) delete cache[k];
+  const keys = Object.keys(cache).sort((a, b) => cache[b].t - cache[a].t);
+  keys.slice(150).forEach(k => delete cache[k]);
+  if (!store.set('cache', cache)) { keys.slice(40).forEach(k => delete cache[k]); store.set('cache', cache); }
+}
+async function fetchJSON(url) {
+  const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 20000);
+  try { const r = await fetch(url, { signal: ctl.signal }); if (!r.ok) throw new Error('HTTP ' + r.status); return await r.json(); }
+  finally { clearTimeout(to); }
+}
+function get(key, loader, force) { // cached GET; on failure keeps the last good copy
+  const c = cache[key];
+  if (c && !force && Date.now() - c.t < FRESH_MS) return Promise.resolve(c);
+  if (inflight[key]) return inflight[key];
+  return inflight[key] = (async () => {
+    try { const j = await loader(); cache[key] = { t: Date.now(), j }; saveCache(); failed.delete(key); }
+    catch (e) { failed.set(key, e.message || String(e)); }
+    finally { delete inflight[key]; }
+    return cache[key] || null;
+  })();
+}
+const q = r => r ? `?rating=${encodeURIComponent(r)}` : '';
+const civUrl = r => `${API}/stats/${MODES[S.mode].stats}/civilizations${q(r)}`;
+const mapStatsUrl = (id, r) => `${API}/stats/${MODES[S.mode].stats}/maps/${id}${q(r)}`;
+const mapsListUrl = () => `${API}/stats/${MODES[S.mode].stats}/maps`;
+const poolKey = () => 'pool:' + S.mode;
+function windowInfo() {
+  const lo = RANKS[S.min].min, hiEx = RANKS[S.max].max === Infinity ? Infinity : RANKS[S.max].max + 1;
+  const used = ATOMS.filter(a => a.lo < hiEx && a.hi > lo);
+  const effLo = used[0].lo, effHi = used[used.length - 1].hi;
+  let parts = {};
+  if (effLo === 0 && effHi === Infinity) parts = { '': 1 };
+  else if (effHi === Infinity && OPEN_BUCKET[effLo]) parts = { [OPEN_BUCKET[effLo]]: 1 };
+  else for (const a of used) for (const [k, c] of Object.entries(a.parts)) parts[k] = (parts[k] || 0) + c;
+  for (const k of Object.keys(parts)) if (!parts[k]) delete parts[k];
+  const fmt = (a, b) => b === Infinity ? `${a}+` : `${a}–${b - 1}`;
+  return { parts, exact: effLo === lo && effHi === hiEx, label: fmt(effLo, effHi), asked: fmt(lo, hiEx) };
+}
+function aggregate(urlFor) {
+  const { parts } = windowInfo(), acc = new Map(); let oldest = Infinity;
+  for (const [r, co] of Object.entries(parts)) {
+    const c = cache[urlFor(r)];
+    if (!c || !Array.isArray(c.j?.data)) return null;
+    oldest = Math.min(oldest, c.t);
+    for (const row of c.j.data) {
+      const g = row.games_count || 0, pg = row.player_games_count ?? g;
+      const w = row.win_count != null ? row.win_count : (row.win_rate != null ? row.win_rate / 100 * g : 0);
+      const o = acc.get(row.civilization) || { g: 0, w: 0, pg: 0 };
+      o.g += co * g; o.w += co * w; o.pg += co * pg; acc.set(row.civilization, o);
+    }
+  }
+  let tot = 0; acc.forEach(o => { o.g = Math.max(0, o.g); o.w = Math.max(0, o.w); o.pg = Math.max(0, o.pg); tot += o.pg; });
+  const civs = new Map();
+  acc.forEach((o, k) => civs.set(k, { wr: o.g > 0 ? o.w / o.g * 100 : null, g: Math.round(o.g), pick: tot > 0 ? o.pg / tot * 100 : null }));
+  return { civs, t: oldest };
+}
+async function loadPool(force) { // no pool endpoint: infer it from maps in the latest ranked games
+  return get(poolKey(), async () => {
+    const lb = MODES[S.mode].games, counts = new Map(); let total = 0;
+    const pages = await Promise.all(Array.from({ length: POOL_PAGES }, (_, i) => fetchJSON(`${API}/games?leaderboard=${lb}&per_page=50&page=${i + 1}`)));
+    for (const p of pages) for (const g of p.games || []) {
+      if (g.map_id == null) continue; total++;
+      const c = counts.get(g.map_id) || { id: g.map_id, name: g.map, n: 0 }; c.n++; counts.set(g.map_id, c);
+    }
+    if (!total) throw new Error('no games returned');
+    return { maps: [...counts.values()].filter(m => m.n >= POOL_MIN_N && m.n / total >= POOL_MIN_SHARE), sample: total };
+  }, force);
+}
+const loadMapsList = force => get(mapsListUrl(), () => fetchJSON(mapsListUrl()), force);
+function mapOptions() {
+  const list = [...(cache[mapsListUrl()]?.j?.data || [])].sort((a, b) => b.games_count - a.games_count);
+  if (S.pool === 'all') return { maps: list, warn: null, sample: null };
+  const pool = cache[poolKey()]?.j;
+  if (!pool) return { maps: list, warn: 'Ranked pool couldn’t be worked out — showing all maps.', sample: null };
+  const ids = new Set(pool.maps.map(m => m.id));
+  return { maps: list.filter(m => ids.has(m.map_id)), warn: null, sample: pool.sample };
+}
+function ensureMapSelection() {
+  const { maps } = mapOptions();
+  if (!maps.length || maps.some(m => m.map_id === S.mapId)) return;
+  S.mapId = (maps.find(m => m.map_id === DEFAULT_MAP.id) || maps[0]).map_id; saveSettings();
+}
+const mapNameOf = id => (cache[mapsListUrl()]?.j?.data || []).find(m => m.map_id === id)?.map || (id === DEFAULT_MAP.id ? DEFAULT_MAP.name : 'Selected map');
+async function refresh(force = false) {
+  if (refreshing) { queued = { force: !!(queued?.force || force) }; return; } // re-run with the newest filters once this one ends
+  refreshing = true; renderStats();
+  try {
+    await Promise.all([loadMapsList(force), loadPool(force)]);
+    ensureMapSelection();
+    const rs = Object.keys(windowInfo().parts);
+    await Promise.all([
+      ...rs.map(r => get(civUrl(r), () => fetchJSON(civUrl(r)), force)),
+      ...rs.map(r => get(mapStatsUrl(S.mapId, r), () => fetchJSON(mapStatsUrl(S.mapId, r)), force)),
+    ]);
+    if (force) lastRefresh = Date.now();
+  } finally {
+    refreshing = false; renderStats();
+    if (queued) { const nx = queued; queued = null; refresh(nx.force); }
+  }
+}
+setInterval(() => refresh(true), REFRESH_MS);
+document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - lastRefresh > REFRESH_MS) refresh(true); });
+
+/* ───────── 4. UI kit: flags, sheets, toasts ───────── */
+const hue = s => { let h = 0; for (const c of s) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
 const initials = n => n.split(/[\s']+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
 function flagHtml(slug) {
-  const f = FLAG_FILES[slug], code = CIVS[slug]?.[1], cc = code ? `https://flagcdn.com/w40/${code}.png` : '';
+  const f = FLAG_FILES[slug], code = CIVS[slug]?.[1], cc = code ? `https://flagcdn.com/w80/${code}.png` : '';
   if (f) return `<img class="flag" src="${FLAG_BASE}${f}.png"${cc ? ` data-fb="${cc}"` : ''} alt="" loading="lazy" referrerpolicy="no-referrer" data-slug="${slug}">`;
   if (cc) return `<img class="flag" src="${cc}" alt="" loading="lazy" data-slug="${slug}">`;
   return `<span class="mono" style="background:hsl(${hue(slug)} 45% 38%)" aria-hidden="true">${esc(initials(civName(slug)))}</span>`;
 }
-document.addEventListener('error', e => {
-  const t = e.target;
-  if (!(t && t.tagName === 'IMG' && t.classList.contains('flag'))) return;
+document.addEventListener('error', e => { // flag fallback: in-game flag → country flag → initials
+  const t = e.target; if (!(t && t.tagName === 'IMG' && t.classList.contains('flag'))) return;
   if (t.dataset.fb) { t.src = t.dataset.fb; delete t.dataset.fb; return; }
   const s = t.dataset.slug, m = document.createElement('span');
   m.className = 'mono'; m.style.background = `hsl(${hue(s)} 45% 38%)`; m.textContent = initials(civName(s)); t.replaceWith(m);
 }, true);
 
-function cells(st, avail) {
-  if (!avail) return `<div class="wr num" style="color:var(--muted)">—</div><div class="gm num">—</div><div class="pk num">—</div>`;
-  if (!st || st.wr == null) return `<div class="wr num" style="color:var(--muted)">—</div><div class="gm num">${st ? fmtG(st.g) : '—'}</div><div class="pk num">${st && st.pick != null ? st.pick.toFixed(1) + '%' : '—'}</div>`;
-  const h = Math.max(0, Math.min(1, (st.wr - 45) / 10)) * 130;
-  return `<div class="wr num" style="color:hsl(${h.toFixed(0)} 62% var(--wl))">${st.wr.toFixed(1)}%</div>` +
-         `<div class="gm num" title="${st.g.toLocaleString()} games">${fmtG(st.g)}</div><div class="pk num">${st.pick != null ? st.pick.toFixed(1) + '%' : '—'}</div>`;
+const sheetWrap = $('#sheetWrap'), sheetEl = $('#sheet');
+let sheetClick = null, sheetClose = null;
+function openSheet({ title, body, onClick, onClose }) {
+  sheetEl.innerHTML = `<div class="grab"></div><div class="sh"><h2>${esc(title)}</h2><button class="icon" data-close aria-label="Close">✕</button></div><div class="sbody">${body}</div>`;
+  sheetClick = onClick || null; sheetClose = onClose || null; sheetWrap.hidden = false;
+}
+const sheetBody = () => $('.sbody', sheetEl);
+function closeSheet() {
+  if (sheetWrap.hidden) return;
+  sheetWrap.hidden = true; sheetEl.innerHTML = ''; const f = sheetClose; sheetClick = sheetClose = null; f?.();
+}
+sheetWrap.addEventListener('click', e => {
+  if (e.target.closest('[data-close]') || e.target.classList.contains('scrim')) return closeSheet();
+  sheetClick?.(e);
+});
+function confirmSheet(title, msg, okLabel, fn) {
+  openSheet({ title, body: `<p class="msg">${esc(msg)}</p><div class="two"><button class="btn" data-close>Cancel</button><button class="btn dfill" data-ok>${esc(okLabel)}</button></div>`,
+    onClick: e => { if (e.target.closest('[data-ok]')) { closeSheet(); fn(); } } });
+}
+let toastTimer = 0;
+function toast(msg, action, fn) {
+  const host = $('#toasts'); host.innerHTML = '';
+  const t = document.createElement('div'); t.className = 'toast';
+  t.innerHTML = `<span>${esc(msg)}</span>${action ? `<button>${esc(action)}</button>` : ''}`;
+  if (action) t.querySelector('button').onclick = () => { t.remove(); fn(); };
+  host.appendChild(t); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.remove(), action ? 5000 : 2200);
+}
+function openCivSheet(title, cur, onPick) {
+  const counts = {}; builds.forEach(b => counts[b.civ] = (counts[b.civ] || 0) + 1);
+  openSheet({ title, body: `<div class="cvgrid">${civSlugs.map(s => `<button class="cv${s === cur ? ' on' : ''}" data-civ="${s}">${flagHtml(s)}<span>${esc(civName(s))}</span>${counts[s] ? `<em>${counts[s]}</em>` : ''}</button>`).join('')}</div>`,
+    onClick: e => { const b = e.target.closest('[data-civ]'); if (b) { closeSheet(); onPick(b.dataset.civ); } } });
+  $('.cv.on', sheetEl)?.scrollIntoView({ block: 'center' });
 }
 
-let open = null; // which dropdown is open: 'min' | 'max' | 'map' | null
-function closeMenus() { open = null; document.querySelectorAll('.menu').forEach(m => m.hidden = true); document.querySelectorAll('[aria-expanded]').forEach(b => b.setAttribute('aria-expanded', 'false')); }
-function placeMenu(menu) {
-  menu.style.left = '0px'; menu.style.right = 'auto';
-  const r = menu.getBoundingClientRect(), over = r.right - (innerWidth - 8);
-  if (over > 0) menu.style.left = -over + 'px';
-  if (r.left < 8) menu.style.left = (8 - r.left) + 'px';
+/* ───────── 5. Router ───────── */
+let route = { name: 'stats' };
+function parseHash() {
+  const h = location.hash.replace(/^#\/?/, '').split('/');
+  if (h[0] === 'builds') return { name: 'builds', civ: h[1] };
+  if (h[0] === 'build') return { name: 'player', id: decodeURIComponent(h[1] || ''), edit: h[2] === 'edit' };
+  return { name: 'stats' };
 }
-function rankMenu(which) {
-  const menu = $(which === 'min' ? '#ddMin .menu' : '#ddMax .menu');
-  menu.innerHTML = RANKS.map((r, i) => {
-    const bad = which === 'min' ? i > S.max : i < S.min;
-    const sel = (which === 'min' ? S.min : S.max) === i;
-    return `<button role="option" aria-selected="${sel}" data-i="${i}" ${bad ? 'disabled' : ''}><span>${r.name}</span><span class="r">${rankRange(r)}</span></button>`;
-  }).join('');
-  const sel = menu.querySelector('[aria-selected="true"]'); if (sel) setTimeout(() => sel.scrollIntoView({ block: 'nearest' }), 0);
+function go(hash) { if (location.hash !== hash) location.hash = hash; else onRoute(); }
+function onRoute() {
+  const prev = route; route = parseHash(); closeSheet();
+  if (route.name === 'builds' && CIVS[route.civ]) setCiv(route.civ);
+  if (route.name === 'player') { const b = buildById(route.id); if (!b) return go('#/builds/' + bCiv); setCiv(b.civ); }
+  $('#vStats').hidden = route.name !== 'stats'; $('#vBuilds').hidden = route.name !== 'builds'; $('#vPlayer').hidden = route.name !== 'player';
+  $$('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === (route.name === 'stats' ? 'stats' : 'builds')));
+  $('#styleBar').hidden = !(route.name === 'player' && route.edit);
+  if (route.name === 'stats') renderStats();
+  else if (route.name === 'builds') renderBuildList();
+  else renderPlayer({ first: !(prev.name === 'player' && prev.id === route.id && !prev.edit && !route.edit) });
+  measureUI();
 }
+window.addEventListener('hashchange', onRoute);
+$('#tabs').onclick = e => { const t = e.target.closest('[data-tab]'); if (t) go(t.dataset.tab === 'stats' ? '#/' : '#/builds/' + bCiv); };
 
-function render() { renderControls(); renderHead(); renderRows(); renderStatus(); renderFoot(); }
+/* ───────── 6. Stats screen ───────── */
+const fmtG = n => n == null ? '—' : n >= 10000 ? Math.round(n / 1000) + 'k' : n >= 1000 ? (n / 1000).toFixed(1) + 'k' : String(n);
+const fmtP = p => p == null ? '—' : (p >= 10 ? p.toFixed(0) : p.toFixed(1)) + '%';
+const wrColor = (wr, lo, hi) => `hsl(${(clamp((wr - lo) / (hi - lo), 0, 1) * 130).toFixed(0)} 68% var(--wl))`;
+const SKEY_LABEL = { wr: 'Win %', g: 'Games', pick: 'Pick %' };
 
-function renderControls() {
-  document.querySelectorAll('#segMode button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === S.mode));
-  document.querySelectorAll('#segPool button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === S.pool));
-  $('#btnMin b').textContent = RANKS[S.min].name; $('#btnMax b').textContent = RANKS[S.max].name;
-  $('#btnMin').title = `Minimum rank (${rankRange(RANKS[S.min])})`; $('#btnMax').title = `Maximum rank (${rankRange(RANKS[S.max])})`;
+function renderStats() { renderFilters(); renderStatus(); renderTable(); }
+function renderFilters() {
+  $$('#segMode button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === S.mode));
+  $('#chipRank b').textContent = S.min === S.max ? RANKS[S.min].name : `${rankShort(RANKS[S.min].name)} – ${rankShort(RANKS[S.max].name)}`;
+  $('#chipMap b').textContent = mapNameOf(S.mapId);
+  $('#btnReload').classList.toggle('spin', refreshing);
 }
-
-function mapButtonHtml() {
-  return `<button class="btn" id="btnMap" aria-haspopup="listbox" aria-expanded="${open === 'map'}" title="Choose map"><span>${esc(mapNameOf(S.mapId))}</span><span aria-hidden="true">▾</span></button>`;
-}
-function renderHead() {
-  const total = S.sort === 'total';
-  const mapCol = `<div class="dd" style="max-width:100%">${mapButtonHtml()}<div class="menu" id="mapMenu" role="listbox" hidden></div></div>`;
-  const totCol = `<span>Total · all maps</span>`;
-  // tappable column labels: sort by that statistic (tap again to flip high/low)
-  const sub = col => `<div class="grp3 sub">${[['wr', 'Win'], ['g', 'Games'], ['pick', 'Pick']].map(([k, n]) => {
-    const on = S.scol === col && S.skey === k;
-    return `<button class="${on ? 'on' : ''}" data-sk="${k}" data-col="${col}" aria-label="Sort by ${n}">${n}${on ? (S.sdir === 'asc' ? ' ▲' : ' ▼') : ''}</button>`;
-  }).join('')}</div>`;
-  $('#head').innerHTML =
-    `<div class="c hc" aria-hidden="true"></div><div class="c civ"><div class="t">Civilization</div><button class="btn togglebtn" id="btnSort" title="Swap primary and secondary statistics">⇄ ${total ? 'Win Rate by Map' : 'Total Win Rate'}</button></div>` +
-    `<div class="c g p"><div class="gt">${total ? totCol : mapCol}</div>${sub('p')}</div>` +
-    `<div class="c g s"><div class="gt">${total ? mapCol : totCol}</div>${sub('s')}</div>`;
-  if (open === 'map') openMapMenu(true);
-}
-
-function renderRows() {
-  const total = aggregate(civUrl), mp = aggregate(r => mapStatsUrl(S.mapId, r));
-  const slugs = new Set(Object.keys(CIVS)); total?.civs.forEach((_, k) => slugs.add(k)); mp?.civs.forEach((_, k) => slugs.add(k));
-  const byTotal = S.sort === 'total', P = byTotal ? total : mp, Sx = byTotal ? mp : total;
-  const src = S.scol === 's' ? Sx : P, dir = S.sdir === 'asc' ? 1 : -1;
-  const val = s => src?.civs.get(s)?.[S.skey] ?? null;
-  const byStat = (a, b) => { const x = val(a), y = val(b); return x == null || y == null ? (x == null) - (y == null) : (x - y) * dir; }; // missing data always last
-  const list = [...slugs].sort((a, b) => (disabled.has(a) - disabled.has(b)) || byStat(a, b) || civName(a).localeCompare(civName(b)));
-  const nOff = list.filter(s => disabled.has(s)).length;
-  let html = '', divided = false;
-  if (!total && !mp && failed.size && !refreshing) html += `<div class="banner">Couldn’t load statistics from AoE4World (${esc([...failed.values()][0])}). Nothing is shown rather than guessing — it will retry automatically.</div>`;
-  for (const s of list) {
-    if (disabled.has(s) && !divided) { divided = true; html += `<div class="divider">Disabled · ${nOff}</div>`; }
-    const off = disabled.has(s), n = civName(s);
-    html += `<div class="row${off ? ' off' : ''}" role="button" tabindex="0" aria-pressed="${!off}" data-slug="${s}" title="${off ? 'Click to enable' : 'Click to disable'} ${esc(n)}">` +
-      `<div class="hcell"><button class="hammer" data-build="${s}" title="Build orders — ${esc(n)}" aria-label="Build orders for ${esc(n)}">${hammerSvg}</button></div><div class="civcell">${flagHtml(s)}<span class="nm">${esc(n)}</span></div>` +
-      `<div class="g p"><div class="grp3">${cells(P?.civs.get(s), !!P)}</div></div>` +
-      `<div class="g s"><div class="grp3">${cells(Sx?.civs.get(s), !!Sx)}</div></div></div>`;
-  }
-  $('#rows').innerHTML = html;
-}
-
 function renderStatus() {
   const w = windowInfo(), tot = aggregate(civUrl), mp = aggregate(r => mapStatsUrl(S.mapId, r));
-  const t = Math.min(tot?.t ?? Infinity, mp?.t ?? Infinity);
-  const outdated = isFinite(t) && Date.now() - t > STALE_MS;
-  const pieces = [`<span>${MODES[S.mode].label}</span>`,
-    `<span title="${w.exact ? '' : `You selected ${w.asked}; AoE4World only offers fixed rating buckets, so the data covers the nearest enclosing range.`}">Rating <b class="num">${w.label}</b>${w.exact ? '' : ' <span class="pill">nearest available</span>'}</span>`];
-  if (refreshing) pieces.push('<span class="pill">Updating…</span>');
-  else if (!isFinite(t)) pieces.push(failed.size ? '<span class="pill warn">No data</span>' : '<span class="pill">Loading…</span>');
-  else pieces.push(`<span class="pill ${outdated || failed.size ? 'warn' : 'ok'}" title="${new Date(t).toLocaleString()}">${outdated || failed.size ? 'May be outdated · ' : 'Updated '}${new Date(t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>`);
-  pieces.push('<button id="btnReload" title="Refresh now" aria-label="Refresh now">↻</button>');
-  $('#status').innerHTML = pieces.join('');
+  const t = Math.min(tot?.t ?? Infinity, mp?.t ?? Infinity), old = isFinite(t) && Date.now() - t > STALE_MS;
+  const bits = [`<span>${MODES[S.mode].label} · rating <b class="num">${w.label}</b></span>`];
+  if (!w.exact) bits.push(`<span class="pill" title="You picked ${w.asked}; AoE4World only has fixed rating ranges, so this is the closest one that covers it.">closest available</span>`);
+  if (refreshing && !isFinite(t)) bits.push('<span class="pill">Loading…</span>');
+  else if (!isFinite(t)) bits.push(failed.size ? '<span class="pill warn">No data</span>' : '<span class="pill">Loading…</span>');
+  else bits.push(`<span class="pill ${old || failed.size ? 'warn' : 'ok'}">${old || failed.size ? 'May be outdated · ' : 'Updated '}${new Date(t).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</span>`);
+  $('#status').innerHTML = bits.join('');
 }
-function renderFoot() {
-  $('#foot').innerHTML = 'Stats from <a href="https://aoe4world.com" target="_blank" rel="noopener">AoE4World</a> (ranked games, recalculated daily; refreshed here hourly). ' +
-    'Win rate = wins ÷ games; pick rate = share of all player-games. Click a row to dim a civ and move it to the bottom. Unofficial fan tool. · Version 6';
+function statCell(st, avail, on) {
+  const c = `sc${on ? ' on' : ''}`;
+  if (!avail) return `<div class="${c}"><b class="na">${refreshing ? '…' : '—'}</b></div>`;
+  if (!st || st.wr == null) return `<div class="${c}"><b class="na">—</b><small>${st ? fmtG(st.g) + ' games' : ''}</small></div>`;
+  return `<div class="${c}"><b style="color:${wrColor(st.wr, 45, 55)}">${st.wr.toFixed(1)}%</b><small>${fmtG(st.g)} · ${fmtP(st.pick)}</small></div>`;
 }
+function youCell(r, on) {
+  const c = `sc${on ? ' on' : ''}`;
+  if (!r || !r.n) return `<div class="${c}"><b class="na">—</b><small>0 games</small></div>`;
+  return `<div class="${c}"><b style="color:${wrColor(r.wr, 30, 70)}">${Math.round(r.wr)}%</b><small>${r.w}–${r.l}</small></div>`;
+}
+function renderTable() {
+  const T = aggregate(civUrl), M = aggregate(r => mapStatsUrl(S.mapId, r)), Y = records(S.mode);
+  const cols = [['all', 'All maps', 'Overall'], ['map', 'Map', mapNameOf(S.mapId)], ['you', 'You', MODES[S.mode].short]];
+  const arrow = S.sdir === 'asc' ? ' ▲' : ' ▼';
+  $('#thead').innerHTML = `<div class="th civh"><button class="skey" data-skey aria-label="Change what the list is sorted by">Sort <em>${SKEY_LABEL[S.skey]}</em></button></div>` +
+    cols.map(([k, top, sub]) => `<button class="th${S.scol === k ? ' on' : ''}" data-col="${k}" aria-label="Sort by ${top}"><small>${top}${S.scol === k ? arrow : ''}</small><span>${esc(sub)}</span></button>`).join('');
 
-function openMapMenu(keep) {
-  const menu = $('#mapMenu'); if (!menu) return;
-  const { maps, warn, sample } = mapOptions();
-  menu.innerHTML = (maps.length ? maps.map(m => `<button role="option" aria-selected="${m.map_id === S.mapId}" data-map="${m.map_id}"><span>${esc(m.map)}</span><span class="r num">${fmtG(m.games_count)}</span></button>`).join('')
-    : `<div class="note">No maps loaded yet.</div>`) +
-    (warn ? `<div class="note">${esc(warn)}</div>` : '') +
-    (S.pool === 'ranked' && sample ? `<div class="note">Ranked pool inferred from the last ${sample} ranked games. Numbers = total games (all ratings).</div>` : '');
-  menu.hidden = false; placeMenu(menu); open = 'map';
-  $('#btnMap')?.setAttribute('aria-expanded', 'true');
-  if (!keep) menu.querySelector('[aria-selected="true"]')?.scrollIntoView({ block: 'nearest' });
-}
-
-/* dashboard events */
-$('#segMode').onclick = e => { const v = e.target.dataset?.v; if (v && v !== S.mode) { S.mode = v; saveSettings(); closeMenus(); refresh(); } };
-$('#segPool').onclick = e => { const v = e.target.dataset?.v; if (v && v !== S.pool) { S.pool = v; saveSettings(); closeMenus(); ensureMapSelection(); refresh(); } };
-for (const which of ['min', 'max']) {
-  const dd = $(which === 'min' ? '#ddMin' : '#ddMax'), btn = dd.querySelector('button.btn'), menu = dd.querySelector('.menu');
-  btn.onclick = e => { e.stopPropagation(); const was = open === which; closeMenus(); if (was) return; rankMenu(which); menu.hidden = false; placeMenu(menu); btn.setAttribute('aria-expanded', 'true'); open = which; };
-  menu.onclick = e => {
-    const b = e.target.closest('button[data-i]'); if (!b || b.disabled) return;
-    S[which] = +b.dataset.i; if (S.min > S.max) { if (which === 'min') S.max = S.min; else S.min = S.max; }
-    saveSettings(); closeMenus(); refresh();
-  };
-}
-$('#head').onclick = e => {
-  const sk = e.target.closest('[data-sk]');
-  if (sk) {
-    const same = S.scol === sk.dataset.col && S.skey === sk.dataset.sk;
-    S.scol = sk.dataset.col; S.skey = sk.dataset.sk; S.sdir = same && S.sdir === 'desc' ? 'asc' : 'desc';
-    saveSettings(); closeMenus(); render(); return;
+  const src = { all: T?.civs, map: M?.civs, you: Y }[S.scol];
+  const key = S.scol === 'you' ? (S.skey === 'wr' ? 'wr' : 'n') : S.skey, dir = S.sdir === 'asc' ? 1 : -1;
+  const val = s => src?.get(s)?.[key] ?? null;
+  const slugs = new Set(Object.keys(CIVS)); T?.civs.forEach((_, k) => slugs.add(k)); M?.civs.forEach((_, k) => slugs.add(k));
+  const list = [...slugs].sort((a, b) => (hidden.has(a) - hidden.has(b)) ||
+    (() => { const x = val(a), y = val(b); return x == null || y == null ? (x == null) - (y == null) : (x - y) * dir; })() ||
+    civName(a).localeCompare(civName(b)));
+  const nb = {}; builds.forEach(b => nb[b.civ] = (nb[b.civ] || 0) + 1);
+  const nHidden = list.filter(s => hidden.has(s)).length;
+  let html = '', divided = false;
+  if (!T && !M && failed.size && !refreshing) html += `<div class="banner">Couldn’t load stats from AoE4World (${esc([...failed.values()][0])}). Nothing is shown instead of guessing — it retries automatically.</div>`;
+  for (const s of list) {
+    const off = hidden.has(s);
+    if (off && !divided) { divided = true; html += `<div class="hdiv"><span>Hidden · ${nHidden}</span><button data-showall>Show all</button></div>`; }
+    html += `<div class="crow${off ? ' off' : ''}" data-slug="${s}" role="button" tabindex="0" aria-label="${esc(civName(s))}: open build orders">` +
+      `<div class="civ">${flagHtml(s)}<span class="nm">${esc(civName(s))}</span>${nb[s] ? `<span class="bc" title="${nb[s]} build order(s)">${nb[s]}</span>` : ''}</div>` +
+      statCell(T?.civs.get(s), !!T, S.scol === 'all') + statCell(M?.civs.get(s), !!M, S.scol === 'map') + youCell(Y.get(s), S.scol === 'you') + '</div>';
   }
-  if (e.target.closest('#btnSort')) { S.sort = S.sort === 'total' ? 'map' : 'total'; S.scol = 'p'; S.skey = 'wr'; S.sdir = 'desc'; saveSettings(); closeMenus(); render(); return; }
-  if (e.target.closest('#btnMap')) { e.stopPropagation(); if (open === 'map') closeMenus(); else { closeMenus(); openMapMenu(); } return; }
-  const b = e.target.closest('button[data-map]');
-  if (b) { S.mapId = +b.dataset.map; saveSettings(); closeMenus(); render(); refresh(); }
-};
-function toggleCiv(slug) { disabled.has(slug) ? disabled.delete(slug) : disabled.add(slug); saveDisabled(); renderRows(); }
-$('#rows').onclick = e => {
-  const h = e.target.closest('[data-build]'); if (h) { e.stopPropagation(); location.hash = '#/builds/' + h.dataset.build; return; }
-  const r = e.target.closest('.row'); if (r) toggleCiv(r.dataset.slug);
-};
-$('#rows').onkeydown = e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('row')) { e.preventDefault(); toggleCiv(e.target.dataset.slug); } };
-$('#status').onclick = e => { if (e.target.closest('#btnReload') && Date.now() - lastManual > 30000) { lastManual = Date.now(); refresh(true); } };
-$('#btnCreate').onclick = () => { location.hash = '#/builds/' + store.get('buildCiv', 'english'); }; // opens the build screen (does not create a build)
-document.addEventListener('click', e => { if (!e.target.closest('.menu')) closeMenus(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenus(); });
+  $('#rows').innerHTML = html;
+  $('#foot').innerHTML = `Tap a civ to open its build orders · press and hold to hide it.<br>Big number = win rate · small = games · pick rate. “You” only counts games you record at the end of a build (${MODES[S.mode].short}).<br>Stats from <a href="https://aoe4world.com" target="_blank" rel="noopener">AoE4World</a>, refreshed hourly. Unofficial fan tool · v${VERSION}`;
+}
 
-/* ---------- 5. Build orders ---------- */
-// ── CONFIG ──
-const MAX_BUILDS = 6;   // ADJUSTABLE - max builds per civilization on one screen
-const MAX_OPTIONS = 8;  // ADJUSTABLE - max options in one Options Step
-const LEGACY_COLORS = { y: '#ffe600', b: '#2d63c8', r: '#d83a3a', g: '#2f9e5b', p: '#7a4fc9', k: '#000000' }; // old color keys; also the cycle for new builds
-const hslHex = (h, s, l) => {
-  l /= 100; const a = s / 100 * Math.min(l, 1 - l);
-  const f = n => { const k = (n + h / 30) % 12; return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))).toString(16).padStart(2, '0'); };
-  return '#' + f(0) + f(8) + f(4);
+$('#segMode').onclick = e => { const v = e.target.closest('[data-v]')?.dataset.v; if (v && v !== S.mode) { S.mode = v; saveSettings(); renderStats(); refresh(); } };
+$('#btnReload').onclick = () => { if (Date.now() - lastManual > 20000) { lastManual = Date.now(); refresh(true); } else toast('Just refreshed — try again in a moment'); };
+$('#thead').onclick = e => {
+  if (e.target.closest('[data-skey]')) { S.skey = { wr: 'g', g: 'pick', pick: 'wr' }[S.skey]; S.sdir = 'desc'; saveSettings(); return renderTable(); }
+  const c = e.target.closest('[data-col]'); if (!c) return;
+  if (S.scol === c.dataset.col) S.sdir = S.sdir === 'desc' ? 'asc' : 'desc'; else { S.scol = c.dataset.col; S.sdir = 'desc'; }
+  saveSettings(); renderTable();
 };
-const PALETTE = [ // ADJUSTABLE - banner color choices: 3 shades x 12 hues, then neutrals
-  ...[78, 58, 36].flatMap(l => Array.from({ length: 12 }, (_, i) => hslHex(i * 30, 85, l))),
-  '#000000', '#3a3f47', '#7b838f', '#c3c8d0', '#ffffff', '#ffe600'];
-const inkFor = c => { const n = parseInt(c.slice(1), 16); return 0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255) > 150 ? '#000' : '#fff'; };
-const RES = [['f', 'Food'], ['w', 'Wood'], ['g', 'Gold'], ['s', 'Stone'], ['b', 'Build']]; // the 5 villager jobs
-const TAGS = [['f', 'Food'], ['w', 'Wood'], ['g', 'Gold'], ['s', 'Stone'], ['a', 'Age']]; // toolbar style tags: {f:text}
-const AUTO = [ // ADJUSTABLE - words colored automatically: [class, regex source]
-  ['a', 'dark age|feudal|castle|imperial|age up|age'],
-  ['f', 'food|berries|berry|sheep|deer|boar|fish|farms?|mills?'],
-  ['w', 'wood|lumber|trees?|strag(?:gler)?s?'],
-  ['g', 'gold|mines?'],
-  ['s', 'stone'],
-];
-const AUTO_T = AUTO.map(([c, p]) => [c, new RegExp('^(?:' + p + ')$', 'i')]);
+function toggleHide(slug) {
+  hidden.has(slug) ? hidden.delete(slug) : hidden.add(slug); saveHidden(); renderTable();
+  const now = hidden.has(slug);
+  toast(`${civName(slug)} ${now ? 'hidden' : 'shown'}`, 'Undo', () => { now ? hidden.delete(slug) : hidden.add(slug); saveHidden(); renderTable(); });
+}
+{ // rows: tap = build orders, press-and-hold = hide / show
+  const rows = $('#rows'); let press = null;
+  const end = () => { if (press) { clearTimeout(press.t); press.r.classList.remove('press'); } };
+  rows.addEventListener('pointerdown', e => {
+    const r = e.target.closest('.crow'); if (!r || e.button > 0) return;
+    press = { r, x: e.clientX, y: e.clientY, fired: false }; r.classList.add('press');
+    press.t = setTimeout(() => { if (!press || press.r !== r) return; press.fired = true; r.classList.remove('press'); navigator.vibrate?.(12); toggleHide(r.dataset.slug); }, 480);
+  });
+  rows.addEventListener('pointermove', e => { if (press && !press.fired && Math.hypot(e.clientX - press.x, e.clientY - press.y) > 10) { end(); press = null; } });
+  rows.addEventListener('pointerup', end);
+  rows.addEventListener('pointercancel', () => { end(); press = null; });
+  rows.addEventListener('contextmenu', e => { if (e.target.closest('.crow')) e.preventDefault(); });
+  rows.addEventListener('click', e => {
+    if (e.target.closest('[data-showall]')) { hidden.clear(); saveHidden(); return renderTable(); }
+    const r = e.target.closest('.crow'); if (!r) return;
+    const wasHold = press?.fired; press = null; if (wasHold) return;
+    go('#/builds/' + r.dataset.slug);
+  });
+  rows.addEventListener('keydown', e => { const r = e.target.closest('.crow'); if (r && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); go('#/builds/' + r.dataset.slug); } });
+}
+$('#chipRank').onclick = () => {
+  const col = w => `<div><div class="rct">${w === 'min' ? 'From' : 'To'}</div>${RANKS.map((r, i) => `<button class="ropt" data-w="${w}" data-i="${i}"><span>${r.name}</span><small>${rankRange(r)}</small></button>`).join('')}</div>`;
+  const sync = () => {
+    $$('.ropt', sheetEl).forEach(b => { const i = +b.dataset.i; b.setAttribute('aria-selected', S[b.dataset.w] === i); b.classList.toggle('inr', i > S.min && i < S.max); });
+    const w = windowInfo(); $('#rnote').textContent = w.exact ? `Rating ${w.label}.` : `You picked ${w.asked}. AoE4World only has fixed rating ranges, so stats cover ${w.label} — the closest range that includes yours.`;
+  };
+  openSheet({ title: 'Rank range', body: `<p class="note" id="rnote"></p><div class="rgrid">${col('min')}${col('max')}</div><div class="two" style="grid-template-columns:1fr"><button class="btn pri" data-close>Done</button></div>`,
+    onClick: e => {
+      const b = e.target.closest('.ropt'); if (!b) return;
+      const w = b.dataset.w, i = +b.dataset.i; S[w] = i;
+      if (S.min > S.max) { if (w === 'min') S.max = i; else S.min = i; }
+      saveSettings(); sync(); renderStats(); refresh();
+    } });
+  sync();
+};
+$('#chipMap').onclick = () => {
+  const body = () => {
+    const { maps, warn, sample } = mapOptions();
+    return `<div class="seg wide">${[['ranked', 'Ranked pool'], ['all', 'All maps']].map(([v, n]) => `<button data-pool="${v}" aria-pressed="${S.pool === v}">${n}</button>`).join('')}</div>` +
+      (maps.length ? `<div class="olist">${maps.map(m => `<button class="oitem" data-map="${m.map_id}" aria-selected="${m.map_id === S.mapId}"><span>${esc(m.map)}</span><small>${fmtG(m.games_count)} games</small></button>`).join('')}</div>`
+        : `<p class="note">${refreshing ? 'Loading maps…' : 'No maps loaded yet.'}</p>`) +
+      (warn ? `<p class="note">${esc(warn)}</p>` : '') + (S.pool === 'ranked' && sample ? `<p class="note">Ranked pool worked out from the latest ${sample} ranked games.</p>` : '');
+  };
+  openSheet({ title: 'Map', body: body(), onClick: e => {
+    const p = e.target.closest('[data-pool]');
+    if (p) { if (S.pool !== p.dataset.pool) { S.pool = p.dataset.pool; saveSettings(); ensureMapSelection(); sheetBody().innerHTML = body(); renderStats(); refresh(); } return; }
+    const m = e.target.closest('[data-map]');
+    if (m) { S.mapId = +m.dataset.map; saveSettings(); closeSheet(); renderStats(); refresh(); }
+  } });
+  $('.oitem[aria-selected="true"]', sheetEl)?.scrollIntoView({ block: 'center' });
+};
 
-// ── STATE ──  a step may carry opts: [{ name, steps: [...] }] (an Options / flex step)
+/* ───────── 7. Rich text & your styled words ─────────
+ * Each line of a step is its own block: leading spaces/tabs indent it, "- " makes a bullet, and wrapped
+ * lines stay aligned with the indent. Your words are styled automatically, matching capitalization exactly. */
+let words = store.get('tags', []);
+const saveWords = () => store.set('tags', words);
+(function migrateWords() { // older versions: built-in words and a separate "looks" table
+  const looks = store.get('looks', {}), colors = store.get('colors', {});
+  if (!store.get('fix7')) {
+    const BI = { f: ['food', '#ff7a6e'], w: ['wood', '#d0a16a'], g: ['gold', '#f2cf4a'], s: ['stone', '#aeb8c4'], a: ['age', '#35d0e0'] };
+    for (const [k, [n, c]] of Object.entries(BI)) {
+      if (!looks[k]?.u) continue; const cap = n[0].toUpperCase() + n.slice(1);
+      if (!words.some(t => t.name === cap)) words.push({ id: 'c' + k + Date.now().toString(36), name: cap, color: colors[k] || c, u: true, nc: !!looks[k].nc });
+    }
+    store.set('fix7', true);
+  }
+  words = (Array.isArray(words) ? words : []).filter(t => t && t.id && String(t.name || '').trim()).map(t => ({
+    id: String(t.id).toLowerCase().replace(/[^a-z0-9]/g, '') || 'c' + Math.random().toString(36).slice(2, 8),
+    name: String(t.name).trim().slice(0, 30), color: isHex(t.color) ? t.color.toLowerCase() : '#7bd88f',
+    u: t.u ?? !!looks[t.id]?.u, nc: t.nc ?? !!looks[t.id]?.nc }));
+  saveWords();
+})();
+let WORD_RE = null, wordByName = new Map();
+function buildWords() {
+  wordByName = new Map(words.map(t => [t.name, t]));
+  const names = [...wordByName.keys()].sort((a, b) => b.length - a.length).map(escRe);
+  if (!names.length) { WORD_RE = null; return; }
+  try { WORD_RE = new RegExp('(?<!\\p{L})(?:' + names.join('|') + ')(?!\\p{L})', 'gu'); } // numbers/symbols right beside a word are fine
+  catch { WORD_RE = new RegExp('(?:' + names.join('|') + ')(?![A-Za-z])', 'g'); }
+}
+function applyWordStyles() { // CSS variables, so a change restyles every build instantly
+  const r = document.documentElement.style;
+  words.forEach(t => { r.setProperty('--t-' + t.id, t.color); r.setProperty('--tc-' + t.id, t.nc ? 'currentColor' : t.color); r.setProperty('--td-' + t.id, t.u ? 'underline' : 'none'); });
+}
+const lookCss = id => `color:var(--tc-${id});text-decoration:var(--td-${id})`;
+const tagSpan = (id, inner) => words.some(t => t.id === id) ? `<span class="kw" style="${lookCss(id)}">${inner}</span>` : inner;
+function inline(t, raw) { // {id:text} applies a word's style by hand; otherwise your words are found automatically
+  return t.split(/(\{[a-z0-9]+:[^}]*\})/).map(p => {
+    const m = /^\{([a-z0-9]+):([^}]*)\}$/.exec(p);
+    if (m) return raw ? `<span class="mt">{${m[1]}:</span>${tagSpan(m[1], esc(m[2]))}<span class="mt">}</span>` : tagSpan(m[1], esc(m[2]));
+    if (!WORD_RE) return esc(p);
+    let out = '', last = 0;
+    for (const mm of p.matchAll(WORD_RE)) {
+      const w = wordByName.get(mm[0]);
+      out += esc(p.slice(last, mm.index)) + (w ? tagSpan(w.id, esc(mm[0])) : esc(mm[0])); last = mm.index + mm[0].length;
+    }
+    return out + esc(p.slice(last));
+  }).join('');
+}
+function rich(text) {
+  return String(text ?? '').split('\n').map(L => {
+    const m = /^([ \t]*)([-•*][ \t]+)?(.*)$/.exec(L);
+    const ind = [...m[1]].reduce((n, c) => n + (c === '\t' ? 2 : 1), 0) * 0.5;
+    const body = inline(m[3]);
+    return `<div class="ln${m[2] ? ' bu' : ''}" style="--in:${ind}em">${m[2] ? '<span class="bd">•</span>' : ''}${body || '&#8203;'}</div>`;
+  }).join('');
+}
+// editor: the same text, character for character, painted behind the (transparent) text box — one styled line, no copy
+const hlHtml = text => inline(String(text ?? ''), true) + '\u200b';
+
+/* ───────── 8. Builds ───────── */
 const blankStep = () => ({ text: '', f: '', w: '', g: '', s: '', b: '' });
 const normStep = (s, leaf) => {
-  const o = Object.assign(blankStep(), s, { text: String(s?.text ?? '').slice(0, 500) });
+  const o = Object.assign(blankStep(), s, { text: String(s?.text ?? '').slice(0, 1000) });
+  for (const [k] of RES) o[k] = String(o[k] ?? '').replace(/\D/g, '').slice(0, 2);
   if (leaf || !Array.isArray(s?.opts)) delete o.opts;
   else o.opts = s.opts.slice(0, MAX_OPTIONS).map(x => ({ name: String(x?.name ?? '').slice(0, 60), steps: (Array.isArray(x?.steps) ? x.steps : []).slice(0, 100).map(t => normStep(t, true)) }));
   return o;
 };
-const normBuild = b => Object.assign({}, b, { // keeps unknown legacy fields untouched
-  id: b.id || uid(), civ: CIVS[b.civ] ? b.civ : 'english', name: String(b.name ?? 'Build').slice(0, 120),
-  color: /^#[0-9a-f]{6}$/i.test(b.color) ? b.color : LEGACY_COLORS[b.color] || '#ffe600',
-  steps: (Array.isArray(b.steps) ? b.steps : []).slice(0, 300).map(s => normStep(s)),
+const normBuild = b => Object.assign({}, b, {
+  id: String(b.id || uid()), civ: CIVS[b.civ] ? b.civ : 'english', name: String(b.name ?? 'Build').slice(0, 120),
+  color: isHex(b.color) ? b.color : LEGACY_COLORS[b.color] || '#ffe600',
+  steps: (Array.isArray(b.steps) && b.steps.length ? b.steps : [blankStep()]).slice(0, 300).map(s => normStep(s)),
 });
-let builds = store.get('builds', []).map(normBuild);
+let builds = store.get('builds', []).filter(Boolean).map(normBuild);
 const saveBuilds = () => store.set('builds', builds);
 let bCiv = store.get('buildCiv', 'english'); if (!CIVS[bCiv]) bCiv = 'english';
-let edit = false, lastTA = null, focusSel = null, palOpen = null;
-const chosen = {}, pos = {}, wheelTop = {}; // in-game only: picked option per options step, focused step per build, wheel scroll
-const civSlugs = Object.keys(CIVS).sort((a, b) => civName(a).localeCompare(civName(b)));
-const letter = k => String.fromCharCode(65 + k);
-const grow = t => { t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px'; };
-function toast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2200); }
+function setCiv(s) { if (CIVS[s] && s !== bCiv) { bCiv = s; store.set('buildCiv', s); } }
+const buildById = id => builds.find(b => b.id === id);
+const stepCount = b => b.steps.reduce((n, s) => n + 1 + (s.opts ? s.opts.reduce((m, o) => m + o.steps.length, 0) : 0), 0);
 
-// ── TAG COLORS ──  every color is a CSS variable, so editing one recolors every build on every civilization
-const TAG_VARS = { f: '--food', w: '--wood', g: '--gold', s: '--stone', a: '--age' }; // Build/Alert/Plain tags removed; --bld still colors the villager Build column
-let colors = store.get('colors', {});        // user overrides of the built-in tag colors
-let customTags = store.get('tags', []);      // user tags: [{ id, name, color }] (e.g. SURV)
-let hiddenTags = new Set(store.get('hiddenTags', [])); // built-in words (Food, Wood, …) you deleted
-const saveHidden = () => store.set('hiddenTags', [...hiddenTags]);
-const liveBuiltin = k => !!TAG_VARS[k] && !hiddenTags.has(k);
-let looks = store.get('looks', {});         // per tag: { u: underline, nc: no color } (built-in and custom)
-const saveColors = () => store.set('colors', colors), saveTags = () => store.set('tags', customTags), saveLooks = () => store.set('looks', looks);
-const lookOf = k => ({ u: !!looks[k]?.u, c: !looks[k]?.nc }); // nothing is underlined unless you turn it on
-function applyColors() { // --tc-<tag> = text color (or plain), --td-<tag> = underline or none; all live
-  const r = document.documentElement.style;
-  for (const [k, v] of Object.entries(TAG_VARS)) colors[k] ? r.setProperty(v, colors[k]) : r.removeProperty(v);
-  customTags.forEach(t => r.setProperty('--t-' + t.id, t.color));
-  [...Object.keys(TAG_VARS), ...customTags.map(t => t.id)].forEach(k => {
-    const L = lookOf(k);
-    r.setProperty('--tc-' + k, L.c ? `var(${TAG_VARS[k] || '--t-' + k})` : 'currentColor');
-    r.setProperty('--td-' + k, L.u ? 'underline' : 'none');
-  });
+function recLine(civ) {
+  return Object.entries(MODES).map(([m, M]) => { const r = recOf(civ, m);
+    return `<span class="rv">${M.short} <b class="num">${r.w}–${r.l}</b> <em>${r.n ? Math.round(r.wr) + '%' : 'no games'}</em></span>`; }).join('');
 }
-const lookCss = k => `color:var(--tc-${k});text-decoration:var(--td-${k})`;
-const escRe = x => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-let AUTO_RE;
-const anyCase = p => p.replace(/[a-z]/g, c => `[${c}${c.toUpperCase()}]`); // built-in words: any capitalization
-const buildAuto = () => { // custom words: exact capitalization, longest first, checked before built-in words
-  const mine = [...new Set(customTags.map(t => t.name))].sort((a, b) => b.length - a.length).map(escRe);
-  const all = [...mine, ...AUTO.filter(a => !hiddenTags.has(a[0])).map(a => anyCase(a[1]))];
-  AUTO_RE = all.length ? new RegExp('\\b(' + all.join('|') + ')\\b', 'g') : /(?!)/g; // (?!) = match nothing
+function renderBuildList() {
+  const mine = builds.filter(b => b.civ === bCiv);
+  $('#bList').innerHTML = `<div class="pad">
+    <button class="civhead" data-act="civ">${flagHtml(bCiv)}<div class="grow"><div class="cn">${esc(civName(bCiv))}</div><div class="sub">Tap to switch civilization</div></div><span class="chev">▾</span></button>
+    <button class="recbar" data-act="rec"><small>Your record</small>${recLine(bCiv)}<span class="grow"></span><span class="chev">›</span></button>
+    <div class="sect">Builds${mine.length ? ` · ${mine.length}/${MAX_BUILDS}` : ''}</div>
+    ${mine.length ? mine.map(b => `<button class="bcard" data-open="${esc(b.id)}"><span class="sw" style="background:${b.color}"></span><span class="bt"><div class="bn">${esc(b.name || 'Untitled')}</div><div class="bs">${stepCount(b)} step${stepCount(b) === 1 ? '' : 's'}${b.steps.some(s => s.opts) ? ' · has choices' : ''}</div></span><span class="chev">›</span></button>`).join('')
+      : `<div class="empty"><b>No builds for ${esc(civName(bCiv))} yet</b>Make one and play it step by step in game.</div>`}
+    ${mine.length < MAX_BUILDS ? `<div style="margin-top:8px"><button class="add" data-act="new">+ New build</button></div>` : ''}
+  </div>`;
+}
+$('#bList').onclick = e => {
+  const o = e.target.closest('[data-open]'); if (o) return go('#/build/' + encodeURIComponent(o.dataset.open));
+  const act = e.target.closest('[data-act]')?.dataset.act;
+  if (act === 'civ') openCivSheet('Choose civilization', bCiv, s => go('#/builds/' + s));
+  else if (act === 'rec') openRecordSheet(bCiv);
+  else if (act === 'new') newBuild(bCiv);
 };
+function newBuild(civ) {
+  const n = builds.filter(x => x.civ === civ).length; if (n >= MAX_BUILDS) return toast(`Max ${MAX_BUILDS} builds per civ`);
+  const b = normBuild({ civ, name: 'New build', color: BANNER_CYCLE[n % BANNER_CYCLE.length], steps: [blankStep()] });
+  builds.push(b); saveBuilds(); focusSel = '[data-f="name"]'; go('#/build/' + encodeURIComponent(b.id) + '/edit');
+}
+function openRecordSheet(civ) {
+  const body = () => Object.entries(MODES).map(([m, M]) => { const r = recOf(civ, m);
+    return `<div class="rcard"><div class="rch"><b>${M.label}</b><span>${r.n ? Math.round(r.wr) + '% win rate' : 'No games yet'}</span></div>` +
+      [['w', 'Wins'], ['l', 'Losses']].map(([k, n]) => `<div class="stp"><span>${n}</span><button class="ib" data-adj="${m}:${k}:-1" aria-label="Remove one ${n}">−</button><b>${r[k]}</b><button class="ib" data-adj="${m}:${k}:1" aria-label="Add one ${n}">+</button></div>`).join('') + '</div>';
+  }).join('') + `<p class="note">Games are added when you tap Count as Win / Loss at the end of a build. Fix mistakes here.</p>`;
+  openSheet({ title: `You · ${civName(civ)}`, body: body(), onClick: e => {
+    const a = e.target.closest('[data-adj]'); if (!a) return;
+    const [m, k, d] = a.dataset.adj.split(':');
+    if (+d > 0) games.push({ c: civ, m, r: k, t: Date.now() });
+    else for (let i = games.length - 1; i >= 0; i--) if (games[i].c === civ && games[i].m === m && games[i].r === k) { games.splice(i, 1); break; }
+    saveGames(); sheetBody().innerHTML = body(); if (route.name === 'builds') renderBuildList();
+  } });
+}
 
-// ── RICH TEXT ──  manual tags {f:text} / {c1:text} override; otherwise AUTO and custom words get colored
-const tagSpan = (k, inner) => liveBuiltin(k) ? `<span class="kw k-${k}" style="${lookCss(k)}">${inner}</span>`
-  : customTags.some(t => t.id === k) ? `<span class="kw" style="${lookCss(k)}">${inner}</span>` : inner;
-const rich = t => String(t).split(/(\{[a-z0-9]+:[^}]*\})/).map(p => {
-  const m = /^\{([a-z0-9]+):([^}]*)\}$/.exec(p);
-  return m ? tagSpan(m[1], esc(m[2])) : esc(p).replace(AUTO_RE, w => {
-    const c = customTags.find(t => t.name === w);
-    const k = c ? c.id : AUTO_T.find(([, re]) => re.test(w))?.[0]; return k ? tagSpan(k, w) : w;
-  });
-}).join('');
-
-// ── ACTIVE SEQUENCE ──  main steps, with only the picked branch spliced in after its Options Step
-function seqOf(b) {
+/* ───────── 9. Player (in-game) ───────── */
+const pos = {}, chosen = {};   // this session only: focused step per build, picked option per choice step
+function seqOf(b) { // main steps, with the picked option's steps spliced in after its choice step
   const out = [];
   b.steps.forEach((s, i) => {
     out.push({ s, i });
-    const br = s.opts?.[chosen[b.id + ':' + i]];
-    if (br) br.steps.forEach((t, j) => out.push({ s: t, i, o: chosen[b.id + ':' + i], j, tag: j === 0 ? br.name || letter(chosen[b.id + ':' + i]) : '' }));
+    const k = chosen[b.id + ':' + i], br = s.opts?.[k];
+    if (br) br.steps.forEach((t, j) => out.push({ s: t, i, o: k, j, tag: j === 0 ? br.name || 'Option ' + letter(k) : '' }));
   });
   return out;
 }
-
-// ── ROUTING ──
-function route() {
-  const h = location.hash.replace(/^#\/?/, '').split('/'), isB = h[0] === 'builds';
-  $('#viewDash').hidden = isB; $('#viewBuilds').hidden = !isB;
-  if (!isB) { $('#fmt').hidden = true; closePicker(); return; }
-  if (h[1] === 'new') { addBuild(); history.replaceState(null, '', '#/builds/' + bCiv); return; }
-  if (CIVS[h[1]]) { bCiv = h[1]; store.set('buildCiv', bCiv); }
-  renderBuilds();
+const curBuild = () => route.name === 'player' ? buildById(route.id) : null;
+function vilHtml(s) {
+  const v = RES.filter(([k]) => s[k] !== '' && s[k] != null).map(([k, n]) => `<span class="vb k-${k}" title="${n} villagers"><i>${n[0]}</i>${esc(s[k])}</span>`).join('');
+  return v ? `<div class="vil">${v}</div>` : '';
 }
-window.addEventListener('hashchange', route);
-$('#bBack').onclick = () => { location.hash = '#/'; };
-$('#bEdit').onclick = () => { edit = !edit; palOpen = null; closePicker(); renderBuilds(); };
-
-// ── RENDER: EDIT MODE ──
-const vlInputs = s => RES.map(([k]) => `<input type="number" inputmode="numeric" min="0" max="99" placeholder="${k.toUpperCase()}" data-r="${k}" class="k-${k}" value="${esc(s[k])}">`).join('');
-function rowHtml(s, num, at, extra, i) { // i is set only for main-list steps (the only ones that can be Options Steps)
-  const isOpt = s.opts && i !== undefined;
-  return `<div class="st ed${isOpt ? ' opt' : ''}" ${at}><span class="sn">${num}</span>` +
-    `<textarea rows="1" data-f="text" placeholder="${isOpt ? 'Decision, e.g. after aging up choose a plan' : 'e.g. rally 2 to gold + house, then rally strag'}">${esc(s.text)}</textarea><div class="pv">${rich(s.text)}</div>` +
-    `<div class="vl">${vlInputs(s)}</div><div class="sa">${extra}<button class="btn sm" data-act="up">↑</button><button class="btn sm" data-act="down">↓</button><button class="btn sm danger" data-act="rm">✕</button></div>` +
-    (isOpt ? `<div class="ob">${s.opts.map((o, k) => `<div class="oc" data-i="${i}" data-o="${k}"><div class="oh"><span class="lt">${letter(k)}</span>` +
-      `<input class="oname" data-f="oname" maxlength="60" placeholder="Option name" value="${esc(o.name)}"><button class="btn sm danger" data-act="orm">✕</button></div>` +
-      o.steps.map((t, j) => rowHtml(t, letter(k) + (j + 1), `data-i="${i}" data-o="${k}" data-j="${j}"`, '')).join('') +
-      `<button class="add in" data-act="add-ostep">+ Step</button></div>`).join('')}<button class="add in" data-act="add-opt">+ Option</button></div>` : '') + '</div>';
-}
-
-// ── RENDER: EXECUTION (WHEEL) MODE ──
-function viewRow(b, it, idx, cur) {
+function playStep(b, it, idx, cur) {
   const s = it.s, ci = chosen[b.id + ':' + it.i];
-  const vl = RES.map(([k, n]) => s[k] !== '' && s[k] != null ? `<span class="k-${k}" title="${n} villagers"><i>${n[0]}</i>${esc(s[k])}</span>` : '').join('');
-  let extra = '';
-  if (s.opts && it.o == null) { // Options Step: the forks sit side by side
-    const cols = s.opts.map((o, k) => `<div class="fc"><button class="btn${ci === k ? ' accent' : ''}" data-act="pick" data-i="${it.i}" data-k="${k}">${esc(o.name || letter(k))}</button>` +
-      (ci == null ? `<ol>${o.steps.filter(t => t.text).map(t => `<li>${rich(t.text)}</li>`).join('')}</ol>` : '') + '</div>').join('');
-    extra = `<div class="fork${s.opts.length > 3 ? ' many' : ''}">${cols}</div>`;
-  }
-  return `<div class="st${idx === cur ? ' cur' : ''}${idx < cur ? ' past' : ''}${it.o != null ? ' br' : ''}" data-x="${idx}"><span class="sn">${idx + 1}</span>` +
-    `<div class="tx">${it.tag ? `<div class="tag">${esc(it.tag)}</div>` : ''}${rich(s.text)}${extra}</div>${vl ? `<div class="vl">${vl}</div>` : ''}</div>`;
+  let fork = '';
+  if (s.opts && it.o == null) fork = `<div class="fork">${s.opts.map((o, k) => `<button class="fk${ci === k ? ' on' : ''}" data-pick="${k}" data-i="${it.i}"><b>${esc(o.name || 'Option ' + letter(k))}</b>` +
+    (ci == null ? `<ol>${o.steps.filter(t => t.text.trim()).slice(0, 4).map(t => `<li>${rich(t.text)}</li>`).join('')}</ol>` : '') + '</button>').join('')}</div>`;
+  return `<div class="ps${idx === cur ? ' cur' : ''}${idx < cur ? ' past' : ''}${it.o != null ? ' br' : ''}" data-x="${idx}"><span class="pn">${idx + 1}</span>` +
+    `<div class="pc">${it.tag ? `<div class="btag">${esc(it.tag)}</div>` : ''}<div class="ptx">${rich(s.text)}</div>${fork}${vilHtml(s)}</div></div>`;
 }
-
-function cardHtml(b) {
-  const bg = b.color;
-  const banner = `<div class="bn" style="background:${bg};color:${inkFor(bg)}">` + (edit
-    ? `<div class="idbox"><select data-f="civ" aria-label="Civilization">${civSlugs.map(s => `<option value="${s}"${s === b.civ ? ' selected' : ''}>${esc(civName(s))}</option>`).join('')}</select>` +
-      `<input class="bname" data-f="name" maxlength="120" placeholder="Build name" value="${esc(b.name)}"></div>` : esc(b.name)) + '</div>';
-  const tools = !edit ? '' : `<div class="tools"><button class="sw0" data-act="pal" aria-label="Banner color" style="background:${bg}"></button>` +
-    (palOpen === b.id ? `<div class="pal">${PALETTE.map(c => `<button data-act="color" data-c="${c}" aria-label="${c}" style="background:${c}"></button>`).join('')}</div>` : '') +
-    '<span class="grow"></span><button class="btn sm" data-act="dup">Duplicate</button><button class="btn sm danger" data-act="del">Delete</button></div>';
-  let body;
-  if (edit) body = b.steps.map((s, i) => rowHtml(s, i + 1, `data-i="${i}"`, `<button class="btn sm${s.opts ? ' accent' : ''}" data-act="opts" title="Options (flex) step">⑂</button>`, i)).join('');
+function resultHtml(b) {
+  return `<div class="result"><h3>Game over?</h3>
+    <button class="modechip" data-act="mode">Counts toward <b>${MODES[S.mode].short}</b> · tap to switch</button>
+    <div class="rbtns"><button class="btn win" data-res="w">Count as Win</button><button class="btn loss" data-res="l">Count as Loss</button><button class="btn skip" data-res="x">Don’t count</button></div>
+    <div class="rsub">You with ${esc(civName(b.civ))}: ${Object.entries(MODES).map(([m, M]) => { const r = recOf(b.civ, m); return `${M.short} ${r.w}–${r.l}`; }).join(' · ')}</div></div>`;
+}
+function renderPlayer({ first = false } = {}) {
+  const b = curBuild(); if (!b) return;
+  const top = $('#pTop'); top.style.setProperty('--bc', b.color); top.style.setProperty('--ink', inkFor(b.color));
+  $('#pName').textContent = b.name || 'Untitled';
+  $('#pEdit').textContent = route.edit ? 'Done' : 'Edit';
+  const body = $('#pBody');
+  if (route.edit) { body.innerHTML = editorHtml(b); afterEditorRender(first); }
   else {
-    const seq = seqOf(b), cur = Math.min(pos[b.id] ?? 0, seq.length - 1); pos[b.id] = cur;
-    body = `<div class="wheel" data-b="${b.id}">${seq.map((it, idx) => viewRow(b, it, idx, cur)).join('')}</div>`;
+    const seq = seqOf(b), cur = clamp(pos[b.id] ?? 0, 0, seq.length - 1); pos[b.id] = cur;
+    body.innerHTML = `<div class="wheel">${seq.map((it, idx) => playStep(b, it, idx, cur)).join('')}${resultHtml(b)}</div>`;
+    centerCur(!first);
   }
-  return `<section class="sheet" data-b="${b.id}">${banner}${tools}${body}<button class="add in" data-act="add-step">+ Step</button></section>`;
+  updateSub(b);
 }
-function renderBuilds() {
-  document.querySelectorAll('.wheel').forEach(w => { wheelTop[w.dataset.b] = w.scrollTop; });
-  const counts = {}; builds.forEach(b => counts[b.civ] = (counts[b.civ] || 0) + 1);
-  $('#civList').innerHTML = civSlugs.map(s => `<button data-civ="${s}" aria-current="${s === bCiv}">${flagHtml(s)}<span>${esc(civName(s))}</span>${counts[s] ? `<span class="cnt">${counts[s]}</span>` : ''}</button>`).join('');
-  $('#bTitle').textContent = `Build Orders · ${civName(bCiv)}`;
-  $('#bEdit').textContent = edit ? 'Done' : 'Edit'; $('#bEdit').classList.toggle('accent', edit);
-  const mine = builds.filter(b => b.civ === bCiv);
-  $('#bMain').innerHTML = mine.length
-    ? mine.map(cardHtml).join('') + (mine.length < MAX_BUILDS ? '<button class="add" data-act="new-build">+ New build</button>' : '')
-    : `<div class="empty"><p><b>No build orders for ${esc(civName(bCiv))} yet.</b></p><button class="btn accent" data-act="new-build">+ Create build</button></div>`;
-  $('#fmt').hidden = !edit;
-  document.querySelectorAll('#bMain textarea').forEach(grow);
-  document.querySelectorAll('.wheel').forEach(w => { // roll the focused step to the center (animated when it was already on screen)
-    const c = w.querySelector('.cur'), id = w.dataset.b; if (!c) return;
-    const to = c.offsetTop - (w.clientHeight - c.offsetHeight) / 2;
-    if (wheelTop[id] == null) w.scrollTop = to; else { w.scrollTop = wheelTop[id]; w.scrollTo({ top: to, behavior: 'smooth' }); }
+function updateSub(b) { $('#pSub').textContent = route.edit ? `Editing · ${civName(b.civ)}` : `${civName(b.civ)} · step ${(pos[b.id] ?? 0) + 1} of ${seqOf(b).length}`; }
+function centerCur(smooth) {
+  const body = $('#pBody'), c = $('.ps.cur', body); if (!c) return;
+  body.scrollTo({ top: Math.max(0, c.offsetTop - (body.clientHeight - c.offsetHeight) / 2), behavior: smooth ? 'smooth' : 'auto' });
+}
+function setCur(b, x) {
+  pos[b.id] = x;
+  $$('#pBody .ps').forEach(el => { const i = +el.dataset.x; el.classList.toggle('cur', i === x); el.classList.toggle('past', i < x); });
+  updateSub(b); centerCur(true);
+}
+function resetRun(b) { delete pos[b.id]; Object.keys(chosen).forEach(k => { if (k.startsWith(b.id + ':')) delete chosen[k]; }); }
+function countResult(b, r) {
+  const before = { pos: pos[b.id], chosen: Object.fromEntries(Object.entries(chosen).filter(([k]) => k.startsWith(b.id + ':'))) };
+  let entry = null;
+  if (r !== 'x') { entry = { c: b.civ, m: S.mode, r, t: Date.now(), b: b.id }; games.push(entry); saveGames(); }
+  resetRun(b); renderPlayer({ first: true });
+  const msg = r === 'x' ? 'Not counted · build reset' : `${r === 'w' ? 'Win' : 'Loss'} counted · ${civName(b.civ)} ${MODES[entry.m].short}`;
+  toast(msg, 'Undo', () => {
+    if (entry) { const i = games.lastIndexOf(entry); if (i >= 0) games.splice(i, 1); saveGames(); }
+    if (before.pos != null) pos[b.id] = before.pos; Object.assign(chosen, before.chosen);
+    if (curBuild() === b && !route.edit) renderPlayer({ first: true });
   });
-  if (focusSel) { const el = $(focusSel); focusSel = null; el?.focus(); el?.select?.(); }
 }
-function addBuild() {
-  const n = builds.filter(x => x.civ === bCiv).length, cycle = Object.values(LEGACY_COLORS);
-  const b = normBuild({ civ: bCiv, name: 'New build', color: cycle[n % cycle.length], steps: [blankStep()] });
-  builds.push(b); saveBuilds(); edit = true; focusSel = `.sheet[data-b="${b.id}"] .bname`; renderBuilds();
-}
+$('#pBack').onclick = () => { const b = curBuild(); go(route.edit && b ? '#/build/' + encodeURIComponent(b.id) : '#/builds/' + bCiv); };
+$('#pEdit').onclick = () => { const b = curBuild(); if (b) go('#/build/' + encodeURIComponent(b.id) + (route.edit ? '' : '/edit')); };
+$('#pBody').addEventListener('click', e => {
+  const b = curBuild(); if (!b) return;
+  if (route.edit) return onEditClick(e, b);
+  const res = e.target.closest('[data-res]'); if (res) return countResult(b, res.dataset.res);
+  if (e.target.closest('[data-act="mode"]')) { S.mode = S.mode === '1v1' ? 'team' : '1v1'; saveSettings(); refresh(); return renderPlayer(); }
+  const pk = e.target.closest('[data-pick]');
+  if (pk) { // the choice is made AT the choice step; focus jumps into the picked option
+    const i = +pk.dataset.i; chosen[b.id + ':' + i] = +pk.dataset.pick;
+    const q = seqOf(b); pos[b.id] = Math.min(q.findIndex(z => z.i === i && z.o == null) + 1, q.length - 1); return renderPlayer();
+  }
+  const st = e.target.closest('.ps'); if (!st) return;
+  const x = +st.dataset.x, cur = pos[b.id] ?? 0;
+  setCur(b, x === cur ? Math.min(x + 1, seqOf(b).length - 1) : x); // tap the current step = next; tap another = jump
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') return closeSheet();
+  const b = curBuild(); if (!b || route.edit || !sheetWrap.hidden || /INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName)) return;
+  const n = seqOf(b).length, cur = pos[b.id] ?? 0;
+  if (['ArrowDown', ' ', 'Enter', 'PageDown'].includes(e.key)) { e.preventDefault(); setCur(b, Math.min(cur + 1, n - 1)); }
+  else if (['ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); setCur(b, Math.max(cur - 1, 0)); }
+});
 
-// ── EDIT HELPERS ──  a row is a main step (data-i) or a branch step (data-i + data-o + data-j)
-const stepSel = (b, i, o, j) => `.sheet[data-b="${b.id}"] .st[data-i="${i}"]${o == null ? ':not([data-o])' : `[data-o="${o}"][data-j="${j}"]`} > textarea`;
-function ctx(b, row) {
+/* ───────── 10. Editor ───────── */
+let focusSel = null, lastTA = null;
+const grow = t => { t.style.height = 'auto'; t.style.height = (t.scrollHeight + 3) + 'px'; };
+const stepSel = (i, o, j) => `#pBody .es[data-i="${i}"]${o == null ? ':not([data-o])' : `[data-o="${o}"][data-j="${j}"]`} > .tw > textarea`;
+function ctx(b, row) { // a row is a main step (data-i) or an option step (data-i + data-o + data-j)
   const i = +row.dataset.i;
-  if (row.dataset.o === undefined) return { list: b.steps, k: i, s: b.steps[i], sel: k => stepSel(b, k) };
+  if (row.dataset.o === undefined) return { list: b.steps, k: i, s: b.steps[i], sel: k => stepSel(k) };
   const o = +row.dataset.o, list = b.steps[i].opts[o].steps, k = +row.dataset.j;
-  return { list, k, s: list[k], sel: n => stepSel(b, i, o, n) };
+  return { list, k, s: list[k], sel: n => stepSel(i, o, n) };
 }
-const buildOf = el => builds.find(x => x.id === el.closest('.sheet')?.dataset.b);
-
-// ── EVENTS ──
-$('#civList').onclick = e => { const b = e.target.closest('[data-civ]'); if (b) location.hash = '#/builds/' + b.dataset.civ; };
-$('#bMain').addEventListener('click', e => {
-  const a = e.target.closest('[data-act]'), row = e.target.closest('.st'), oc = e.target.closest('.oc'), b = buildOf(e.target);
-  if (palOpen && !e.target.closest('.pal,[data-act="pal"]')) { palOpen = null; if (!a) renderBuilds(); }
-  if (!a) { // execution mode: tap the focused step to advance, any other step to jump to it
-    if (edit || !row || !b) return;
-    const x = +row.dataset.x, cur = Math.min(pos[b.id] ?? 0, seqOf(b).length - 1);
-    pos[b.id] = x === cur ? Math.min(x + 1, seqOf(b).length - 1) : x; return renderBuilds();
+function stepEd(s, label, p, main) {
+  const isOpt = main && !!s.opts;
+  const at = `data-i="${p.i}"${p.o != null ? ` data-o="${p.o}" data-j="${p.j}"` : ''}`;
+  return `<div class="es${isOpt ? ' opt' : ''}" ${at}>
+    <div class="esh"><span class="n">${label}</span><span class="grow"></span>
+      ${main ? `<button class="ib${isOpt ? ' on' : ''}" data-act="opts" aria-label="${isOpt ? 'Remove choices' : 'Make this a choice step'}" title="Choice step">⑂</button>` : ''}
+      <button class="ib" data-act="up" aria-label="Move up">↑</button><button class="ib" data-act="down" aria-label="Move down">↓</button><button class="ib danger" data-act="rm" aria-label="Delete step">✕</button></div>
+    <div class="tw"><div class="ta-bg"></div><div class="hl" aria-hidden="true">${hlHtml(s.text)}</div><textarea class="ta" rows="1" data-f="text" autocomplete="off" placeholder="${isOpt ? 'The decision, e.g. Feudal: choose a plan' : 'e.g. 6 on sheep, then house'}">${esc(s.text)}</textarea></div>
+    <div class="vin">${RES.map(([k, n]) => `<label class="vi k-${k}"><span>${n}</span><input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" data-r="${k}" value="${esc(s[k])}" aria-label="${n} villagers"></label>`).join('')}</div>
+    ${isOpt ? `<div class="ogrid">${s.opts.map((o, k) => `<div class="oc" data-i="${p.i}" data-o="${k}"><div class="oh"><span class="lt">${letter(k)}</span><input class="inp" data-f="oname" maxlength="60" placeholder="Option ${letter(k)} name" value="${esc(o.name)}"><button class="ib danger" data-act="orm" aria-label="Delete option">✕</button></div>` +
+      o.steps.map((t, j) => stepEd(t, letter(k) + (j + 1), { i: p.i, o: k, j }, false)).join('') + `<button class="add sm" data-act="add-ostep">+ Step in ${letter(k)}</button></div>`).join('')}` +
+      (s.opts.length < MAX_OPTIONS ? `<button class="add sm" data-act="add-opt">+ Option</button>` : '') + '</div>' : ''}
+  </div>`;
+}
+function editorHtml(b) {
+  return `<div class="ed"><div class="ecard">
+      <input class="inp" data-f="name" maxlength="120" placeholder="Build name" value="${esc(b.name)}" aria-label="Build name">
+      <div class="erow"><button class="btn" data-act="color"><span class="swd" style="background:${b.color}"></span>Color</button><button class="btn" data-act="civ">${flagHtml(b.civ)}<span>${esc(civName(b.civ))}</span></button></div>
+      <div class="erow"><button class="btn" data-act="dup">Duplicate</button><button class="btn danger" data-act="del">Delete</button></div>
+    </div>
+    ${b.steps.map((s, i) => stepEd(s, i + 1, { i }, true)).join('')}
+    <button class="add" data-act="add-step">+ Step</button>
+    <p class="tip">Enter starts a new line in the same step. ⇥ / ⇤ indent a line and • makes it a bullet — in game, long lines wrap as a neat block under their indent. Words you add with ＋ are styled as you type, even right next to a number (capitals matter).</p></div>`;
+}
+function afterEditorRender() {
+  $$('#pBody textarea').forEach(grow);
+  if (focusSel) { const el = $(focusSel.startsWith('#') ? focusSel : '#pBody ' + focusSel); focusSel = null; if (el) { el.focus({ preventScroll: false }); el.scrollIntoView({ block: 'center' }); if (el.select && el.dataset.f === 'name') el.select(); } }
+}
+function rerenderEditor() { const body = $('#pBody'), y = body.scrollTop; renderPlayer(); if (!focusSel) body.scrollTop = y; else afterEditorRender(); }
+function onEditClick(e, b) {
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  const act = a.dataset.act, row = e.target.closest('.es'), oc = e.target.closest('.oc');
+  if (act === 'color') return openColorSheet(b);
+  if (act === 'civ') return openCivSheet('Move build to…', b.civ, s => {
+    if (s === b.civ) return; if (builds.filter(x => x.civ === s).length >= MAX_BUILDS) return toast(`${civName(s)} already has ${MAX_BUILDS} builds`);
+    b.civ = s; saveBuilds(); setCiv(s); rerenderEditor(); toast(`Moved to ${civName(s)}`);
+  });
+  if (act === 'dup') {
+    if (builds.filter(x => x.civ === b.civ).length >= MAX_BUILDS) return toast(`Max ${MAX_BUILDS} builds per civ`);
+    const c = normBuild(JSON.parse(JSON.stringify(b))); c.id = uid(); c.name = (b.name + ' (copy)').slice(0, 120);
+    builds.splice(builds.indexOf(b) + 1, 0, c); saveBuilds(); toast('Duplicated — editing the copy'); return go('#/build/' + encodeURIComponent(c.id) + '/edit');
   }
-  const act = a.dataset.act;
-  if (act === 'new-build') return addBuild();
-  if (!b) return;
-  if (act === 'pick') { // choosing an option is the decision made AT the Options Step; focus jumps into the branch
-    const i = +a.dataset.i; chosen[b.id + ':' + i] = +a.dataset.k;
-    const q = seqOf(b); pos[b.id] = Math.min(q.findIndex(z => z.i === i && z.o == null) + 1, q.length - 1); return renderBuilds();
-  }
-  if (act === 'pal') { palOpen = palOpen === b.id ? null : b.id; return renderBuilds(); }
-  if (act === 'color') { b.color = a.dataset.c; palOpen = null; }
-  else if (act === 'add-step') { b.steps.push(blankStep()); focusSel = stepSel(b, b.steps.length - 1); }
-  else if (act === 'add-ostep') { const L = b.steps[+oc.dataset.i].opts[+oc.dataset.o].steps; L.push(blankStep()); focusSel = stepSel(b, +oc.dataset.i, +oc.dataset.o, L.length - 1); }
+  if (act === 'del') return confirmSheet('Delete build?', `“${b.name || 'Untitled'}” will be removed.`, 'Delete', () => {
+    const i = builds.indexOf(b); builds.splice(i, 1); saveBuilds(); go('#/builds/' + b.civ);
+    toast('Build deleted', 'Undo', () => { builds.splice(i, 0, b); saveBuilds(); if (route.name === 'builds') renderBuildList(); });
+  });
+  if (act === 'opts') {
+    const c = ctx(b, row);
+    if (c.s.opts) {
+      const drop = () => { delete c.s.opts; delete chosen[b.id + ':' + c.k]; saveBuilds(); rerenderEditor(); };
+      return c.s.opts.some(o => o.steps.some(t => t.text.trim())) ? confirmSheet('Remove choices?', 'All options in this step and their steps will be deleted.', 'Remove', drop) : drop();
+    }
+    c.s.opts = [{ name: '', steps: [blankStep()] }, { name: '', steps: [blankStep()] }];
+  } else if (act === 'add-step') { b.steps.push(blankStep()); focusSel = stepSel(b.steps.length - 1); }
+  else if (act === 'add-ostep') { const L = b.steps[+oc.dataset.i].opts[+oc.dataset.o].steps; L.push(blankStep()); focusSel = stepSel(+oc.dataset.i, +oc.dataset.o, L.length - 1); }
   else if (act === 'add-opt') { const s = b.steps[+row.dataset.i]; if (s.opts.length >= MAX_OPTIONS) return; s.opts.push({ name: '', steps: [blankStep()] }); }
   else if (act === 'orm') {
-    const s = b.steps[+oc.dataset.i]; if (s.opts.length <= 2) return toast('An options step needs at least 2 options');
+    const s = b.steps[+oc.dataset.i]; if (s.opts.length <= 2) return toast('A choice step needs at least 2 options');
     s.opts.splice(+oc.dataset.o, 1); delete chosen[b.id + ':' + oc.dataset.i];
-  } else if (act === 'opts') {
-    const c = ctx(b, row), key = b.id + ':' + c.k;
-    if (c.s.opts) { if (c.s.opts.some(o => o.steps.some(t => t.text)) && !confirm('Remove all options from this step?')) return; delete c.s.opts; delete chosen[key]; }
-    else c.s.opts = [{ name: '', steps: [blankStep()] }, { name: '', steps: [blankStep()] }];
-  } else if (act === 'rm') { const c = ctx(b, row); c.list.splice(c.k, 1); if (!c.list.length) c.list.push(blankStep()); }
-  else if (act === 'up' || act === 'down') {
+  } else if (act === 'rm') {
+    const c = ctx(b, row), gone = c.list[c.k], at = c.k, list = c.list;
+    list.splice(at, 1); if (!list.length) list.push(blankStep()); resetRun(b);
+    saveBuilds(); rerenderEditor();
+    return toast('Step deleted', 'Undo', () => { if (list.length === 1 && !list[0].text && !gone.text) return; if (list.length === 1 && !list[0].text) list.splice(0, 1); list.splice(at, 0, gone); saveBuilds(); if (route.edit) rerenderEditor(); });
+  } else if (act === 'up' || act === 'down') {
     const c = ctx(b, row), n = c.k + (act === 'up' ? -1 : 1); if (n < 0 || n >= c.list.length) return;
-    [c.list[n], c.list[c.k]] = [c.list[c.k], c.list[n]]; focusSel = c.sel(n);
-  } else if (act === 'dup') { const c = normBuild(JSON.parse(JSON.stringify(b))); c.id = uid(); c.name += ' (copy)'; builds.splice(builds.indexOf(b) + 1, 0, c); }
-  else if (act === 'del') { if (!confirm(`Delete “${b.name}”?`)) return; builds = builds.filter(x => x !== b); }
-  else return;
-  saveBuilds(); renderBuilds();
-});
-$('#bMain').addEventListener('input', e => { // typing never re-renders, so focus is kept
-  const t = e.target, row = t.closest('.st'), oc = t.closest('.oc'), b = buildOf(t);
-  if (!b) return;
-  if (t.dataset.f === 'oname') b.steps[+oc.dataset.i].opts[+oc.dataset.o].name = t.value;
-  else if (t.dataset.r) ctx(b, row).s[t.dataset.r] = t.value.slice(0, 2);
-  else if (t.dataset.f === 'text') { ctx(b, row).s.text = t.value; grow(t); row.querySelector(':scope > .pv').innerHTML = rich(t.value); }
-  else if (t.dataset.f === 'name') b.name = t.value;
+    [c.list[n], c.list[c.k]] = [c.list[c.k], c.list[n]]; resetRun(b); focusSel = c.sel(n);
+  } else return;
+  saveBuilds(); rerenderEditor();
+}
+$('#pBody').addEventListener('input', e => {
+  if (!route.edit) return; const b = curBuild(); if (!b) return;
+  const t = e.target, row = t.closest('.es'), oc = t.closest('.oc');
+  if (t.dataset.f === 'name') { b.name = t.value; $('#pName').textContent = b.name || 'Untitled'; }
+  else if (t.dataset.f === 'oname') b.steps[+oc.dataset.i].opts[+oc.dataset.o].name = t.value;
+  else if (t.dataset.r) { const v = t.value.replace(/\D/g, '').slice(0, 2); if (v !== t.value) t.value = v; ctx(b, row).s[t.dataset.r] = v; }
+  else if (t.dataset.f === 'text') { ctx(b, row).s.text = t.value; $(':scope > .tw > .hl', row).innerHTML = hlHtml(t.value); grow(t); }
   else return;
   saveBuilds();
 });
-$('#bMain').addEventListener('change', e => { // reassign a build to another civilization
-  const t = e.target, b = buildOf(t);
-  if (b && t.dataset.f === 'civ') { b.civ = t.value; saveBuilds(); location.hash = '#/builds/' + b.civ; }
-});
-$('#bMain').addEventListener('keydown', e => { // Enter = new line in the step (browser default), Backspace on an empty step = delete it
+$('#pBody').addEventListener('focusin', e => { if (e.target.tagName === 'TEXTAREA') lastTA = e.target; });
+$('#pBody').addEventListener('keydown', e => {
   const t = e.target; if (t.dataset?.f !== 'text') return;
-  const b = buildOf(t), c = ctx(b, t.closest('.st'));
-  if (e.key === 'Backspace' && !t.value && c.list.length > 1) { e.preventDefault(); c.list.splice(c.k, 1); focusSel = c.sel(Math.max(0, c.k - 1)); }
-  else return;
-  saveBuilds(); renderBuilds();
-});
-$('#bMain').addEventListener('focusin', e => { if (e.target.tagName === 'TEXTAREA') lastTA = e.target; });
-
-// ── COLOR BAR ── dot = pick that color, label = apply it to the selected text, ＋ = add your own color-coded word
-function renderFmt() {
-  const rmx = k => `<button class="rmx" data-rmtag="${k}" aria-label="Delete this word">✕</button>`;
-  const items = TAGS.filter(([k]) => !hiddenTags.has(k)).map(([k, n]) => `<span class="tg"><button class="dot" data-pick="${k}" style="background:var(${TAG_VARS[k]})" aria-label="Change ${n} style">✎</button><button class="lbl k-${k}" data-k="${k}" style="${lookCss(k)}">${n}</button>${rmx(k)}</span>`).concat(
-    customTags.map(t => `<span class="tg"><button class="dot" data-pick="${t.id}" style="background:var(--t-${t.id})" aria-label="Change style">✎</button><button class="lbl" data-k="${t.id}" style="${lookCss(t.id)}">${esc(t.name)}</button>${rmx(t.id)}</span>`));
-  const plus = '<button class="tg add-tag" data-addtag aria-label="Add a color-coded word">＋</button>';
-  items.push(items.length ? `<span class="tgrp">${items.pop()}${plus}</span>` : plus); // keeps ＋ on the same row as the last word
-  $('#fmt').innerHTML = '<span class="hint">Style · v6</span>' + items.join('');
-}
-function refreshTags() { applyColors(); buildAuto(); renderFmt(); renderBuilds(); }
-// ── COLOR PICKER ── an on-screen popup (swatches + full color wheel + hex). It replaces a hidden native
-// picker opened from code, which iPhone/Android browsers block (and always block right after prompt()).
-let pickKey = null, cpop = null;
-const isHex = c => /^#[0-9a-f]{6}$/i.test(c);
-const curColor = k => {
-  const c = customTags.find(t => t.id === k)?.color || (TAG_VARS[k] ? getComputedStyle(document.documentElement).getPropertyValue(TAG_VARS[k]).trim() : '');
-  return isHex(c) ? c.toLowerCase() : '#ffffff';
-};
-function setTagColor(k, c) {
-  if (!isHex(c)) return; c = c.toLowerCase();
-  const t = customTags.find(x => x.id === k);
-  if (t) { t.color = c; saveTags(); } else if (TAG_VARS[k]) { colors[k] = c; saveColors(); } else return;
-  if (looks[k]?.nc) { looks[k].nc = false; saveLooks(); } // picking a color turns color back on
-  applyColors(); syncPicker();
-}
-function toggleLook(k, f) { // f: 'c' (color) or 'u' (underline)
-  const L = lookOf(k), o = looks[k] = { u: L.u, nc: !L.c };
-  if (f === 'u') o.u = !o.u; else o.nc = !o.nc;
-  saveLooks(); applyColors(); syncPicker();
-}
-function closePicker() { cpop?.remove(); cpop = null; pickKey = null; }
-function syncPicker() {
-  if (!cpop) return;
-  const c = curColor(pickKey);
-  cpop.querySelector('[data-prev]').style.background = c;
-  const L = lookOf(pickKey);
-  cpop.querySelector('[data-look="c"]').setAttribute('aria-pressed', L.c);
-  cpop.querySelector('[data-look="u"]').setAttribute('aria-pressed', L.u);
-  cpop.querySelectorAll('[data-c]').forEach(b => b.setAttribute('aria-pressed', b.dataset.c.toLowerCase() === c));
-  const wheel = cpop.querySelector('input[type=color]'); if (wheel.value !== c) wheel.value = c;
-  const hex = cpop.querySelector('.hex'); if (document.activeElement !== hex) hex.value = c.toUpperCase();
-}
-function openPicker(k) {
-  closePicker(); pickKey = k;
-  const name = customTags.find(t => t.id === k)?.name || TAGS.find(([x]) => x === k)?.[1] || k;
-  cpop = document.createElement('div'); cpop.className = 'cpop'; cpop.setAttribute('role', 'dialog'); cpop.setAttribute('aria-label', `Style for ${name}`);
-  cpop.innerHTML = `<div class="ch"><span class="sw0" data-prev></span><b style="${lookCss(k)}">${esc(name)}</b><button class="btn sm accent" data-done>Done</button></div>` +
-    `<div class="opt"><button class="btn" data-look="c">Color</button><button class="btn" data-look="u"><u>Underline</u></button></div>` +
-    `<div class="sw">${PALETTE.map(c => `<button data-c="${c}" aria-label="${c}" style="background:${c}"></button>`).join('')}</div>` +
-    `<div class="cr"><label>Any color <input type="color"></label><input class="hex" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Hex color" placeholder="#RRGGBB"></div>`;
-  document.body.appendChild(cpop);
-  cpop.addEventListener('click', e => {
-    const b = e.target.closest('[data-c]'); if (b) return setTagColor(pickKey, b.dataset.c);
-    const lk = e.target.closest('[data-look]'); if (lk) return toggleLook(pickKey, lk.dataset.look);
-    if (e.target.closest('[data-done]')) closePicker();
-  });
-  const wheel = cpop.querySelector('input[type=color]');
-  wheel.addEventListener('input', () => setTagColor(pickKey, wheel.value));
-  wheel.addEventListener('change', () => setTagColor(pickKey, wheel.value));
-  cpop.querySelector('.hex').addEventListener('input', e => { let v = e.target.value.trim(); if (v && v[0] !== '#') v = '#' + v; setTagColor(pickKey, v); });
-  syncPicker();
-}
-document.addEventListener('click', e => { if (cpop && !e.target.closest('.cpop,[data-pick],[data-addtag]')) closePicker(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && cpop) closePicker(); });
-function wrapTag(k) { // wraps the selection (or inserts the tag word) in the last-focused step
-  const ta = lastTA; if (!ta || !ta.isConnected) return;
-  const a = ta.selectionStart, z = ta.selectionEnd, c = customTags.find(t => t.id === k), txt = ta.value.slice(a, z) || (c ? c.name : '');
-  ta.setRangeText(`{${k}:${txt}}`, a, z, 'end');
-  if (!txt) ta.setSelectionRange(a + k.length + 2, a + k.length + 2);
-  ta.dispatchEvent(new Event('input', { bubbles: true })); ta.focus();
-}
-$('#fmt').addEventListener('mousedown', e => e.preventDefault()); // keep the keyboard / selection
-$('#fmt').addEventListener('click', e => {
-  const q = sel => e.target.closest(sel);
-  if (q('[data-pick]')) return openPicker(q('[data-pick]').dataset.pick);
-  if (q('[data-rmtag]')) { const id = q('[data-rmtag]').dataset.rmtag; if (pickKey === id) closePicker();
-    if (TAG_VARS[id]) { hiddenTags.add(id); saveHidden(); delete colors[id]; saveColors(); } else { customTags = customTags.filter(t => t.id !== id); saveTags(); }
-    delete looks[id]; saveLooks(); return refreshTags(); }
-  if (q('[data-addtag]')) {
-    const name = (prompt('New color-coded word (e.g. SURV)') || '').trim().slice(0, 20); if (!name) return;
-    const back = TAGS.find(([k, n]) => hiddenTags.has(k) && n.toLowerCase() === name.toLowerCase()); if (back) { hiddenTags.delete(back[0]); saveHidden(); return refreshTags(); }
-    const id = 'c' + Date.now().toString(36); customTags.push({ id, name, color: '#7bd88f' }); saveTags(); refreshTags(); return openPicker(id);
+  if (e.key === 'Tab') { e.preventDefault(); return indentLines(t, e.shiftKey ? -1 : 1); }
+  if (e.key === 'Enter' && !e.shiftKey) { // new line keeps the indent (and bullet) of the current line
+    const v = t.value, a = t.selectionStart, ls = v.lastIndexOf('\n', a - 1) + 1, line = v.slice(ls, a);
+    const m = /^([ \t]*)([-•*][ \t]+)?/.exec(line), pre = m[0];
+    if (!pre) return; e.preventDefault();
+    if (line === pre) t.setRangeText(m[1] && m[2] ? m[1] : '', ls, a, 'end'); // empty bullet/indent line: end the list
+    else t.setRangeText('\n' + pre, a, t.selectionEnd, 'end');
+    return t.dispatchEvent(new Event('input', { bubbles: true }));
   }
-  if (q('[data-k]')) wrapTag(q('[data-k]').dataset.k);
+  if (e.key === 'Backspace' && !t.value) { // backspace on an empty step deletes it
+    const b = curBuild(), c = ctx(b, t.closest('.es')); if (c.list.length < 2) return;
+    e.preventDefault(); c.list.splice(c.k, 1); resetRun(b); focusSel = c.sel(Math.max(0, c.k - 1)); saveBuilds(); rerenderEditor();
+  }
 });
-applyColors(); buildAuto(); renderFmt();
+function lineRange(ta) {
+  const v = ta.value, a = ta.selectionStart, z = ta.selectionEnd;
+  const ls = v.lastIndexOf('\n', a - 1) + 1; let le = v.indexOf('\n', Math.max(z - (z > a && v[z - 1] === '\n' ? 1 : 0), a)); if (le < 0) le = v.length;
+  return { v, a, z, ls, le, lines: v.slice(ls, le).split('\n') };
+}
+function editLines(ta, fn) { // apply fn to every selected line, keep the selection sensible
+  const { a, z, ls, le, lines } = lineRange(ta);
+  let dA = 0, dZ = 0; const out = lines.map((L, i) => { const N = fn(L); const d = N.length - L.length; if (i === 0) dA = d; dZ += d; return N; });
+  ta.setRangeText(out.join('\n'), ls, le, 'preserve');
+  ta.setSelectionRange(Math.max(ls, a + dA), Math.max(ls, z + dZ));
+  ta.focus(); ta.dispatchEvent(new Event('input', { bubbles: true }));
+}
+const indentLines = (ta, dir) => editLines(ta, L => dir > 0 ? '  ' + L : L.replace(/^( {1,2}|\t)/, ''));
+const toggleBullet = ta => { const { lines } = lineRange(ta); const all = lines.every(L => /^[ \t]*[-•*][ \t]+/.test(L));
+  editLines(ta, L => all ? L.replace(/^([ \t]*)[-•*][ \t]+/, '$1') : /^[ \t]*[-•*][ \t]+/.test(L) ? L : L.replace(/^([ \t]*)/, '$1- ')); };
+function wrapWord(id) { // style the selected text with a word's look, or insert the word itself
+  const ta = lastTA; if (!ta?.isConnected) return toast('Tap into a step first');
+  const a = ta.selectionStart, z = ta.selectionEnd, w = words.find(t => t.id === id);
+  if (a === z) ta.setRangeText(w.name, a, z, 'end'); else ta.setRangeText(`{${id}:${ta.value.slice(a, z)}}`, a, z, 'end');
+  ta.focus(); ta.dispatchEvent(new Event('input', { bubbles: true }));
+}
+function openColorSheet(b) {
+  openSheet({ title: 'Build color', body: `<div class="swg">${PALETTE.map(c => `<button class="swb" data-c="${c}" aria-pressed="${c === b.color}" aria-label="${c}" style="background:${c}"></button>`).join('')}</div>
+    <div class="cpk"><label>Any color <input type="color" value="${b.color}"></label></div>`,
+    onClick: e => { const s = e.target.closest('[data-c]'); if (s) { b.color = s.dataset.c; saveBuilds(); closeSheet(); rerenderEditor(); } } });
+  $('input[type=color]', sheetEl).addEventListener('input', e => { b.color = e.target.value; saveBuilds(); const top = $('#pTop'); top.style.setProperty('--bc', b.color); top.style.setProperty('--ink', inkFor(b.color)); $('#pBody .swd').style.background = b.color; });
+}
 
-// ── IMPORT / EXPORT ──
-$('#bExport').onclick = () => {
-  const blob = new Blob([JSON.stringify({ app: 'aoe4-companion', version: 3, builds }, null, 2)], { type: 'application/json' });
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'aoe4-build-orders.json'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-};
-$('#bImport').onclick = () => $('#bFile').click();
-$('#bFile').onchange = async e => {
-  const f = e.target.files[0]; e.target.value = ''; if (!f) return;
-  try {
-    const j = JSON.parse(await f.text()), arr = Array.isArray(j) ? j : j.builds; if (!Array.isArray(arr)) throw 0;
-    let n = 0;
-    for (const x of arr) { if (x && typeof x.name === 'string' && Array.isArray(x.steps)) { builds.push(normBuild({ ...x, id: uid(), civ: CIVS[x.civ] ? x.civ : bCiv })); n++; } }
-    saveBuilds(); renderBuilds(); toast(`Imported ${n} build${n === 1 ? '' : 's'}`);
-  } catch { toast('That file is not a valid build-order export'); }
-};
+/* style bar: ⇤ ⇥ • · your words (✎ style, tap = apply, ✕ delete) · ＋ */
+function renderStyleBar() {
+  const chips = words.map(t => `<span class="wchip"><button class="wd" data-style="${t.id}" style="background:var(--t-${t.id})" aria-label="Style ${esc(t.name)}">✎</button><button class="wl" data-wrap="${t.id}" style="${lookCss(t.id)}">${esc(t.name)}</button><button class="wx" data-rmw="${t.id}" aria-label="Delete ${esc(t.name)}">✕</button></span>`);
+  const add = `<button class="sb plus" data-addw aria-label="Add a styled word">＋${words.length ? '' : ' Styled word'}</button>`;
+  chips.push(chips.length ? `<span class="tgrp">${chips.pop()}${add}</span>` : add); // ＋ stays right of the last word
+  $('#styleBar').innerHTML = `<button class="sb" data-ind="-1" aria-label="Outdent">⇤</button><button class="sb" data-ind="1" aria-label="Indent">⇥</button><button class="sb" data-bul aria-label="Bullet">•</button><span class="vsep"></span>` + chips.join('');
+}
+function refreshWords() {
+  applyWordStyles(); buildWords(); renderStyleBar();
+  const b = curBuild();
+  if (b && route.edit) $$('#pBody .es').forEach(row => { $(':scope > .tw > .hl', row).innerHTML = hlHtml(ctx(b, row).s.text); });
+  else if (b) renderPlayer();
+  measureUI();
+}
+$('#styleBar').addEventListener('mousedown', e => e.preventDefault()); // keep the keyboard and text selection
+$('#styleBar').addEventListener('click', e => {
+  const q = s => e.target.closest(s);
+  if (q('[data-ind]') || q('[data-bul]')) { const ta = lastTA; if (!ta?.isConnected) return toast('Tap into a step first'); return q('[data-bul]') ? toggleBullet(ta) : indentLines(ta, +q('[data-ind]').dataset.ind); }
+  if (q('[data-wrap]')) return wrapWord(q('[data-wrap]').dataset.wrap);
+  if (q('[data-style]')) return openWordSheet(q('[data-style]').dataset.style);
+  if (q('[data-rmw]')) return deleteWord(q('[data-rmw]').dataset.rmw);
+  if (q('[data-addw]')) return openAddWord();
+});
+function deleteWord(id) {
+  const i = words.findIndex(t => t.id === id); if (i < 0) return;
+  const [t] = words.splice(i, 1); saveWords(); refreshWords();
+  toast(`Deleted “${t.name}”`, 'Undo', () => { words.splice(i, 0, t); saveWords(); refreshWords(); });
+}
+function openAddWord() {
+  const submit = () => {
+    const name = $('#nw').value.trim().slice(0, 30); if (!name) return;
+    if (wordByName.has(name)) return toast(`“${name}” is already a word`);
+    const t = { id: 'c' + Date.now().toString(36), name, color: WORD_CYCLE[words.length % WORD_CYCLE.length], u: false, nc: false };
+    words.push(t); saveWords(); refreshWords(); openWordSheet(t.id);
+  };
+  openSheet({ title: 'Add a styled word', body: `<input class="inp" id="nw" maxlength="30" placeholder="e.g. Stone, SURV, boom" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+    <p class="note">It matches exactly as typed — “Stone” and “stone” are different words, each with its own style.</p><button class="btn pri block" data-ok>Add word</button>`,
+    onClick: e => { if (e.target.closest('[data-ok]')) submit(); } });
+  const inp = $('#nw'); inp.focus(); inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
+}
+function openWordSheet(id) {
+  const t = words.find(x => x.id === id); if (!t) return;
+  openSheet({ title: 'Word style', body: `<div class="wprev" style="${lookCss(id)}">${esc(t.name)}</div>
+    <div class="looks"><button class="btn" data-look="c">Color</button><button class="btn" data-look="u"><u>Underline</u></button></div>
+    <div class="swg">${PALETTE.map(c => `<button class="swb" data-c="${c}" aria-label="${c}" style="background:${c}"></button>`).join('')}</div>
+    <div class="cpk"><label>Any color <input type="color"></label><input class="inp hex" maxlength="7" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Hex color" placeholder="#RRGGBB"></div>
+    <div class="two"><button class="btn danger" data-delw>Delete word</button><button class="btn pri" data-close>Done</button></div>`,
+    onClick: e => {
+      const s = e.target.closest('[data-c]'); if (s) { t.color = s.dataset.c; t.nc = false; return changed(); }
+      const lk = e.target.closest('[data-look]'); if (lk) { if (lk.dataset.look === 'u') t.u = !t.u; else t.nc = !t.nc; return changed(); }
+      if (e.target.closest('[data-delw]')) { closeSheet(); deleteWord(id); }
+    } });
+  const wheel = $('input[type=color]', sheetEl), hex = $('.hex', sheetEl);
+  const sync = () => {
+    $('[data-look="c"]', sheetEl).setAttribute('aria-pressed', !t.nc); $('[data-look="u"]', sheetEl).setAttribute('aria-pressed', t.u);
+    $$('.swb', sheetEl).forEach(b => b.setAttribute('aria-pressed', !t.nc && b.dataset.c === t.color));
+    if (wheel.value !== t.color) wheel.value = t.color; if (document.activeElement !== hex) hex.value = t.color.toUpperCase();
+  };
+  const changed = () => { saveWords(); applyWordStyles(); sync(); };
+  wheel.addEventListener('input', () => { t.color = wheel.value.toLowerCase(); t.nc = false; changed(); });
+  hex.addEventListener('input', () => { let v = hex.value.trim(); if (v && v[0] !== '#') v = '#' + v; if (isHex(v)) { t.color = v.toLowerCase(); t.nc = false; changed(); } });
+  sync();
+}
 
-/* ---------- Boot ---------- */
-if (location.hash) history.replaceState(null, '', location.pathname + location.search); // always launch on the stats dashboard
-// ── DOCK HEIGHT ── keeps page content clear of the fixed bottom panel
-const dockObs = new ResizeObserver(es => es.forEach(en => { if (en.target.offsetHeight) document.documentElement.style.setProperty('--dock', en.target.offsetHeight + 'px'); }));
-document.querySelectorAll('.dock').forEach(d => dockObs.observe(d));
-new ResizeObserver(() => document.documentElement.style.setProperty('--fmt', $('#fmt').hidden ? '0px' : $('#fmt').offsetHeight + 'px')).observe($('#fmt'));
-render();
-route();
+/* ───────── 11. Boot ───────── */
+function measureUI() { // keeps toasts above the tab bar / style bar
+  const tabs = $('#tabs'), bar = $('#styleBar');
+  document.documentElement.style.setProperty('--ui-bottom', ((tabs.offsetHeight || 0) + (bar.hidden ? 0 : bar.offsetHeight)) + 'px');
+}
+new ResizeObserver(measureUI).observe($('#styleBar')); new ResizeObserver(measureUI).observe($('#tabs'));
+if (window.visualViewport) { // on-screen keyboard: lift the style bar above it, hide the tab bar
+  const vv = window.visualViewport, kb = () => {
+    const off = Math.max(0, Math.round(innerHeight - vv.height - vv.offsetTop));
+    document.documentElement.style.setProperty('--kb', off + 'px'); document.body.classList.toggle('kb', off > 80);
+  };
+  vv.addEventListener('resize', kb); vv.addEventListener('scroll', kb);
+}
+if (location.hash) history.replaceState(null, '', location.pathname + location.search); // always open on Stats
+applyWordStyles(); buildWords(); renderStyleBar();
+onRoute();
 refresh(false).then(() => { lastRefresh = Date.now(); });
 </script>
 </body>
