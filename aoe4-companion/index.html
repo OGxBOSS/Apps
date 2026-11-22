@@ -44,10 +44,10 @@ input,textarea,select{font:inherit;color:inherit;margin:0}
 .icon.spin{animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
-.tabs{flex:none;display:grid;grid-template-columns:1fr 1fr;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
-.tabs button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0 7px;font-size:12px;font-weight:700;color:var(--muted)}
+.tabs{flex:none;display:grid;grid-template-columns:1fr 1fr;align-items:center;background:var(--surface);border-top:1px solid var(--line);padding:4px 0 max(4px,calc(env(safe-area-inset-bottom,0px) - 16px))}
+.tabs button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:54px;font-size:13.5px;font-weight:700;color:var(--muted)}
 .tabs button.on{color:var(--accent)}
-.tabs svg{width:26px;height:26px}
+.tabs svg{width:30px;height:30px}
 
 /* shared controls */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 16px;border-radius:14px;background:var(--surface2);font-weight:700;font-size:16px;text-align:center}
@@ -70,10 +70,13 @@ input,textarea,select{font:inherit;color:inherit;margin:0}
 .mono{width:36px;height:27px;flex:none;border-radius:5px;display:inline-grid;place-items:center;font-size:11px;font-weight:800;color:#fff}
 
 /* ═════════════ Stats ═════════════ */
-.filters{flex:none;display:flex;flex-wrap:wrap;gap:8px;padding:0 12px 8px}
-.chip{flex:1 1 140px;min-width:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:48px;background:var(--surface);border-radius:14px;padding:4px 14px;text-align:left}
+.filters{flex:none;display:flex;flex-wrap:nowrap;gap:6px;padding:8px 8px;border-top:1px solid var(--line);background:var(--bg)}
+.filters .seg button{padding:0 10px}
+.filters .chip{padding:4px 10px}
+#chipRank{flex-grow:1.25}
+.chip{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:48px;background:var(--surface);border-radius:14px;padding:4px 14px;text-align:left}
 .chip small{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.chip b{font-size:16px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip b{font-size:14.5px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chip b::after{content:" ▾";color:var(--muted);font-size:12px}
 .status{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:0 16px 8px;font-size:12.5px;font-weight:600;color:var(--muted)}
 .pill{border-radius:99px;padding:1px 8px;border:1px solid var(--line);font-size:11.5px}
@@ -90,9 +93,16 @@ input,textarea,select{font:inherit;color:inherit;margin:0}
   -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;transition:background .15s,opacity .2s}
 .crow.press,.crow:active{background:var(--surface)}
 .crow.off{opacity:.4}
-.crow .civ{display:flex;align-items:center;gap:10px;min-width:0}
+.crow .civ{min-width:0;align-self:stretch;display:flex}
+.fbox{position:relative;flex:1;min-width:0;border-radius:10px;overflow:hidden;background:var(--surface2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.fbox .flag,.fbox .mono{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:0;font-size:0}
+.fbox::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.62),rgba(0,0,0,0) 46%,rgba(0,0,0,0) 58%,rgba(0,0,0,.62))}
+.fnm,.frec,.fbc{position:absolute;z-index:1;color:#fff;font-weight:900;text-shadow:0 1px 2px #000,0 0 4px rgba(0,0,0,.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fnm{top:3px;left:6px;right:6px;font-size:12px;line-height:1.1}
+.frec{bottom:3px;left:6px;font-size:13px;font-variant-numeric:tabular-nums}
+.fbc{bottom:3px;right:6px;font-size:10.5px;color:var(--accent)}
 .crow .nm{min-width:0;font-weight:800;font-size:15.5px;line-height:1.15;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.crow.off .nm{text-decoration:line-through}
+.crow.off .fnm{text-decoration:line-through}
 .bc{flex:none;font-size:11px;font-weight:800;background:var(--tint);color:var(--accent);border-radius:99px;padding:2px 7px}
 .sc{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;min-width:0;align-self:stretch;padding:0 6px;border-radius:10px}
 .sc.on{background:var(--tint)}
@@ -107,8 +117,7 @@ input,textarea,select{font:inherit;color:inherit;margin:0}
 @media (max-width:380px){
   :root{--cols:minmax(0,1fr) repeat(3,clamp(60px,18.5vw,72px))}
   .crow{padding:6px 8px} .thead{padding:4px 8px}
-  .crow .nm{font-size:14px} .crow .civ{gap:8px}
-  .flag,.mono{width:30px;height:23px}
+  .fnm{font-size:11px}
   .sc b{font-size:16px} .sc{padding:0 4px}
   .seg button{padding:0 12px}
 }
@@ -294,6 +303,12 @@ body.kb .tabs{display:none}
       <div class="title">AoE<span>4</span> Companion</div>
       <button class="icon" id="btnReload" aria-label="Refresh stats">↻</button>
     </header>
+    <div class="status" id="status"></div>
+    <main class="scroll" id="statsScroll">
+      <div class="thead" id="thead"></div>
+      <div id="rows"></div>
+      <p class="foot" id="foot"></p>
+    </main>
     <div class="filters">
       <div class="seg" id="segMode" role="group" aria-label="Game mode">
         <button data-v="1v1">1v1</button><button data-v="team">Team</button>
@@ -301,12 +316,6 @@ body.kb .tabs{display:none}
       <button class="chip" id="chipRank"><small>Rank</small><b></b></button>
       <button class="chip" id="chipMap"><small>Map</small><b></b></button>
     </div>
-    <div class="status" id="status"></div>
-    <main class="scroll" id="statsScroll">
-      <div class="thead" id="thead"></div>
-      <div id="rows"></div>
-      <p class="foot" id="foot"></p>
-    </main>
   </section>
 
   <!-- ═════ Builds (per civ) ═════ -->
@@ -346,7 +355,7 @@ body.kb .tabs{display:none}
  * ══════════════════════════════════════════════════════════════════════ */
 
 /* ───────── 1. Config ───────── */
-const VERSION = 11;
+const VERSION = 12;
 const API = 'https://aoe4world.com/api/v0';
 const MODES = {
   '1v1':  { stats: 'rm_solo', games: 'rm_solo', label: '1v1 Ranked', short: '1v1' },
@@ -654,7 +663,7 @@ const SKEY_LABEL = { wr: 'Win %', g: 'Games', pick: 'Pick %' };
 function renderStats() { renderFilters(); renderStatus(); renderTable(); }
 function renderFilters() {
   $$('#segMode button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === S.mode));
-  $('#chipRank b').textContent = S.min === S.max ? RANKS[S.min].name : `${rankShort(RANKS[S.min].name)} – ${rankShort(RANKS[S.max].name)}`;
+  $('#chipRank b').textContent = S.min === S.max ? RANKS[S.min].name : `${rankShort(RANKS[S.min].name)}–${rankShort(RANKS[S.max].name)}`;
   $('#chipMap b').textContent = mapNameOf(S.mapId);
   $('#btnReload').classList.toggle('spin', refreshing);
 }
@@ -677,7 +686,7 @@ function statCell(st, avail, on) {
 function youCell(r, on) {
   const c = `sc${on ? ' on' : ''}`;
   if (!r || !r.n) return `<div class="${c}"><b class="na">—</b><small>0 games</small></div>`;
-  return `<div class="${c}"><b style="color:${wrColor(r.wr, 30, 70)}">${Math.round(r.wr)}%</b><small>${r.w}–${r.l}</small></div>`;
+  return `<div class="${c}"><b style="color:${wrColor(r.wr, 30, 70)}">${Math.round(r.wr)}%</b><small>${r.n} game${r.n === 1 ? '' : 's'}</small></div>`;
 }
 function renderTable() {
   const T = aggregate(civUrl), M = aggregate(r => mapStatsUrl(S.mapId, r)), Y = records(S.mode);
@@ -701,7 +710,7 @@ function renderTable() {
     const off = hidden.has(s);
     if (off && !divided) { divided = true; html += `<div class="hdiv"><span>Hidden · ${nHidden}</span><button data-showall>Show all</button></div>`; }
     html += `<div class="crow${off ? ' off' : ''}" data-slug="${s}" role="button" tabindex="0" aria-label="${esc(civName(s))}: open build orders">` +
-      `<div class="civ">${flagHtml(s)}<span class="nm">${esc(civName(s))}</span>${nb[s] ? `<span class="bc" title="${nb[s]} build order(s)">${nb[s]}</span>` : ''}</div>` +
+      `<div class="civ"><div class="fbox">${flagHtml(s)}<span class="fnm">${esc(civName(s))}</span>${Y.get(s)?.n ? `<span class="frec">${Y.get(s).w}–${Y.get(s).l}</span>` : ''}${nb[s] ? `<span class="fbc" title="${nb[s]} build order(s)">⚒${nb[s]}</span>` : ''}</div></div>` +
       statCell(T?.civs.get(s), !!T, S.scol === 'all') + statCell(M?.civs.get(s), !!M, S.scol === 'map') + youCell(Y.get(s), S.scol === 'you') + '</div>';
   }
   $('#rows').innerHTML = html;
