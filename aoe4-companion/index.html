@@ -221,6 +221,7 @@ input,textarea,select{font:inherit;color:inherit;margin:0}
 .tip{color:var(--muted);font-size:13px;line-height:1.5;margin:14px 4px 0}
 
 /* style bar (editor only): indent tools + your words */
+#sbToggle{position:fixed;right:12px;bottom:var(--sbt,76px);z-index:60;width:44px;height:36px;border-radius:12px;background:var(--surface2);border:1px solid var(--line);color:var(--accent);font-size:15px;font-weight:900;box-shadow:0 4px 14px rgba(0,0,0,.35)}
 #styleBar{flex:none;display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;background:var(--surface);border-top:1px solid var(--line);max-height:34vh;overflow-y:auto}
 body.kb #styleBar{position:fixed;left:0;right:0;bottom:var(--kb);z-index:50;max-width:760px;margin:0 auto}
 body.kb .tabs{display:none}
@@ -326,6 +327,7 @@ body.kb .tabs{display:none}
   </section>
 
   <div id="styleBar" hidden></div>
+  <button id="sbToggle" hidden aria-label="Show word panel">▲</button>
   <nav class="tabs" id="tabs">
     <button data-tab="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 20V11M12 20V4M19 20v-6M3 20h18"/></svg>Stats</button>
     <button data-tab="builds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg>Builds</button>
@@ -344,7 +346,7 @@ body.kb .tabs{display:none}
  * ══════════════════════════════════════════════════════════════════════ */
 
 /* ───────── 1. Config ───────── */
-const VERSION = 10;
+const VERSION = 11;
 const API = 'https://aoe4world.com/api/v0';
 const MODES = {
   '1v1':  { stats: 'rm_solo', games: 'rm_solo', label: '1v1 Ranked', short: '1v1' },
@@ -633,7 +635,8 @@ function onRoute() {
   if (route.name === 'player') { const b = buildById(route.id); if (!b) return go('#/builds/' + bCiv); setCiv(b.civ); }
   $('#vStats').hidden = route.name !== 'stats'; $('#vBuilds').hidden = route.name !== 'builds'; $('#vPlayer').hidden = route.name !== 'player';
   $$('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === (route.name === 'stats' ? 'stats' : 'builds')));
-  $('#styleBar').hidden = !(route.name === 'player' && route.edit);
+  const editing = route.name === 'player' && route.edit; if (!editing) sbOpen = false;
+  $('#styleBar').hidden = !(editing && sbOpen); $('#sbToggle').hidden = !editing; syncToggle();
   if (route.name === 'stats') renderStats();
   else if (route.name === 'builds') renderBuildList();
   else renderPlayer({ first: !(prev.name === 'player' && prev.id === route.id && !prev.edit && !route.edit) });
@@ -1187,15 +1190,21 @@ function openWordSheet(id) {
 }
 
 /* ───────── 11. Boot ───────── */
+let sbOpen = false, kbOff = 0; // word panel starts hidden; the ▲ button bottom-right lifts it up
+function syncToggle() { const t = $('#sbToggle'); t.textContent = sbOpen ? '▼' : '▲'; t.setAttribute('aria-label', sbOpen ? 'Hide word panel' : 'Show word panel'); }
+$('#sbToggle').addEventListener('mousedown', e => e.preventDefault()); // keep typing focus
+$('#sbToggle').onclick = () => { sbOpen = !sbOpen; $('#styleBar').hidden = !sbOpen; syncToggle(); measureUI(); };
 function measureUI() { // keeps toasts above the tab bar / style bar
   const tabs = $('#tabs'), bar = $('#styleBar');
-  document.documentElement.style.setProperty('--ui-bottom', ((tabs.offsetHeight || 0) + (bar.hidden ? 0 : bar.offsetHeight)) + 'px');
+  const base = kbOff > 80 ? kbOff : (tabs.offsetHeight || 0), barH = bar.hidden ? 0 : bar.offsetHeight;
+  document.documentElement.style.setProperty('--ui-bottom', (base + barH) + 'px');
+  document.documentElement.style.setProperty('--sbt', (base + barH + 10) + 'px');
 }
 new ResizeObserver(measureUI).observe($('#styleBar')); new ResizeObserver(measureUI).observe($('#tabs'));
 if (window.visualViewport) { // on-screen keyboard: lift the style bar above it, hide the tab bar
   const vv = window.visualViewport, kb = () => {
-    const off = Math.max(0, Math.round(innerHeight - vv.height - vv.offsetTop));
-    document.documentElement.style.setProperty('--kb', off + 'px'); document.body.classList.toggle('kb', off > 80);
+    const off = kbOff = Math.max(0, Math.round(innerHeight - vv.height - vv.offsetTop));
+    document.documentElement.style.setProperty('--kb', off + 'px'); document.body.classList.toggle('kb', off > 80); measureUI();
   };
   vv.addEventListener('resize', kb); vv.addEventListener('scroll', kb);
 }
