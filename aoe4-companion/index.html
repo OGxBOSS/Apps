@@ -95,7 +95,8 @@ input,textarea,select{font:inherit;color:inherit;margin:0}
 .crow.press,.crow:active{background:var(--surface)}
 .crow.off{opacity:.4}
 .crow{position:relative}
-.hint{position:absolute;left:50%;top:50%;z-index:3;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;background:var(--accent);color:var(--accent-ink);font-size:13.5px;font-weight:800;padding:7px 12px;border-radius:99px;box-shadow:0 6px 18px rgba(0,0,0,.45);animation:hintIn 3.2s ease forwards}
+.civ{position:relative}
+.hint{position:absolute;left:50%;top:50%;z-index:3;transform:translate(-50%,-50%);pointer-events:none;width:max-content;max-width:100%;text-align:center;line-height:1.15;background:var(--accent);color:var(--accent-ink);font-size:12px;font-weight:800;padding:5px 9px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.45);animation:hintIn 3.2s ease forwards}
 @keyframes hintIn{0%{opacity:0;transform:translate(-50%,-30%)}10%,85%{opacity:1;transform:translate(-50%,-50%)}100%{opacity:0;transform:translate(-50%,-50%)}}
 .crow .civ{min-width:0;display:flex}
 .fbox{position:relative;width:100%;height:52px;align-self:center;border-radius:10px;overflow:hidden;background:var(--surface2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
@@ -359,7 +360,7 @@ body.kb .tabs{display:none}
  * ══════════════════════════════════════════════════════════════════════ */
 
 /* ───────── 1. Config ───────── */
-const VERSION = 16;
+const VERSION = 17;
 const API = 'https://aoe4world.com/api/v0';
 const MODES = {
   '1v1':  { stats: 'rm_solo', games: 'rm_solo', label: '1v1 Ranked', short: '1v1' },
@@ -634,7 +635,7 @@ function openCivSheet(title, cur, onPick) {
 }
 
 /* ───────── 5. Router ───────── */
-let route = { name: 'stats' };
+let route = { name: 'stats' }, hintShown = false;
 function parseHash() {
   const h = location.hash.replace(/^#\/?/, '').split('/');
   if (h[0] === 'builds') return { name: 'builds', civ: h[1] };
@@ -650,7 +651,7 @@ function onRoute() {
   $$('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === (route.name === 'stats' ? 'stats' : 'builds')));
   const editing = route.name === 'player' && route.edit; if (!editing) sbOpen = false;
   $('#styleBar').hidden = !(editing && sbOpen); $('#sbToggle').hidden = !editing; syncToggle();
-  if (route.name === 'stats') renderStats();
+  if (route.name === 'stats') { renderStats(); if (prev.name !== 'stats' || !hintShown) { hintShown = true; setTimeout(showHoldHint, 1200); } }
   else if (route.name === 'builds') renderBuildList();
   else renderPlayer({ first: !(prev.name === 'player' && prev.id === route.id && !prev.edit && !route.edit) });
   measureUI();
@@ -786,8 +787,7 @@ $('#chipMap').onclick = () => {
   $('.oitem[aria-selected="true"]', sheetEl)?.scrollIntoView({ block: 'center' });
 };
 
-// every 30 s on the Stats screen, one row on screen briefly shows the press-and-hold tip
-const HINT_MS = 30000; // ADJUSTABLE - how often the tip pops up
+// when the Stats screen opens, one flag briefly shows the press-and-hold tip
 function showHoldHint() {
   if (route.name !== 'stats' || document.hidden || !sheetWrap.hidden) return;
   const box = $('#statsScroll').getBoundingClientRect();
@@ -796,9 +796,8 @@ function showHoldHint() {
   const r = vis[Math.floor(Math.random() * vis.length)];
   const h = document.createElement('div'); h.className = 'hint';
   h.textContent = hidden.has(r.dataset.slug) ? 'Press & hold to unhide' : 'Press & hold to hide';
-  r.appendChild(h); setTimeout(() => h.remove(), 3300);
+  $('.civ', r).appendChild(h); setTimeout(() => h.remove(), 3300);
 }
-setInterval(showHoldHint, HINT_MS);
 
 /* ───────── 7. Rich text & your styled words ─────────
  * Each line of a step is its own block: leading spaces/tabs indent it, "- " makes a bullet, and wrapped
