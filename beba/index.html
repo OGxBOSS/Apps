@@ -12,18 +12,20 @@
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
   --bg:#f2f2f7;--panel:#fff;--text:#111;--sub:#6b6b73;--line:#d8d8de;
-  --needs:#2f6fed;--wants:#f08a1c;--accent:#111;--accent-text:#fff;
+  --needs:#2f6fed;--wants:#f08a1c;--goal:#0f9b74;--accent:#111;--accent-text:#fff;
 }
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#000;--panel:#1c1c1e;--text:#f5f5f7;--sub:#9a9aa2;--line:#38383c;--needs:#5b93ff;--wants:#ffa13d;--accent:#f5f5f7;--accent-text:#111}
+  :root:not([data-theme="light"]){--bg:#000;--panel:#1c1c1e;--text:#f5f5f7;--sub:#9a9aa2;--line:#38383c;--needs:#5b93ff;--wants:#ffa13d;--goal:#2fd19f;--accent:#f5f5f7;--accent-text:#111}
 }
-:root[data-theme="dark"]{--bg:#000;--panel:#1c1c1e;--text:#f5f5f7;--sub:#9a9aa2;--line:#38383c;--needs:#5b93ff;--wants:#ffa13d;--accent:#f5f5f7;--accent-text:#111}
+:root[data-theme="dark"]{--bg:#000;--panel:#1c1c1e;--text:#f5f5f7;--sub:#9a9aa2;--line:#38383c;--needs:#5b93ff;--wants:#ffa13d;--goal:#2fd19f;--accent:#f5f5f7;--accent-text:#111}
 *,*::before,*::after{box-sizing:inherit}
 html,body{height:100%;margin:0}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{background:var(--bg);color:var(--text);font:16px/1.3 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
 button{font:inherit;color:inherit}
 #app{height:100%;display:flex;flex-direction:column;gap:10px;padding:10px 10px 8px}
+.view{flex:1;min-height:0;display:flex;flex-direction:column;gap:10px}
+.view[hidden]{display:none}
 #cols{flex:1;min-height:0;display:flex;gap:8px}
 .col{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px;background:var(--panel);border-radius:16px;padding:8px}
 .col h2{margin:2px 0;text-align:center;font-size:15px;letter-spacing:1.5px;font-weight:800}
@@ -35,7 +37,7 @@ button{font:inherit;color:inherit}
 .card .n{font-weight:600;font-size:14px;overflow-wrap:anywhere;white-space:pre-wrap}
 .card .a{font-size:12px;color:var(--sub);margin-top:3px}
 .edit{position:absolute;top:2px;right:2px;width:30px;height:30px;border:0;background:none;color:var(--sub);font-size:15px;cursor:pointer}
-.empty{color:var(--sub);font-size:12px;text-align:center;padding:12px 4px}
+.empty{color:var(--sub);font-size:13px;text-align:center;padding:12px 4px}
 .pot{text-align:center;border-radius:12px;padding:7px 4px;background:color-mix(in srgb,currentColor 12%,var(--panel))}
 .needs .pot{color:var(--needs)}.wants .pot{color:var(--wants)}
 .pot small{display:block;font-size:10px;font-weight:700;letter-spacing:.5px;opacity:.9}
@@ -44,12 +46,48 @@ button{font:inherit;color:inherit}
 .seg{display:flex;background:var(--panel);border-radius:10px;padding:3px;gap:3px}
 .seg button{flex:1;border:0;background:none;border-radius:8px;padding:9px 4px;font-weight:600;font-size:14px;cursor:pointer;color:var(--sub)}
 .seg button.on{background:var(--accent);color:var(--accent-text)}
-#row{display:flex;gap:10px}
-#add{flex:1;border:0;border-radius:14px;background:var(--accent);color:var(--accent-text);font-weight:700;font-size:17px;padding:14px;cursor:pointer}
-#total{flex:1.3;background:var(--panel);border-radius:14px;text-align:center;padding:7px 4px;min-width:0}
-#total small{display:block;font-size:10px;font-weight:700;letter-spacing:.8px;color:var(--sub)}
-#total b{font-size:17px}
+#row,#grow{display:flex;gap:10px}
+#add,#gadd{flex:1;border:0;border-radius:14px;background:var(--accent);color:var(--accent-text);font-weight:700;font-size:17px;padding:14px;cursor:pointer}
+#total,#gtot{flex:1.3;background:var(--panel);border-radius:14px;text-align:center;padding:7px 4px;min-width:0;border:0;cursor:default}
+#gtot{cursor:pointer}
+#total small,#gtot small{display:block;font-size:10px;font-weight:700;letter-spacing:.8px;color:var(--sub)}
+#total b,#gtot b{font-size:17px}
 #total span{font-size:12px;color:var(--sub);margin-left:3px}
+#gtot span{display:block;font-size:11px;color:var(--sub)}
+
+/* ---- Goals tab ---- */
+.hero{border-radius:18px;padding:14px 14px 12px;background:color-mix(in srgb,var(--goal) 16%,var(--panel));cursor:pointer}
+.hero small{display:block;font-size:11px;font-weight:800;letter-spacing:1.2px;color:var(--goal)}
+.hero .hn{font-size:26px;font-weight:800;line-height:1.1;margin:4px 0 6px;overflow-wrap:anywhere}
+.hero .hm{font-size:14px;color:var(--sub)}
+.hero .hm b{color:var(--text);font-size:17px}
+.hero .tag{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;padding:4px 9px;border-radius:99px;background:var(--panel);color:var(--goal)}
+.hero .hb{display:flex;gap:8px;margin-top:12px}
+.hero .hb button{flex:1;border:0;border-radius:11px;padding:11px;font-weight:700;cursor:pointer;background:var(--panel)}
+.hero .hb .got{background:var(--goal);color:#fff}
+.hero.none{cursor:default;text-align:center;color:var(--sub);font-size:14px;padding:22px 14px}
+.ghead{display:flex;justify-content:space-between;align-items:center;padding:0 4px}
+.ghead h2{margin:2px 0;font-size:13px;letter-spacing:1.2px;font-weight:800;color:var(--goal)}
+.ghead button{border:0;background:none;color:var(--sub);font-size:13px;font-weight:600;padding:6px;cursor:pointer}
+.g{display:flex;align-items:center;gap:8px;border-radius:12px;padding:6px 4px 6px 10px;background:color-mix(in srgb,var(--goal) 9%,var(--panel));cursor:pointer}
+.g.held{opacity:.55}
+.g .rk{width:24px;flex:none;font-weight:800;font-size:15px;color:var(--goal);text-align:center}
+.g .gi{flex:1;min-width:0}
+.g .gn{font-weight:600;font-size:15px;overflow-wrap:anywhere}
+.g .gm{font-size:13px;color:var(--sub);margin-top:2px}
+.mv{display:flex;flex-direction:column;gap:2px;flex:none}
+.mv button{width:40px;height:28px;border:0;border-radius:8px;background:var(--panel);color:var(--sub);font-size:12px;cursor:pointer}
+.mv button:disabled{opacity:.3}
+#mic{flex:none;width:56px;border:0;border-radius:14px;background:var(--goal);color:#fff;cursor:pointer;display:grid;place-items:center}
+#mic.on{animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--goal) 35%,transparent)}}
+@media (prefers-reduced-motion:reduce){#mic.on{animation:none;outline:3px solid var(--goal);outline-offset:2px}}
+#live{background:var(--panel);border-radius:12px;padding:10px 12px;font-size:15px;color:var(--sub)}
+#live b{color:var(--text);font-weight:600}
+#toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--accent);color:var(--accent-text);border-radius:12px;padding:10px 12px 10px 14px;display:none;gap:12px;align-items:center;font-size:14px;z-index:20;max-width:92%}
+#toast.show{display:flex}
+#toast button{border:0;background:none;color:inherit;font-weight:800;text-decoration:underline;cursor:pointer;padding:4px}
+
 #ov{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-end;justify-content:center;z-index:9}
 #ov.show{display:flex}
 .sheet{background:var(--panel);width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;max-height:92%;overflow-y:auto}
@@ -58,6 +96,11 @@ button{font:inherit;color:inherit}
 .sheet input,.sheet textarea{width:100%;font:inherit;font-size:16px;padding:11px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text)}
 .sheet textarea{resize:none;min-height:46px}
 .sheet .seg{background:var(--bg)}
+.sheet .seg.imp button{font-size:12px;padding:9px 2px}
+.sheet .hint{font-size:13px;color:var(--sub);margin:0}
+.inl{display:flex;gap:8px}
+.inl>:first-child{flex:1}
+.inl button{flex:none;border:0;border-radius:10px;padding:0 14px;font-weight:700;background:var(--bg);cursor:pointer}
 .btns{display:flex;gap:8px}
 .btns button{flex:1;border:0;border-radius:12px;padding:13px;font-weight:700;cursor:pointer;background:var(--bg)}
 .btns .pri{background:var(--accent);color:var(--accent-text)}
@@ -68,19 +111,38 @@ button{font:inherit;color:inherit}
 </head>
 <body>
 <div id="app">
-  <div id="cols">
-    <section class="col needs"><h2>NEEDS</h2><div class="list" id="l-needs"></div>
-      <div class="pot"><small>NEEDS POT</small><b id="p-needs"></b><span class="fq"></span></div></section>
-    <section class="col wants"><h2>WANTS</h2><div class="list" id="l-wants"></div>
-      <div class="pot"><small>WANTS POT</small><b id="p-wants"></b><span class="fq"></span></div></section>
+  <div class="seg" id="tabs"><button data-t="be">Break-even</button><button data-t="goals">Goals</button></div>
+
+  <div class="view" id="v-be">
+    <div id="cols">
+      <section class="col needs"><h2>NEEDS</h2><div class="list" id="l-needs"></div>
+        <div class="pot"><small>NEEDS POT</small><b id="p-needs"></b><span class="fq"></span></div></section>
+      <section class="col wants"><h2>WANTS</h2><div class="list" id="l-wants"></div>
+        <div class="pot"><small>WANTS POT</small><b id="p-wants"></b><span class="fq"></span></div></section>
+    </div>
+    <div class="seg" id="gfreq"></div>
+    <div id="row">
+      <button id="add">+ Add</button>
+      <div id="total"><small>TOTAL</small><b id="t-amt"></b><span class="fq"></span></div>
+    </div>
   </div>
-  <div class="seg" id="gfreq"></div>
-  <div id="row">
-    <button id="add">+ Add</button>
-    <div id="total"><small>TOTAL</small><b id="t-amt"></b><span class="fq"></span></div>
+
+  <div class="view" id="v-goals" hidden>
+    <div id="hero"></div>
+    <section class="col">
+      <div class="ghead"><h2>UP NEXT</h2><button id="resort">Auto-sort</button></div>
+      <div class="list" id="glist"></div>
+    </section>
+    <div id="live" hidden></div>
+    <div id="grow">
+      <button id="mic" aria-label="Dictate a goal"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
+      <button id="gadd">+ Add</button>
+      <button id="gtot"><small>ALL GOALS</small><b id="g-amt"></b><span id="g-rate"></span></button>
+    </div>
   </div>
 </div>
 <div id="ov"><div class="sheet" id="sheet"></div></div>
+<div id="toast"><span id="t-msg"></span><button id="t-undo">Undo</button></div>
 
 <script>
 const KEY='beba.v1';
@@ -88,20 +150,68 @@ const WEEKS={weekly:1,biweekly:2,monthly:52/12};   // monthly = average month (5
 const LABEL={weekly:'Weekly',biweekly:'Biweekly',monthly:'Monthly'};
 const conv=(a,from,to)=>a/WEEKS[from]*WEEKS[to];
 const fmt=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'});
+const fmt0=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const $=id=>document.getElementById(id);
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 
-let S={expenses:[],freq:'weekly'};
+let S={expenses:[],freq:'weekly',goals:[],rate:0,tab:'be'};
 try{
   const raw=localStorage.getItem(KEY);
   if(raw){const d=JSON.parse(raw);
     if(Array.isArray(d.expenses))S.expenses=d.expenses;
-    if(WEEKS[d.freq])S.freq=d.freq;}
+    if(WEEKS[d.freq])S.freq=d.freq;
+    if(Array.isArray(d.goals))S.goals=d.goals;
+    if(d.rate>0)S.rate=+d.rate;
+    if(d.tab==='goals')S.tab='goals';}
 }catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 
 const disp=x=>conv(x.amount,x.freq,S.freq);
 const pot=c=>S.expenses.filter(x=>x.cat===c).reduce((t,x)=>t+disp(x),0);
+
+/* ===== Goals: ranking ===== */
+const IMP=['','Someday','Nice to have','Want','Important','Critical'];
+// Higher = sooner. Importance counts most; price pulls things down on a log scale,
+// so cheap things rise as quick wins and critical things beat everything.
+const score=g=>g.imp*2-Math.log10((g.cost>0?g.cost:1000)+1)*0.8;
+function place(g){
+  const i=S.goals.indexOf(g); if(i>-1)S.goals.splice(i,1);
+  let j=S.goals.findIndex(x=>score(x)<score(g)); if(j<0)j=S.goals.length;
+  S.goals.splice(j,0,g);
+}
+const costTxt=g=>g.cost>0?(g.est?'~':'')+fmt0.format(g.cost):'Set price';
+function eta(i){ // weeks until goal i is funded, saving in priority order
+  if(!(S.rate>0))return'';
+  let sum=0; for(let k=0;k<=i;k++){const c=S.goals[k].cost; if(!(c>0))return''; sum+=c}
+  const w=sum/S.rate;
+  if(w<=1)return'this week'; if(w<=10)return`~${Math.ceil(w)} wk`;
+  const m=w/4.345; return m<=24?`~${Math.round(m)} mo`:`~${(m/12).toFixed(1)} yr`;
+}
+
+function renderGoals(){
+  const G=S.goals, top=G[0];
+  const hold=top&&top.imp>=4&&G.some(x=>x!==top&&x.imp<top.imp);
+  if(!top){$('hero').className='hero none';
+    $('hero').innerHTML='Nothing here yet.<br>Tap the mic and say something you want, like “new laptop”.';}
+  else{
+    const quick=top.cost>0&&top.cost<=(S.rate>0?S.rate*2:150);
+    const e=eta(0);
+    $('hero').className='hero'; $('hero').dataset.gedit=top.id;
+    $('hero').innerHTML=`<small>CURRENT GOAL</small><div class="hn">${esc(top.name)}</div>
+      <div class="hm"><b>${costTxt(top)}</b> · ${IMP[top.imp]}${e?' · '+e:''}</div>
+      ${hold?'<span class="tag">Priority: others on hold until this is done</span>':quick?'<span class="tag">Quick win: knock it out</span>':''}
+      <div class="hb"><button class="got" data-got="${esc(top.id)}">Got it ✓</button><button data-gedit="${esc(top.id)}">Edit</button></div>`;
+  }
+  $('glist').innerHTML=G.length>1?G.slice(1).map((g,k)=>{const i=k+1,e=eta(i);
+    return `<div class="g${hold&&g.imp<top.imp?' held':''}" data-gedit="${esc(g.id)}">
+      <div class="rk">${i+1}</div>
+      <div class="gi"><div class="gn">${esc(g.name)}</div><div class="gm">${costTxt(g)} · ${IMP[g.imp]}${e?' · '+e:''}</div></div>
+      <div class="mv"><button data-up="${esc(g.id)}" aria-label="Move up">▲</button><button data-down="${esc(g.id)}" aria-label="Move down" ${i===G.length-1?'disabled':''}>▼</button></div></div>`}).join('')
+    :`<div class="empty">${G.length?'Add more and they’ll line up here, ranked.':''}</div>`;
+  $('g-amt').textContent=fmt0.format(G.reduce((t,g)=>t+(g.cost>0?g.cost:0),0));
+  $('g-rate').textContent=S.rate>0?`saving ${fmt0.format(S.rate)}/wk`:'tap to set savings';
+}
 
 function render(){
   for(const c of ['needs','wants']){
@@ -117,10 +227,294 @@ function render(){
   document.querySelectorAll('.fq').forEach(e=>e.textContent=S.freq);
   $('gfreq').innerHTML=Object.keys(WEEKS).map(f=>
     `<button data-f="${f}" class="${f===S.freq?'on':''}">${LABEL[f]}</button>`).join('');
+  $('tabs').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.t===S.tab));
+  $('v-be').hidden=S.tab!=='be'; $('v-goals').hidden=S.tab!=='goals';
+  renderGoals();
 }
 
-// taps: move card / open editor / change global frequency
+/* ===== Goals: built-in price guide (works offline, no account needed) ===== */
+// keyword(s) | typical US price (USD) | importance 1-5. Longest matching keyword wins.
+const DB=`tesla|45000|2
+tesla model 3|42000|2
+model y|47000|2
+cybertruck|80000|1
+used car|15000|4
+car|30000|3
+truck|45000|3
+suv|38000|3
+motorcycle|9000|2
+e-bike|ebike|electric bike|1500|2
+bike|bicycle|600|2
+scooter|electric scooter|500|2
+boat|30000|1
+rv|camper|60000|1
+car repair|mechanic|fix my car|900|5
+tires|new tires|800|5
+brakes|500|5
+oil change|80|5
+windshield|350|4
+registration|car registration|150|5
+dashcam|dash cam|120|2
+down payment|house down payment|40000|4
+house|home|350000|3
+security deposit|apartment deposit|2000|5
+moving|movers|1500|4
+couch|sofa|1200|3
+sectional|2000|2
+mattress|1000|4
+bed frame|400|3
+bed|1200|4
+dresser|500|2
+desk|300|3
+office chair|350|3
+dining table|kitchen table|800|2
+tv stand|200|2
+rug|250|2
+lamp|80|2
+curtains|blinds|100|2
+furniture|1500|3
+air conditioner|ac unit|500|4
+space heater|heater|80|4
+washer|washing machine|900|4
+dryer|800|4
+fridge|refrigerator|1500|4
+dishwasher|800|3
+microwave|150|3
+stove|oven|1200|4
+vacuum|300|3
+robot vacuum|roomba|400|2
+dyson|500|2
+air fryer|100|2
+instant pot|100|2
+blender|80|2
+coffee maker|100|2
+espresso machine|600|1
+stand mixer|kitchenaid|450|1
+pots and pans|cookware|250|3
+knife set|knives|150|2
+drill|power tools|150|3
+tools|300|3
+lawn mower|400|3
+grill|bbq|500|2
+hot tub|7000|1
+pool|30000|1
+new roof|roof|12000|5
+water heater|1500|5
+furnace|5000|5
+hvac|8000|5
+plumber|400|5
+remodel|renovation|15000|2
+kitchen remodel|30000|2
+smart lock|200|2
+doorbell camera|ring doorbell|150|2
+security cameras|security system|250|3
+iphone|900|3
+iphone pro|1100|3
+samsung|galaxy|900|3
+phone|new phone|800|3
+phone repair|screen repair|fix my phone|cracked screen|200|4
+ipad|450|2
+ipad pro|1100|2
+tablet|350|2
+macbook|1300|3
+macbook air|1100|3
+macbook pro|2000|3
+laptop|1000|3
+laptop repair|fix my laptop|200|4
+gaming pc|1800|1
+computer|pc|desktop|1200|3
+monitor|300|2
+keyboard|100|2
+mouse|50|2
+printer|200|2
+apple watch|400|2
+smartwatch|300|2
+airpods|180|2
+airpods pro|250|2
+headphones|200|2
+earbuds|100|2
+speaker|bluetooth speaker|150|2
+soundbar|300|2
+sonos|500|1
+tv|television|700|2
+oled|oled tv|1500|1
+projector|600|1
+ps5|playstation|500|1
+xbox|500|1
+nintendo switch|switch|450|1
+steam deck|550|1
+vr headset|quest|meta quest|500|1
+vision pro|3500|1
+video game|game|70|1
+camera|900|2
+gopro|400|1
+drone|800|1
+router|wifi|200|3
+hard drive|ssd|120|2
+kindle|130|2
+glasses|eyeglasses|350|5
+contacts|contact lenses|200|5
+dentist|dental work|500|5
+braces|invisalign|5000|4
+doctor|doctor visit|250|5
+therapy|therapist|600|4
+hearing aids|3000|5
+lasik|4000|3
+gym membership|gym|600|3
+peloton|1500|1
+treadmill|1200|2
+dumbbells|weights|200|2
+massage|120|1
+haircut|50|3
+teeth whitening|400|1
+skincare|100|2
+perfume|cologne|120|1
+shoes|120|3
+sneakers|150|2
+jordans|200|1
+work boots|180|4
+boots|180|3
+winter coat|coat|jacket|200|4
+suit|500|3
+dress|150|2
+jeans|80|2
+clothes|new clothes|300|3
+work clothes|300|4
+purse|handbag|300|1
+designer bag|louis vuitton|gucci|chanel|2500|1
+watch|400|1
+rolex|10000|1
+jewelry|necklace|bracelet|500|1
+ring|1000|1
+engagement ring|5000|3
+sunglasses|150|1
+vacation|2500|2
+trip|1500|2
+road trip|800|2
+cruise|3000|1
+flight|plane ticket|500|2
+hotel|300|2
+disney|disney world|disneyland|5000|1
+europe|trip to europe|5000|1
+japan|trip to japan|5000|1
+concert|concert tickets|200|1
+tickets|200|1
+festival|400|1
+wedding|30000|3
+honeymoon|6000|2
+birthday party|500|2
+christmas gifts|christmas|800|3
+gift|present|100|2
+emergency fund|5000|5
+savings|2000|5
+credit card|pay off credit card|3000|5
+debt|pay off debt|5000|5
+student loan|student loans|5000|4
+investing|investments|stocks|1000|4
+retirement|ira|roth ira|7000|4
+course|class|500|3
+college|tuition|10000|4
+certification|license|500|4
+books|50|2
+textbook|textbooks|150|4
+business|start a business|5000|3
+website|500|2
+crib|300|4
+stroller|400|4
+car seat|250|5
+baby|1000|4
+dog|puppy|1500|2
+cat|kitten|300|2
+vet|vet bill|500|5
+guitar|400|1
+piano|1000|1
+drums|drum set|800|1
+golf clubs|800|1
+fishing|fishing gear|200|1
+tent|camping gear|250|1
+kayak|600|1
+skis|snowboard|600|1
+sewing machine|250|2
+3d printer|400|1
+telescope|400|1
+art supplies|100|2
+lego|legos|150|1`.trim().split('\n').map(l=>{const p=l.split('|'),imp=+p.pop(),cost=+p.pop();
+  return{re:new RegExp('\\b(?:'+p.map(k=>k.replace(/[.*+?^${}()[\]\\]/g,'\\$&')).join('|')+')\\b','i'),cost,imp}});
+const CASE={iphone:'iPhone',ipad:'iPad',macbook:'MacBook',airpods:'AirPods',ps5:'PS5',tv:'TV',xbox:'Xbox',oled:'OLED',
+  gopro:'GoPro',pc:'PC',ssd:'SSD',suv:'SUV',rv:'RV',hvac:'HVAC',ira:'IRA',vr:'VR',bbq:'BBQ',ac:'AC',lasik:'LASIK','e-bike':'E-bike'};
+const title=t=>t.trim().replace(/\s+/g,' ').replace(/(^|\s)\S/g,c=>c.toUpperCase())
+  .replace(/[\w-]+/g,w=>CASE[w.toLowerCase()]||w).slice(0,60);
+function lookup(t){let best=null,len=0;
+  for(const e of DB){const m=t.match(e.re);if(m&&m[0].length>len){best={...e,hit:m[0]};len=m[0].length}}return best}
+const nice=c=>{const r=c<100?5:c<1000?10:c<10000?50:500;return Math.round(c/r)*r};
+// "Tesla", "new laptop for 800 dollars", "AirPods and a PS5" -> [{name,cost,imp,said}]
+function guess(text){
+  let t=' '+text.trim()+' ', said=0;
+  const pm=t.match(/(?:\s(?:for|about|around|like|under))?\s\$\s?(\d[\d,]*(?:\.\d+)?)\s*(k|grand|thousand)?\b|(?:\s(?:for|about|around|like|under))?\s(\d[\d,]*(?:\.\d+)?)\s*(k|grand|thousand)?\s*(?:dollars|bucks)\b|(?:\s(?:for|about|around|like|under))?\s(\d[\d,]*(?:\.\d+)?)\s*(k|grand|thousand)\b/i);
+  if(pm){const n=parseFloat((pm[1]||pm[3]||pm[5]).replace(/,/g,'')),k=pm[2]||pm[4]||pm[6];
+    said=k?n*1000:n; t=t.replace(pm[0],' ')}
+  t=t.trim().replace(/[.!?]+$/,'');
+  const filler=/^(?:i\s+(?:want|need|would\s+like)(?:\s+to\s+(?:buy|get|save\s+for))?|i'?d\s+like(?:\s+to\s+(?:buy|get))?|add|buy|get|for|save\s+(?:up\s+)?for|a|an|some|the)\s+/i;
+  let prev; do{prev=t;t=t.replace(filler,'')}while(t!==prev);
+  let parts=t.split(/\s*(?:,|\band\s+(?:a|an|some)?\b|\bplus\b|\balso\b)\s*/i).map(s=>s.replace(filler,'').trim()).filter(Boolean);
+  if(said||parts.length<2||!parts.every(lookup))parts=[t];
+  return parts.map(p=>{const e=lookup(p);let cost=e?e.cost:0;
+    const q=e?p.replace(e.hit,' '):p;
+    if(/\b(used|secondhand|second hand|refurbished|cheap|budget|basic)\b/i.test(q))cost*=.6;
+    if(/\b(luxury|high[- ]end|premium|designer|top of the line|brand new)\b/i.test(q))cost*=1.6;
+    return{name:title(p),cost:said||nice(cost),imp:e?e.imp:3,said:!!said}});
+}
+function addGoal(text,cost){
+  text=text.trim(); if(!text)return;
+  const items=guess(text), miss=[];
+  for(const it of items){
+    const c=cost>0&&items.length===1?cost:it.cost;
+    const g={id:uid(),name:it.name,cost:c,imp:it.imp,est:!(cost>0)&&!it.said&&c>0,fresh:true,note:''};
+    if(!(c>0))miss.push(g.name);
+    place(g);
+  }
+  S.tab='goals'; save(); render();
+  if(miss.length)toast(`No price guess for ${miss.join(', ')}. Tap it to set one.`);
+}
+
+/* ===== Dictation: browser speech recognition → keyboard dictation ===== */
+let sr=null,srBlocked=false,listening=false,buf='',partial='',onHeard=null;
+function live(){const el=$('live');if(!listening){el.hidden=true;return}
+  el.hidden=false;el.innerHTML='Listening… <b>'+esc((buf+' '+partial).trim())+'</b>'}
+function micUI(){document.querySelectorAll('#mic,[data-mic]').forEach(b=>b.classList.toggle('on',listening));live()}
+function finish(){const t=(buf+' '+partial).trim();listening=false;buf='';partial='';micUI();
+  const cb=onHeard;onHeard=null;if(t&&cb)cb(t)}
+function listen(cb,fallback){
+  if(listening){if(sr)sr.stop();return}
+  onHeard=cb;buf='';partial='';
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(SR&&!srBlocked){try{
+    sr=new SR();sr.lang=navigator.language||'en-US';sr.interimResults=true;let failed=false;
+    sr.onresult=e=>{let f='',p='';for(const r of e.results)(r.isFinal?(f+=r[0].transcript):(p+=r[0].transcript));buf=f.trim();partial=p;live()};
+    sr.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed'||e.error==='audio-capture'){failed=true;srBlocked=true}};
+    sr.onend=()=>{sr=null;if(failed){listening=false;onHeard=null;micUI();fallback()}else finish()};
+    sr.start();listening=true;micUI();return}catch(e){srBlocked=true}}
+  fallback();
+}
+
+/* ===== Taps ===== */
+let undo=null,tTimer;
+function toast(msg,fn){$('t-msg').textContent=msg;undo=fn;$('toast').classList.add('show');
+  clearTimeout(tTimer);tTimer=setTimeout(()=>$('toast').classList.remove('show'),5000)}
+$('t-undo').onclick=()=>{if(undo)undo();undo=null;$('toast').classList.remove('show')};
+function removeGoal(g,msg){const i=S.goals.indexOf(g);if(i<0)return;S.goals.splice(i,1);save();render();
+  toast(msg,()=>{S.goals.splice(i,0,g);save();render()})}
+
 document.addEventListener('click',e=>{
+  const t=e.target.closest('#tabs [data-t]');
+  if(t){S.tab=t.dataset.t;save();render();return}
+  const mvU=e.target.closest('[data-up]'),mvD=e.target.closest('[data-down]');
+  if(mvU||mvD){const id=(mvU||mvD).dataset[mvU?'up':'down'],i=S.goals.findIndex(g=>g.id===id),j=i+(mvU?-1:1);
+    if(i>-1&&j>=0&&j<S.goals.length){[S.goals[i],S.goals[j]]=[S.goals[j],S.goals[i]];S.goals[i].fresh=S.goals[j].fresh=false;save();render()}return}
+  const got=e.target.closest('[data-got]');
+  if(got){const g=S.goals.find(x=>x.id===got.dataset.got);if(g)removeGoal(g,`Nice! ${g.name} acquired.`);return}
+  const ge=e.target.closest('[data-gedit]');
+  if(ge&&!$('ov').contains(ge)){const g=S.goals.find(x=>x.id===ge.dataset.gedit);if(g)openGoal(g);return}
   const ed=e.target.closest('[data-edit]');
   if(ed){e.stopPropagation();openEditor(S.expenses.find(x=>x.id===ed.dataset.edit));return}
   const card=e.target.closest('.card');
@@ -129,6 +523,63 @@ document.addEventListener('click',e=>{
   const f=e.target.closest('#gfreq [data-f]');
   if(f){S.freq=f.dataset.f;save();render()}
 });
+$('resort').onclick=()=>{const old=S.goals.slice();S.goals.sort((a,b)=>score(b)-score(a));save();render();
+  toast('Re-ranked automatically.',()=>{S.goals=old;save();render()})};
+$('mic').onclick=()=>listen(t=>addGoal(t),()=>openAddGoal(true));
+$('gadd').onclick=()=>openAddGoal(false);
+$('gtot').onclick=()=>{
+  $('sheet').innerHTML=`<h3>Weekly savings for goals</h3>
+    <p class="hint">How much you put toward this list each week, after your break-even. Used to show when you’ll reach each goal.</p>
+    <div><label>Per week</label><input id="r-amt" inputmode="decimal" placeholder="0.00"></div>
+    <div class="btns"><button id="r-cancel">Cancel</button><button class="pri" id="r-save">Save</button></div>`;
+  $('r-amt').value=S.rate>0?S.rate:'';
+  $('r-cancel').onclick=close;
+  $('r-save').onclick=()=>{const v=parseFloat($('r-amt').value.replace(/[,$]/g,''));S.rate=v>0?v:0;save();render();close()};
+  $('ov').classList.add('show');$('r-amt').focus();
+};
+
+function openAddGoal(viaMic){
+  $('sheet').innerHTML=`<h3>New goal</h3>
+    ${viaMic?'<p class="hint">Tap the mic on your keyboard to dictate.</p>':''}
+    <div><label>What do you want?</label><div class="inl"><textarea id="n-name" rows="1" placeholder="e.g. Tesla"></textarea>
+      <button data-mic id="n-mic" aria-label="Dictate"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button></div></div>
+    <div><label>Cost (leave blank to estimate)</label><input id="n-cost" inputmode="decimal" placeholder="Auto"></div>
+    <div class="btns"><button id="n-cancel">Cancel</button><button class="pri" id="n-save" disabled>Add</button></div>`;
+  const ok=()=>{$('n-save').disabled=!$('n-name').value.trim()};
+  $('n-name').oninput=ok;
+  $('n-mic').onclick=()=>listen(t=>{$('n-name').value=($('n-name').value+' '+t).trim();ok()},()=>$('n-name').focus());
+  $('n-cancel').onclick=close;
+  $('n-save').onclick=()=>{addGoal($('n-name').value,parseFloat($('n-cost').value.replace(/[,$]/g,'')));close()};
+  $('ov').classList.add('show');$('n-name').focus();
+}
+
+function openGoal(g){
+  const d={imp:g.imp};
+  $('sheet').innerHTML=`<h3>Edit goal</h3>
+    <div><label>Name</label><textarea id="q-name" rows="1"></textarea></div>
+    <div><label>Cost</label><div class="inl"><input id="q-cost" inputmode="decimal" placeholder="0"><button id="q-est">Estimate</button></div>
+      ${g.note?`<p class="hint" style="margin-top:4px">${esc(g.note)}</p>`:''}</div>
+    <div><label>Importance</label><div class="seg imp" id="q-imp"></div></div>
+    <p class="hint">Changing cost or importance re-ranks this goal automatically.</p>
+    <div class="btns"><button class="del" id="q-del">Delete</button><button id="q-cancel">Cancel</button><button class="pri" id="q-save">Save</button></div>`;
+  $('q-name').value=g.name; $('q-cost').value=g.cost>0?g.cost:'';
+  const seg=()=>$('q-imp').innerHTML=[1,2,3,4,5].map(i=>`<button data-k="${i}" class="${d.imp===i?'on':''}">${IMP[i]}</button>`).join('');
+  seg(); $('q-imp').onclick=e=>{const k=+e.target.dataset.k;if(k){d.imp=k;seg()}};
+  $('q-est').onclick=()=>{const r=guess($('q-name').value)[0];
+    if(r&&r.cost>0){$('q-cost').value=r.cost;d.est=true}else{$('q-est').textContent='No match';setTimeout(()=>$('q-est').textContent='Estimate',1500)}};
+  $('q-cancel').onclick=close;
+  $('q-del').onclick=()=>{close();removeGoal(g,`Deleted ${g.name}.`)};
+  $('q-save').onclick=()=>{
+    const name=$('q-name').value.trim()||g.name, cost=parseFloat($('q-cost').value.replace(/[,$]/g,''))||0;
+    const changed=cost!==g.cost||d.imp!==g.imp;
+    if(cost!==g.cost)g.est=!!d.est;
+    Object.assign(g,{name,cost,imp:d.imp});
+    if(changed)place(g); save();render();close();
+  };
+  $('ov').classList.add('show');
+}
+
+/* ===== Break-even (unchanged) ===== */
 $('add').onclick=()=>{
   $('sheet').innerHTML=`<h3>Add to…</h3>
     <div class="btns"><button class="big" data-c="needs" style="color:var(--needs)">NEEDS</button>
@@ -139,7 +590,7 @@ $('add').onclick=()=>{
     openEditor({id:null,name:'',amount:0,freq:S.freq,cat:b.dataset.c}));
   $('cx').onclick=close;
 };
-function close(){$('ov').classList.remove('show')}
+function close(){$('ov').classList.remove('show');if(listening&&sr)sr.stop()}
 $('ov').addEventListener('click',e=>{if(e.target===$('ov'))close()});
 
 function openEditor(x){
@@ -168,7 +619,7 @@ function openEditor(x){
   if(!isNew)$('e-del').onclick=()=>{S.expenses=S.expenses.filter(y=>y.id!==d.id);save();render();close()};
   $('e-save').onclick=()=>{
     d.name=$('e-name').value.trim();d.amount=amt();
-    if(isNew){d.id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);S.expenses.push(d)}
+    if(isNew){d.id=uid();S.expenses.push(d)}
     else{const i=S.expenses.findIndex(y=>y.id===d.id);if(i>-1)S.expenses[i]=d}
     save();render();close();
   };
