@@ -140,6 +140,18 @@ input,textarea,select{font:inherit;color:inherit;margin:0}
 .recbar .rv{font-size:15px} .recbar .rv b{font-size:18px} .recbar .rv em{font-style:normal;color:var(--muted);font-size:13px}
 .recbar .grow{flex:1}
 .sect{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:20px 4px 8px}
+.cprow{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:12px;align-items:center;width:100%;padding:6px 12px;min-height:64px;border-bottom:1px solid var(--line);text-align:left}
+.cprow.off{opacity:.4}
+.cprow .fbox{height:52px}
+.cprow .cpn{font-size:17px;font-weight:800;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cprow .cps{font-size:13px;font-weight:600;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cprow .cps b{color:var(--accent)}
+.cprow .cpw{text-align:right}
+.cprow .cpw b{display:block;font-size:19px;font-weight:800;font-variant-numeric:tabular-nums}
+.cprow .cpw small{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.cpsec{padding:16px 16px 6px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.bcard{-webkit-touch-callout:none;touch-action:pan-y}
+.bcard.drag{position:relative;z-index:5;box-shadow:0 12px 30px rgba(0,0,0,.5);outline:2px solid var(--accent);transition:none}
 .bcard{width:100%;display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:var(--r);padding:0 14px 0 0;margin-bottom:8px;min-height:68px;text-align:left;overflow:hidden}
 .bcard .sw{align-self:stretch;width:10px;flex:none}
 .bcard .bt{flex:1;min-width:0}
@@ -325,7 +337,7 @@ body.kb .tabs{display:none}
 
   <!-- ═════ Builds (per civ) ═════ -->
   <section class="view" id="vBuilds" hidden>
-    <header class="top"><div class="title">Build orders</div></header>
+    <header class="top"><button class="icon" id="bBack" aria-label="All civilizations" hidden>‹</button><div class="title" id="bTitle">Build orders</div></header>
     <main class="scroll" id="bList"></main>
   </section>
 
@@ -360,7 +372,7 @@ body.kb .tabs{display:none}
  * ══════════════════════════════════════════════════════════════════════ */
 
 /* ───────── 1. Config ───────── */
-const VERSION = 17;
+const VERSION = 18;
 const API = 'https://aoe4world.com/api/v0';
 const MODES = {
   '1v1':  { stats: 'rm_solo', games: 'rm_solo', label: '1v1 Ranked', short: '1v1' },
@@ -578,6 +590,7 @@ async function refresh(force = false) {
     if (force) lastRefresh = Date.now();
   } finally {
     refreshing = false; renderStats();
+    if (route.name === 'builds' && !CIVS[route.civ]) renderCivPicker();
     if (queued) { const nx = queued; queued = null; refresh(nx.force); }
   }
 }
@@ -646,18 +659,18 @@ function go(hash) { if (location.hash !== hash) location.hash = hash; else onRou
 function onRoute() {
   const prev = route; route = parseHash(); closeSheet();
   if (route.name === 'builds' && CIVS[route.civ]) setCiv(route.civ);
-  if (route.name === 'player') { const b = buildById(route.id); if (!b) return go('#/builds/' + bCiv); setCiv(b.civ); }
+  if (route.name === 'player') { const b = buildById(route.id); if (!b) return go('#/builds/' + bCiv); setCiv(b.civ); if (!route.edit) store.set('lastCiv', b.civ); }
   $('#vStats').hidden = route.name !== 'stats'; $('#vBuilds').hidden = route.name !== 'builds'; $('#vPlayer').hidden = route.name !== 'player';
   $$('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === (route.name === 'stats' ? 'stats' : 'builds')));
   const editing = route.name === 'player' && route.edit; if (!editing) sbOpen = false;
   $('#styleBar').hidden = !(editing && sbOpen); $('#sbToggle').hidden = !editing; syncToggle();
   if (route.name === 'stats') { renderStats(); if (prev.name !== 'stats' || !hintShown) { hintShown = true; setTimeout(showHoldHint, 1200); } }
-  else if (route.name === 'builds') renderBuildList();
+  else if (route.name === 'builds') CIVS[route.civ] ? renderBuildList() : renderCivPicker();
   else renderPlayer({ first: !(prev.name === 'player' && prev.id === route.id && !prev.edit && !route.edit) });
   measureUI();
 }
 window.addEventListener('hashchange', onRoute);
-$('#tabs').onclick = e => { const t = e.target.closest('[data-tab]'); if (t) go(t.dataset.tab === 'stats' ? '#/' : '#/builds/' + bCiv); };
+$('#tabs').onclick = e => { const t = e.target.closest('[data-tab]'); if (t) go(t.dataset.tab === 'stats' ? '#/' : '#/builds'); };
 
 /* ───────── 6. Stats screen ───────── */
 const fmtG = n => n == null ? '—' : n >= 10000 ? Math.round(n / 1000) + 'k' : n >= 1000 ? (n / 1000).toFixed(1) + 'k' : String(n);
@@ -883,24 +896,83 @@ function recLine(civ) {
   return Object.entries(MODES).map(([m, M]) => { const r = recOf(civ, m);
     return `<span class="rv">${M.short} <b class="num">${r.w}–${r.l}</b> <em>${r.n ? Math.round(r.wr) + '%' : 'no games'}</em></span>`; }).join('');
 }
+// ── civ picker (Builds tab): last played · your build civs by your win rate · others by global win rate · hidden
+function renderCivPicker() {
+  $('#bBack').hidden = true; $('#bTitle').textContent = 'Build orders';
+  const T = aggregate(civUrl), Y = records(S.mode), nb = {}; builds.forEach(b => nb[b.civ] = (nb[b.civ] || 0) + 1);
+  const gwr = c => T?.civs.get(c)?.wr ?? null, last = store.get('lastCiv', null);
+  const desc = f => (a, b) => { const x = f(a), y = f(b); return x == null || y == null ? (x == null) - (y == null) : y - x; };
+  const top = CIVS[last] && !hidden.has(last) ? [last] : [];
+  const rest = civSlugs.filter(c => !top.includes(c) && !hidden.has(c));
+  const withB = rest.filter(c => nb[c]).sort((a, b) => desc(c => Y.get(c)?.wr ?? null)(a, b) || (Y.get(b)?.n || 0) - (Y.get(a)?.n || 0) || desc(gwr)(a, b));
+  const noB = rest.filter(c => !nb[c]).sort((a, b) => desc(gwr)(a, b) || civName(a).localeCompare(civName(b)));
+  const hid = civSlugs.filter(c => hidden.has(c));
+  const row = c => { const r = Y.get(c), g = gwr(c);
+    return `<button class="cprow${hidden.has(c) ? ' off' : ''}" data-civ="${c}"><div class="fbox">${flagHtml(c)}${r?.n ? `<span class="frec">${r.w}–${r.l}</span>` : ''}${nb[c] ? `<span class="fbc">⚒${nb[c]}</span>` : ''}</div>` +
+      `<div style="min-width:0"><div class="cpn">${esc(civName(c))}</div><div class="cps">${nb[c] ? `<b>${nb[c]} build${nb[c] > 1 ? 's' : ''}</b> · ` : ''}${r?.n ? `You ${Math.round(r.wr)}% (${r.w}–${r.l})` : 'No games yet'}</div></div>` +
+      `<div class="cpw">${g == null ? '<b style="color:var(--muted)">—</b>' : `<b style="color:${wrColor(g, 45, 55)}">${g.toFixed(1)}%</b>`}<small>global</small></div></button>`; };
+  const sec = (t, list) => list.length ? `<div class="cpsec">${t}</div>${list.map(row).join('')}` : '';
+  $('#bList').innerHTML = sec('Last played', top) + sec(`Your builds · by your ${MODES[S.mode].short} win rate`, withB) + sec('Other civs · by global win rate', noB) + sec('Hidden', hid) + '<div style="height:16px"></div>';
+}
+$('#bBack').onclick = () => go('#/builds');
 function renderBuildList() {
+  $('#bBack').hidden = false; $('#bTitle').textContent = civName(bCiv);
   const mine = builds.filter(b => b.civ === bCiv);
   $('#bList').innerHTML = `<div class="pad">
     <button class="civhead" data-act="civ">${flagHtml(bCiv)}<div class="grow"><div class="cn">${esc(civName(bCiv))}</div><div class="sub">Tap to switch civilization</div></div><span class="chev">▾</span></button>
     <button class="recbar" data-act="rec"><small>Your record</small>${recLine(bCiv)}<span class="grow"></span><span class="chev">›</span></button>
-    <div class="sect">Builds${mine.length ? ` · ${mine.length}/${MAX_BUILDS}` : ''}</div>
-    ${mine.length ? mine.map(b => `<button class="bcard" data-open="${esc(b.id)}"><span class="sw" style="background:${b.color}"></span><span class="bt"><div class="bn">${esc(b.name || 'Untitled')}</div><div class="bs">${stepCount(b)} step${stepCount(b) === 1 ? '' : 's'}${b.steps.some(s => s.opts) ? ' · has choices' : ''}</div></span><span class="chev">›</span></button>`).join('')
-      : `<div class="empty"><b>No builds for ${esc(civName(bCiv))} yet</b>Make one and play it step by step in game.</div>`}
+    <div class="sect">Builds${mine.length ? ` · ${mine.length}/${MAX_BUILDS}` : ''}${mine.length > 1 ? ' · press & hold to reorder' : ''}</div>
+    <div id="bCards">${mine.length ? mine.map(b => `<button class="bcard" data-open="${esc(b.id)}"><span class="sw" style="background:${b.color}"></span><span class="bt"><div class="bn">${esc(b.name || 'Untitled')}</div><div class="bs">${stepCount(b)} step${stepCount(b) === 1 ? '' : 's'}${b.steps.some(s => s.opts) ? ' · has choices' : ''}</div></span><span class="chev">›</span></button>`).join('')
+      : `<div class="empty"><b>No builds for ${esc(civName(bCiv))} yet</b>Make one and play it step by step in game.</div>`}</div>
     ${mine.length < MAX_BUILDS ? `<div style="margin-top:8px"><button class="add" data-act="new">+ New build</button></div>` : ''}
   </div>`;
 }
 $('#bList').onclick = e => {
+  if (dragDone) { dragDone = false; return; }
+  const pc = e.target.closest('.cprow'); if (pc) return go('#/builds/' + pc.dataset.civ);
   const o = e.target.closest('[data-open]'); if (o) return go('#/build/' + encodeURIComponent(o.dataset.open));
   const act = e.target.closest('[data-act]')?.dataset.act;
   if (act === 'civ') openCivSheet('Choose civilization', bCiv, s => go('#/builds/' + s));
   else if (act === 'rec') openRecordSheet(bCiv);
   else if (act === 'new') newBuild(bCiv);
 };
+let drag = null, dragDone = false; // press & hold a build card, then drag it up or down
+{
+  const list = $('#bList');
+  const stop = commit => {
+    if (!drag) return; clearTimeout(drag.t);
+    if (drag.on) {
+      drag.card.classList.remove('drag'); drag.card.style.transform = ''; dragDone = true;
+      if (commit) { // write the new order back, keeping other civs' builds where they were
+        const ids = $$('#bCards .bcard').map(c => c.dataset.open), slots = [];
+        builds.forEach((b, i) => { if (b.civ === bCiv) slots.push(i); });
+        const mine = ids.map(id => buildById(id)); const next = builds.slice(); slots.forEach((at, k) => next[at] = mine[k]); builds = next; saveBuilds();
+      }
+      setTimeout(() => { dragDone = false; }, 400);
+    }
+    drag = null;
+  };
+  list.addEventListener('pointerdown', e => {
+    const card = e.target.closest('.bcard'); if (!card || e.button > 0 || $$('#bCards .bcard').length < 2) return;
+    drag = { card, y0: e.clientY, x0: e.clientX, on: false, id: e.pointerId };
+    drag.t = setTimeout(() => { if (!drag) return; drag.on = true; card.classList.add('drag'); navigator.vibrate?.(15); try { card.setPointerCapture(drag.id); } catch {} }, 450);
+  });
+  list.addEventListener('pointermove', e => {
+    if (!drag) return;
+    if (!drag.on) { if (Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 10) { clearTimeout(drag.t); drag = null; } return; }
+    const card = drag.card; card.style.transform = `translateY(${e.clientY - drag.y0}px)`;
+    const cards = $$('#bCards .bcard'), i = cards.indexOf(card), r = card.getBoundingClientRect(), mid = (r.top + r.bottom) / 2;
+    const nx = cards[i + 1], pv = cards[i - 1], before = card.offsetTop;
+    if (nx && mid > nx.getBoundingClientRect().top + nx.offsetHeight / 2) nx.after(card);
+    else if (pv && mid < pv.getBoundingClientRect().top + pv.offsetHeight / 2) pv.before(card);
+    else return;
+    drag.y0 += card.offsetTop - before; card.style.transform = `translateY(${e.clientY - drag.y0}px)`;
+  });
+  list.addEventListener('touchmove', e => { if (drag?.on) e.preventDefault(); }, { passive: false }); // no scrolling while dragging
+  list.addEventListener('pointerup', () => stop(true));
+  list.addEventListener('pointercancel', () => stop(true));
+  list.addEventListener('contextmenu', e => { if (e.target.closest('.bcard')) e.preventDefault(); });
+}
 function newBuild(civ) {
   const n = builds.filter(x => x.civ === civ).length; if (n >= MAX_BUILDS) return toast(`Max ${MAX_BUILDS} builds per civ`);
   const b = normBuild({ civ, name: 'New build', color: BANNER_CYCLE[n % BANNER_CYCLE.length], steps: [blankStep()] });
@@ -979,7 +1051,7 @@ function resetRun(b) { delete pos[b.id]; Object.keys(chosen).forEach(k => { if (
 function countResult(b, r) {
   const before = { pos: pos[b.id], chosen: Object.fromEntries(Object.entries(chosen).filter(([k]) => k.startsWith(b.id + ':'))) };
   let entry = null;
-  if (r !== 'x') { entry = { c: b.civ, m: S.mode, r, t: Date.now(), b: b.id }; games.push(entry); saveGames(); }
+  if (r !== 'x') { entry = { c: b.civ, m: S.mode, r, t: Date.now(), b: b.id }; games.push(entry); saveGames(); store.set('lastCiv', b.civ); }
   resetRun(b); renderPlayer({ first: true });
   const msg = r === 'x' ? 'Not counted · build reset' : `${r === 'w' ? 'Win' : 'Loss'} counted · ${civName(b.civ)} ${MODES[entry.m].short}`;
   toast(msg, 'Undo', () => {
