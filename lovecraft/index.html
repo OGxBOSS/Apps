@@ -870,7 +870,7 @@ body.x2 .shx{background:none;box-shadow:inset 0 0 0 1.5px var(--line)}
 .dwnbw{gap:4px}.dwnbw .dwnb{margin-left:0}.dwrecb{gap:2px;padding:0 5px 0 4px}.dwrecb svg{width:10px;height:10px;fill:currentColor;flex:none}.dwrecb b{font-weight:800}.dwrecb.off{background:#4b5563;color:#e5e7eb}
 .dwtk.go{cursor:pointer;padding-right:30px;position:relative}.dwtk.go::after{content:'';position:absolute;right:12px;top:50%;width:8px;height:8px;border-top:2.5px solid currentColor;border-right:2.5px solid currentColor;transform:translateY(-50%) rotate(45deg);opacity:.7}.dwtk.go:active{filter:brightness(1.3)}
 .dwrow.dwtm{box-shadow:inset 5px 0 0 var(--tc),inset 0 0 0 1.5px var(--line);padding-left:14px;gap:10px}.dwrow.dwtm>div{flex:1;min-width:0}.dwtmd{flex:none;width:14px;height:14px;border-radius:50%;background:var(--tc);box-shadow:0 0 0 2px #000,0 0 0 3.5px rgba(255,255,255,.35)}.dwtmh b{color:var(--tc)}
-/* ===== Iron Fallout ===== */
+/* ===== Iron Fall ===== */
 .ifw{position:fixed;inset:0;z-index:60;background:#0e100d;display:flex;flex-direction:column;color:#d9d4bd;font-family:system-ui,-apple-system,sans-serif;-webkit-user-select:none;user-select:none}
 .ifw[hidden]{display:none}
 body.ifon{overflow:hidden}
@@ -881,7 +881,7 @@ body.ifon{overflow:hidden}
 .ifspd{width:44px;height:40px;border-radius:10px;border:1px solid #3a3f30;background:#1b1e17;color:#d9d4bd;font-weight:900}
 .ifstage{position:relative;flex:1;min-height:0;overflow:hidden}
 .ifcv{position:absolute;inset:0;width:100%;height:100%;touch-action:none;display:block}
-.ifcatch{position:absolute;left:50%;top:12px;transform:translateX(-50%);padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.75);font-size:13px;font-weight:700;color:#f2c230}
+.ifcatch{position:absolute;left:50%;top:48px;transform:translateX(-50%);padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.75);font-size:13px;font-weight:700;color:#f2c230}
 .ifcatch[hidden]{display:none}
 .ifbot{padding:6px 10px calc(8px + env(safe-area-inset-bottom,0px));background:linear-gradient(#121410,#0d0f0b);border-top:1px solid #2a2e24;display:grid;gap:6px}
 .iftk{display:block;width:100%;text-align:left;min-height:34px;padding:7px 30px 7px 12px;border-radius:10px;border:1px solid #2f3527;background:#171a13;color:#e8e2c8;font-size:13.5px;font-weight:700;line-height:1.25;position:relative}
@@ -940,6 +940,43 @@ body.ifon{overflow:hidden}
 .ifwg b{font-size:15px}.ifwg small{color:var(--mut,#999)}
 .ifwgb{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
 .ifttl{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}@media(max-width:420px){.ifttl{font-size:15px;letter-spacing:.04em}}
+
+/* a quick green flash: you can draw now */
+.ifflash{position:absolute;inset:0;pointer-events:none;opacity:0;background:rgba(57,255,20,.12);box-shadow:inset 0 0 0 3px #39ff14,inset 0 0 50px rgba(57,255,20,.45);z-index:3}
+.ifflash.go{animation:iffl .26s ease-out}
+@keyframes iffl{0%{opacity:1}100%{opacity:0}}
+/* everyone in the war, floating at the top */
+.ifpls{position:absolute;top:8px;left:8px;right:8px;display:flex;flex-wrap:wrap;gap:6px;pointer-events:none;z-index:2}
+.ifpc{pointer-events:auto;display:flex;align-items:center;gap:6px;height:30px;padding:0 10px 0 8px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(10,12,9,.72);color:#e8e2c8;font-size:13px;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.ifpc i{width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 0 2px rgba(0,0,0,.5)}
+.ifpc b{font-weight:800;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ifpc.me{border-color:var(--c);box-shadow:0 0 0 1px var(--c)}
+.ifpc.out{opacity:.55}.ifpc.out b{text-decoration:line-through}.ifpc small{color:#ff8a7a;font-weight:900}
+.dwstep canvas.ifill{flex:none;width:84px;height:84px;border-radius:14px;box-shadow:0 0 0 1.5px var(--line,#2a2e24);background:#5f5b3a}
+
+/* gear */
+.ifgearb{position:absolute;right:10px;bottom:10px;z-index:4;width:48px;height:48px;border-radius:14px;border:1px solid #4f6236;background:rgba(20,26,16,.88);font-size:24px;display:grid;place-items:center;padding:0;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+.ifgearb i{position:absolute;top:-6px;right:-6px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:#ff3b30;color:#fff;font:900 11px/20px system-ui;font-style:normal;text-align:center}
+.ifgearb i[hidden]{display:none}
+.ifgear{position:absolute;inset:0;z-index:5;display:grid;grid-template-columns:minmax(0,30%) 1fr minmax(0,33%);pointer-events:none}
+.ifgl,.ifgr{pointer-events:auto;overflow-y:auto;-webkit-overflow-scrolling:touch;background:rgba(12,14,10,.9);padding:8px;display:flex;flex-direction:column;gap:6px;border-right:1px solid #2a2e24}
+.ifgr{border-right:0;border-left:1px solid #2a2e24}
+.ifgm{position:relative}
+.ifgh{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9ea58a;padding:2px 2px 4px}
+.ifge{margin:0;color:#9ea58a;font-size:12.5px;line-height:1.35}
+.ifgi{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:6px;padding:8px;border-radius:10px;border:1px solid #3a4030;background:#1b2216;color:#e8e2c8;text-align:left;touch-action:none}
+.ifgi span{font-size:18px}.ifgi small{font-size:12px;font-weight:700;line-height:1.2}.ifgi em{font-style:normal;font-weight:900;color:#b8d48a}
+.ifgi.on{border-color:#39ff14;box-shadow:0 0 0 1px #39ff14}
+.ifgu{display:grid;gap:2px;padding:7px 8px;border-radius:10px;border:1px solid #3d5a2a;background:#172014;color:#e6e0c6;text-align:left}
+.ifgu.m{border-color:#7a6a2c;background:#201d12}
+.ifgu b{font-size:12.5px}.ifgu small{font-size:10.5px;color:#9ea58a}.ifgu em{font-style:normal;font-size:12px}
+.ifgu.tgt{border-color:#39ff14}.ifgu.hov{background:#2c4a1c;border-color:#39ff14}
+.ifarm{padding:6px 8px;border-radius:8px;background:rgba(0,0,0,.5);color:#b8c4a0;font-weight:700;font-size:11.5px;line-height:1.25;text-align:center}
+.ifarm.on{color:#39ff14;background:rgba(0,0,0,.85);box-shadow:0 0 0 1px #39ff14;animation:ifpulse 1s ease-in-out infinite}
+@keyframes ifpulse{50%{opacity:.45}}
+.ifgx{pointer-events:auto;position:absolute;left:50%;transform:translateX(-50%);bottom:10px;width:48px;height:48px;border-radius:14px;border:1px solid #3a3f30;background:#1b1e17;color:#d9d4bd;font-size:20px;padding:0}
+.ifghost{position:fixed;z-index:999999;transform:translate(-50%,-60%);font-size:30px;pointer-events:none;filter:drop-shadow(0 4px 8px rgba(0,0,0,.6))}
+.ifstage:has(.ifgear) .ifgearb{display:none}
 /* ===== Lovecraft: the launcher ===== */
 .lcw{--ink:#0b1112;--ink2:#132022;--edge:#25393b;--bone:#e9e4d6;--dim:#8ea3a0;--soon:#e5202e;--tea:#5fb3a4;
  position:fixed;inset:0;z-index:99980;background:radial-gradient(120% 70% at 50% -10%,#173033 0%,var(--ink) 55%,#060909 100%);color:var(--bone);display:flex;flex-direction:column;overflow:hidden;
@@ -1036,14 +1073,7 @@ body.lcon .lcfab,body.dwon .lcfab,body.ifon .lcfab{display:none}
 .lchero{width:min(62vw,240px);height:auto;justify-self:center;margin-bottom:4px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.7))}
 .lcwel{background:linear-gradient(rgba(11,17,18,0),rgba(11,17,18,.94) 14%,#0b1112)}
 /* Street Sheet: Games button, top right on every main screen */
-#lcgBtn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);right:8px;width:50px;height:52px;z-index:6;border:0;border-radius:11px;background:transparent;padding:0;display:grid;place-items:center}
-#lcgBtn:active{background:var(--raise)}
-#lcgBtn img{width:40px;height:auto;filter:brightness(1.35) drop-shadow(0 1px 2px rgba(0,0,0,.5))}
-#lcgBtn i{position:absolute;top:7px;right:5px;width:11px;height:11px;border-radius:50%;background:#ff3b30;box-shadow:0 0 0 2px var(--bg,#000)}
-#lcgBtn i.up{background:#ffd21f}
-#lcgBtn i[hidden]{display:none}
-body.lcg #kpi{margin-right:46px}
-body.lcon #lcgBtn,body.dwon #lcgBtn,body.ifon #lcgBtn{display:none}
+
 /* Street Sheet race wagers */
 .bb.chl .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:6px}
 .bb.chl .wgl{font-weight:800;color:#ffd166}
@@ -1058,14 +1088,17 @@ body.lcsa .dwss{display:none!important}
 </head>
 <body>
 <div id="main" hidden></div>
-<div id="ver">v0.1.5</div>
+<div id="ver">v0.1.9</div>
 <div id="ov" hidden></div>
 <div id="toast" hidden></div>
 <script>
-const LCVER="0.1.5";
+const LCVER="0.1.9";
 // ===== Lovecraft standalone: the bits of Street Sheet the games lean on =====
 // Inside Street Sheet these come from the app itself. Here they are small stand-ins: no street sheet, no team chat.
 window.LC_SA=1;
+// Inside Street Sheet's Games panel: SSH is Street Sheet's side of the bridge (same site, so the two pages can talk directly)
+let SSH=null;try{if(window.parent!==window&&window.parent.SSH)SSH=window.parent.SSH}catch(e){SSH=null}
+window.LC_EMB=!!SSH;
 const RELAY="https://street-sheet-default-rtdb.firebaseio.com",TEAMCODE="TWONADT";
 const $=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9);
 let S={team:{},prof:{},sessions:[]},qt=0,tt=0;
@@ -1073,16 +1106,18 @@ try{const o=JSON.parse(localStorage.getItem('lovecraft.host')||'{}');if(o&&typeo
 function save(){try{const{team,sessions,...o}=S;localStorage.setItem('lovecraft.host',JSON.stringify(o))}catch(e){}}
 function render(){}
 // who is playing comes from the Lovecraft profile
-function T(){try{if(window.LC){const m=LC.me();S.team.id=m.id;S.team.name=m.name;S.prof.pic=m.pic}}catch(e){}return S.team}
-const relay=()=>RELAY,teamCode=()=>TEAMCODE.toLowerCase(),chatOn=()=>!!T().id;
-function dealsTotal(){try{return LC.deals()}catch(e){return 0}}
+function T(){try{if(SSH){const t=SSH.T();S.team.id=t.id||'';S.team.name=t.name||'';S.prof.pic=SSH.pic()}else if(window.LC){const m=LC.me();S.team.id=m.id;S.team.name=m.name;S.prof.pic=m.pic}}catch(e){}return S.team}
+const relay=()=>SSH?SSH.relay():RELAY,teamCode=()=>SSH?SSH.teamCode():TEAMCODE.toLowerCase(),chatOn=()=>SSH?SSH.chatOn():!!T().id;
+function dealsTotal(){try{return SSH?SSH.dealsTotal():LC.deals()}catch(e){return 0}}
+if(SSH)try{if(SSH.S().snd===false)S.snd=false}catch(e){}
 // team roster for names and photos inside the games
-const CH={m:[]};let cMem=[];
+const CH=SSH?SSH.CH:{m:[]};let cMem=[];
 async function rosterPull(){try{const[a,b]=await Promise.all([fetch(relay()+'/teams/'+teamCode()+'/members.json').then(r=>r.json()).catch(()=>null),fetch(relay()+'/teams/'+teamCode()+'/lc/p.json?shallow=false').then(r=>r.json()).catch(()=>null)]);
  const out=new Map();for(const[k,v]of Object.entries(a||{}))if(v&&v.n)out.set(k,{k,n:v.n,pic:v.pic||'',bd:+v.bd||0});
  for(const[k,v]of Object.entries(b||{}))if(v&&v.n&&!out.has(k))out.set(k,{k,n:v.n,pic:v.pic||'',bd:0});cMem=[...out.values()]}catch(e){}}
 rosterPull();setInterval(()=>{if(!document.hidden)rosterPull()},120000);
-function chatSend(){}function chatDel(){}
+// in Street Sheet, Door Wars posts its rounds to the team chat
+function chatSend(t,ex){if(SSH)try{return SSH.chatSend(t,ex)}catch(e){}}function chatDel(k){if(SSH)try{SSH.chatDel(k)}catch(e){}}
 // same element helper as Street Sheet: false or null leaves an attribute off
 function h(t,pr,...c){const e=document.createElement(t);for(const k in pr||{}){const v=pr[k];if(k==='class')e.className=v;else if(k.startsWith('on')){v&&e.addEventListener(k.slice(2),v)}else if(k==='value')e.value=v;else if(v===false||v==null){}else e.setAttribute(k,v===true?'':v)}c.flat().forEach(x=>x!=null&&x!==false&&e.append(x));return e}
 function p(t){return h('p',{class:'h'},t)}
@@ -2822,11 +2857,11 @@ return{open:show,close:shut,door,label,badge:dwBadge,wins,peek:()=>({fwAt,draw,G
  b.innerHTML='<svg viewBox="0 0 40 40"><rect x="9" y="5" width="22" height="31" rx="3" fill="#f4efe4" stroke="#000" stroke-width="2"/><rect x="12.5" y="8.5" width="15" height="24" rx="1.5" fill="var(--acc,#2f6fe4)"/><circle cx="24" cy="22" r="2" fill="#ffd54a" stroke="#000" stroke-width="1"/><path d="M31 6v9" stroke="#000" stroke-width="2"/><path d="M31 6l7 2.5-7 2.5z" fill="#e23b3b" stroke="#000" stroke-width="1.2"/></svg>';
  b.onclick=()=>DW.open();document.body.append(b)};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',add);else add()})();
 
-// ===== Iron Fallout: the rules =====
+// ===== Iron Fall: the rules =====
 // Every phone runs the same commands through these rules and gets the same war. Nothing in here may depend on the device:
 // only + - * / Math.sqrt Math.floor and integer hashing, no Math.sin/cos/hypot/random, and every loop runs in a fixed order.
 const IFE=(()=>{
-const W=80,H=80,N=W*H,ENG=1,BASE=4000,SPEEDS=[1,2,5,10,20,30],SLOTS=6;
+const W=122,H=122,N=W*H,ENG=3,BASE=4000,SPEEDS=[1,2,5,10,20,30],SLOTS=6;
 // terrain
 const FLD=0,CROP=1,DIRT=2,ROAD=3,FOR=4,WAT=5,BRG=6,BLD=7,RUB=8,STP=9,MUD=10,PAD=11;
 const TN=['Field','Farmland','Back road','Main road','Forest','Water','Bridge','Building','Rubble','Felled trees','Mud','Concrete'];
@@ -2914,10 +2949,10 @@ function gen(seed){
  // farmland
  for(let k=0;k<9;k++){const w=6+ri_(10),h=5+ri_(8),x0=ri_(W-w),y0=ri_(H-h);for(let y=y0;y<y0+h;y++)for(let x=x0;x<x0+w;x++)if(t[I(x,y)]===FLD)t[I(x,y)]=CROP}
  // a river most of the time, and a pond or two
- if(R()<.7){const hz=R()<.5;let p=8+ri_(64);const dr=R()<.5?1:-1;for(let s=0;s<W;s++){p+=ri_(3)-1+(R()<.15?dr:0);p=Math.max(3,Math.min(76,p));for(let k=0;k<2;k++){const x=hz?s:p+k,y=hz?p+k:s;if(inb(x,y))t[I(x,y)]=WAT}}}
- for(let k=0,n=1+ri_(2);k<n;k++){const cx=6+ri_(68),cy=6+ri_(68),r=2+ri_(3);for(let y=cy-r;y<=cy+r;y++)for(let x=cx-r;x<=cx+r;x++)if(inb(x,y)&&hyp(x-cx,y-cy)<=r+.3)t[I(x,y)]=WAT}
+ if(R()<.7){const hz=R()<.5;let p=8+ri_(W-16);const dr=R()<.5?1:-1;for(let s=0;s<W;s++){p+=ri_(3)-1+(R()<.15?dr:0);p=Math.max(3,Math.min(W-4,p));for(let k=0;k<2;k++){const x=hz?s:p+k,y=hz?p+k:s;if(inb(x,y))t[I(x,y)]=WAT}}}
+ for(let k=0,n=3+ri_(2);k<n;k++){const cx=6+ri_(W-12),cy=6+ri_(H-12),r=2+ri_(3);for(let y=cy-r;y<=cy+r;y++)for(let x=cx-r;x<=cx+r;x++)if(inb(x,y)&&hyp(x-cx,y-cy)<=r+.3)t[I(x,y)]=WAT}
  // headquarters slots: corners and the middle of two edges, cleared to concrete
- const S0=[[7,7],[72,72],[72,7],[7,72],[40,6],[40,73]];
+ const S0=[[8,8],[W-9,H-9],[W-9,8],[8,H-9],[W/2,7],[W/2,H-8]];
  for(const [x,y] of S0){M.slots.push({x,y});for(let yy=y-5;yy<=y+5;yy++)for(let xx=x-5;xx<=x+5;xx++)if(inb(xx,yy)){const d=hyp(xx-x,yy-y);if(d<=5.2)t[I(xx,yy)]=d<=2.2?PAD:FLD}}
  // roads: cheapest path with a turn penalty
  const road=(a,b,kind,avoid)=>{const g=new Float64Array(N).fill(1e18),pv=new Int32Array(N).fill(-1),dir=new Int8Array(N),seen=new Uint8Array(N),Q=[[0,a,0]];g[a]=0;let it=0;
@@ -2925,7 +2960,7 @@ function gen(seed){
    const ux=u%W;for(let k=0;k<4;k++){const v=u+nb4[k];if(v<0||v>=N||(k===0&&ux===W-1)||(k===1&&ux===0)||seen[v])continue;const tv=t[v];
     let c=tv===ROAD?.4:tv===DIRT?(kind===ROAD?.9:.5):tv===FOR?4:tv===WAT?9:tv===BLD?1e6:tv===PAD?2:1;if(avoid&&avoid(v))c+=6;if(dir[u]&&dir[u]!==k+1)c+=1.5;const ng=g[u]+c;if(ng<g[v]){g[v]=ng;pv[v]=u;dir[v]=k+1;Q.push([ng,v])}}}
   const P=[];for(let v=b;v>=0&&v!==a;v=pv[v])P.push(v);P.push(a);P.reverse();for(const v of P){if(t[v]===WAT)t[v]=BRG;else if(t[v]!==ROAD&&t[v]!==PAD&&t[v]!==BRG&&t[v]!==BLD)t[v]=kind}return P};
- const hzR=R()<.5,ya=14+ri_(52),yb=14+ri_(52);M.main=road(hzR?I(0,ya):I(ya,0),hzR?I(W-1,yb):I(yb,H-1),ROAD);
+ const hzR=R()<.5,ya=14+ri_(W-28),yb=14+ri_(W-28);M.main=road(hzR?I(0,ya):I(ya,0),hzR?I(W-1,yb):I(yb,H-1),ROAD);
  // the town: a torn-up grid of blocks along the main road
  const mi=M.main[Math.floor(M.main.length*(.35+R()*.3))],tx=mi%W,ty=Math.floor(mi/W);M.town={x:tx,y:ty};
  const addB=(x,y,w,h,k,hp)=>{for(let yy=y;yy<y+h;yy++)for(let xx=x;xx<x+w;xx++)if(!inb(xx,yy)||t[I(xx,yy)]===ROAD||t[I(xx,yy)]===BRG||t[I(xx,yy)]===WAT||t[I(xx,yy)]===PAD||M.bAt[I(xx,yy)]>=0)return -1;
@@ -2936,33 +2971,33 @@ function gen(seed){
  for(let by=ty-8;by<=ty+7;by+=4)for(let bx=tx-9;bx<=tx+8;bx+=5){const r=R();if(r<.12)continue;const k=r<.3?'church':r<.75?'block':'shop';const w=k==='church'?3:2+ri_(2),h=k==='church'?3:2+(R()<.4?1:0);addB(bx+ri_(2),by+ri_(2)-(h>2?1:0),Math.min(w,3),Math.min(h,3),k,k==='church'?3200:k==='block'?4000:2400)}
  for(let k=0;k<22;k++){const x=tx-10+ri_(21),y=ty-9+ri_(19);if(inb(x,y)&&(t[I(x,y)]===FLD||t[I(x,y)]===DIRT))t[I(x,y)]=MUD}
  // farmsteads on back roads
- const farms=[];for(let k=0,tries=0;k<7&&tries<300;tries++){const x=4+ri_(72),y=4+ri_(72);if(hyp(x-tx,y-ty)<14||M.slots.some(s=>hyp(s.x-x,s.y-y)<11)||farms.some(f=>hyp(f.x-x,f.y-y)<11))continue;
+ const farms=[];for(let k=0,tries=0;k<16&&tries<500;tries++){const x=4+ri_(W-8),y=4+ri_(H-8);if(hyp(x-tx,y-ty)<14||M.slots.some(s=>hyp(s.x-x,s.y-y)<11)||farms.some(f=>hyp(f.x-x,f.y-y)<11))continue;
   let ok=true;for(let yy=y-2;yy<y+4;yy++)for(let xx=x-2;xx<x+5;xx++)if(!inb(xx,yy)||t[I(xx,yy)]===WAT||t[I(xx,yy)]===ROAD)ok=false;if(!ok)continue;
   for(let yy=y-2;yy<y+4;yy++)for(let xx=x-2;xx<x+5;xx++)if(t[I(xx,yy)]===FOR)t[I(xx,yy)]=FLD;
   addB(x,y,2,2,'house',1600);addB(x+3,y,2,3,'barn',1300);if(R()<.6)addB(x,y+3,1,1,'silo',800);farms.push({x,y});k++}
  const near=(x,y,set)=>{let b=null,bd=1e9;for(let i=0;i<set.length;i++){const v=set[i],d=Math.abs(v%W-x)+Math.abs(Math.floor(v/W)-y);if(d<bd){bd=d;b=v}}return b};
  const roadSet=()=>{const s=[];for(let i=0;i<N;i++)if(t[i]===ROAD||t[i]===DIRT||t[i]===BRG)s.push(i);return s};
  for(const f of farms){const rs=roadSet(),b=near(f.x,f.y+2,rs);if(b!=null)road(I(f.x+2,Math.min(H-1,f.y+2)),b,DIRT)}
- for(const s of M.slots){const rs=roadSet(),b=near(s.x,s.y,rs);if(b!=null)road(I(s.x,s.y+(s.y<40?3:-3)),b,DIRT)}
+ for(const s of M.slots){const rs=roadSet(),b=near(s.x,s.y,rs);if(b!=null)road(I(s.x,s.y+(s.y<H/2?3:-3)),b,DIRT)}
  // abandoned vehicles along roads and in town, tractors at farms
  const addV=(x,y,k,hz)=>{const i=I(x,y);if(M.vAt[i]>=0||t[i]===BLD||t[i]===WAT||t[i]===PAD)return;const id=M.veh.length;M.veh.push({id,x:x+.5,y:y+.5,k,hz,hp:k==='truck'?520:k==='tractor'?420:320,s:ri_(1e6)});M.vAt[i]=id};
  {const rs=roadSet();for(let k=0;k<16;k++){const v=rs[ri_(rs.length)],x=v%W,y=Math.floor(v/W);if(M.slots.some(s=>hyp(s.x-x,s.y-y)<7))continue;const hz=(x>0&&(t[v-1]===ROAD||t[v-1]===DIRT))||(x<W-1&&(t[v+1]===ROAD||t[v+1]===DIRT));addV(x,y,R()<.25?'truck':'car',hz)}}
  for(const f of farms)if(R()<.7)addV(f.x+2,f.y+3,'tractor',R()<.5);
  // points of interest: three outposts per slot, supply depots, a radio tower, the town square and a hidden lab
  const free=(x,y)=>inb(x,y)&&t[I(x,y)]!==WAT&&t[I(x,y)]!==BLD&&t[I(x,y)]!==PAD;
- M.slots.forEach((s,si)=>{const dx=40-s.x,dy=40-s.y,l=hyp(dx,dy)||1,ux=dx/l,uy=dy/l;for(let k=0;k<3;k++){const ang=(k-1)*.85,px=ux-uy*ang,py=uy+ux*ang,pl=hyp(px,py),d=13+ri_(6);let x=Math.round(s.x+px/pl*d),y=Math.round(s.y+py/pl*d);
+ M.slots.forEach((s,si)=>{const dx=W/2-s.x,dy=H/2-s.y,l=hyp(dx,dy)||1,ux=dx/l,uy=dy/l;for(let k=0;k<3;k++){const ang=(k-1)*.85,px=ux-uy*ang,py=uy+ux*ang,pl=hyp(px,py),d=13+ri_(6);let x=Math.round(s.x+px/pl*d),y=Math.round(s.y+py/pl*d);
    for(let tr=0;tr<20&&!free(x,y);tr++){x+=ri_(3)-1;y+=ri_(3)-1}x=Math.max(2,Math.min(W-3,x));y=Math.max(2,Math.min(H-3,y));M.poi.push({k:'out',x,y,sl:si})}});
- for(let k=0,tr=0;k<3&&tr<200;tr++){const f=farms[k]||{x:6+ri_(68),y:6+ri_(68)},x=f.x+(farms[k]?-2:0),y=f.y+(farms[k]?2:0);if(!free(x,y))continue;M.poi.push({k:'dep',x,y});k++}
- {let x=0,y=0;for(let tr=0;tr<200;tr++){x=10+ri_(60);y=10+ri_(60);if(free(x,y)&&t[I(x,y)]!==FOR&&M.slots.every(s=>hyp(s.x-x,s.y-y)>16))break}M.poi.push({k:'radio',x,y})}
+ for(let k=0,tr=0;k<3&&tr<200;tr++){const f=farms[k]||{x:6+ri_(W-12),y:6+ri_(H-12)},x=f.x+(farms[k]?-2:0),y=f.y+(farms[k]?2:0);if(!free(x,y))continue;M.poi.push({k:'dep',x,y});k++}
+ {let x=0,y=0;for(let tr=0;tr<200;tr++){x=10+ri_(W-20);y=10+ri_(H-20);if(free(x,y)&&t[I(x,y)]!==FOR&&M.slots.every(s=>hyp(s.x-x,s.y-y)>16))break}M.poi.push({k:'radio',x,y})}
  M.poi.push({k:'town',x:tx,y:ty});
- {let best=null,bs=-1;for(let tr=0;tr<400;tr++){const x=6+ri_(68),y=6+ri_(68);if(t[I(x,y)]!==FOR)continue;let s=0;for(let yy=y-3;yy<=y+3;yy++)for(let xx=x-3;xx<=x+3;xx++)if(inb(xx,yy)&&t[I(xx,yy)]===FOR)s++;if(M.slots.some(q=>hyp(q.x-x,q.y-y)<15))s-=40;if(s>bs){bs=s;best={x,y}}}
+ {let best=null,bs=-1;for(let tr=0;tr<400;tr++){const x=6+ri_(W-12),y=6+ri_(H-12);if(t[I(x,y)]!==FOR)continue;let s=0;for(let yy=y-3;yy<=y+3;yy++)for(let xx=x-3;xx<=x+3;xx++)if(inb(xx,yy)&&t[I(xx,yy)]===FOR)s++;if(M.slots.some(q=>hyp(q.x-x,q.y-y)<15))s-=40;if(s>bs){bs=s;best={x,y}}}
   if(best){for(let yy=best.y-1;yy<=best.y+1;yy++)for(let xx=best.x-1;xx<=best.x+1;xx++)t[I(xx,yy)]=PAD;M.poi.push({k:'lab',x:best.x,y:best.y})}}
  for(const p of M.poi)if(p.k!=='lab'&&p.k!=='town'){const i=I(p.x,p.y);if(t[i]===FOR)t[i]=FLD}
  // Red Patrol camps in quiet clearings
- for(let k=0,tr=0;k<2&&tr<300;tr++){const x=8+ri_(64),y=8+ri_(64);if(M.slots.some(s=>hyp(s.x-x,s.y-y)<18)||hyp(x-tx,y-ty)<10||M.camps.some(c=>hyp(c.x-x,c.y-y)<20)||!free(x,y))continue;for(let yy=y-1;yy<=y+1;yy++)for(let xx=x-1;xx<=x+1;xx++)if(inb(xx,yy)&&t[I(xx,yy)]===FOR)t[I(xx,yy)]=FLD;M.camps.push({x,y});k++}
+ for(let k=0,tr=0;k<4&&tr<500;tr++){const x=8+ri_(W-16),y=8+ri_(H-16);if(M.slots.some(s=>hyp(s.x-x,s.y-y)<18)||hyp(x-tx,y-ty)<10||M.camps.some(c=>hyp(c.x-x,c.y-y)<20)||!free(x,y))continue;for(let yy=y-1;yy<=y+1;yy++)for(let xx=x-1;xx<=x+1;xx++)if(inb(xx,yy)&&t[I(xx,yy)]===FOR)t[I(xx,yy)]=FLD;M.camps.push({x,y});k++}
  // hot zones: an old reactor ruin and crash craters. Radiation hurts soldiers there, and things live inside
  M.hz=[];M.rad=new Uint8Array(N);
- for(let k=0,nz=2+(R()<.35?1:0),tr=0;k<nz&&tr<600;tr++){const r=5+ri_(3),x=r+3+ri_(W-2*r-6),y=r+3+ri_(H-2*r-6);
+ for(let k=0,nz=3+(R()<.5?1:0),tr=0;k<nz&&tr<600;tr++){const r=5+ri_(3),x=r+3+ri_(W-2*r-6),y=r+3+ri_(H-2*r-6);
   if(M.slots.some(q=>hyp(q.x-x,q.y-y)<r+13)||hyp(x-tx,y-ty)<r+9||M.hz.some(z=>hyp(z.x-x,z.y-y)<z.r+r+8)||M.camps.some(c=>hyp(c.x-x,c.y-y)<r+4)||M.poi.some(p=>hyp(p.x-x,p.y-y)<r+2))continue;
   let rd=0;for(let yy=y-r;yy<=y+r;yy++)for(let xx=x-r;xx<=x+r;xx++)if(t[I(xx,yy)]===ROAD||t[I(xx,yy)]===BLD)rd++;if(rd)continue;
   M.hz.push({x,y,r,k:k===0?'reactor':'crater'});k++}
@@ -2972,20 +3007,20 @@ function gen(seed){
   else for(let yy=z.y-3;yy<=z.y+3;yy++)for(let xx=z.x-3;xx<=z.x+3;xx++){const d=hyp(xx-z.x,yy-z.y);if(d<1.8)t[I(xx,yy)]=MUD;else if(d<3.1&&t[I(xx,yy)]!==WAT)t[I(xx,yy)]=RUB}}
  // supply crates, scattered but not plenty
  const IT=['vest','vest','plate','c4','c4','mine','mine','atmine','scope','extmag','extmag','medkit','medkit','binoc','supply','supply','keycard','keycard','hazmat'];
- for(let k=0,tr=0;k<26&&tr<900;tr++){const x=2+ri_(76),y=2+ri_(76),i=I(x,y);if(!free(x,y)||t[i]===ROAD||M.rad[i]||M.slots.some(s=>hyp(s.x-x,s.y-y)<9)||M.cr.some(c=>hyp(c.x-x,c.y-y)<5))continue;
+ for(let k=0,tr=0;k<60&&tr<2000;tr++){const x=2+ri_(W-4),y=2+ri_(H-4),i=I(x,y);if(!free(x,y)||t[i]===ROAD||M.rad[i]||M.slots.some(s=>hyp(s.x-x,s.y-y)<9)||M.cr.some(c=>hyp(c.x-x,c.y-y)<5))continue;
   let w=t[i]===FOR?.7:.35;for(const d of nb8)if(i+d>=0&&i+d<N&&t[i+d]===BLD)w=.9;if(R()>w)continue;M.cr.push({id:k,x:x+.5,y:y+.5,it:IT[k<IT.length?k:ri_(IT.length)]});k++}
  // gold coin crates, out where people fight over them
- for(let k=0,tr=0;k<5&&tr<900;tr++){const x=6+ri_(W-12),y=6+ri_(H-12),i=I(x,y);if(!free(x,y)||t[i]===ROAD||M.rad[i]||M.slots.some(q=>hyp(q.x-x,q.y-y)<14)||M.cr.some(c=>hyp(c.x-x,c.y-y)<6))continue;M.cr.push({id:M.cr.length,x:x+.5,y:y+.5,it:'gold'});k++}
+ for(let k=0,tr=0;k<10&&tr<1200;tr++){const x=6+ri_(W-12),y=6+ri_(H-12),i=I(x,y);if(!free(x,y)||t[i]===ROAD||M.rad[i]||M.slots.some(q=>hyp(q.x-x,q.y-y)<14)||M.cr.some(c=>hyp(c.x-x,c.y-y)<6))continue;M.cr.push({id:M.cr.length,x:x+.5,y:y+.5,it:'gold'});k++}
  // the hot zones hold the best loot: the reactor's core, hazmat suits, lead-lined supply caches
  for(const z of M.hz){const put=(dx,dy,it)=>{let x=z.x+dx,y=z.y+dy;for(let q=0;q<12&&!(free(x,y)&&t[I(x,y)]!==MUD);q++){x+=ri_(3)-1;y+=ri_(3)-1}if(free(x,y))M.cr.push({id:M.cr.length,x:x+.5,y:y+.5,it})};
   if(z.k==='reactor'){put(0,2,'core');put(-3,-2,'hazmat');put(3,1,'hotcache');put(-1,-3,'gold')}else{put(-2,3,'hotcache');put(3,-2,R()<.5?'plate':'scope');put(2,2,'gold')}}
  // derelict mechs waiting to be found: in the forest, behind barns, in the ruins, at old crash sites
  const pool=[];for(let i=0;i<MECHS.length;i++)pool.push(i);for(let i=pool.length-1;i>0;i--){const j=ri_(i+1);const q=pool[i];pool[i]=pool[j];pool[j]=q}M.pool=pool;
- for(let k=0,tr=0;k<5&&tr<600;tr++){const x=5+ri_(70),y=5+ri_(70),i=I(x,y);if(!free(x,y)||M.rad[i]||M.slots.some(s=>hyp(s.x-x,s.y-y)<16)||M.der.some(d=>hyp(d.x-x,d.y-y)<12))continue;
+ for(let k=0,tr=0;k<10&&tr<1200;tr++){const x=5+ri_(W-10),y=5+ri_(H-10),i=I(x,y);if(!free(x,y)||M.rad[i]||M.slots.some(s=>hyp(s.x-x,s.y-y)<16)||M.der.some(d=>hyp(d.x-x,d.y-y)<12))continue;
   const pref=k%3===0?t[i]===FOR:k%3===1?hyp(x-tx,y-ty)<9:true;if(!pref)continue;M.der.push({x:x+.5,y:y+.5,mi:pool[k]});k++}
- M.labMi=pool[5];M.next=6;
+ M.labMi=pool[10];M.next=11;
  // a mech that came down in a crater, deep in the radiation
- const crt=M.hz.find(z=>z.k==='crater');if(crt){M.der.push({x:crt.x+.5,y:crt.y+.5,mi:pool[6],rq:1200});M.next=7}
+ const crt=M.hz.find(z=>z.k==='crater');if(crt){M.der.push({x:crt.x+.5,y:crt.y+.5,mi:pool[11],rq:1200});M.next=12}
  // passable-by-foot check: everything important should be reachable from slot 0
  return M}
 
@@ -3032,6 +3067,8 @@ function creature(G,M,cl,zi){const z=M.hz[zi],C=CLS[cl];let x=z.x+.5,y=z.y+.5;fo
  const u={id:G.nid++,k:'z',o:'z',cl,nm:C.n,x,y,px:x,py:y,p:[],hp:C.hp,hpm:C.hp,ar:cl==='husk'?10:0,st:'idle',rev:0,sup:0,inv:[],zi,tg:0,chg:0,wx:x,wy:y,wt:0,cd:0};G.u.push(u);return u}
 // how hot a spot is right now: 0 clean, 3 deadly. A fallout storm spreads a zone for a while
 function radAt(G,M,x,y){if(!M.rad)return 0;const i=Math.floor(y)*W+Math.floor(x);let lv=i>=0&&i<N?M.rad[i]:0;const s=G.zst;if(s&&s.t>G.tick){const z=M.hz[s.z];if(hyp(x-z.x-.5,y-z.y-.5)<z.r+4)lv=Math.min(3,Math.max(1,lv+1))}return lv}
+// day and night: by day zombie dogs hunt and husks stand turned to stone; at night dogs sleep and husks wake, roam and merge into hordes
+const CYC=3600,DAYT=2400,isNight=T=>T%CYC>=DAYT;
 const nukeCost=P=>P&&P.core?NUKE.core:NUKE.cost;
 const ev=(G,e)=>{e.t=G.tick;e.n=++G.en;G.ev.push(e);if(G.ev.length>320)G.ev.splice(0,G.ev.length-320)};
 let UM=null,UMG=null;
@@ -3049,7 +3086,7 @@ const tsOf=(G,t)=>G.sg.ts+(t-G.sg.t)*G.sg.r,tickAt=(G,ts)=>Math.floor((ts-G.sg.t
 const COL=['#3b82f6','#ef4444','#f59e0b','#10b981','#a855f7','#ec4899'];
 function join(G,M,c){if(G.pl[c.p]||G.po.length>=SLOTS||G.over)return;const used=new Set(G.po.map(p=>G.pl[p].sl));let sl=-1;for(let i=0;i<SLOTS;i++)if(!used.has(i)){sl=i;break}if(sl<0)return;
  const s=M.slots[sl],idx=G.po.length,avg=G.po.length?Math.round(G.po.reduce((a,p)=>a+G.pl[p].sup,0)/G.po.length):0;
- const P={id:c.p,i:idx,n:String(c.n||'Commander').slice(0,24),col:COL[sl],sl,hq:1,hx:s.x,hy:s.y,hp:30000,hpm:30000,ar:120,sup:Math.max(START,avg),q:[],nk:0,rq:0,kills:0,lost:0,caps:0,mechs:0,xp:0,sk:c.sk||{},jt:G.tick,cd:[0,0],gd:0,coin:0,jts:+c.ts||0,out:0};
+ const P={id:c.p,i:idx,n:String(c.n||'Commander').slice(0,24),col:COL[sl],sl,hq:1,hx:s.x,hy:s.y,hp:30000,hpm:30000,ar:120,sup:Math.max(START,avg),q:[],nk:0,rq:0,kills:0,lost:0,caps:0,mechs:0,xp:0,sk:c.sk||{},jt:G.tick,cd:[0,0],gd:0,coin:0,jts:+c.ts||0,out:0,inv:{}};
  G.pl[c.p]=P;G.po.push(c.p);G.dv=(G.dv|0)+1;
  // first soldiers start out at the outposts so the war begins right away
  const outs=G.cp.filter(q=>q.k==='out'&&q.sl===sl),mix=[['rifle','mg'],['rifle','at'],['sniper','eng']];
@@ -3058,8 +3095,8 @@ function join(G,M,c){if(G.pl[c.p]||G.po.length>=SLOTS||G.over)return;const used=
  ev(G,{k:'j',o:c.p})}
 
 // ---- vision (who can be seen by whom). Forests hide what is inside them; buildings partly; firing gives you away.
-const sightOf=u=>u.k==='m'?9:u.k==='t'?5:(CLS[u.cl].sight+(u.inv&&u.inv.includes('binoc')?3:0));
-function seen(G,M,u,e,d2,ui){if(e.k==='m'&&e.st==='der')return true;const s=sightOf(u);if(d2>s*s)return false;if(e.rev>G.tick)return true;
+const sightOf=(u,G)=>{const b=u.k==='m'?9:u.k==='t'?5:(CLS[u.cl].sight+(u.inv&&u.inv.includes('binoc')?3:0));return G&&isNight(G.tick)&&u.k!=='z'?b*.75:b};
+function seen(G,M,u,e,d2,ui){if(e.k==='m'&&e.st==='der')return true;const s=sightOf(u,G);if(d2>s*s)return false;if(e.rev>G.tick)return true;
  const et=tt(G,M,Math.floor(e.y)*W+Math.floor(e.x));let lim=s;
  if(et===FOR)lim=u.k==='m'?(u.abt>G.tick&&MECHS[u.mi].ab==='scan'?7:1.6):(ui===FOR?3.5:2.2);else if(et===BLD)lim=4;else if(et===RUB)lim=s*.75;
  if(e.ord&&e.ord.op==='sneak')lim*=.7;if(e.k==='m')lim=Math.max(lim,et===FOR?4:s);
@@ -3074,7 +3111,7 @@ function around(B,x,y,r,f){const x0=Math.max(0,Math.floor((x-r)/8)),x1=Math.min(
 
 // ---- combat
 function armorF(ar,ap){return Math.max(.02,1-ar*(1-(ap||0))/100)}
-function hurt(G,M,e,d,ap,by){if(e.hp<=0)return;let f=armorF(e.ar||0,ap);if(e.k==='m'&&e.abt>G.tick&&MECHS[e.mi].ab==='shield')f*=.5;const dm=d*f;e.hp-=dm;
+function hurt(G,M,e,d,ap,by){if(e.hp<=0)return;let f=armorF(e.ar||0,ap);if(e.k==='z'&&e.cl==='husk'&&!isNight(G.tick))f*=.3;if(e.k==='m'&&e.abt>G.tick&&MECHS[e.mi].ab==='shield')f*=.5;const dm=d*f;e.hp-=dm;
  if(e.k==='s'&&e.hp<40&&e.inv.includes('medkit')){e.inv.splice(e.inv.indexOf('medkit'),1);e.hp=Math.min(e.hpm,e.hp+60)}
  if(e.hp<=0){e.hp=0;if(e.k==='z'){e.st='dead';e.dt=G.tick;e.tg=0;const K=by&&G.pl[by.o];if(K){K.xp+=1;coin(G,K.id,e.cl==='husk'?COIN.husk:COIN.dog)}}
   else if(e.k==='s'){e.st='dead';e.dt=G.tick;dropCore(G,e);const K=by&&G.pl[by.o];if(K){K.kills++;K.xp+=2}const L=G.pl[e.o];if(L)L.lost++;ev(G,{k:'kia',a:e.id,o:e.o,by:by?by.o:'',x:e.x,y:e.y,nm:e.nm})}
@@ -3151,6 +3188,7 @@ function apply(G,M,c){const P=G.pl[c.p];
  else if(c.k==='b')buy(G,P,c.cl);
  else if(c.k==='sk'){P.sk=c.sk||{}}
  else if(c.k==='wg'||c.k==='wc'||c.k==='wa'||c.k==='wd')wager(G,c)
+ else if(c.k==='eq')equip(G,P,c)
  else if(c.k==='nk'){const nc=nukeCost(P);if(!P.nk&&P.sup>=nc){P.sup-=nc;P.nk=NUKE.tt;ev(G,{k:'nks',o:P.id})}}
  else if(c.k==='rq'){if(!P.rq&&P.sup>=REQ.cost&&G.u.filter(u=>u.k==='m').length<MECHS.length){P.sup-=REQ.cost;P.rq=REQ.tt;ev(G,{k:'rqs',o:P.id})}}}
 
@@ -3158,20 +3196,20 @@ function apply(G,M,c){const P=G.pl[c.p];
 function step(G,M){G.tick++;G.sh=[];G.bx=[];const T=G.tick;UM=new Map();UMG=G;for(const u of G.u)UM.set(u.id,u);
  // income and production
  for(const p of G.po){const P=G.pl[p];if(!P.hq)continue;P.sup+=1;
-  if(P.q.length){P.q[0].t--;if(P.q[0].t<=0){const q=P.q.shift(),s=M.slots[P.sl];soldier(G,p,q.cl,s.x+.5+(ri(G,5)-2)*.4,s.y+(s.y<40?2.6:-1.6),0);ev(G,{k:'tr',o:p,cl:q.cl})}}
+  if(P.q.length){P.q[0].t--;if(P.q[0].t<=0){const q=P.q.shift(),s=M.slots[P.sl];soldier(G,p,q.cl,s.x+.5+(ri(G,5)-2)*.4,s.y+(s.y<H/2?2.6:-1.6),0);ev(G,{k:'tr',o:p,cl:q.cl})}}
   if(P.nk>0){P.nk--;if(P.nk===0)over(G,p,'nuke')}
-  if(P.rq>0){P.rq--;if(P.rq===0){const mi=nextMech(G,M);if(mi>=0){const s=M.slots[P.sl],m=mechSpawn(G,s.x+.5+(s.x<40?3:-3),s.y+.5,mi,{});mech_cap(G,m,p,1);m.hp=m.hpm}}}}
+  if(P.rq>0){P.rq--;if(P.rq===0){const mi=nextMech(G,M);if(mi>=0){const s=M.slots[P.sl],m=mechSpawn(G,s.x+.5+(s.x<W/2?3:-3),s.y+.5,mi,{});mech_cap(G,m,p,1);m.hp=m.hpm}}}}
  for(const c of G.cp){if(!c.o)continue;const P=G.pl[c.o];if(!P||!P.hq)continue;P.sup+=c.k==='out'?.3:c.k==='dep'?.8:c.k==='town'?.6:c.k==='radio'?.3:0}
  const B=buckets(G);
  // who can see whom (by side)
- const spot={};for(const u of G.u){if(!alive(u)||(u.k==='m'&&u.st==='der'))continue;const s=team(u),ui=tt(G,M,Math.floor(u.y)*W+Math.floor(u.x)),r=sightOf(u);const S=spot[s]||(spot[s]=new Set());
+ const spot={};for(const u of G.u){if(!alive(u)||(u.k==='m'&&u.st==='der'))continue;const s=team(u),ui=tt(G,M,Math.floor(u.y)*W+Math.floor(u.x)),r=sightOf(u,G);const S=spot[s]||(spot[s]=new Set());
   around(B,u.x,u.y,r,e=>{if(e===u||!hostile(team(e),s)&&!(e.k==='m'&&e.st==='der'))return;const d2=(e.x-u.x)*(e.x-u.x)+(e.y-u.y)*(e.y-u.y);if(seen(G,M,u,e,d2,ui))S.add(e.id)})}
  for(const p of G.po){const P=G.pl[p];if(!P.hq)continue;const S=spot[p]||(spot[p]=new Set());around(B,P.hx+.5,P.hy+.5,9,e=>{if(hostile(team(e),p)){const et=tt(G,M,Math.floor(e.y)*W+Math.floor(e.x));if(et!==FOR||hyp(e.x-P.hx,e.y-P.hy)<3)S.add(e.id)}})}
  G.spot={};for(const s in spot)G.spot[s]=[...spot[s]];
  // movement
  for(const u of G.u){if(!alive(u))continue;u.px=u.x;u.py=u.y;if(u.k==='m'&&u.st!=='on')continue;if(u.ord&&u.ord.sr&&u.p.length&&hyp(u.ord.x-u.x,u.ord.y-u.y)<=u.ord.sr)u.p=[];if(u.st==='plant')continue;if(!u.p.length)continue;
   if(u.ord&&u.ord.op==='amove'&&u.tgt)continue;
-  const ti=tt(G,M,Math.floor(u.y)*W+Math.floor(u.x));let sp=u.k==='m'?CH[MECHS[u.mi].cl].sp:u.k==='t'?.4:CLS[u.cl].sp;
+  const ti=tt(G,M,Math.floor(u.y)*W+Math.floor(u.x));let sp=u.k==='m'?CH[MECHS[u.mi].cl].sp:u.k==='t'?.4:CLS[u.cl].sp*1.3;
   if(u.k==='m'){sp*=ti===FOR?.55:ti===WAT?.7:ti===RUB?.75:ti===ROAD||ti===BRG?1.2:1;if(u.abt>T&&MECHS[u.mi].ab==='overdrive')sp*=1.6}
   else{sp*=ti===FOR?.65:ti===WAT?.35:ti===RUB?.7:ti===BLD?.8:ti===CROP?.9:ti===ROAD||ti===DIRT||ti===BRG?1.1:ti===STP?.85:ti===MUD?.7:1;if(u.sup>T)sp*=.6;if(u.ord&&u.ord.op==='sneak')sp*=.75}
   let left=sp;for(let k=0;k<4&&left>0&&u.p.length;k++){const nx=u.p[0]%W+.5,ny=Math.floor(u.p[0]/W)+.5;
@@ -3184,12 +3222,11 @@ function step(G,M){G.tick++;G.sh=[];G.bx=[];const T=G.tick;UM=new Map();UMG=G;fo
   if(u.k==='s'&&u.o&&u.o!=='ai')for(const c of G.cr){if(c.got||Math.abs(c.x-u.x)>.7||Math.abs(c.y-u.y)>.7)continue;
    if(c.it==='gold'){c.got=1;const n=COIN.gold[0]+ri(G,COIN.gold[1]-COIN.gold[0]+1);coin(G,u.o,n);ev(G,{k:'cr',o:u.o,a:u.id,it:c.it,cn:n});continue}
    if(c.it==='supply'||c.it==='hotcache'){c.got=1;const P=G.pl[u.o];if(P)P.sup+=c.it==='supply'?400:1500;const n=ri(G,COIN.crate+1);coin(G,u.o,n);ev(G,{k:'cr',o:u.o,a:u.id,it:c.it,cn:n});continue}
-   if(c.it==='vest'||c.it==='plate'){if(u.ar>=(c.it==='plate'?25:15))continue;c.got=1;u.ar=c.it==='plate'?25:15;const n=ri(G,COIN.crate+1);coin(G,u.o,n);ev(G,{k:'cr',o:u.o,a:u.id,it:c.it,cn:n});continue}
-   if(u.inv.length>=4)continue;c.got=1;u.inv.push(c.it);if(c.it==='extmag'){u.mag=Math.round(u.mag*1.5)}const n=ri(G,COIN.crate+1);coin(G,u.o,n);ev(G,{k:'cr',o:u.o,a:u.id,it:c.it,cn:n})}}
+   c.got=1;const n=ri(G,COIN.crate+1);coin(G,u.o,n);if(c.it==='core')u.inv.push('core');else{const P=G.pl[u.o];if(P){P.inv=P.inv||{};P.inv[c.it]=(P.inv[c.it]|0)+1}}ev(G,{k:'cr',o:u.o,a:u.id,it:c.it,cn:n})}}
  zstep(G,M,B);
  // radiation: soldiers on hot ground slowly get sick. Mechs are sealed. Carrying the core hurts anywhere
  if(M.hz&&M.hz.length)for(const u of G.u){if(u.k!=='s'||!alive(u))continue;const lv=radAt(G,M,u.x,u.y),core=u.inv.includes('core');if(!lv&&!core)continue;if(lv)u.rad=T;
-  let d=(lv===3?.5:lv===2?.3:lv===1?.15:0)+(core?.25:0);if(u.inv.includes('hazmat'))d*=.35;if(u.o==='ai')d*=.5;hurt(G,M,u,d,1,{o:'rad'});
+  let d=(lv===3?.5:lv===2?.3:lv===1?.15:0)+(core?.25:0);if(u.inv.includes('hazmat'))d=u.inv.includes('core')?.25:0;if(!d)continue;if(u.o==='ai')d*=.5;hurt(G,M,u,d,1,{o:'rad'});
   if(core&&u.hp>0){const P=G.pl[u.o];if(P&&P.hq&&hyp(u.x-P.hx-.5,u.y-P.hy-.5)<3){u.inv.splice(u.inv.indexOf('core'),1);P.core=1;coin(G,u.o,COIN.core);ev(G,{k:'core',o:u.o})}}}
  if(M.hz&&M.hz.length){if(T>=G.zs.n){G.zs.n=T+2700+ri(G,1800);const zi=ri(G,M.hz.length),z=M.hz[zi];G.zst={z:zi,t:T+450};for(let k=0;k<2;k++)creature(G,M,'dog',zi);ev(G,{k:'storm',x:z.x,y:z.y})}
   if(T%600===0)M.hz.forEach((z,zi)=>{let near=0;for(const u of G.u)if(u.k==='s'&&u.o!=='ai'&&alive(u)&&hyp(u.x-z.x,u.y-z.y)<z.r+5){near=1;break}if(!near)den(G,M,zi,0)})}
@@ -3208,7 +3245,7 @@ function step(G,M){G.tick++;G.sh=[];G.bx=[];const T=G.tick;UM=new Map();UMG=G;fo
  for(const p of G.po){const P=G.pl[p];if(!P.hq)continue;for(let k=0;k<2;k++){if(P.cd[k]>0){P.cd[k]--;continue}const S=G.spot[p]||[];let best=null,bd=82;for(const id of S){const e=unit(G,id);if(!e||!alive(e))continue;const d2=(e.x-P.hx-.5)*(e.x-P.hx-.5)+(e.y-P.hy-.5)*(e.y-P.hy-.5);if(d2<bd&&(k===0||e.k==='s')){bd=d2;best=e}}
    if(best){P.cd[k]=1;fire(G,M,B,{x:P.hx+.5+(k?1:-1),y:P.hy+.5,o:p,p:[],sup:0},'hqmg',best.x,best.y,best)}}
   // guards come out of a bunker that is under attack
-  if(P.ha&&T-P.ha<30&&T%30===0&&G.u.filter(u=>u.o===p&&u.cl==='guard'&&u.hp>0).length<4){const s=M.slots[P.sl];soldier(G,p,'guard',s.x+.5,s.y+(s.y<40?2.6:-1.6),0);ev(G,{k:'gd',o:p})}}
+  if(P.ha&&T-P.ha<30&&T%30===0&&G.u.filter(u=>u.o===p&&u.cl==='guard'&&u.hp>0).length<4){const s=M.slots[P.sl];soldier(G,p,'guard',s.x+.5,s.y+(s.y<H/2?2.6:-1.6),0);ev(G,{k:'gd',o:p})}}
  // capture points: one side alone inside the circle takes it
  if(T%2===0)for(const c of G.cp){const sides=new Set();around(B,c.x+.5,c.y+.5,2.6,e=>{if(e.k==='s'&&e.hp>0&&(e.x-c.x-.5)*(e.x-c.x-.5)+(e.y-c.y-.5)*(e.y-c.y-.5)<6.8)sides.add(team(e))});
   if(sides.size!==1)continue;const s=[...sides][0];const need=c.k==='out'?60:90;if(c.o===s){c.pr=Math.min(need,c.pr+2);continue}
@@ -3224,7 +3261,7 @@ function step(G,M){G.tick++;G.sh=[];G.bx=[];const T=G.tick;UM=new Map();UMG=G;fo
   const P=G.pl[u.o];if(!done&&P&&P.hq&&P.hp<P.hpm&&Math.abs(u.x-P.hx-.5)<2.6&&Math.abs(u.y-P.hy-.5)<2.6&&T-(P.ha||-99)>20)P.hp=Math.min(P.hpm,P.hp+6)}
  // the world moves: Red Patrol, air drops, convoys
  if(T%10===0)ai(G,M);
- if(T>=G.ad.n){G.ad.n=T+2700+ri(G,1800);const mi=nextMech(G,M);if(mi>=0){let x=0,y=0;for(let tr=0;tr<60;tr++){x=8+ri(G,64);y=8+ri(G,64);const v=tt(G,M,y*W+x);if(v!==WAT&&v!==BLD&&v!==FOR&&G.po.every(p=>hyp(G.pl[p].hx-x,G.pl[p].hy-y)>14))break}
+ if(T>=G.ad.n){G.ad.n=T+2700+ri(G,1800);const mi=nextMech(G,M);if(mi>=0){let x=0,y=0;for(let tr=0;tr<60;tr++){x=8+ri(G,W-16);y=8+ri(G,H-16);const v=tt(G,M,y*W+x);if(v!==WAT&&v!==BLD&&v!==FOR&&G.po.every(p=>hyp(G.pl[p].hx-x,G.pl[p].hy-y)>14))break}
    const m=mechSpawn(G,x+.5,y+.5,mi,{rq:300,drop:1});m.hp=Math.round(m.hpm*.7);ev(G,{k:'drop',x,y,mi,m:m.id})}}
  if(T>=G.ad.c){G.ad.c=T+3000+ri(G,1800);convoy(G,M)}
  for(const t of G.u)if(t.k==='t'&&t.hp>0&&!t.p.length){t.hp=0;t.st='gone';ev(G,{k:'cvg',mi:t.mi})}
@@ -3233,25 +3270,36 @@ function step(G,M){G.tick++;G.sh=[];G.bx=[];const T=G.tick;UM=new Map();UMG=G;fo
  if(T%20===0)G.u=G.u.filter(u=>!(u.st==='dead'&&T-u.dt>40)&&u.st!=='gone');
  win(G,M)}
 // creatures: they roam their zone, and charge any soldier they see or smell. The pack joins in. They give up far from home
-function zstep(G,M,B){const T=G.tick;
- for(const u of G.u){if(u.k!=='z'||!alive(u))continue;const C=CLS[u.cl],z=M.hz[u.zi],hx=z.x+.5,hy=z.y+.5,hd=hyp(u.x-hx,u.y-hy),lea=z.r+C.lea;if(u.cd>0)u.cd--;
-  let tg=u.tg?unit(G,u.tg):null;if(tg&&(!alive(tg)||tg.k!=='s'||hd>lea||hyp(tg.x-u.x,tg.y-u.y)>C.sight+3))tg=null;
+function zstep(G,M,B){const T=G.tick,night=isNight(T);
+ // dusk: more husks crawl out of the hot zones
+ if(T%CYC===DAYT&&M.hz){let n=0;for(const u of G.u)if(u.k==='z'&&u.cl==='husk'&&u.hp>0)n+=u.sz||1;M.hz.forEach((z,zi)=>{if(n<16){creature(G,M,'husk',zi);creature(G,M,'husk',zi);n+=2}});ev(G,{k:'dusk'})}
+ if(T%CYC===0&&T)ev(G,{k:'dawn'});
+ const ok=(x,y)=>{if(x<0||y<0||x>=W||y>=H)return false;const v=tt(G,M,Math.floor(y)*W+Math.floor(x));return v!==BLD&&!hqAt(G,Math.floor(x),Math.floor(y))};
+ const go=(u,gx,gy,sp,stop)=>{const ti=tt(G,M,Math.floor(u.y)*W+Math.floor(u.x));sp*=ti===FOR?.8:ti===WAT?.35:ti===MUD?.8:1;const dx=gx-u.x,dy=gy-u.y,d=hyp(dx,dy);if(d<=.05)return d;
+  const st=Math.min(sp,Math.max(0,d-(stop||0))),nx=u.x+dx/d*st,ny=u.y+dy/d*st;if(ok(nx,ny)){u.x=nx;u.y=ny}else if(ok(nx,u.y)){u.x=nx}else if(ok(u.x,ny)){u.y=ny}else u.wt=0;return d};
+ for(const u of G.u){if(u.k!=='z'||!alive(u))continue;const C=CLS[u.cl],z=M.hz[u.zi],hx=z.x+.5,hy=z.y+.5,hd=hyp(u.x-hx,u.y-hy),husk=u.cl==='husk',sz=u.sz||1;if(u.cd>0)u.cd--;
+  // asleep: dogs at night (they trot home and curl up), husks by day (turned to stone where they stand)
+  const asleep=husk?!night:night;u.slp=asleep?1:0;
+  if(asleep){u.tg=0;u.chg=0;if(!husk&&hd>1.5)go(u,hx,hy,C.sp*.5);continue}
+  const lea=husk?z.r+34:z.r+C.lea,sight=C.sight+(husk?Math.min(4,(sz-1)*.5):0);
+  let tg=u.tg?unit(G,u.tg):null;if(tg&&(!alive(tg)||tg.k!=='s'||hd>lea||hyp(tg.x-u.x,tg.y-u.y)>sight+3))tg=null;
   if(!tg&&(T+u.id)%2===0){let bd=1e9;const ui=tt(G,M,Math.floor(u.y)*W+Math.floor(u.x));
-   around(B,u.x,u.y,C.sight,e=>{if(e.k!=='s'||e.hp<=0||e.st==='in')return;const d2=(e.x-u.x)*(e.x-u.x)+(e.y-u.y)*(e.y-u.y);if(d2<bd&&seen(G,M,u,e,d2,ui)&&hyp(e.x-hx,e.y-hy)<lea){bd=d2;tg=e}});
-   if(tg){for(const o of G.u)if(o.k==='z'&&o!==u&&o.zi===u.zi&&o.hp>0&&!o.tg&&hyp(o.x-u.x,o.y-u.y)<7)o.tg=tg.id;
-    if(!(T-(G.zan[u.zi]|0)<150)){G.zan[u.zi]=T;ev(G,{k:u.cl==='dog'?'dogs':'husk',o:team(tg),x:Math.round(u.x),y:Math.round(u.y)})}}}
-  u.tg=tg?tg.id:0;u.chg=tg?1:0;let gx,gy,sp;
-  if(tg){gx=tg.x;gy=tg.y;sp=C.sp}else if(hd>z.r*.85){gx=hx;gy=hy;sp=C.sp*.5}
-  else{if(T>=u.wt||hyp(u.wx-u.x,u.wy-u.y)<.3){u.wx=hx+(rnd(G)*2-1)*z.r*.7;u.wy=hy+(rnd(G)*2-1)*z.r*.7;u.wt=T+10+ri(G,20)}gx=u.wx;gy=u.wy;sp=C.sp*.3}
-  const ti=tt(G,M,Math.floor(u.y)*W+Math.floor(u.x));sp*=ti===FOR?.8:ti===WAT?.35:ti===MUD?.8:1;
-  const dx=gx-u.x,dy=gy-u.y,d=hyp(dx,dy);
-  if(tg&&d<.75){if(u.cd===0){u.cd=C.bcd;u.rev=T+3;hurt(G,M,tg,C.bite,.3,u);tg.sup=Math.max(tg.sup,T+3);G.bx.push([tg.x,tg.y,.35,'bite']);fightNote(G,'z',team(tg),u.x,u.y)}}
-  else if(d>.05){const st=Math.min(sp,tg?d-.5:d),nx=u.x+dx/d*st,ny=u.y+dy/d*st,ok=(x,y)=>{if(x<0||y<0||x>=W||y>=H)return false;const v=tt(G,M,Math.floor(y)*W+Math.floor(x));return v!==BLD&&!hqAt(G,Math.floor(x),Math.floor(y))};
-   if(ok(nx,ny)){u.x=nx;u.y=ny}else if(ok(nx,u.y)){u.x=nx}else if(ok(u.x,ny)){u.y=ny}else u.wt=0}
+   around(B,u.x,u.y,sight,e=>{if(e.k!=='s'||e.hp<=0||e.st==='in')return;const d2=(e.x-u.x)*(e.x-u.x)+(e.y-u.y)*(e.y-u.y);if(d2<bd&&seen(G,M,u,e,d2,ui)&&hyp(e.x-hx,e.y-hy)<lea){bd=d2;tg=e}});
+   if(tg){for(const o of G.u)if(o.k==='z'&&o!==u&&o.cl===u.cl&&o.hp>0&&!o.tg&&!o.slp&&hyp(o.x-u.x,o.y-u.y)<7)o.tg=tg.id;
+    const key=u.cl+u.zi;if(!(T-(G.zan[key]|0)<150)){G.zan[key]=T;ev(G,{k:husk?'husk':'dogs',o:team(tg),x:Math.round(u.x),y:Math.round(u.y),n:sz})}}}
+  u.tg=tg?tg.id:0;u.chg=tg?1:0;
+  if(tg){const d=go(u,tg.x,tg.y,C.sp*(husk&&sz>3?.85:1),.5);
+   if(d<.75+(husk?Math.min(.6,(sz-1)*.1):0)&&u.cd===0){u.cd=C.bcd;u.rev=T+3;hurt(G,M,tg,C.bite*(husk?1+.6*(sz-1):1),.3,u);tg.sup=Math.max(tg.sup,T+3);G.bx.push([tg.x,tg.y,.35,'bite']);fightNote(G,'z',team(tg),u.x,u.y)}}
+  else if(husk){// husks drift toward each other in the dark and merge into bigger hordes
+   let mate=null,bd=196;for(const o of G.u)if(o!==u&&o.k==='z'&&o.cl==='husk'&&o.hp>0&&!o.slp){const d2=(o.x-u.x)*(o.x-u.x)+(o.y-u.y)*(o.y-u.y);if(d2<bd){bd=d2;mate=o}}
+   if(mate&&bd<1&&u.id<mate.id){u.sz=sz+(mate.sz||1);u.hp+=mate.hp;u.hpm+=mate.hpm;mate.hp=0;mate.st='gone';if(u.sz>=3)ev(G,{k:'horde',x:Math.round(u.x),y:Math.round(u.y),n:u.sz})}
+   else if(mate)go(u,mate.x,mate.y,C.sp*.8);
+   else{if(T>=u.wt||hyp(u.wx-u.x,u.wy-u.y)<.3){const R2=z.r+20;u.wx=Math.max(1,Math.min(W-2,hx+(rnd(G)*2-1)*R2));u.wy=Math.max(1,Math.min(H-2,hy+(rnd(G)*2-1)*R2));u.wt=T+30+ri(G,40)}go(u,u.wx,u.wy,C.sp*.6)}}
+  else{if(hd>z.r*.85)go(u,hx,hy,C.sp*.5);else{if(T>=u.wt||hyp(u.wx-u.x,u.wy-u.y)<.3){u.wx=hx+(rnd(G)*2-1)*z.r*.7;u.wy=hy+(rnd(G)*2-1)*z.r*.7;u.wt=T+10+ri(G,20)}go(u,u.wx,u.wy,C.sp*.3)}}
   // mines go off under them too
   if(G.traps.length)for(let i=G.traps.length-1;i>=0;i--){const tr=G.traps[i];if(tr.k!=='mine')continue;if((u.x-tr.x)*(u.x-tr.x)+(u.y-tr.y)*(u.y-tr.y)<.36){G.traps.splice(i,1);blast(G,M,tr.x,tr.y,1.1,120,.2,{o:tr.o},B);ev(G,{k:'trap',o:tr.o,vs:'z',x:tr.x,y:tr.y})}}
-  // husks give off radiation of their own
-  if(u.cl==='husk')around(B,u.x,u.y,1.6,e=>{if(e.k==='s'&&e.hp>0&&e.st!=='in'&&(e.x-u.x)*(e.x-u.x)+(e.y-u.y)*(e.y-u.y)<2.56){e.rad=T;hurt(G,M,e,e.inv.includes('hazmat')?.12:.35,1,{o:'rad'})}})}}
+  // awake husks give off radiation of their own; a hazmat suit blocks it
+  if(husk){const ar=1.6+Math.min(1.5,(sz-1)*.3);around(B,u.x,u.y,ar,e=>{if(e.k==='s'&&e.hp>0&&e.st!=='in'&&!e.inv.includes('hazmat')&&(e.x-u.x)*(e.x-u.x)+(e.y-u.y)*(e.y-u.y)<ar*ar){e.rad=T;hurt(G,M,e,.35,1,{o:'rad'})}})}}}
 function trample(G,M,m,i,B){const v=tt(G,M,i),x=i%W+.5,y=Math.floor(i/W)+.5;
  if(v===FOR){G.dt[i]=STP;delete G.tdm[i];G.dv=(G.dv|0)+1;G.bx.push([x,y,.7,'tree'])}
  const vi=M.vAt[i];if(vi>=0&&G.vh[vi]>0){G.vh[vi]=0;G.bx.push([x,y,.8,'crush']);ev(G,{k:'crush',o:m.o,x,y})}
@@ -3291,6 +3339,9 @@ function win(G,M){if(G.over)return;const live=G.po.filter(p=>G.pl[p].hq);
  for(const p of G.po){const P=G.pl[p];if(P.mechs>=10){over(G,p,'mechs');return}}
  if(G.po.length>=2&&live.length===1)over(G,live[0],'hq')}
 function over(G,w,how){G.over={w,how,t:G.tick};coin(G,w,COIN.win);ev(G,{k:'win',o:w,how});settle(G)}
+// put an item from your stock on a soldier. No limit to how much one soldier can wear
+function equip(G,P,c){const it=String(c.it||''),u=unit(G,+c.u);if(!ITEMS[it]||it==='core'||!P.inv||!(P.inv[it]>0)||!u||u.o!==P.id||u.k!=='s'||!alive(u))return;P.inv[it]--;if(!P.inv[it])delete P.inv[it];
+ if(it==='vest'||it==='plate')u.ar=Math.max(u.ar|0,it==='plate'?25:15);if(it==='extmag'&&!u.inv.includes('extmag'))u.mag=Math.round(u.mag*1.5);u.inv.push(it);ev(G,{k:'eq',o:P.id,a:u.id,it})}
 function coin(G,p,n){const P=G.pl[p];if(P&&n>0)P.coin=(P.coin|0)+n}
 // ---- wagers: an offer, maybe counter offers, then accept or decline. Both stakes are held until one side wins
 function wOk(G,a,b,ts){const A=G.pl[a],B=G.pl[b];if(!A||!B||a===b||!A.hq||!B.hq||G.over)return false;if(Math.abs(A.jts-B.jts)>WAGER.join)return false;return ts<=Math.max(A.jts,B.jts)+WAGER.open}
@@ -3316,10 +3367,10 @@ function simTo(G,M,meta,cmds,T,onTick){let i=G.ci|0;
  for(let g=0;g<400000;g++){const nt=tsOf(G,G.tick+1);if(nt>T)break;while(i<cmds.length&&cmds[i].ts<=nt){try{apply(G,M,cmds[i])}catch(e){}i++}if(G.over){G.ci=i;break}step(G,M);if(onTick)onTick(G)}
  G.ci=i;return G}
 
-return{COIN,WAGER,wOk,radAt,nukeCost,W,H,N,ENG,BASE,SPEEDS,SLOTS,FLD,CROP,DIRT,ROAD,FOR,WAT,BRG,BLD,RUB,STP,MUD,PAD,TN,CLS,WPN,MECHS,CH,AB,ITEMS,BUY,NUKE,REQ,CAP,COL,
+return{CYC,DAYT,isNight,COIN,WAGER,wOk,radAt,nukeCost,W,H,N,ENG,BASE,SPEEDS,SLOTS,FLD,CROP,DIRT,ROAD,FOR,WAT,BRG,BLD,RUB,STP,MUD,PAD,TN,CLS,WPN,MECHS,CH,AB,ITEMS,BUY,NUKE,REQ,CAP,COL,
  gen,fresh,step,apply,simTo,tsOf,tickAt,tt,path,unit,alive,team,hostile,seen,sightOf,hyp,noise,hsh,covOf,armorF,mul}})();
 
-// ===== Iron Fallout: the screen =====
+// ===== Iron Fall: the screen =====
 // Drawing, touch controls, menus and syncing with the other players. The rules live in IFE.
 const IF=(()=>{
 const E=IFE,W=E.W,H=E.H,N=E.N,TS=32,LK='lovecraft.if',LAG=1200;
@@ -3348,7 +3399,7 @@ function add(k,c){if(!c||keys.has(k)||typeof c.ts!=='number')return;keys.add(k);
  pend=pend.filter(q=>Date.now()-q.at<8000&&!(q.k===c.k&&c.p===me()));
  // a command that lands in the past rewinds to a saved moment and replays
  if(G&&(i<(G.ci|0)||c.ts<=E.tsOf(G,G.tick))){let s=null;for(let j=snaps.length-1;j>=0;j--)if(snaps[j].ci<=i&&E.tsOf(snaps[j].G,snaps[j].G.tick)<c.ts){s=snaps[j];break}snaps=snaps.filter(q=>q.ci<=i);if(s){G=JSON.parse(JSON.stringify(s.G))}else{G=E.fresh(M,meta);snaps=[]}redrawAll()}dirty=1}
-async function loadRound(){const cur=await getJ('/cur').catch(()=>null);if(!cur||!cur.rid||!cur.t0){rid=null;M=G=meta=null;return null}
+async function loadRound(){const cur=await getJ('/cur').catch(()=>null);if(!cur||!cur.rid||!cur.t0||(cur.v|0)!==E.ENG){rid=null;M=G=meta=null;return null}
  if(cur.rid!==rid){rid=cur.rid;lastKey='';meta={seed:cur.seed,t0:cur.t0,sp:cur.sp||1};cmds=[];keys=new Set();snaps=[];M=E.gen(meta.seed);G=null;stat=canopy=null;stage={};vstage={};
   // start from the copy saved on this phone if it is still valid
   try{const sv=JSON.parse(localStorage.getItem(LK+'.snap')||'null');if(sv&&sv.rid===rid&&sv.v===E.ENG)C.pending=sv}catch(e){}
@@ -3358,7 +3409,7 @@ async function loadRound(){const cur=await getJ('/cur').catch(()=>null);if(!cur|
  listen();return cur}
 function saveSnap(){if(!G||!rid)return;try{localStorage.setItem(LK+'.snap',JSON.stringify({rid,v:E.ENG,ci:G.ci|0,keys:cmds.slice(0,G.ci|0).map(c=>c.key).join(','),G}))}catch(e){}}
 async function newRound(sp){const id=uid()+uid(),seed=Math.floor(Math.random()*2e9);
- try{await fetch(base('/cur'),{method:'PUT',body:JSON.stringify({rid:id,seed,sp,t0:{'.sv':'timestamp'},by:me(),n:myName()})});await loadRound();joinMe();toast0('A new war has started');if(on)show()}catch(e){toast0('Could not start a round. Check your connection')}}
+ try{await fetch(base('/cur'),{method:'PUT',body:JSON.stringify({rid:id,seed,sp,v:E.ENG,t0:{'.sv':'timestamp'},by:me(),n:myName()})});await loadRound();joinMe();toast0('A new war has started');if(on)show()}catch(e){toast0('Could not start a round. Check your connection')}}
 function joinMe(){if(!G||G.pl[me()])return;post({k:'j',n:myName(),sk:LC&&LC.skins?LC.skins():{}});C.seen=C.seen||{};C.seen[rid]=0;persist()}
 // ---------- simulation loop ----------
 function advance(budget){if(!G||!M)return;const T=now()-LAG,t0=performance.now();let n=0;
@@ -3375,7 +3426,6 @@ const gnz=(x,y)=>{const s=(M.seed>>>4)&65535;return Math.max(0,Math.min(1,E.nois
 function soft(c,X,Y,x,y,a,b){const q=TS/4;for(let sy=0;sy<4;sy++)for(let sx=0;sx<4;sx++){c.fillStyle=mixC(a,b,gnz(x+(sx+.5)/4,y+(sy+.5)/4));c.fillRect(X+sx*q,Y+sy*q,q+.5,q+.5)}}
 // hot ground: bleached yellow-green, scorched, with glowing puddles toward the middle
 function tileDraw(c,i){tileDraw0(c,i);const lv=M.rad?M.rad[i]:0;if(!lv)return;const x=i%W,y=(i-x)/W,X=x*TS,Y=y*TS,r=k=>H2(i,k+3000),v=E.tt(G,M,i);
- c.fillStyle=lv===3?'rgba(178,198,58,.36)':lv===2?'rgba(160,180,58,.26)':'rgba(140,160,58,.16)';c.fillRect(X,Y,TS,TS);
  for(let k=0;k<lv*3;k++){c.fillStyle='rgba(38,36,26,'+(.12+r(k)*.18).toFixed(2)+')';c.beginPath();c.arc(X+r(k+10)*TS,Y+r(k+20)*TS,1+r(k+30)*3,0,7);c.fill()}
  if(v===E.WAT){c.fillStyle='rgba(110,205,40,.24)';c.fillRect(X,Y,TS,TS);return}
  if(lv>=2&&v!==E.BLD&&r(50)<(lv===3?.24:.08)){const px=X+TS*(.25+r(51)*.5),py=Y+TS*(.25+r(52)*.5),rr=TS*(.1+r(53)*.12),a=r(54)*3;c.fillStyle='rgba(120,220,40,.38)';c.beginPath();c.ellipse(px,py,rr*1.6,rr,a,0,7);c.fill();c.fillStyle='rgba(215,255,120,.6)';c.beginPath();c.ellipse(px,py,rr*.7,rr*.42,a,0,7);c.fill()}}
@@ -3475,13 +3525,13 @@ function saveExp(){if(!explored||!rid)return;try{let s='';for(let i=0;i<N;i++)s+
 function computeVis(){vis=new Uint8Array(N);if(!G||!M)return;const id=me(),Pp=P();if(!explored)explored=new Uint8Array(N);
  const see=(cx,cy,r,inFor,scan)=>{const x0=Math.max(0,Math.floor(cx-r)),x1=Math.min(W-1,Math.floor(cx+r)),y0=Math.max(0,Math.floor(cy-r)),y1=Math.min(H-1,Math.floor(cy+r));
   for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const dx=x+.5-cx,dy=y+.5-cy,d2=dx*dx+dy*dy;if(d2>r*r)continue;const i=y*W+x,v=E.tt(G,M,i);if(v===E.FOR&&!scan){const lim=inFor?3.5:1.6;if(d2>lim*lim)continue}vis[i]=2;explored[i]=1}};
- if(!G.over&&Pp)for(const u of G.u){if(u.o!==id||!E.alive(u))continue;if(u.k==='m'&&u.st==='idle'){see(u.x,u.y,3,0,0);continue}const it=E.tt(G,M,Math.floor(u.y)*W+Math.floor(u.x))===E.FOR;see(u.x,u.y,E.sightOf(u),it,u.k==='m'&&u.abt>G.tick&&E.MECHS[u.mi].ab==='scan')}
+ if(!G.over&&Pp)for(const u of G.u){if(u.o!==id||!E.alive(u))continue;if(u.k==='m'&&u.st==='idle'){see(u.x,u.y,3,0,0);continue}const it=E.tt(G,M,Math.floor(u.y)*W+Math.floor(u.x))===E.FOR;see(u.x,u.y,E.sightOf(u,G),it,u.k==='m'&&u.abt>G.tick&&E.MECHS[u.mi].ab==='scan')}
  if(Pp&&Pp.hq)see(Pp.hx+.5,Pp.hy+.5,10,0,0);
  for(const c of G.cp)if(c.o===id)see(c.x+.5,c.y+.5,c.k==='radio'?15:4,0,0);
  if(G.over)vis.fill(2)}
-let fogA=null;
+let fogA=null,FE=95;
 function drawFog(z,ox,oy){if(!fog){fog=document.createElement('canvas');fog.width=W;fog.height=H;fogD=fog.getContext('2d').createImageData(W,H)}const d=fogD.data;
- if(!fogA)fogA=new Float32Array(N);for(let i=0;i<N;i++)fogA[i]=vis[i]?0:explored[i]?120:228;
+ if(!fogA)fogA=new Float32Array(N);for(let i=0;i<N;i++)fogA[i]=vis[i]?0:explored[i]?FE:228;
  // soften the edge so sight fades out instead of stepping tile by tile
  for(let y=0;y<H;y++)for(let x=0;x<W;x++){let sum=0,wt=0;for(let dy=-1;dy<=1;dy++){const yy=y+dy;if(yy<0||yy>=H)continue;for(let dx=-1;dx<=1;dx++){const xx=x+dx;if(xx<0||xx>=W)continue;const k=(dx?1:2)*(dy?1:2);sum+=fogA[yy*W+xx]*k;wt+=k}}const i=y*W+x;d[i*4]=18;d[i*4+1]=20;d[i*4+2]=22;d[i*4+3]=sum/wt}fog.getContext('2d').putImageData(fogD,0,0);
  g.imageSmoothingEnabled=true;g.drawImage(fog,ox,oy,W*z,H*z)}
@@ -3556,6 +3606,34 @@ function soldierDraw(u,X,Y,z,f,now,dim){const team=col(u.o),sk=u.o==='ai'?{c:['#
  if(u.ar>=15){g.strokeStyle='rgba(30,30,24,.9)';g.lineWidth=s*.08;g.beginPath();g.ellipse(0,0,s*.3,s*.4,0,-.9,.9);g.stroke()}
  g.restore()}
 // ---------- drawing: mechs (twenty of them, each built from its own frame, weapons and paint) ----------
+// each mech carries its own mark in its own color, whatever paint it wears, plus two signature fittings
+const MARKS=['chev','star','ring','bars','diamond','cross','tri','skull','bolt','eye'],FIT=['ant','paul','stack','dome','skirt','spike','light','fins'];
+function mechMarks(D,m,S,hw,hl,dark,t){const i=m.mi,ac=D.a,mk=MARKS[i%MARKS.length],f1=FIT[i%FIT.length],f2=FIT[(i*3+5)%FIT.length],O='#0c0c0b';
+ const fit=f=>{if(f==='paul'){for(const sd of [-1,1]){g.fillStyle=O;g.beginPath();g.ellipse(sd*hw*.95,-hl*.35,S*.13,S*.17,0,0,7);g.fill();g.fillStyle=shade(D.c,.1);g.beginPath();g.ellipse(sd*hw*.95,-hl*.35,S*.11,S*.15,0,0,7);g.fill();g.fillStyle=ac;g.fillRect(sd*hw*.95-S*.02,-hl*.5,S*.04,S*.16)}}
+  else if(f==='ant'){g.strokeStyle='#1a1a1a';g.lineWidth=Math.max(1,S*.025);for(const sd of [-1,1]){g.beginPath();g.moveTo(sd*hw*.5,hl*.6);g.lineTo(sd*hw*.7,hl*1.25);g.stroke()}g.fillStyle='#ff3b30';g.beginPath();g.arc(hw*.7,hl*1.25,Math.max(1,S*.03),0,7);g.fill()}
+  else if(f==='stack'){for(const sd of [-1,1]){g.fillStyle=O;g.beginPath();g.arc(sd*hw*.45,hl*.85,S*.07,0,7);g.fill();g.fillStyle='#3a3a36';g.beginPath();g.arc(sd*hw*.45,hl*.85,S*.05,0,7);g.fill();g.fillStyle='rgba(120,120,120,.35)';g.beginPath();g.arc(sd*hw*.45,hl*.85+Math.sin(t*3+sd)*S*.05,S*.08,0,7);g.fill()}}
+  else if(f==='dome'){g.fillStyle=O;g.beginPath();g.arc(0,hl*.55,S*.11,0,7);g.fill();const gr=g.createRadialGradient(-S*.03,hl*.5,1,0,hl*.55,S*.1);gr.addColorStop(0,'#d7e6ee');gr.addColorStop(1,'#56656e');g.fillStyle=gr;g.beginPath();g.arc(0,hl*.55,S*.09,0,7);g.fill()}
+  else if(f==='skirt'){g.fillStyle=O;g.fillRect(-hw*1.05,-hl*1.05,hw*2.1,S*.06);g.fillRect(-hw*1.05,hl*.95,hw*2.1,S*.06);g.fillStyle=dark;g.fillRect(-hw,-hl*1.03,hw*2,S*.04);g.fillRect(-hw,hl*.97,hw*2,S*.04)}
+  else if(f==='spike'){g.fillStyle=O;for(let k=-2;k<=2;k++){g.beginPath();g.moveTo(k*hw*.32-S*.035,hl*.95);g.lineTo(k*hw*.32,hl*1.25);g.lineTo(k*hw*.32+S*.035,hl*.95);g.fill()}}
+  else if(f==='light'){const on=.6+Math.sin(t*2+i)*.2,gr=g.createRadialGradient(0,-hl*1.05,1,0,-hl*1.6,S*.6);gr.addColorStop(0,'rgba(255,240,190,'+on.toFixed(2)+')');gr.addColorStop(1,'rgba(255,240,190,0)');g.fillStyle=gr;g.beginPath();g.moveTo(0,-hl);g.lineTo(-S*.35,-hl*2.4);g.lineTo(S*.35,-hl*2.4);g.closePath();g.fill();g.fillStyle='#fff3c4';g.beginPath();g.arc(0,-hl*1.02,S*.045,0,7);g.fill()}
+  else if(f==='fins'){g.fillStyle=O;for(const sd of [-1,1]){g.beginPath();g.moveTo(sd*hw*.3,hl*.6);g.lineTo(sd*hw*1.1,hl*1.15);g.lineTo(sd*hw*.6,hl*.6);g.fill()}}};
+ fit(f1);if(f2!==f1)fit(f2);
+ // the mark, on the back of the hull
+ const X=-hw*.4,Y=hl*.12,r=S*.085;g.fillStyle=ac;g.strokeStyle=ac;g.lineWidth=Math.max(1,S*.03);g.beginPath();
+ if(mk==='chev'){g.moveTo(X-r,Y-r*.3);g.lineTo(X,Y+r*.5);g.lineTo(X+r,Y-r*.3);g.stroke()}
+ else if(mk==='star'){for(let k=0;k<10;k++){const a=-Math.PI/2+k*Math.PI/5,rr=k%2?r*.42:r;k?g.lineTo(X+Math.cos(a)*rr,Y+Math.sin(a)*rr):g.moveTo(X+Math.cos(a)*rr,Y+Math.sin(a)*rr)}g.closePath();g.fill()}
+ else if(mk==='ring'){g.arc(X,Y,r*.8,0,7);g.stroke()}
+ else if(mk==='bars'){g.fillRect(X-r,Y-r*.6,r*2,r*.35);g.fillRect(X-r,Y+r*.1,r*2,r*.35)}
+ else if(mk==='diamond'){g.moveTo(X,Y-r);g.lineTo(X+r*.7,Y);g.lineTo(X,Y+r);g.lineTo(X-r*.7,Y);g.closePath();g.fill()}
+ else if(mk==='cross'){g.fillRect(X-r*.18,Y-r,r*.36,r*2);g.fillRect(X-r,Y-r*.18,r*2,r*.36)}
+ else if(mk==='tri'){g.moveTo(X,Y-r);g.lineTo(X+r,Y+r*.8);g.lineTo(X-r,Y+r*.8);g.closePath();g.fill()}
+ else if(mk==='skull'){g.arc(X,Y-r*.15,r*.7,0,7);g.fill();g.fillStyle='#111';g.beginPath();g.arc(X-r*.28,Y-r*.2,r*.17,0,7);g.arc(X+r*.28,Y-r*.2,r*.17,0,7);g.fill()}
+ else if(mk==='bolt'){g.moveTo(X+r*.3,Y-r);g.lineTo(X-r*.4,Y+r*.1);g.lineTo(X,Y+r*.1);g.lineTo(X-r*.3,Y+r);g.lineTo(X+r*.5,Y-r*.15);g.lineTo(X+r*.05,Y-r*.15);g.closePath();g.fill()}
+ else{g.ellipse(X,Y,r,r*.55,0,0,7);g.stroke();g.beginPath();g.arc(X,Y,r*.3,0,7);g.fill()}}
+// mech names fade in for two seconds out of every seven, so you get to know them
+function mechName(m,X,Y,z,now){const D=E.MECHS[m.mi],p=(now+m.mi*911)%7000;if(p<5000)return;const q2=p-5000,a=q2<300?q2/300:q2>1700?(2000-q2)/300:1;
+ const S=z*({light:1.15,medium:1.4,heavy:1.65,super:1.95}[D.cl]),fs=Math.max(10,Math.min(16,z*.38));g.save();g.globalAlpha=a*(m.st==='der'?.75:1);g.font='800 '+fs+'px system-ui,sans-serif';g.textAlign='center';g.textBaseline='bottom';
+ const tw=g.measureText(D.n).width,ty=Y-S*.72;g.fillStyle='rgba(0,0,0,.6)';rrect(X-tw/2-6,ty-fs-4,tw+12,fs+7,5);g.fill();g.fillStyle=D.a;g.fillRect(X-tw/2-6,ty-fs-4,3,fs+7);g.fillStyle='#f1ecd8';g.fillText(D.n,X+1,ty+1);g.restore()}
 function mechDraw(m,X,Y,z,now,dim){const D=E.MECHS[m.mi],own=m.o,sk=own?skinOf(own,'m'):null,der=m.st==='der',S=z*({light:1.15,medium:1.4,heavy:1.65,super:1.95}[D.cl]),
  a=face(m,-Math.PI/2+m.mi*.7),mv=(m.x-m.px)||(m.y-m.py),t=now/1000,ph=mv?Math.sin(now/260+m.id):0,r=k=>E.hsh(m.mi,k,77);
  let body=D.c,acc=D.a;if(sk&&sk.c){body=sk.c[0];acc=sk.c[1]}if(der){body=shade(body,-.25);acc=shade(acc,-.45)}
@@ -3579,6 +3657,7 @@ function mechDraw(m,X,Y,z,now,dim){const D=E.MECHS[m.mi],own=m.o,sk=own?skinOf(o
  g.strokeStyle='rgba(0,0,0,.35)';g.lineWidth=1;g.beginPath();g.moveTo(-hw*.7,-hl*.2);g.lineTo(hw*.7,-hl*.2);g.moveTo(-hw*.7,hl*.35);g.lineTo(hw*.7,hl*.35);g.stroke();
  g.fillStyle=lite;g.globalAlpha=.35;g.fillRect(-hw*.8,-hl*.85,hw*1.6,S*.05);g.globalAlpha=1;g.fillStyle=acc;g.fillRect(-hw*.85,hl*.5,hw*1.7,S*.05);
  if(z>=20){g.fillStyle=acc;g.font='800 '+Math.round(S*.14)+'px system-ui';g.textAlign='center';g.textBaseline='middle';g.fillText(String(m.mi+1).padStart(2,'0'),hw*.45,hl*.15)}
+ mechMarks(D,m,S,hw,hl,dark,t);
  // weapons: drawn on arms and shoulders
  D.w.forEach((wk,k)=>{const sd=k===0?1:k===1?-1:0,wx=sd?sd*(hw+S*.06):0,wy=sd?-S*.05:-hl*.2;g.save();g.translate(wx,wy);gunDraw(wk,S,acc,dark,t,m);g.restore()});
  // cockpit
@@ -3670,10 +3749,10 @@ function poiDraw(c,z,sx,sy,now){const X=sx(c.x),Y=sy(c.y),own=c.o?col(c.o):'#9a9
  g.restore()}
 // the radiation sign
 function trefoil(X,Y,r,col){g.fillStyle=col;for(let k=0;k<3;k++){const a=-Math.PI/2+k*2.094;g.beginPath();g.moveTo(X+Math.cos(a-.52)*r*.28,Y+Math.sin(a-.52)*r*.28);g.arc(X,Y,r,a-.52,a+.52);g.lineTo(X+Math.cos(a+.52)*r*.28,Y+Math.sin(a+.52)*r*.28);g.arc(X,Y,r*.28,a+.52,a-.52,true);g.fill()}g.beginPath();g.arc(X,Y,r*.18,0,7);g.fill()}
-// warning signs on posts around the edge of each hot zone
-function radSigns(z,sx,sy,inView){if(!M.hz||z<9)return;for(const Z of M.hz){const n=Math.round(Z.r*2.2);for(let k=0;k<n;k++){const a=k/n*6.283+Z.x*.1,x=Z.x+.5+Math.cos(a)*(Z.r+.7),y=Z.y+.5+Math.sin(a)*(Z.r+.7);if(!inView(x,y,z)||!explored[Math.floor(y)*W+Math.floor(x)])continue;
- const X=sx(x),Y=sy(y),s=z*.2;g.strokeStyle='#2a2620';g.lineWidth=Math.max(1,z*.05);g.beginPath();g.moveTo(X,Y+s*1.1);g.lineTo(X,Y);g.stroke();g.fillStyle='#111';g.beginPath();g.moveTo(X,Y-s*1.15);g.lineTo(X+s*1.05,Y+s*.65);g.lineTo(X-s*1.05,Y+s*.65);g.closePath();g.fill();
- g.fillStyle='#e2c21c';g.beginPath();g.moveTo(X,Y-s*.9);g.lineTo(X+s*.82,Y+s*.5);g.lineTo(X-s*.82,Y+s*.5);g.closePath();g.fill();g.fillStyle='#111';g.beginPath();g.arc(X,Y+s*.02,s*.2,0,7);g.fill()}}}
+// each hot zone: a borderless yellow glow with one big faded radiation symbol across it
+function radSigns(z,sx,sy,inView){if(!M.hz)return;for(const Z of M.hz){const cx=Z.x+.5,cy=Z.y+.5,R=(Z.r+1.2)*z;if(!explored[Z.y*W+Z.x]||!inView(cx,cy,R+40))continue;const X=sx(cx),Y=sy(cy);
+ const gr=g.createRadialGradient(X,Y,0,X,Y,R);gr.addColorStop(0,'rgba(236,206,40,.30)');gr.addColorStop(.55,'rgba(236,206,40,.20)');gr.addColorStop(1,'rgba(236,206,40,0)');g.fillStyle=gr;g.beginPath();g.arc(X,Y,R,0,7);g.fill();
+ g.globalAlpha=.16;trefoil(X,Y,R*.62,'#2b2508');g.globalAlpha=1}}
 // glowing motes drift over hot ground; a fallout storm turns the air green
 function radFx(z,sx,sy,now,inView){if(!M.hz)return;const t=now/1000;
  M.hz.forEach((Z,zi)=>{const cx=Z.x+.5,cy=Z.y+.5;if(!explored[Z.y*W+Z.x])return;const storm=G.zst&&G.zst.z===zi&&G.zst.t>G.tick,RR=Z.r+(storm?4:0);if(!inView(cx,cy,RR*z+40))return;
@@ -3682,6 +3761,7 @@ function radFx(z,sx,sy,now,inView){if(!M.hz)return;const t=now/1000;
    g.globalAlpha=.35+.35*Math.sin(t*2+k);g.fillStyle=k%3?'#b6f24a':'#e9ff9a';g.fillRect(sx(x),sy(y),Math.max(1.5,z*.05),Math.max(1.5,z*.05))}g.globalAlpha=1})}
 // zombie dogs: thin, raw-skinned, eyes glowing; husks: hunched shapes in rotten gas masks with a sick glow
 function zDraw(u,X,Y,z,f,now){const dead=u.st==='dead',a=face(u),mv=!dead&&((u.x-u.px)||(u.y-u.py)),t=now/1000;g.save();g.translate(X,Y);g.rotate(a);
+ if(u.cl==='dog'&&u.slp){const s=z*.42;g.fillStyle='rgba(0,0,0,.3)';g.beginPath();g.ellipse(2,3,s*.6,s*.5,0,0,7);g.fill();g.fillStyle='#6e6052';g.beginPath();g.ellipse(0,0,s*.55,s*.45,0,0,7);g.fill();g.strokeStyle='#211a15';g.lineWidth=Math.max(1,s*.1);g.beginPath();g.arc(0,0,s*.4,.5,3.5);g.stroke();g.fillStyle='#62564a';g.beginPath();g.arc(s*.3,-s*.15,s*.2,0,7);g.fill();g.restore();return}
  if(u.cl==='dog'){const s=z*.42,run=mv?Math.sin(t*(u.chg?22:9)+u.id):0;
   if(dead){g.fillStyle='rgba(60,20,16,.6)';g.beginPath();g.ellipse(0,0,s*.9,s*.55,0,0,7);g.fill();g.fillStyle='#3e3630';g.beginPath();g.ellipse(0,0,s*.75,s*.28,.2,0,7);g.fill();g.restore();return}
   g.fillStyle='rgba(0,0,0,.3)';g.beginPath();g.ellipse(s*.1,s*.15,s*.95,s*.42,0,0,7);g.fill();
@@ -3693,14 +3773,16 @@ function zDraw(u,X,Y,z,f,now){const dead=u.st==='dead',a=face(u),mv=!dead&&((u.x
   g.fillStyle='#1c1714';g.beginPath();g.ellipse(s*.82,0,s*.29,s*.22,0,0,7);g.fill();g.fillStyle='#62564a';g.beginPath();g.ellipse(s*.82,0,s*.26,s*.19,0,0,7);g.fill();g.beginPath();g.moveTo(s*.9,0);g.lineTo(s*1.25,-s*.06);g.lineTo(s*1.25,s*.06);g.closePath();g.fill();
   g.fillStyle='#2a221e';g.beginPath();g.moveTo(s*.7,-s*.16);g.lineTo(s*.6,-s*.32);g.lineTo(s*.8,-s*.18);g.fill();g.beginPath();g.moveTo(s*.7,s*.16);g.lineTo(s*.6,s*.32);g.lineTo(s*.8,s*.18);g.fill();
   g.shadowColor='#b8ff3a';g.shadowBlur=6;g.fillStyle='#d4ff6a';g.beginPath();g.arc(s*.95,-s*.08,Math.max(1,s*.05),0,7);g.arc(s*.95,s*.08,Math.max(1,s*.05),0,7);g.fill();g.shadowBlur=0}
- else{const s=z*.5,sw=mv?Math.sin(t*4+u.id)*.12:0;
+ else{const s=z*.5*Math.sqrt(u.sz||1),sw=mv?Math.sin(t*4+u.id)*.12:0,stone=u.slp;
   if(dead){g.fillStyle='#2f3128';g.beginPath();g.ellipse(0,0,s*.8,s*.4,0,0,7);g.fill();g.restore();return}
-  const gl=g.createRadialGradient(0,0,s*.2,0,0,s*1.5);gl.addColorStop(0,'rgba(160,240,60,.3)');gl.addColorStop(1,'rgba(160,240,60,0)');g.fillStyle=gl;g.beginPath();g.arc(0,0,s*1.5,0,7);g.fill();
+  if(!stone){const gl=g.createRadialGradient(0,0,s*.2,0,0,s*1.5);gl.addColorStop(0,'rgba(200,60,40,.28)');gl.addColorStop(1,'rgba(200,60,40,0)');g.fillStyle=gl;g.beginPath();g.arc(0,0,s*1.5,0,7);g.fill()}
   g.fillStyle='rgba(0,0,0,.3)';g.beginPath();g.ellipse(s*.1,s*.12,s*.6,s*.5,0,0,7);g.fill();
-  g.strokeStyle='#4a4a3c';g.lineWidth=s*.2;g.lineCap='round';g.beginPath();g.moveTo(0,-s*.38);g.lineTo(s*(.55+sw),-s*.5);g.moveTo(0,s*.38);g.lineTo(s*(.55-sw),s*.5);g.stroke();
-  g.fillStyle='#55553f';g.beginPath();g.ellipse(-s*.08,0,s*.36,s*.5,0,0,7);g.fill();g.fillStyle='#3d3e30';g.fillRect(-s*.4,-s*.08,s*.5,s*.16);
-  g.fillStyle='#2c2d26';g.beginPath();g.arc(s*.12,0,s*.27,0,7);g.fill();g.fillStyle='#6b6c58';g.beginPath();g.arc(s*.34,0,s*.1,0,7);g.fill();
-  g.shadowColor='#b8ff3a';g.shadowBlur=5;g.fillStyle='#bfff4a';g.beginPath();g.arc(s*.2,-s*.12,s*.055,0,7);g.arc(s*.2,s*.12,s*.055,0,7);g.fill();g.shadowBlur=0}
+  g.strokeStyle=stone?'#77756d':'#4a4a3c';g.lineWidth=s*.2;g.lineCap='round';g.beginPath();g.moveTo(0,-s*.38);g.lineTo(s*(.55+sw),-s*.5);g.moveTo(0,s*.38);g.lineTo(s*(.55-sw),s*.5);g.stroke();
+  g.fillStyle=stone?'#8a877e':'#55553f';g.beginPath();g.ellipse(-s*.08,0,s*.36,s*.5,0,0,7);g.fill();g.fillStyle=stone?'#6e6b63':'#3d3e30';g.fillRect(-s*.4,-s*.08,s*.5,s*.16);
+  g.fillStyle=stone?'#5f5d56':'#2c2d26';g.beginPath();g.arc(s*.12,0,s*.27,0,7);g.fill();g.fillStyle=stone?'#7c7a72':'#6b6c58';g.beginPath();g.arc(s*.34,0,s*.1,0,7);g.fill();
+  if(stone){g.strokeStyle='rgba(40,38,34,.6)';g.lineWidth=1;g.beginPath();g.moveTo(-s*.3,-s*.3);g.lineTo(-s*.1,0);g.lineTo(-s*.25,s*.3);g.stroke()}
+  else{g.shadowColor='#ff2a1a';g.shadowBlur=6;g.fillStyle='#ff3b2a';g.beginPath();g.arc(s*.2,-s*.12,Math.max(1,s*.045),0,7);g.arc(s*.2,s*.12,Math.max(1,s*.045),0,7);g.fill();g.shadowBlur=0}
+  if((u.sz||1)>1){g.rotate(-a);g.fillStyle='#ff3b2a';g.font='900 '+Math.max(9,z*.3)+'px system-ui';g.textAlign='center';g.fillText('×'+u.sz,0,-s*1.1)}}
  g.restore()}
 function crateDraw(c,z,sx,sy){const X=sx(c.x),Y=sy(c.y),s=z*.36;
  if(c.it==='core'){const pulse=.6+Math.sin(performance.now()/300)*.25;g.fillStyle='rgba(0,0,0,.35)';g.fillRect(X-s+2,Y-s+3,s*2,s*2);g.fillStyle='#111';g.fillRect(X-s-1,Y-s-1,s*2+2,s*2+2);
@@ -3734,11 +3816,13 @@ function fxDraw(z,sx,sy,now){const pn=performance.now();
   else{g.fillStyle='rgba(140,128,105,'+(.45*(1-p))+')';g.beginPath();g.arc(X,Y,z*(.08+p*.2),0,7);g.fill()}}}
 // weather: drifting fog banks, falling leaves, a cold grey light over everything
 const LEAVES=[];for(let i=0;i<50;i++)LEAVES.push({x:Math.random(),y:Math.random(),s:Math.random(),c:['#7a5a2e','#8c4a22','#6b6236','#a35d2a'][i%4]});
-function weather(cw,ch,now){const t=now/1000;
- g.fillStyle='rgba(60,72,84,.18)';g.fillRect(0,0,cw,ch);
+function darkness(){if(!G)return 0;const T=G.tick%E.CYC,F=150;if(T<F)return 1-T/F;if(T<E.DAYT-F)return 0;if(T<E.DAYT)return (T-(E.DAYT-F))/F;if(T<E.CYC-F)return 1;return 1-(T-(E.CYC-F))/F}
+function weather(cw,ch,now,z){const t=now/1000,dk=darkness(),lf=Math.max(.12,Math.min(1,((z||40)-8)/40));
+ // gloomy daylight, a cold blue night
+ g.fillStyle='rgba(70,80,90,.08)';g.fillRect(0,0,cw,ch);if(dk>0){g.fillStyle='rgba(8,14,38,'+(dk*.55).toFixed(3)+')';g.fillRect(0,0,cw,ch)}
  for(let k=0;k<4;k++){const x=((t*6*(k+1)+k*300)%(cw+600))-300,y=ch*(.15+k*.22);const gr=g.createRadialGradient(x,y,10,x,y,260);gr.addColorStop(0,'rgba(200,205,210,.09)');gr.addColorStop(1,'rgba(200,205,210,0)');g.fillStyle=gr;g.fillRect(x-260,y-260,520,520)}
- for(const L of LEAVES){const x=((L.x*cw+t*(14+L.s*20))%(cw+20))-10,y=((L.y*ch+t*(10+L.s*16))%(ch+20))-10;g.save();g.translate(x,y);g.rotate(t*2+L.s*9);g.fillStyle=L.c;g.globalAlpha=.7;g.fillRect(-2.5,-1.2,5,2.4);g.restore()}g.globalAlpha=1;
- const v=g.createRadialGradient(cw/2,ch/2,Math.min(cw,ch)*.35,cw/2,ch/2,Math.max(cw,ch)*.75);v.addColorStop(0,'rgba(0,0,0,0)');v.addColorStop(1,'rgba(8,10,12,.55)');g.fillStyle=v;g.fillRect(0,0,cw,ch)}
+ for(let li=0;li<LEAVES.length*lf;li++){const L=LEAVES[li],x=((L.x*cw+t*(14+L.s*20))%(cw+20))-10,y=((L.y*ch+t*(10+L.s*16))%(ch+20))-10;g.save();g.translate(x,y);g.rotate(t*2+L.s*9);g.fillStyle=L.c;g.globalAlpha=.7*lf;const ls=.5+lf*.5;g.fillRect(-2.5*ls,-1.2*ls,5*ls,2.4*ls);g.restore()}g.globalAlpha=1;
+ const v=g.createRadialGradient(cw/2,ch/2,Math.min(cw,ch)*.35,cw/2,ch/2,Math.max(cw,ch)*.75);v.addColorStop(0,'rgba(0,0,0,0)');v.addColorStop(1,'rgba(8,10,12,'+(.3+dk*.35).toFixed(2)+')');g.fillStyle=v;g.fillRect(0,0,cw,ch)}
 
 // ---------- main drawing ----------
 const vp=()=>{const d=Math.min(2,window.devicePixelRatio||1),w=cv.clientWidth,h=cv.clientHeight;if(cv.width!==Math.round(w*d)||cv.height!==Math.round(h*d)){cv.width=Math.round(w*d);cv.height=Math.round(h*d)}return{d,w,h}};
@@ -3756,10 +3840,10 @@ function draw(now){if(!g||!M||!G)return;const {d,w:cw,h:ch}=vp();g.setTransform(
  for(const b of G.bombs){if(!visAt(b.x,b.y)&&b.o!==id)continue;g.fillStyle=Math.sin(now/90)>0?'#ff3b30':'#4a0f0c';g.beginPath();g.arc(sx(b.x),sy(b.y),z*.15,0,7);g.fill()}
  for(const p of G.po){const Pq=G.pl[p];if(p===id||explored[Pq.hy*W+Pq.hx])hqDraw(Pq,z,sx,sy,now)}
  // units: yours always, everyone else only where you can see
- const f=Math.max(0,Math.min(1,(now-E.tsOf(G,G.tick))/G.sg.r)),showU=u=>u.o===id||visAt(u.x,u.y);
+ const f=Math.max(0,Math.min(1,(now-LAG-E.tsOf(G,G.tick))/G.sg.r)),showU=u=>u.o===id||visAt(u.x,u.y);
  const under=[];
  for(const u of G.u){if(u.st==='in'||u.st==='gone')continue;const q=ipos(u,f);if(!inView(q[0],q[1],z*2))continue;
-  if(u.k==='m'){if(u.st==='der'){if(visAt(u.x,u.y))derSeen.add(u.id);if(!derSeen.has(u.id)&&!G.over)continue}else if(!showU(u))continue;mechDraw(u,sx(q[0]),sy(q[1]),z,now);if(u.st==='der')repRing(u,sx(q[0]),sy(q[1]),z);continue}
+  if(u.k==='m'){if(u.st==='der'){if(visAt(u.x,u.y))derSeen.add(u.id);if(!derSeen.has(u.id)&&!G.over)continue}else if(!showU(u))continue;mechDraw(u,sx(q[0]),sy(q[1]),z,now);if(u.st==='der')repRing(u,sx(q[0]),sy(q[1]),z);if(z>=12)mechName(u,sx(q[0]),sy(q[1]),z,now);continue}
   if(u.k==='t'){if(!showU(u))continue;truckDraw(u,sx(q[0]),sy(q[1]),z);continue}
   if(u.k==='z'){if(visAt(u.x,u.y))zDraw(u,sx(q[0]),sy(q[1]),z,f,now);continue}
   if(u.st==='dead'){if(visAt(u.x,u.y))soldierDraw(u,sx(q[0]),sy(q[1]),z,f,now);continue}if(!showU(u))continue;soldierDraw(u,sx(q[0]),sy(q[1]),z,f,now);
@@ -3772,11 +3856,11 @@ function draw(now){if(!g||!M||!G)return;const {d,w:cw,h:ch}=vp();g.setTransform(
   const hpf=u.hp/u.hpm;g.fillStyle='#000';g.fillRect(X-R,Y-R-z*.18,R*2,z*.12);g.fillStyle=hpf>.5?'#7bd36a':hpf>.25?'#f2c230':'#ef4444';g.fillRect(X-R+1,Y-R-z*.18+1,(R*2-2)*hpf,z*.12-2)}
  fxDraw(z,sx,sy,now);radFx(z,sx,sy,now,inView);
  // reloading and pinned-down bubbles over your soldiers
- if(z>=12)for(const u of G.u){if(u.o!==id||!E.alive(u))continue;const q=ipos(u,f),X=sx(q[0]),Y=sy(q[1]);if(!inView(q[0],q[1],z))continue;const rl=u.k==='m'?u.ws.some(s=>s.rl>0):u.rl>0;
+ if(z>=12)for(const u of G.u){if(u.o!==id||!E.alive(u))continue;const q=ipos(u,f),X=sx(q[0]),Y=sy(q[1]);if(!inView(q[0],q[1],z))continue;const rl=u.k==='m'?u.ws.every(s=>s.rl>0):u.rl>0;
   if(rl)tag(X,Y-z*(u.k==='m'?1.3:.75),'RELOADING','#f2c230');else if(u.k==='s'&&u.st==='plant')tag(X,Y-z*.75,'ARMING C4','#ff6b5b');else if(u.k==='s'&&u.sup>G.tick)tag(X,Y-z*.75,'PINNED','#e5e5e5');else if(u.k==='s'&&u.rad===G.tick)tag(X,Y-z*.75,'☢ RADIATION','#c6ff3d')}
  for(const u of G.u)if(u.k==='m'&&u.o===id&&u.st==='idle'){const q=ipos(u,f);tag(sx(q[0]),sy(q[1])-z*1.3,'NO PILOT','#9ae6b4')}
  drawFog(z,ox,oy);
- weather(cw,ch,now);
+ weather(cw,ch,now,z);
  if(lasso&&lasso.pts.length>1){g.strokeStyle='#39ff14';g.lineWidth=3;g.lineJoin='round';g.lineCap='round';g.shadowColor='#39ff14';g.shadowBlur=10;g.beginPath();g.moveTo(lasso.pts[0][0],lasso.pts[0][1]);for(const p of lasso.pts)g.lineTo(p[0],p[1]);g.stroke();g.shadowBlur=0;
   const a=lasso.pts[0],b=lasso.pts[lasso.pts.length-1];if(Math.hypot(a[0]-b[0],a[1]-b[1])<60&&lasso.pts.length>8){g.fillStyle='rgba(57,255,20,.12)';g.beginPath();g.moveTo(a[0],a[1]);for(const p of lasso.pts)g.lineTo(p[0],p[1]);g.closePath();g.fill()}}
  for(const q of pend){if(q.k!=='o'||q.x==null)continue;const a=1-(Date.now()-q.at)/8000;g.strokeStyle='rgba(57,255,20,'+Math.max(0,a)+')';g.lineWidth=2;g.beginPath();g.arc(sx(q.x),sy(q.y),z*.4+((Date.now()-q.at)/40%10),0,7);g.stroke()}}
@@ -3784,7 +3868,7 @@ function tag(X,Y,t,c){g.font='800 9px system-ui,sans-serif';const w=g.measureTex
 function repRing(m,X,Y,z){if(!m.rp&&!m.cont)return;const f=m.rp/m.rq;g.strokeStyle='rgba(0,0,0,.55)';g.lineWidth=5;g.beginPath();g.arc(X,Y,z*1.25,0,7);g.stroke();g.strokeStyle=m.cont?'#ef4444':m.rb?col(m.rb):'#e5e5e5';g.lineWidth=3;g.beginPath();g.arc(X,Y,z*1.25,-Math.PI/2,-Math.PI/2+f*6.283);g.stroke();if(m.cont)tag(X,Y-z*1.55,'CONTESTED','#ef4444')}
 function truckDraw(t,X,Y,z){const a=face(t);g.save();g.translate(X,Y);g.rotate(a);const L=z*1.5,B=z*.6;g.fillStyle='rgba(0,0,0,.3)';g.fillRect(-L/2+2,-B/2+3,L,B);g.fillStyle='#111';g.fillRect(-L/2-1,-B/2-1,L+2,B+2);g.fillStyle='#4a5236';g.fillRect(-L/2,-B/2,L,B);g.fillStyle='#3a3f2c';g.fillRect(-L/2+2,-B/2+2,L*.62,B-4);g.fillStyle='#1f2a30';g.fillRect(L*.2,-B/2+2,L*.12,B-4);
  if(t.mi!=null){g.fillStyle=E.MECHS[t.mi].c;g.fillRect(-L*.4,-B*.32,L*.48,B*.64);g.strokeStyle='#111';g.strokeRect(-L*.4,-B*.32,L*.48,B*.64)}g.fillStyle='#c0392b';g.beginPath();g.arc(L*.32,0,z*.08,0,7);g.fill();g.restore()}
-function ipos(u,f){if(f==null)f=Math.max(0,Math.min(1,(now()-E.tsOf(G,G.tick))/G.sg.r));return[u.px+(u.x-u.px)*f,u.py+(u.y-u.py)*f]}
+function ipos(u,f){if(f==null)f=Math.max(0,Math.min(1,(now()-LAG-E.tsOf(G,G.tick))/G.sg.r));return[u.px+(u.x-u.px)*f,u.py+(u.y-u.py)*f]}
 // ---------- touch: drag to pan, hold then draw to select, two fingers to zoom, double-tap to give orders ----------
 function toMap(cx,cy){const r=cv.getBoundingClientRect(),z=view.z;return[(cx-r.left-r.width/2)/z+view.x,(cy-r.top-r.height/2)/z+view.y]}
 function toScr(x,y){const r=cv.getBoundingClientRect(),z=view.z;return[(x-view.x)*z+r.width/2,(y-view.y)*z+r.height/2]}
@@ -3792,7 +3876,7 @@ let gst=null,holdT=0;
 function bindInput(){cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);ptr.set(e.pointerId,[e.clientX,e.clientY]);closeBubble();
   if(ptr.size===2){clearTimeout(holdT);lasso=null;const [a,b]=[...ptr.values()];gst={mode:'pinch',d0:Math.hypot(a[0]-b[0],a[1]-b[1]),z0:view.z,c:toMap((a[0]+b[0])/2,(a[1]+b[1])/2)};return}
   if(ptr.size>2)return;const r=cv.getBoundingClientRect();gst={mode:'?',x0:e.clientX,y0:e.clientY,lx:e.clientX,ly:e.clientY,t0:Date.now()};
-  holdT=setTimeout(()=>{if(gst&&gst.mode==='?'){gst.mode='lasso';lasso={pts:[[gst.x0-r.left,gst.y0-r.top]]};try{navigator.vibrate&&navigator.vibrate(8)}catch(_){}dirty=1}},170)});
+  holdT=setTimeout(()=>{if(gst&&gst.mode==='?'){gst.mode='lasso';lasso={pts:[[gst.x0-r.left,gst.y0-r.top]]};{const fl=q('.ifflash');if(fl){fl.classList.remove('go');void fl.offsetWidth;fl.classList.add('go')}}try{navigator.vibrate&&navigator.vibrate(8)}catch(_){}dirty=1}},170)});
  cv.addEventListener('pointermove',e=>{if(!ptr.has(e.pointerId))return;ptr.set(e.pointerId,[e.clientX,e.clientY]);if(!gst)return;const r=cv.getBoundingClientRect();
   if(gst.mode==='pinch'&&ptr.size===2){const [a,b]=[...ptr.values()],dd=Math.hypot(a[0]-b[0],a[1]-b[1]);view.z=gst.z0*dd/Math.max(10,gst.d0);clampV();const m=toMap((a[0]+b[0])/2,(a[1]+b[1])/2);view.x+=gst.c[0]-m[0];view.y+=gst.c[1]-m[1];clampV();follow=null;return}
   if(gst.mode==='?'&&Math.hypot(e.clientX-gst.x0,e.clientY-gst.y0)>8){clearTimeout(holdT);gst.mode='pan'}
@@ -3862,7 +3946,7 @@ function evText(e){try{const mine=e.o===me(),M_=e.mi!=null?E.MECHS[e.mi].n:'';sw
  case'fight':return mine?'Contact! Your troops are fighting'+(e.vs?' '+pn(e.vs):'')+' at grid '+grid(e.x,e.y):'';
  case'kia':return mine?e.nm+(e.by==='rad'?' died of radiation sickness at grid ':e.by==='z'?' was mauled to death at grid ':' was killed at grid ')+grid(e.x,e.y):e.by===me()?'Your troops killed '+e.nm:'';
  case'dogs':return mine?'Zombie dogs are charging your troops at grid '+grid(e.x,e.y)+'!':'';
- case'husk':return mine?'Something is shambling toward your troops at grid '+grid(e.x,e.y):'';
+ case'husk':return mine?(e.n>1?'A horde of '+e.n+' husks':'A husk')+' is shambling toward your troops at grid '+grid(e.x,e.y):'';
  case'storm':return 'Fallout storm over grid '+grid(e.x,e.y)+'. The hot zone is spreading for a while';
  case'core':return mine?'The reactor core is home. Your nuke now costs ⛁'+E.NUKE.core.toLocaleString():pn(e.o)+' brought a reactor core home. Their nuke just got cheaper';
  case'cdr':return mine?'Your core carrier fell at grid '+grid(e.x,e.y)+'. The core is lying there':'';
@@ -3877,7 +3961,11 @@ function evText(e){try{const mine=e.o===me(),M_=e.mi!=null?E.MECHS[e.mi].n:'';sw
  case'hqx':return mine?'Your bunker was destroyed':pn(e.o)+'’s bunker was destroyed'+(e.by===me()?' by you':'');
  case'win':return (mine?'You won':pn(e.o)+' won')+({nuke:' with a nuke',mechs:' by capturing 10 mechs',hq:' by destroying every other bunker'}[e.how]||'');
  case'tr':return mine?E.CLS[e.cl].n+' ready at the bunker':'';
- case'cr':{const u=E.unit(G,e.a),who=u?u.nm:'A soldier';if(!mine)return '';if(e.it==='gold')return who+' found a gold crate: 🪙'+e.cn;return who+' found '+E.ITEMS[e.it].n.toLowerCase()+(e.cn?' and 🪙'+e.cn:'')}
+ case'cr':{const u=E.unit(G,e.a),who=u?u.nm:'A soldier';if(!mine)return '';if(e.it==='gold')return who+' found a gold crate: 🪙'+e.cn;if(e.it==='supply'||e.it==='hotcache'||e.it==='core')return who+' found '+E.ITEMS[e.it].n.toLowerCase()+(e.cn?' and 🪙'+e.cn:'');return who+' found '+E.ITEMS[e.it].n.toLowerCase()+(e.cn?' and 🪙'+e.cn:'')+'. It is in your gear'}
+ case'eq':{const u=E.unit(G,e.a);return mine?(u?u.nm:'A soldier')+' put on '+E.ITEMS[e.it].n.toLowerCase():''}
+ case'dusk':return 'Night is falling. The husks are waking up';
+ case'dawn':return 'Dawn. The husks turn back to stone, and the dogs are hunting';
+ case'horde':return 'A husk horde of '+e.n+' is gathering at grid '+grid(e.x,e.y);
  case'wg':return mine?pn(e.f)+' offers a wager of 🪙'+e.w+'. Tap to answer':'';
  case'wc':return mine?pn(e.f)+' countered with 🪙'+e.w+'. Tap to answer':'';
  case'wa':return mine?'Wager on: 🪙'+e.w+' against '+pn(e.f):'';
@@ -3902,8 +3990,8 @@ function flyTo(x,y){follow=null;const x0=view.x,y0=view.y,z0=view.z,z1=Math.max(
 const q=s=>el.querySelector(s);
 const sup=n=>Math.floor(n).toLocaleString();
 function build(){el=h('div',{class:'ifw',hidden:true},
- h('div',{class:'iftop'},h('button',{class:'ifbk',type:'button','aria-label':'Back to Lovecraft',onclick:()=>{shut();window.LC&&LC.show()}},'‹'),h('div',{class:'ifttl'},'IRON FALLOUT'),h('div',{class:'ifsup'},'⛁ ',h('b',{},'0')),h('button',{class:'ifcoin',type:'button','aria-label':'Coins this war',onclick:coinInfo},'🪙 ',h('b',{},'0')),h('button',{class:'ifspd',type:'button',onclick:speedSheet},'1×')),
- h('div',{class:'ifstage'},h('canvas',{class:'ifcv'}),h('div',{class:'ifcatch',hidden:true},'Catching up on the war…'),h('div',{class:'iflob',hidden:true})),
+ h('div',{class:'iftop'},h('button',{class:'ifbk',type:'button','aria-label':'Back to Lovecraft',onclick:()=>{shut();window.LC&&LC.show()}},'‹'),h('div',{class:'ifttl'},'IRON FALL'),h('div',{class:'ifsup'},'⛁ ',h('b',{},'0')),h('button',{class:'ifcoin',type:'button','aria-label':'Coins this war',onclick:coinInfo},'🪙 ',h('b',{},'0')),h('button',{class:'ifspd',type:'button',onclick:speedSheet},'1×')),
+ h('div',{class:'ifstage'},h('canvas',{class:'ifcv'}),h('div',{class:'ifflash'}),h('div',{class:'ifpls'}),h('button',{class:'ifgearb',type:'button','aria-label':'Gear',onclick:()=>gear()},'🎒',h('i',{hidden:true})),h('div',{class:'ifcatch',hidden:true},'Catching up on the war…'),h('div',{class:'iflob',hidden:true})),
  h('div',{class:'ifbot'},h('div',{class:'ifsel',hidden:true}),h('button',{class:'iftk',type:'button',onclick:()=>{if(tkEv&&(tkEv.k==='wg'||tkEv.k==='wc'))wagers();else if(tkEv&&evWhere(tkEv))sfx('sel');else intel()}},'Hold to draw a circle around your troops'),
   h('div',{class:'ifbtns'},h('button',{class:'b ifhq',type:'button',onclick:hqSheet},'Bunker',h('i',{class:'ifdot',hidden:true})),h('button',{class:'b',type:'button',onclick:squads},'Squads'),h('button',{class:'b',type:'button',onclick:intel},'Intel'),h('button',{class:'b',type:'button',onclick:howTo},'How to play'),h('button',{class:'b ifx',type:'button','aria-label':'Close',onclick:()=>{shut();window.LC&&LC.show()}},'✕'))));
  document.body.append(el);cv=q('.ifcv');g=cv.getContext('2d');bindInput()}
@@ -3939,11 +4027,38 @@ function wagers(){if(!G)return;const m=me(),p=P();if(!p){toast0('Join the war fi
   h('button',{class:'b',style:'width:100%;margin-top:10px',onclick:close},'Close'))}
 // coins and wager stakes go into the Lovecraft coin ledger. Every amount here is decided by the war itself, so any player's phone can write it
 let ledT=0;function ledger(force){if(!G||!rid||!window.LC||!LC.led)return;const t=performance.now();if(!force&&t<ledT)return;ledT=t+5000;
- for(const id of G.po){const P_=G.pl[id];if((id===me()||G.over)&&P_.coin>0)LC.led(id,'g'+rid,P_.coin,'Iron Fallout war')}
+ for(const id of G.po){const P_=G.pl[id];if((id===me()||G.over)&&P_.coin>0)LC.led(id,'g'+rid,P_.coin,'Iron Fall war')}
  for(const k in G.wg||{}){const x=G.wg[k];if(x.st!=='on'&&x.st!=='done')continue;LC.led(x.a,'we'+rid+x.id,-x.w,'Wager stake');LC.led(x.b,'we'+rid+x.id,-x.w,'Wager stake');
   if(x.st==='done'){if(x.win)LC.led(x.win,'ws'+rid+x.id,2*x.w,'Wager won');else{LC.led(x.a,'ws'+rid+x.id,x.w,'Wager tie');LC.led(x.b,'ws'+rid+x.id,x.w,'Wager tie')}}}}
 let ctr='';
-function hud(){if(!el||!G)return;const p=P();if(p&&ctr!==rid&&!busy){ctr=rid;view.x=p.hx+.5;view.y=p.hy+.5;view.z=Math.max(view.z,30)}q('.ifsup b').textContent=p?sup(p.sup):'—';q('.ifspd').textContent=Math.round(E.BASE/G.sg.r)+'×';
+function plChips(){const b=q('.ifpls');if(!b||!G)return;const sig=G.po.map(id=>id+':'+(G.pl[id].hq?1:0)+':'+G.pl[id].n).join('|');if(b.dataset.sig===sig)return;b.dataset.sig=sig;
+ b.replaceChildren(...G.po.map(id=>{const P_=G.pl[id],mine=id===me();return h('button',{class:'ifpc'+(mine?' me':'')+(P_.hq?'':' out'),type:'button',style:'--c:'+P_.col,onclick:()=>{if(mine||explored[P_.hy*W+P_.hx])flyTo(P_.hx,P_.hy);else toast0(P_.n+'’s bunker is still hidden in the fog')}},h('i',{}),h('b',{},P_.n),P_.hq?null:h('small',{},'✕'))}))}
+// ---------- gear: everything your troops picked up, and who to give it to ----------
+// left: your stock of gear. right: your soldiers and mechs. The middle stays open so you can see where they are on the map
+const IC={vest:'🦺',plate:'🛡',c4:'🧨',mine:'⚠',atmine:'⛔',scope:'🔭',extmag:'▮',medkit:'✚',binoc:'👁',keycard:'🗝',hazmat:'☢',core:'⚛'};
+let gearOn=false,arm='';
+function gearBadge(){const p=P(),b=q('.ifgearb i');if(!b)return;const n=p&&p.inv?Object.values(p.inv).reduce((a,v)=>a+v,0):0;b.hidden=!n;b.textContent=n>99?'99+':String(n)}
+function gear(){const old=q('.ifgear'),pl=q('.ifpls');if(old){old.remove();gearOn=false;arm='';if(pl)pl.style.visibility='';return}if(pl)pl.style.visibility='hidden';if(!P()){toast0('Join the war first');return}gearOn=true;arm='';
+ const w=h('div',{class:'ifgear'},h('div',{class:'ifgl'}),h('div',{class:'ifgm'}),h('div',{class:'ifgr'}),h('button',{class:'ifgx',type:'button','aria-label':'Close gear',onclick:gear},'✕'));q('.ifstage').append(w);gearDraw()}
+function gearDraw(){const w=q('.ifgear');if(!w||!G)return;const p=P();if(!p){gear();return}const inv=p.inv||{},ks=Object.keys(inv).filter(k=>inv[k]>0);
+ const L=w.querySelector('.ifgl'),Rr=w.querySelector('.ifgr');
+ const sig=JSON.stringify(inv)+'|'+arm+'|'+G.u.filter(u=>u.o===me()&&(u.k==='s'||u.k==='m')&&E.alive(u)).map(u=>u.id+':'+u.inv.length+':'+Math.round(u.hp/u.hpm*10)).join(',');if(w.dataset.sig===sig)return;w.dataset.sig=sig;
+ L.replaceChildren(h('b',{class:'ifgh'},'Gear'),ks.length?h('div',{class:'ifarm'+(arm?' on':'')},arm?'Tap a soldier to equip':'Drag onto a soldier to equip'):null,...(ks.length?ks.map(k=>{const b=h('button',{class:'ifgi'+(arm===k?' on':''),type:'button','data-it':k},h('span',{},IC[k]||'•'),h('small',{},E.ITEMS[k].n),h('em',{},'×'+inv[k]));
+   b.onclick=()=>{arm=arm===k?'':k;w.dataset.sig='';gearDraw()};dragItem(b,k);return b}):[h('p',{class:'ifge'},'Nothing yet. Crates your soldiers walk over land here.')]));
+ const us=G.u.filter(u=>u.o===me()&&(u.k==='s'||(u.k==='m'&&u.st!=='der'))&&E.alive(u));
+ Rr.replaceChildren(h('b',{class:'ifgh'},'Troops'),...us.map(u=>{const hpf=u.hp/u.hpm,b=h('button',{class:'ifgu'+(u.k==='m'?' m':'')+(arm&&u.k==='s'?' tgt':''),type:'button','data-u':String(u.id)},
+  h('b',{},u.k==='m'?E.MECHS[u.mi].n:u.nm),h('small',{},u.k==='m'?(u.st==='idle'?'No pilot':'Mech'):E.CLS[u.cl].n),h('i',{class:'ifhp'},h('i',{style:'width:'+Math.round(hpf*100)+'%;background:'+(hpf>.5?'#7bd36a':hpf>.25?'#f2c230':'#ef4444')})),
+  u.k==='s'&&u.inv.length?h('em',{},u.inv.map(k=>IC[k]||'•').join(' ')):null);
+  b.onclick=()=>{if(arm&&u.k==='s'){post({k:'eq',u:u.id,it:arm});sfx('ord');toast0(u.nm+' is putting on the '+E.ITEMS[arm].n.toLowerCase());arm='';w.dataset.sig='';gearDraw();return}flyTo(Math.floor(u.x),Math.floor(u.y));sel=new Set([u.id]);selBar()};return b}))}
+// drag a piece of gear onto a soldier in the list
+function dragItem(b,k){let ghost=null,sx0=0,sy0=0,moved=false;
+ b.addEventListener('pointerdown',e=>{sx0=e.clientX;sy0=e.clientY;moved=false;try{b.setPointerCapture(e.pointerId)}catch(_){}});
+ b.addEventListener('pointermove',e=>{if(!b.hasPointerCapture||!b.hasPointerCapture(e.pointerId))return;if(!moved&&Math.hypot(e.clientX-sx0,e.clientY-sy0)<10)return;if(!moved){moved=true;ghost=h('div',{class:'ifghost'},IC[k]||'•');document.body.append(ghost)}ghost.style.left=e.clientX+'px';ghost.style.top=e.clientY+'px';
+  document.querySelectorAll('.ifgu.hov').forEach(x=>x.classList.remove('hov'));const t=document.elementFromPoint(e.clientX,e.clientY),r=t&&t.closest&&t.closest('.ifgu');if(r&&!r.classList.contains('m'))r.classList.add('hov')});
+ const end=e=>{if(!moved)return;if(ghost){ghost.remove();ghost=null}document.querySelectorAll('.ifgu.hov').forEach(x=>x.classList.remove('hov'));const t=document.elementFromPoint(e.clientX,e.clientY),r=t&&t.closest&&t.closest('.ifgu');
+  if(r&&!r.classList.contains('m')){const u=E.unit(G,+r.dataset.u);if(u){post({k:'eq',u:u.id,it:k});sfx('ord');toast0(u.nm+' is putting on the '+E.ITEMS[k].n.toLowerCase())}}setTimeout(()=>{moved=false},0)};
+ b.addEventListener('pointerup',end);b.addEventListener('pointercancel',end);b.addEventListener('click',e=>{if(moved){e.stopImmediatePropagation();e.preventDefault()}},true)}
+function hud(){if(!el||!G)return;try{gearBadge();if(gearOn)gearDraw()}catch(e){}try{plChips()}catch(e){}const p=P();if(p&&ctr!==rid&&!busy){ctr=rid;view.x=p.hx+.5;view.y=p.hy+.5;view.z=Math.max(view.z,30)}q('.ifsup b').textContent=p?sup(p.sup):'—';q('.ifspd').textContent=Math.round(E.BASE/G.sg.r)+'×';
  q('.ifdot').hidden=!(p&&p.hq&&(p.sup>=300&&p.q.length<6||wAsk().length));q('.ifcoin b').textContent=p?String(p.coin|0):'0';
  // the newest thing that happened to you
  let tx='';tkEv=null;for(let i=G.ev.length-1;i>=0&&i>=G.ev.length-60;i--){const t=evText(G.ev[i]);if(t){tx=t;tkEv=G.ev[i];break}}q('.iftk').textContent=tx||'Hold a finger, then draw a circle around your troops to select them';q('.iftk').classList.toggle('go',!!tkEv);
@@ -3955,7 +4070,7 @@ function selBar(soft){const b=q('.ifsel');if(!b)return;const us=[...sel].map(id=
   ...(us.length>14?[h('span',{class:'ifmore'},'+'+(us.length-14))]:[]),h('button',{class:'ifclr',type:'button',onclick:()=>{sel.clear();selBar()}},'Clear'))}
 function lobby(){const L=q('.iflob');if(!L)return;const p=P(),show=!rid||!G||(!p&&!G.over);L.hidden=!show;if(!show)return;const sig=(rid||'-')+':'+(G?G.po.length:0)+':'+(G&&G.over?1:0);if(L.dataset.sig===sig)return;L.dataset.sig=sig;
  const sp=h('div',{class:'ifsp'},...E.SPEEDS.map(s=>h('button',{class:'b'+(s===(C.sp||1)?' on':''),type:'button',onclick:e=>{C.sp=s;persist();L.querySelectorAll('.ifsp .b').forEach(x=>x.classList.toggle('on',x===e.currentTarget))}},s+'×')));
- L.replaceChildren(h('div',{class:'iflc'},h('h2',{},'IRON FALLOUT'),h('p',{},'Autumn, somewhere past the end of the old war. Fog on the fields, ruins on the main road, and twenty walking machines left rusting in the woods. Find them, fix them, and break the other bunkers.'),
+ L.replaceChildren(h('div',{class:'iflc'},h('h2',{},'IRON FALL'),h('p',{},'Autumn, somewhere past the end of the old war. Fog on the fields, ruins on the main road, and twenty walking machines left rusting in the woods. Find them, fix them, and break the other bunkers.'),
   rid&&G&&!G.over&&G.po.length<E.SLOTS?h('button',{class:'b p big',type:'button',onclick:()=>{joinMe();sfx('ord')}},'Join the war',h('small',{},G.po.length+' of '+E.SLOTS+' commanders · '+Math.floor(G.tick/900)+' h in')):null,
   h('div',{class:'ifnew'},h('b',{},rid&&G&&!G.over?'Or start over with a new war':'Start a new war'),h('small',{},'Speed. At 1× a war takes about a day'),sp,h('button',{class:'b'+(!rid||G&&G.over?' p big':''),type:'button',onclick:()=>{if(rid&&G&&!G.over&&G.po.length)sheet('Start a new war?',p_('This ends the current war for everyone in it.'),h('button',{class:'b p',style:'width:100%;margin-top:8px',onclick:()=>{close();newRound(C.sp||1)}},'Start a new war'),h('button',{class:'b',style:'width:100%;margin-top:8px',onclick:close},'Cancel'));else newRound(C.sp||1)}},'Start')),
   h('button',{class:'b',type:'button',onclick:howTo},'How to play')))}
@@ -3999,26 +4114,84 @@ function info(u){if(u.k==='m'){const D=E.MECHS[u.mi],pl=u.pil&&E.unit(G,u.pil),m
  const C_=E.CLS[u.cl],w=E.WPN[u.w],mine=u.o===me();
  sheet(u.nm,h('div',{class:'ifui'},h('div',{class:'ifrow'},h('b',{},'Side'),h('span',{},pn(u.o))),h('div',{class:'ifrow'},h('b',{},'Role'),h('span',{},C_.n)),h('div',{class:'ifrow'},h('b',{},'Health'),h('span',{},Math.round(u.hp)+' / '+u.hpm+(u.ar?' · armor '+u.ar:''))),
   h('div',{class:'ifrow'},h('b',{},'Weapon'),h('span',{},w.n+(mine?(u.rl?' · reloading, '+mins(u.rl):' · '+Math.round(u.mag)+' bursts left'):''))),
-  mine?h('div',{class:'ifrow'},h('b',{},'Carrying'),h('span',{},u.inv.length?u.inv.map(k=>E.ITEMS[k].n).join(', '):'Nothing')):null,
+  mine?h('div',{class:'ifrow'},h('b',{},'Equipment'),h('span',{},u.inv.length?u.inv.map(k=>E.ITEMS[k].n).join(', '):'Nothing yet. Open Gear to equip')):null,
   h('button',{class:'b',style:'width:100%;margin-top:8px',onclick:close},'Close')))}
 function hqInfo(p){sheet(p.n+'’s bunker',p_(p.hq?'Heavy concrete and armor. Bullets barely scratch it. Rockets, mech guns and C4 do the job. Guards come out when it is hit.':'Destroyed.'),h('div',{class:'ifrow'},h('b',{},'Condition'),h('span',{},p.hq?Math.round(p.hp/p.hpm*100)+'%':'Rubble')),p.nk?h('div',{class:'ifrow'},h('b',{},'☢ Nuke'),h('span',{},'Finishes in '+mins(p.nk))):null,h('button',{class:'b',style:'width:100%;margin-top:8px',onclick:close},'Close'))}
 function poiInfo(c){const nm={out:'Outpost',dep:'Supply depot',radio:'Radio tower',town:'Town square',lab:'Hidden lab'}[c.k],txt={out:'Adds a little supply while you hold it.',dep:'Adds supply while you hold it.',radio:'Lets you see far around it while you hold it.',town:'Adds supply while you hold it.',lab:'A locked mech is stored here. A lab keycard from a crate opens it at once.'}[c.k];
  sheet(nm,p_(txt+' Stand inside the ring with no enemies around to take it.'),h('div',{class:'ifrow'},h('b',{},'Held by'),h('span',{},c.o?pn(c.o):'No one')),h('button',{class:'b',style:'width:100%;margin-top:8px',onclick:close},'Close'))}
-function howTo(){sheet('How to play',h('div',{class:'ifhow'},
- h('h4',{},'Moving the map'),p_('Drag to look around. Pinch to zoom. Tap the line at the bottom to jump to what just happened.'),
- h('h4',{},'Selecting'),p_('Touch and hold for a moment, then draw a loop around your troops. A bright green line follows your finger, and everything inside the loop is selected. Tap one soldier to pick just them, tap them again for their whole squad.'),
- h('h4',{},'Orders'),p_('With troops selected, double-tap where you want them to go. A bubble opens with orders that fit the spot: move, attack-move, sneak through the trees, take cover in a building, suppress an area, plant C4, set a mine, grab a crate, repair or board a mech. Orders take real time: soldiers walk, mechs lumber, and plans unfold slowly.'),
- h('h4',{},'Seeing'),p_('Fog covers everything your units cannot see. Open ground is easy to watch. Forests hide whoever is inside: you only see a few steps into the trees, and only if you are close. Soldiers who fire give away their spot for a moment.'),
- h('h4',{},'Fighting'),p_('Shots are never perfect. Every weapon throws its rounds into a cone, tight for a sniper, wide for a machine gun. Stray rounds chew up cars, houses and trees. Long fights empty magazines, and reloading takes minutes. Crates on the map hold armor, C4, mines, scopes, big magazines, medkits and keycards.'),
- h('h4',{},'Mechs'),p_('Twenty one-of-a-kind mechs. Find wrecked ones and repair them by keeping soldiers beside them, grab air-dropped ones, ambush convoys that haul them, open the hidden lab with a keycard, hijack an enemy mech left without a pilot, or requisition one from your bunker. Mechs crush cars, flatten trees and level buildings, and they shred soldiers in the open. Rocket troopers, mines and C4 are how soldiers fight back.'),
- h('h4',{},'Coins and wagers'),p_('Every crate has a few coins in it, gold crates have a lot, and you earn more for zombie dogs, husks, new mechs, the reactor core, destroying a bunker and winning. Tap 🪙 at the top to see them. If another player joined within 10 minutes of you, you can bet coins on which of you does better: one offers, the other accepts, counters or declines.'),
- h('h4',{},'Hot zones'),p_('Yellow signs mark ground that is still radioactive. Soldiers there slowly get sick, faster toward the middle, and a medic or a hazmat suit buys time. Mechs are sealed and do not care. The best loot is in there, along with whatever lives there now. The reactor’s core makes your nuke much cheaper if you carry it home, but it burns whoever carries it. Now and then a fallout storm spreads a zone for a while.'),
- h('h4',{},'Winning'),p_('Destroy every other bunker, capture 10 different mechs, or finish building a nuke. Bunkers are tough: they shoot back, send out guards and shrug off bullets.')),h('button',{class:'b',style:'width:100%;margin-top:10px',onclick:close},'Got it'))}
+// ---------- how to play: Door Wars style, each topic cycles through little moving pictures ----------
+const ILL={};
+{const bg=(w,hh,c)=>{g.fillStyle=c||'#5f5b3a';g.fillRect(0,0,w,hh);for(let k=0;k<30;k++){g.fillStyle='rgba(0,0,0,.06)';g.fillRect((k*37)%w,(k*53)%hh,2,2)}},
+ sol=(x,y,z,o,cl,now,id)=>soldierDraw({id:id||1,o:o||'x',cl:cl||'rifle',x:1,y:0,px:0,py:0,st:'idle',ar:0,hp:100,hpm:100,inv:[]},x,y,z*1.8,1,now),
+ mech=(x,y,s,mi,o,now,st)=>mechDraw({id:9,mi,o:o||'x',x:1,y:0,px:0,py:0,st:st||'on',abt:0,hp:100,hpm:100,ws:[]},x,y,s,now),
+ tree=(x,y,r)=>{g.strokeStyle='#2c241b';g.lineWidth=1.4;for(let k=0;k<6;k++){const a=k*1.05;g.beginPath();g.moveTo(x,y);g.lineTo(x+Math.cos(a)*r,y+Math.sin(a)*r);g.stroke()}g.fillStyle='rgba(122,90,46,.55)';g.beginPath();g.arc(x,y,r*.7,0,7);g.fill()},
+ lasso=(cx,cy,r,f)=>{g.strokeStyle='#39ff14';g.lineWidth=2.5;g.shadowColor='#39ff14';g.shadowBlur=8;g.beginPath();g.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+6.283*f);g.stroke();g.shadowBlur=0},
+ rz=(w,hh)=>{bg(w,hh);const gr=g.createRadialGradient(42,42,0,42,42,46);gr.addColorStop(0,'rgba(236,206,40,.4)');gr.addColorStop(1,'rgba(236,206,40,0)');g.fillStyle=gr;g.fillRect(0,0,w,hh);g.globalAlpha=.2;trefoil(42,42,30,'#2b2508');g.globalAlpha=1},
+ tracer=(x0,y0,x1,y1,now,col)=>{const p=(now/500)%1;g.strokeStyle=col||'#ffcf6a';g.lineWidth=1.6;g.beginPath();g.moveTo(x0+(x1-x0)*p,y0+(y1-y0)*p);g.lineTo(x0+(x1-x0)*Math.min(1,p+.18),y0+(y1-y0)*Math.min(1,p+.18));g.stroke()},
+ txt=(t,x,y,s,c)=>{g.fillStyle=c||'#fff';g.font='800 '+s+'px system-ui,sans-serif';g.textAlign='center';g.fillText(t,x,y)};
+ Object.assign(ILL,{
+ pan:(w,hh,now)=>{const o=Math.sin(now/900)*10;bg(w,hh);for(let k=0;k<5;k++)tree(10+k*22+o,20+(k%2)*40,8);g.fillStyle='rgba(255,255,255,.85)';g.beginPath();g.arc(w/2+o,hh/2+12,7,0,7);g.fill();txt('↔',w/2,hh-8,14)},
+ hold:(w,hh,now)=>{bg(w,hh);sol(30,40,22,'x','rifle',now,1);sol(52,48,22,'x','mg',now,2);const p=(now%2200)/2200;if(p>.25&&p<.32){g.fillStyle='rgba(57,255,20,.25)';g.fillRect(0,0,w,hh);g.strokeStyle='#39ff14';g.lineWidth=3;g.strokeRect(1.5,1.5,w-3,hh-3)}g.fillStyle='rgba(255,255,255,.85)';g.beginPath();g.arc(66,24,6+(p<.25?p*12:3),0,7);g.fill()},
+ lasso:(w,hh,now)=>{bg(w,hh);sol(32,38,22,'x','rifle',now,1);sol(50,48,22,'x','mg',now,2);sol(40,58,22,'x','sniper',now,3);lasso(42,48,28,Math.min(1,(now%2600)/2000))},
+ order:(w,hh,now)=>{bg(w,hh);sol(22,62,22,'x','rifle',now,1);const cx=58,cy=30;g.strokeStyle='#39ff14';g.lineWidth=2;g.beginPath();g.arc(cx,cy,4,0,7);g.stroke();['➜','⚔','🌲','🛡'].forEach((e,k)=>{const a=-Math.PI/2+k*1.2-1.8,x=cx+Math.cos(a)*20,y=cy+Math.sin(a)*20;g.fillStyle='#1d2616';g.beginPath();g.arc(x,y,9,0,7);g.fill();g.strokeStyle='#3f5a2c';g.stroke();txt(e,x,y+4,10)})},
+ time:(w,hh,now)=>{bg(w,hh);sol(20,60,22,'x','rifle',now,1);g.setLineDash([3,3]);g.strokeStyle='#39ff14';g.lineWidth=1.5;g.beginPath();g.moveTo(24,56);g.lineTo(66,24);g.stroke();g.setLineDash([]);const p=(now%3000)/3000;g.strokeStyle='#39ff14';g.lineWidth=2;g.beginPath();g.arc(66,24,7,-Math.PI/2,-Math.PI/2+p*6.283);g.stroke()},
+ fog:(w,hh,now)=>{bg(w,hh);sol(22,58,22,'x','rifle',now,1);sol(64,22,22,'y','rifle',now,5);const gr=g.createRadialGradient(22,58,10,22,58,60);gr.addColorStop(0,'rgba(18,20,22,0)');gr.addColorStop(.6,'rgba(18,20,22,.2)');gr.addColorStop(1,'rgba(18,20,22,.92)');g.fillStyle=gr;g.fillRect(0,0,w,hh)},
+ forest:(w,hh,now)=>{bg(w,hh,'#3f3a2a');sol(42,46,22,'y','sniper',now,5);for(let k=0;k<9;k++)tree(8+(k%3)*30,10+Math.floor(k/3)*30,13);g.fillStyle='rgba(18,20,22,'+(.55+Math.sin(now/700)*.15)+')';g.fillRect(0,0,w,hh)},
+ cone:(w,hh,now)=>{bg(w,hh);sol(16,62,22,'x','mg',now,1);sol(68,20,22,'y','rifle',now,5);g.fillStyle='rgba(255,207,106,.12)';g.beginPath();g.moveTo(18,60);g.lineTo(60,10);g.lineTo(80,30);g.closePath();g.fill();tracer(18,60,66,16,now);tracer(18,60,74,28,now+170);tracer(18,60,60,22,now+330)},
+ reload:(w,hh,now)=>{bg(w,hh);sol(42,50,26,'x','mg',now,1);g.fillStyle='rgba(0,0,0,.7)';g.fillRect(14,14,56,14);g.fillStyle='#f2c230';g.fillRect(16,16,52*((now%4000)/4000),10);txt('RELOADING',42,24,8,'#111')},
+ smash:(w,hh,now)=>{bg(w,hh);g.fillStyle='#6d6962';g.fillRect(50,40,22,22);g.fillStyle='#3b3833';for(let k=0;k<6;k++)g.fillRect(48+(k*13)%26,38+(k*7)%26,5,4);mech(28,44,16,3,'x',now);tracer(30,44,60,50,now,'#ffcf6a')},
+ mech:(w,hh,now)=>{bg(w,hh);mech(w/2,hh/2,20,Math.floor(now/2500)%20,'x',now)},
+ repair:(w,hh,now)=>{bg(w,hh);mech(42,38,17,6,'',now,'der');sol(22,66,20,'x','eng',now,1);sol(62,66,20,'x','rifle',now,2);const p=(now%5000)/5000;g.strokeStyle='rgba(0,0,0,.5)';g.lineWidth=4;g.beginPath();g.arc(42,38,26,0,7);g.stroke();g.strokeStyle='#7bd36a';g.lineWidth=3;g.beginPath();g.arc(42,38,26,-Math.PI/2,-Math.PI/2+p*6.283);g.stroke()},
+ drop:(w,hh,now)=>{bg(w,hh);const p=(now%3000)/3000,y=10+p*44;g.strokeStyle='#ddd';g.lineWidth=1;g.beginPath();g.moveTo(30,y-22);g.lineTo(42,y);g.lineTo(54,y-22);g.stroke();g.fillStyle='#e8e2d0';g.beginPath();g.arc(42,y-24,14,Math.PI,0);g.fill();mech(42,y+6,10,11,'',now)},
+ crate:(w,hh,now)=>{bg(w,hh);crateDraw({x:0,y:0,it:'vest'},30,x=>30+x,y=>44+y);crateDraw({x:0,y:0,it:'gold'},30,x=>62+x,y=>44+y);txt('+🪙'+(1+Math.floor(now/900)%5),62,22,11,'#ffd166')},
+ coins:(w,hh,now)=>{bg(w,hh,'#2a2410');const n=Math.floor(now/300)%40;for(let k=0;k<6;k++){const y=60-k*6;g.fillStyle='#8a6a12';g.beginPath();g.ellipse(42,y+2,16,5,0,0,7);g.fill();g.fillStyle='#f5d76e';g.beginPath();g.ellipse(42,y,16,5,0,0,7);g.fill()}txt('🪙 '+(120+n),42,18,12,'#ffd166')},
+ wager:(w,hh,now)=>{bg(w,hh,'#1d1a12');txt('🪙50',22,40,13,'#ffd166');txt('🪙50',62,40,13,'#ffd166');txt('VS',42,60,12,'#fff');const p=(now%2400)/2400;txt('→',p<.5?32:52,40,12,p<.5?'#9ee6a0':'#ff9a8a')},
+ zone:(w,hh,now)=>{rz(w,hh);tree(18,20,9);tree(66,64,9)},
+ mechz:(w,hh,now)=>{rz(w,hh);mech(42,42,18,4,'x',now)},
+ medic:(w,hh,now)=>{rz(w,hh);sol(32,46,22,'x','rifle',now,1);sol(52,52,22,'x','medic',now,2);if(Math.sin(now/300)>0)txt('+',32,30,14,'#7bd36a')},
+ hazmat:(w,hh,now)=>{rz(w,hh);sol(42,48,26,'x','rifle',now,1);g.fillStyle='#c9a51b';g.beginPath();g.arc(56,30,9,0,7);g.fill();trefoil(56,30,6,'#111')},
+ day:(w,hh,now)=>{bg(w,hh,'#6b6a48');zDraw({id:4,cl:'dog',x:1,y:0,px:0,py:0,st:'idle',chg:1},30+Math.sin(now/400)*8,40,24,1,now);zDraw({id:7,cl:'husk',x:1,y:0,px:1,py:0,st:'idle',slp:1},62,58,24,1,now)},
+ night:(w,hh,now)=>{bg(w,hh,'#3a3d44');zDraw({id:7,cl:'husk',x:1,y:0,px:0,py:0,st:'idle'},38+Math.sin(now/900)*8,44,24,1,now);zDraw({id:4,cl:'dog',x:1,y:0,px:1,py:0,st:'idle',slp:1},66,66,24,1,now);g.fillStyle='rgba(8,14,38,.35)';g.fillRect(0,0,w,hh)},
+ horde:(w,hh,now)=>{bg(w,hh,'#3a3d44');const p=(now%3000)/3000;if(p<.6){zDraw({id:7,cl:'husk',x:1,y:0,px:0,py:0,st:'idle'},24+p*25,42,22,1,now);zDraw({id:8,cl:'husk',x:-1,y:0,px:0,py:0,st:'idle'},60-p*25,42,22,1,now)}else zDraw({id:9,cl:'husk',x:1,y:0,px:1,py:0,st:'idle',sz:2},42,46,22,1,now);g.fillStyle='rgba(8,14,38,.3)';g.fillRect(0,0,w,hh)},
+ gear:(w,hh,now)=>{bg(w,hh,'#22261c');['🦺','🧨','🔭','✚','☢','🗝'].forEach((e,k)=>{txt(e,18+(k%3)*24,32+Math.floor(k/3)*26,15)})},
+ equip:(w,hh,now)=>{bg(w,hh);sol(60,56,26,'x','rifle',now,1);const p=(now%2200)/2200;txt('🦺',14+p*42,20+p*32,15)},
+ dogs:(w,hh,now)=>{bg(w,hh,'#6b6c3c');const p=(now%2600)/2600;sol(68,22,22,'x','rifle',now,1);zDraw({id:4,cl:'dog',x:1,y:-1,px:0,py:0,st:'idle',chg:1},14+p*40,66-p*36,24,1,now);zDraw({id:5,cl:'dog',x:1,y:-1,px:0,py:0,st:'idle',chg:1},6+p*36,52-p*26,24,1,now)},
+ core:(w,hh,now)=>{bg(w,hh);crateDraw({x:0,y:0,it:'core'},34,x=>42+x,y=>42+y);txt('☢',42,16,12,'#c6ff3d')},
+ bunker:(w,hh,now)=>{bg(w,hh);hqDraw({id:'x',hx:1,hy:1,col:'#4a90d9',hq:1,hp:1,hpm:1,i:0,nk:0},w/3.6,x=>w/2+(x-1.5)*w/3.6,y=>hh/2+(y-1.5)*w/3.6+3,now,1)},
+ nuke:(w,hh,now)=>{bg(w,hh);hqDraw({id:'x',hx:1,hy:1,col:'#4a90d9',hq:1,hp:1,hpm:1,i:0,nk:1},w/3.6,x=>w/2+(x-1.5)*w/3.6,y=>hh/2+(y-1.5)*w/3.6+3,now,1)},
+ ten:(w,hh,now)=>{bg(w,hh);for(let k=0;k<10;k++)mech(14+(k%5)*14,26+Math.floor(k/5)*32,6,k*2,'x',now);txt(Math.min(10,1+Math.floor(now/600)%10)+'/10',42,80,10)}})}
+let illT=0;
+function illLoop(){illT=0;const cs=document.querySelectorAll('#ov canvas.ifill');if(!cs.length)return;const now=performance.now(),fr=Math.floor(now/5200),g0=g,G0=G;
+ G={pl:{x:{sk:{},col:'#4a90d9'},y:{sk:{},col:'#d9534f'}},po:['x','y'],tick:0,u:[],ev:[]};
+ try{for(const c of cs){const d=Math.min(2,window.devicePixelRatio||1),w=84,hh=84;if(c.width!==w*d){c.width=w*d;c.height=hh*d}g=c.getContext('2d');g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,w,hh);g.save();g.beginPath();g.rect(0,0,w,hh);g.clip();
+  const L=c.dataset.s.split(','),i=fr%L.length;try{ILL[L[i]](w,hh,now)}catch(e){}g.restore();
+  if(c._i!==i){c._i=i;const cap=c.parentNode.querySelector('.dwcap');if(cap){cap.textContent=c._caps[i];cap.classList.remove('in');void cap.offsetWidth;cap.classList.add('in')}c.parentNode.querySelectorAll('.dwdots i').forEach((x,k)=>x.classList.toggle('on',k===i))}}}
+ finally{g=g0;G=G0}illT=setTimeout(()=>requestAnimationFrame(illLoop),50)}
+function howTo(){const st=(title,frames)=>{const c=h('canvas',{class:'ifill','data-s':frames.map(f=>f[0]).join(',')});c._caps=frames.map(f=>f[1]);
+  return h('div',{class:'dwstep'},c,h('div',{},h('b',{},title),h('span',{class:'dwcap in'},frames[0][1]),frames.length>1?h('span',{class:'dwdots'},...frames.map((f,k)=>h('i',{class:k?'':'on'}))):null))};
+ sheet('How to play',p_('A slow war over autumn farmland. It keeps going while you are away, so check in, give orders, and come back later to see what happened.'),
+  st('Moving around',[['pan','Drag to look around. Pinch to zoom in and out.'],['fog','Tap the line at the bottom to jump to whatever just happened.']]),
+  st('Selecting troops',[['hold','Touch and hold. A quick green flash means you can draw.'],['lasso','Draw a loop around your troops. Everything inside is selected.'],['hold','Tap one soldier to pick just them, tap again for their whole squad.']]),
+  st('Giving orders',[['order','Double-tap where you want them. A bubble shows the orders that fit that spot.'],['time','Orders take time. Troops walk, take cover, and carry it out themselves.'],['order','Move, attack-move, sneak through trees, take cover, suppress, plant C4, set mines.']]),
+  st('Seeing',[['fog','Fog hides anything your troops cannot see. Open ground is easy to watch.'],['forest','Forests hide whoever is inside. You only see in if you are close.'],['cone','Firing gives away your spot for a moment.']]),
+  st('Fighting',[['cone','Every shot lands somewhere in a cone. Snipers are tight, machine guns are wide.'],['reload','Long fights empty magazines, and reloading takes minutes.'],['smash','Stray rounds and mechs wreck cars, houses and whole forests.']]),
+  st('Mechs',[['mech','Twenty one-of-a-kind mechs, each with its own guns and ability.'],['repair','Find a wreck and keep soldiers beside it to repair it. Anyone can finish it.'],['drop','Air drops, convoys, a hidden lab, and pilots who leave their mech unguarded.']]),
+  st('Coins',[['crate','Every crate has a few coins, and gold crates have a lot.'],['coins','You also earn coins for kills, new mechs, the reactor core and winning.'],['wager','Players who join within 10 minutes of each other can bet coins on the war.']]),
+  st('Hot zones',[['zone','Yellow signs mark radioactive ground. Soldiers there slowly get sick.'],['dogs','Things live in there, and they charge anyone they see.'],['core','The reactor core makes your nuke much cheaper, but it burns whoever carries it.']]),
+  st('Day and night',[['day','By day the zombie dogs hunt, and the husks stand turned to stone.'],['night','At night the dogs sleep. The husks wake with red eyes and roam.'],['horde','Husks that find each other merge into a bigger, deadlier horde. At dawn they turn back to stone.']]),
+  st('Staying alive in radiation',[['zone','Stay out of the yellow glow when you can. Radiation slowly kills soldiers.'],['mechz','Mechs are sealed. Radiation does nothing to them.'],['medic','A medic nearby heals faster than the radiation hurts.'],['hazmat','A hazmat suit blocks all radiation and the husks’ poison. It does not stop a husk’s blows.']]),
+  st('Gear',[['gear','Crates your soldiers walk over go into your gear, shared by your whole side.'],['equip','Open 🎒, then drag gear onto a soldier, or tap the gear and then the soldier.'],['gear','A soldier can wear as much as you give them. Tap a soldier in the list to find them on the map.']]),
+  st('Your bunker',[['bunker','Your bunker trains troops, requisitions mechs and builds the nuke.'],['bunker','It is tough: it shoots back, sends out guards and shrugs off bullets.']]),
+  st('Winning',[['bunker','Destroy every other bunker,'],['ten','capture 10 different mechs,'],['nuke','or finish a nuke while your bunker survives.']]),
+  p_('Speed: tap the speed button at the top. It changes the speed for everyone in this war.'),
+  h('button',{class:'b p',style:'width:100%;margin-top:12px',onclick:close},'Got it'));
+ if(!illT)illLoop()}
+
 // ---------- loop ----------
 let saveT=0;
 // geiger counter: crackles while any of your soldiers stand on hot ground
 let gk=0;function geiger(){if(!G||!on||C.mute)return;const t=performance.now();if(t<gk)return;const n=G.u.filter(u=>u.o===me()&&u.k==='s'&&u.rad===G.tick&&E.alive(u)).length;if(!n){gk=t+400;return}sfx('tick');gk=t+30+Math.random()*(n>3?90:260)}
-function loop(){raf=0;if(!on)return;try{geiger()}catch(e){}try{ledger()}catch(e){}try{advance(busy?40:12)}catch(e){console.error(e)}q('.ifcatch').hidden=!busy;
+function loop(){raf=0;if(!on)return;try{FE=Math.round(95+darkness()*55)}catch(e){}try{geiger()}catch(e){}try{ledger()}catch(e){}try{advance(busy?40:12)}catch(e){console.error(e)}q('.ifcatch').hidden=!busy;
  try{draw(Date.now()+off)}catch(e){console.error(e)}if(Date.now()-saveT>60000){saveT=Date.now();saveSnap();saveExp()}raf=requestAnimationFrame(loop)}
 async function show(){if(!el)build();el.hidden=false;on=true;document.body.classList.add('ifon');closeBubble();
  if(!M){const L=q('.iflob');L.hidden=false;L.replaceChildren(h('div',{class:'iflc'},h('p',{},'Loading the war…')))}
@@ -4027,7 +4200,7 @@ async function show(){if(!el)build();el.hidden=false;on=true;document.body.class
 // one button shows the chosen speed; tapping it opens the choices
 function speedPick(done){sheet('Game speed',p_('At 1× a war takes about a day. 20× and 30× are for testing.'),h('div',{class:'ifsp'},...E.SPEEDS.map(s=>h('button',{class:'b'+(s===(C.sp||1)?' on':''),type:'button',onclick:()=>{C.sp=s;persist();close();done()}},s+'×'))),h('button',{class:'b',style:'width:100%;margin-top:10px',onclick:close},'Close'))}
 function lobbyEmpty(){const L=q('.iflob');L.hidden=false;L.dataset.sig='';
- L.replaceChildren(h('div',{class:'iflc'},h('h2',{},'IRON FALLOUT'),h('p',{},'No war is going on. Start one and your friends can drop in any time.'),h('button',{class:'b',type:'button',onclick:()=>speedPick(lobbyEmpty)},'Speed: '+(C.sp||1)+'×'),h('button',{class:'b p big',type:'button',onclick:()=>newRound(C.sp||1)},'Start a new war'),h('button',{class:'b',type:'button',onclick:howTo},'How to play')))}
+ L.replaceChildren(h('div',{class:'iflc'},h('h2',{},'IRON FALL'),h('p',{},'No war is going on. Start one and your friends can drop in any time.'),h('button',{class:'b',type:'button',onclick:()=>speedPick(lobbyEmpty)},'Speed: '+(C.sp||1)+'×'),h('button',{class:'b p big',type:'button',onclick:()=>newRound(C.sp||1)},'Start a new war'),h('button',{class:'b',type:'button',onclick:howTo},'How to play')))}
 function shut(){try{ledger(1)}catch(e){}on=false;if(el)el.hidden=true;document.body.classList.remove('ifon');closeBubble();stopNet();if(G&&rid){C.seen=C.seen||{};C.seen[rid]=G.tick;persist();saveSnap();saveExp();const p=P();if(p&&window.LC)LC.addXp('if:'+rid,p.xp||0)}}
 // red badge on the main menu: fights that started since you last looked
 async function badge(){try{if(!rid){const cur=await getJ('/cur');if(!cur||!cur.rid)return 0;if(!M||cur.rid!==rid){await loadRound()}}
@@ -4042,23 +4215,23 @@ const LCA={logo:'data:image/webp;base64,UklGRqSzAABXRUJQVlA4WAoAAAAQAAAAZwEAZgEA
 
 // ===== Lovecraft: the game launcher =====
 // One profile, many games. Lives on its own as the Lovecraft app and also inside Street Sheet behind the Games button.
-// Coins buy cosmetics. Everyone starts at zero. They come from doors knocked after joining (one each), from wars in Iron Fallout,
+// Coins buy cosmetics. Everyone starts at zero. They come from doors knocked after joining (one each), from wars in Iron Fall,
 // and from wagers. Game coins and wagers live in a ledger at /lc/l/{id}/{key}: fixed keys, so writing an entry twice changes nothing.
 if(typeof DW!=='undefined')window.DW=DW;if(typeof IF!=='undefined')window.IF=IF;
 const LC=(()=>{
-const LK='lovecraft.prof',INSS=!window.LC_SA&&typeof S!=='undefined'&&!!(S&&S.sessions);
+const LK='lovecraft.prof',INSS=!window.LC_SA&&typeof S!=='undefined'&&!!(S&&S.sessions),EMB=!!window.LC_EMB,PAR=EMB?window.parent:null;
 let P0={};try{P0=JSON.parse(localStorage.getItem(LK)||'{}')||{}}catch(e){P0={}}
 let rec={sp:0,own:{},eq:{},xp:{}},remoteDr=0,el=null,ret='',badges={},open=false;
-try{const r=JSON.parse(localStorage.getItem(LK+'.rec')||'null');if(r&&typeof r==='object'){rec={...rec,...r};remoteDr=+r.dr0||0}}catch(e){}
-const save0=()=>{try{localStorage.setItem(LK,JSON.stringify(P0))}catch(e){}},keep=()=>{try{localStorage.setItem(LK+'.rec',JSON.stringify({...rec,dr0:remoteDr}))}catch(e){}};
+try{const r=JSON.parse(localStorage.getItem(LK+'.rec')||'null');if(r&&typeof r==='object'&&(!r.id||r.id===me().id)){rec={...rec,...r};remoteDr=+r.dr0||0}}catch(e){}
+const save0=()=>{try{localStorage.setItem(LK,JSON.stringify(P0))}catch(e){}},keep=()=>{try{localStorage.setItem(LK+'.rec',JSON.stringify({...rec,dr0:remoteDr,id:me().id}))}catch(e){}};
 const lcBase=p=>relay()+'/teams/'+teamCode()+'/lc'+(p||'')+'.json';
 // ---- who you are
-function me(){if(INSS)return{id:T().id||'',name:T().name||'You',pic:(S.prof&&S.prof.pic)||'',ss:1};return{id:P0.id||'',name:P0.name||'',pic:P0.pic||rec.pic||'',ss:P0.ss?1:0}}
+function me(){if(INSS||EMB)return{id:T().id||'',name:T().name||'You',pic:(S.prof&&S.prof.pic)||'',ss:1};return{id:P0.id||'',name:P0.name||'',pic:P0.pic||rec.pic||'',ss:P0.ss?1:0}}
 // Lifetime doors only ever go up: deleting an old street does not take coins back.
 function doorsNow(){let n=0;for(const s of S.sessions){if(s.test)continue;for(const r of s.rows)if(r.t==='door')n++}return n}
-function doorsAll(){if(!INSS)return remoteDr;if(!(S.lcd>=0))S.lcd=doorsNow();return S.lcd}
+function doorsAll(){if(EMB)try{return SSH.doorsAll()}catch(e){return 0}if(!INSS)return remoteDr;if(!(S.lcd>=0))S.lcd=doorsNow();return S.lcd}
 function door(){if(!INSS)return;if(!(S.lcd>=0))S.lcd=doorsNow()-1;S.lcd++;try{save()}catch(e){}if(open)draw()}
-function deals(){if(INSS)try{return dealsTotal()}catch(e){}return +rec.bd||0}
+function deals(){if(INSS||EMB)try{return dealsTotal()}catch(e){}return +rec.bd||0}
 let L={};try{L=JSON.parse(localStorage.getItem(LK+'.led')||'{}')||{}}catch(e){L={}}
 const ledSum=()=>{let n=0;for(const k in L)n+=+(L[k]&&L[k].v)||0;return n};
 // doors only count from the day you joined Lovecraft (rec.db is your door count then)
@@ -4078,7 +4251,7 @@ async function pullLed(){const id=me().id;if(!id)return;try{const r=await fetch(
 function xpTotal(){let n=0;for(const k in rec.xp||{})n+=+rec.xp[k]||0;return n}
 const XPD=50,lcD=xp=>Math.floor(xp/XPD),lcLvl=xp=>lvlOf(lcD(xp));
 async function pull(){const id=me().id;if(!id)return;
- if(!INSS&&P0.ss){try{const r=await fetch(relay()+'/teams/'+teamCode()+'/members/'+id+'.json'),d=await r.json();if(d){remoteDr=+d.dr||0;rec.bd=+d.bd||0;if(d.pic&&!P0.pic)rec.pic=d.pic;keep()}}catch(e){}}
+ if(!INSS&&!EMB&&P0.ss){try{const r=await fetch(relay()+'/teams/'+teamCode()+'/members/'+id+'.json'),d=await r.json();if(d){remoteDr=+d.dr||0;rec.bd=+d.bd||0;if(d.pic&&!P0.pic)rec.pic=d.pic;keep()}}catch(e){}}
  let ok=false;try{const r=await fetch(lcBase('/p/'+id));if(r.ok){const d=await r.json();ok=true;if(d&&typeof d==='object')rec={sp:0,own:{},eq:{},xp:{},...d,pic:rec.pic};else rec={sp:0,own:{},eq:{},xp:{},pic:rec.pic}}}catch(e){}
  // fresh start for Lovecraft: zero coins, level 0, nothing bought yet. Doors and Street Sheet history do not carry over
  if(ok&&!(rec.v>=3)){rec={...rec,v:3,sp:0,own:{},eq:{},xp:{}};delete rec.db;patch({v:3,sp:0,own:null,eq:null,xp:null,db:null});try{IF.skinChanged()}catch(e){}}
@@ -4089,16 +4262,16 @@ function addXp(k,v){v=Math.round(+v||0);k=String(k).replace(/[.#$\[\]\/]/g,'_');
 function skins(){const e=rec.eq||{};return{s:e.s||'woodland',m:e.m||'factory',t:e.t||'standard',h:e.h||'concrete'}}
 // ---- the screen
 // bump a game's version here whenever it changes: its tile shows UPDATED until you open it
-const GV={dw:'0.42.0',if:'1.3.0'};let seenV=null;try{seenV=JSON.parse(localStorage.getItem('lovecraft.seen')||'null')}catch(e){}
+const GV={dw:'0.42.0',if:'1.6.0'};let seenV=null;try{seenV=JSON.parse(localStorage.getItem('lovecraft.seen')||'null')}catch(e){}
 function seenInit(){if(seenV)return;seenV=me().id?{}:{...GV};try{localStorage.setItem('lovecraft.seen',JSON.stringify(seenV))}catch(e){}}
 const isNew=k=>GV[k]&&seenV&&seenV[k]!==GV[k];
 function markSeen(k){if(!GV[k])return;seenInit();seenV[k]=GV[k];try{localStorage.setItem('lovecraft.seen',JSON.stringify(seenV))}catch(e){}}
-const GAMES=[{k:'dw',n:'Door Wars',sub:'Turn your doors into an empire'},{k:'if',n:'Iron Fallout',sub:'Mechs, fog and ruined farmland'},{k:'rsf',n:'Ready Set Fight',soon:1},{k:'7sp',n:'7 Samurai',soon:1},{k:'mm',n:'Myth and Metal',soon:1},{k:'cnc',n:'Code Name Crimson',soon:1}];
-function build(){el=h('div',{class:'lcw',hidden:true},h('div',{class:'lctop'},INSS?h('button',{class:'lcbk',type:'button','aria-label':'Back to Street Sheet',onclick:hide},'‹'):null,h('div',{class:'lcbrand'},h('img',{src:LCA.logo,alt:'Lovecraft',class:'lclogo'}),h('span',{},'GAMES')),h('button',{class:'lcme',type:'button',onclick:profile})),
+const GAMES=[{k:'dw',n:'Door Wars',sub:'Turn your doors into an empire'},{k:'if',n:'Iron Fall',sub:'Mechs, fog and ruined farmland'},{k:'rsf',n:'Ready Set Fight',soon:1},{k:'7sp',n:'7 Samurai',soon:1},{k:'mm',n:'Myth and Metal',soon:1},{k:'cnc',n:'Code Name Crimson',soon:1}];
+function build(){el=h('div',{class:'lcw',hidden:true},h('div',{class:'lctop'},INSS||EMB?h('button',{class:'lcbk',type:'button','aria-label':'Back to Street Sheet',onclick:()=>{if(EMB)PAR.GP.hide();else hide()}},'‹'):null,h('div',{class:'lcbrand'},h('img',{src:LCA.logo,alt:'Lovecraft',class:'lclogo'}),h('span',{},'GAMES')),h('button',{class:'lcme',type:'button',onclick:profile})),
  h('div',{class:'lcgrid'},...GAMES.map(gm=>h('button',{class:'lct lct-'+gm.k+(gm.soon?' soon':''),type:'button',onclick:()=>play(gm.k)},h('div',{class:'lcart'}),h('i',{class:'lcup',hidden:true},'UPDATED'),h('div',{class:'lccap'},h('b',{},gm.n),gm.soon?h('em',{},'COMING SOON'):h('small',{},gm.sub)),h('i',{class:'lcbd',hidden:true})))),
  h('div',{class:'lcfoot'},h('button',{class:'lcshop',type:'button',onclick:shop},'🪙 Cosmetics shop')));document.body.append(el);arts()}
 function arts(){for(const gm of GAMES){const a=el.querySelector('.lct-'+gm.k+' .lcart');if(!a)continue;a.innerHTML=ART[gm.k]||''}
- // Iron Fallout's tile: a real mech from the game walking past a grey farmhouse in the autumn fog
+ // Iron Fall's tile: a real mech from the game walking past a grey farmhouse in the autumn fog
  const a=el.querySelector('.lct-if .lcart'),c=document.createElement('canvas');c.width=300;c.height=324;a.prepend(c);try{ifArt(c)}catch(e){}}
 function ifArt(c){const g=c.getContext('2d'),W=c.width,H=c.height;let sd=7;const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
  const gr=g.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#8d9088');gr.addColorStop(.45,'#6a6c5f');gr.addColorStop(1,'#3a3a2e');g.fillStyle=gr;g.fillRect(0,0,W,H);
@@ -4124,9 +4297,11 @@ function draw(){if(!el)return;const m=me(),b=el.querySelector('.lcme');b.replace
 async function refreshBadges(){try{if(window.DW&&DW.badge)badges.dw=DW.badge()|0}catch(e){}try{localStorage.setItem('lovecraft.bdg',JSON.stringify(badges))}catch(e){}draw();try{if(window.IF){const n=await IF.badge();badges.if=n|0;try{localStorage.setItem('lovecraft.bdg',JSON.stringify(badges))}catch(e){}draw()}}catch(e){}}
 function show(){if(!el)build();el.hidden=false;open=true;document.body.classList.add('lcon');if(!me().id){setup();return}el.classList.remove('lcnew');const w=el.querySelector('.lcwel');if(w)w.remove();draw();pull();refreshBadges()}
 function hide(){if(el)el.hidden=true;open=false;document.body.classList.remove('lcon')}
-function play(k){const gm=GAMES.find(x=>x.k===k);if(gm.soon){toast0(gm.n+' is coming soon');return}if(!me().id){setup();return}hide();ret=k;markSeen(k);if(k==='dw')DW.open();else if(k==='if')IF.open()}
+function play(k,direct){const gm=GAMES.find(x=>x.k===k);if(gm.soon){toast0(gm.n+' is coming soon');return}if(!me().id){if(!el)build();el.hidden=false;open=true;setup();return}hide();ret=direct?'^'+k:k;markSeen(k);if(k==='dw')DW.open();else if(k==='if')IF.open()}
 // a game closed: come back here if it was opened from here
-function back(k){if(ret===k){ret='';show()}}
+function back(k){if(ret===k){ret='';show()}else if(ret==='^'+k){ret='';try{if(!document.getElementById('ov').hidden)close()}catch(e){}show();if(EMB)try{PAR.GP.hide()}catch(e){}}}
+// what is on screen right now: the launcher, a game, or nothing
+function where(){if(document.body.classList.contains('dwon'))return'dw';if(document.body.classList.contains('ifon'))return'if';return open?'lc':''}
 // ---- profile and the big badge
 // The ring grows with experience earned in the games (10 XP = one step), with orbiting sparks, a rotating frame and a rank plate on top of the Street Sheet badge.
 // the badge works like Street Sheet's: it starts plain and earns more detail level by level, from Lovecraft experience only
@@ -4136,13 +4311,13 @@ function profile(){const m=me(),xp=xpTotal(),D=lcD(xp),l=lvlOf(D);
  const rows=[['Coins','🪙 '+coins().toLocaleString()],['Level',l+' · '+lvlName(l)],['Experience',xp.toLocaleString()+' XP'],['Next level',(lvlStart(l+1)*XPD-xp).toLocaleString()+' XP to level '+(l+1)]];
  sheet('Profile',h('div',{class:'lcprof'},avatar(m.name,m.pic,xp,150),h('h2',{},m.name),h('p',{class:'h'},(m.ss?'Linked to Street Sheet. ':'')+'Earn coins and experience by playing: crates, kills, wins and wagers.'),
   h('div',{class:'lcrows'},...rows.map(([a,b])=>h('div',{class:'ifrow'},h('b',{},a),h('span',{},b)))),
-  INSS?h('div',{class:'lclink'},h('small',{},'Link code for the Lovecraft app'),h('b',{},m.id)):null,
+  INSS||EMB?h('div',{class:'lclink'},h('small',{},'Link code for the Lovecraft app'),h('b',{},m.id)):null,
   h('button',{class:'b p',type:'button',style:'width:100%',onclick:()=>{close();shop()}},'Cosmetics shop'),
-  !INSS&&!m.ss?h('button',{class:'b',type:'button',style:'width:100%;margin-top:8px',onclick:()=>{close();signSS()}},'Link my Street Sheet profile'):null,
-  !INSS&&!m.ss?h('button',{class:'b',type:'button',style:'width:100%;margin-top:8px',onclick:photo},m.pic?'Change photo':'Add photo'):null,
-  !INSS&&!m.ss?h('button',{class:'b',type:'button',style:'width:100%;margin-top:8px',onclick:rename},'Change name'):null,
-  !INSS?h('button',{class:'b',type:'button',style:'width:100%;margin-top:8px',onclick:passSheet},P0.ak?'Change password for other phones':'Set a password for other phones'):null,
-  !INSS?h('button',{class:'b',type:'button',style:'width:100%;margin-top:8px',onclick:signOut},'Sign out'):null,
+  !INSS&&!EMB&&!m.ss?h('button',{class:'b',type:'button',style:'width:100%;margin-top:8px',onclick:()=>{close();signSS()}},'Link my Street Sheet profile'):null,
+  !INSS&&!EMB&&!m.ss?h('button',{class:'b',type:'button',style:'width:100%;margin-top:8px',onclick:photo},m.pic?'Change photo':'Add photo'):null,
+  !INSS&&!EMB&&!m.ss?h('button',{class:'b',type:'button',style:'width:100%;margin-top:8px',onclick:rename},'Change name'):null,
+  !INSS&&!EMB?h('button',{class:'b',type:'button',style:'width:100%;margin-top:8px',onclick:passSheet},P0.ak?'Change password for other phones':'Set a password for other phones'):null,
+  !INSS&&!EMB?h('button',{class:'b',type:'button',style:'width:100%;margin-top:8px',onclick:signOut},'Sign out'):null,
   h('button',{class:'b',type:'button',style:'width:100%;margin-top:8px',onclick:close},'Close')))}
 // ---- first launch on the Lovecraft app: three ways in
 // 1. Sign in with Street Sheet profile: one tap if Street Sheet is on this phone, otherwise the same name and password as Street Sheet.
@@ -4201,16 +4376,17 @@ function passSheet(){const pw=h('input',{class:'in',type:'password',placeholder:
  sheet('Password for other phones',p('Sign in on another phone with the name '+P0.name+' and this password.'),pw,msg,b);pw.focus()}
 function signOut(){sheet('Sign out?',p('This phone forgets your profile. Your coins, cosmetics and games stay safe, and you can sign back in any time.'),h('button',{class:'b p',style:'width:100%',onclick:()=>{P0={};save0();rec={sp:0,own:{},eq:{},xp:{}};remoteDr=0;keep();close();show()}},'Sign out'),h('button',{class:'b',style:'width:100%;margin-top:8px',onclick:close},'Cancel'))}
 // the welcome panel over the dimmed game tiles
-function setup(){if(INSS){const nm=h('input',{class:'in',placeholder:'Your name',maxlength:'24',value:T().name||''});sheet('Pick a player name',p('Your friends see this name in every game.'),nm,h('button',{class:'b p',style:'width:100%;margin-top:10px',onclick:()=>{const n=nm.value.trim().slice(0,24);if(!n){nm.focus();return}S.team.name=n;if(!S.team.id)S.team.id=uid();try{save()}catch(e){}close();show()}},'Save'));return}
+function setup(){if(EMB){const nm=h('input',{class:'in',placeholder:'Your name',maxlength:'24',value:T().name||''});sheet('Pick a player name',p('Your friends see this name in every game.'),nm,h('button',{class:'b p',style:'width:100%;margin-top:10px',onclick:()=>{const n=nm.value.trim().slice(0,24);if(!n){nm.focus();return}try{SSH.setName(n)}catch(e){}close();show()}},'Save'));return}
+ if(INSS){const nm=h('input',{class:'in',placeholder:'Your name',maxlength:'24',value:T().name||''});sheet('Pick a player name',p('Your friends see this name in every game.'),nm,h('button',{class:'b p',style:'width:100%;margin-top:10px',onclick:()=>{const n=nm.value.trim().slice(0,24);if(!n){nm.focus();return}S.team.name=n;if(!S.team.id)S.team.id=uid();try{save()}catch(e){}close();show()}},'Save'));return}
  el.classList.add('lcnew');let w=el.querySelector('.lcwel');if(w)return;
- w=h('div',{class:'lcwel'},h('img',{src:LCA.logo,alt:'Lovecraft',class:'lchero'}),h('p',{},'Door Wars, Iron Fallout and more, for you and your friends.'),
+ w=h('div',{class:'lcwel'},h('img',{src:LCA.logo,alt:'Lovecraft',class:'lchero'}),h('p',{},'Door Wars, Iron Fall and more, for you and your friends.'),
   h('button',{class:'lcin ss',type:'button',onclick:signSS},h('b',{},'Sign in with Street Sheet profile'),h('small',{},'Use your Street Sheet name and photo')),
   h('button',{class:'lcin',type:'button',onclick:signIn},h('b',{},'Sign in'),h('small',{},'On a new or second phone')),
   h('button',{class:'lcin',type:'button',onclick:create},h('b',{},'Create profile'),h('small',{},'Pick a name and a photo')));el.append(w)}
 function adopt(x){enter({...x,ss:1},'Linked to Street Sheet')}
 function linkSheet(){const inp=h('input',{class:'in',placeholder:'Link code',autocapitalize:'off',autocomplete:'off'});
  sheet('Link with a code',p('In Street Sheet, tap Games, then your profile at the top. Your link code is shown there.'),inp,h('button',{class:'b p',style:'width:100%;margin-top:10px',onclick:async()=>{const c=inp.value.trim();if(!c)return;try{const r=await fetch(relay()+'/teams/'+teamCode()+'/members/'+encodeURIComponent(c)+'.json'),d=await r.json();if(d&&d.n)adopt({id:c,name:d.n,pic:d.pic||''});else toast0('No Street Sheet profile has that code')}catch(e){toast0('Could not check the code. Are you online?')}}},'Link'),h('button',{class:'b',style:'width:100%;margin-top:8px',onclick:close},'Cancel'));inp.focus()}
-// ---- cosmetics shop (Iron Fallout)
+// ---- cosmetics shop (Iron Fall)
 const RAR={common:'#a8a89a',rare:'#4ea3ff',epic:'#b25cff',legendary:'#ffb020'},SLOT={s:'Soldiers',m:'Mechs',t:'Tracers',h:'Bunker'};let shopTab='s';
 function shop(){const SK=IF.SKINS,L=SK[shopTab],eq=skins(),c=coins();
  sheet('Cosmetics',h('div',{class:'lccoin'},'🪙 ',h('b',{},c.toLocaleString()),h('small',{},' coins · earned in games and wagers')),seg(Object.keys(SLOT).map(k=>[k,SLOT[k]]),shopTab,k=>{shopTab=k;shop()}),
@@ -4233,13 +4409,13 @@ const ART={
  mm:'<svg viewBox="0 0 300 260" preserveAspectRatio="xMidYMid slice"><rect width="300" height="260" fill="#14161c"/><circle cx="150" cy="120" r="80" fill="none" stroke="#b08d57" stroke-width="3" opacity=".6"/><path d="M150 40 L162 120 L150 210 L138 120Z" fill="#c9ccd1" stroke="#6b6f76" stroke-width="2"/><rect x="118" y="150" width="64" height="10" rx="3" fill="#b08d57"/><circle cx="150" cy="40" r="6" fill="#e5c07b"/></svg>',
  cnc:'<svg viewBox="0 0 300 260" preserveAspectRatio="xMidYMid slice"><rect width="300" height="260" fill="#0d0d0f"/><rect x="40" y="60" width="220" height="150" fill="#e9e1cf" transform="rotate(-4 150 135)"/><rect x="60" y="92" width="150" height="10" fill="#111" transform="rotate(-4 150 135)"/><rect x="60" y="116" width="170" height="10" fill="#111" transform="rotate(-4 150 135)"/><rect x="60" y="140" width="110" height="10" fill="#111" transform="rotate(-4 150 135)"/><text x="150" y="128" text-anchor="middle" font-family="\'Special Elite\',Courier,monospace" font-size="30" fill="#b3001b" transform="rotate(-12 150 128)" opacity=".9" stroke="#b3001b" stroke-width=".6">CLASSIFIED</text></svg>'};
 // Street Sheet: Games sits top right on every main screen, opposite the settings gear. A red dot when a game wants you
-function gbtn(){if(!INSS)return;const b=document.getElementById('lcgBtn');if(!b)return;let bd={};try{bd=JSON.parse(localStorage.getItem('lovecraft.bdg')||'{}')||{}}catch(e){}seenInit();
+function gbtn(){if(EMB){try{let bd={};try{bd=JSON.parse(localStorage.getItem('lovecraft.bdg')||'{}')||{}}catch(e){}seenInit();PAR.GP.dot((bd.dw|0)+(bd.if|0),GAMES.some(gm=>isNew(gm.k)))}catch(e){}return}if(!INSS)return;const b=document.getElementById('lcgBtn');if(!b)return;let bd={};try{bd=JSON.parse(localStorage.getItem('lovecraft.bdg')||'{}')||{}}catch(e){}seenInit();
  const n=(bd.dw|0)+(bd.if|0),up=GAMES.some(gm=>isNew(gm.k));b.querySelector('i').hidden=!(n||up);b.querySelector('i').className=n?'':'up'}
 function fab(){if(!INSS)return;const add=()=>{const old=document.querySelector('.dwfab');if(old)old.remove();if(document.getElementById('lcgBtn'))return;
  const b=h('button',{id:'lcgBtn',type:'button','aria-label':'Games',onclick:show},h('img',{src:LCA.emb,alt:''}),h('i',{hidden:true}));document.body.append(b);document.body.classList.add('lcg');gbtn()};
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(add,0));else setTimeout(add,0)}
 fab();
-return{_av:(n,p,xp)=>avatar(n,p,xp,96),show,hide,back,me,coins,skins,addXp,shop,profile,deals,doorsAll,door,led,pullLed,settleRace,isOpen:()=>open}})();
+return{_av:(n,p,xp)=>avatar(n,p,xp,96),show,hide,back,play,where,me,coins,skins,addXp,shop,profile,deals,doorsAll,door,led,pullLed,settleRace,isOpen:()=>open}})();
 window.LC=LC;
 
 document.body.classList.add('lcsa');LC.show();
