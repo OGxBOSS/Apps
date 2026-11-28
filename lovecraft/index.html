@@ -915,7 +915,7 @@ body.ifon{overflow:hidden}
 .iflc .b,.ifoc .b{width:100%}
 .iflc .big{min-height:54px;font-size:17px;display:grid;align-content:center}.iflc .big small{font-size:12px;opacity:.85;font-weight:600}
 .ifnew{display:grid;gap:6px;padding:10px;border:1px solid #2f3527;border-radius:12px;background:rgba(0,0,0,.3)}.ifnew small,.iflc>small{color:#9ea58a}
-.ifsp{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.ifsp .b{min-height:38px}.ifsp .b.on{background:#39ff14;color:#000;border-color:#39ff14}
+.ifsp{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.ifsp .b{min-height:38px}.ifsp .b.on{background:#39ff14;color:#000;border-color:#39ff14}
 .ifover{position:absolute;inset:0;display:grid;place-items:center;background:rgba(6,7,5,.86);padding:18px;z-index:6;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .ifover .ifoc{margin:auto 0}
 .ifoc{max-width:420px;width:100%;display:grid;gap:12px;text-align:center}
@@ -1058,11 +1058,11 @@ body.lcsa .dwss{display:none!important}
 </head>
 <body>
 <div id="main" hidden></div>
-<div id="ver">v0.1.4</div>
+<div id="ver">v0.1.5</div>
 <div id="ov" hidden></div>
 <div id="toast" hidden></div>
 <script>
-const LCVER="0.1.4";
+const LCVER="0.1.5";
 // ===== Lovecraft standalone: the bits of Street Sheet the games lean on =====
 // Inside Street Sheet these come from the app itself. Here they are small stand-ins: no street sheet, no team chat.
 window.LC_SA=1;
@@ -2826,7 +2826,7 @@ return{open:show,close:shut,door,label,badge:dwBadge,wins,peek:()=>({fwAt,draw,G
 // Every phone runs the same commands through these rules and gets the same war. Nothing in here may depend on the device:
 // only + - * / Math.sqrt Math.floor and integer hashing, no Math.sin/cos/hypot/random, and every loop runs in a fixed order.
 const IFE=(()=>{
-const W=80,H=80,N=W*H,ENG=1,BASE=4000,SPEEDS=[1,2,5,10],SLOTS=6;
+const W=80,H=80,N=W*H,ENG=1,BASE=4000,SPEEDS=[1,2,5,10,20,30],SLOTS=6;
 // terrain
 const FLD=0,CROP=1,DIRT=2,ROAD=3,FOR=4,WAT=5,BRG=6,BLD=7,RUB=8,STP=9,MUD=10,PAD=11;
 const TN=['Field','Farmland','Back road','Main road','Forest','Water','Bridge','Building','Rubble','Felled trees','Mud','Concrete'];
@@ -3977,7 +3977,7 @@ function hqSheet(){const p=P();if(!p){toast0('Join the war first');return}const 
   h('div',{class:'ifsec'},'Your look'),h('button',{class:'b',style:'width:100%',onclick:()=>{close();window.LC&&LC.shop()}},'Cosmetics shop'),
   h('button',{class:'b',style:'width:100%;margin-top:8px',onclick:close},'Close')))}
 const mins=t=>{const m=Math.round(t*G.sg.r/60000);return m<60?m+' min':Math.floor(m/60)+' h '+(m%60)+' min'};
-function speedSheet(){if(!G)return;sheet('Game speed',p_('Changes the speed for everyone in this war. At 1× a war takes about a day.'),h('div',{class:'ifsp'},...E.SPEEDS.map(s=>h('button',{class:'b'+(Math.round(E.BASE/G.sg.r)===s?' on':''),type:'button',onclick:()=>{post({k:'sp',s});close()}},s+'×'))),h('button',{class:'b',style:'width:100%;margin-top:10px',onclick:close},'Close'))}
+function speedSheet(){if(!G)return;sheet('Game speed',p_('Changes the speed for everyone in this war. At 1× a war takes about a day; 20× and 30× are for testing.'),h('div',{class:'ifsp'},...E.SPEEDS.map(s=>h('button',{class:'b'+(Math.round(E.BASE/G.sg.r)===s?' on':''),type:'button',onclick:()=>{post({k:'sp',s});close()}},s+'×'))),h('button',{class:'b',style:'width:100%;margin-top:10px',onclick:close},'Close'))}
 function squads(){const id=me(),by={};for(const u of G.u)if(u.o===id&&E.alive(u)&&u.k==='s')(by[u.sq]=by[u.sq]||[]).push(u);const ms=G.u.filter(u=>u.o===id&&u.k==='m');
  sheet('Squads',p_('Tap a squad to select it. To merge, select soldiers, then double-tap a soldier from another squad and pick Merge squads.'),
   h('div',{class:'ifsqs'},...Object.keys(by).map((k,n)=>{const L=by[k];return h('button',{class:'ifsq',type:'button',onclick:()=>{sel=new Set(L.map(u=>u.id));close();selBar();flyTo(L[0].x,L[0].y)}},h('b',{},'Squad '+String.fromCharCode(65+n%26)+' · '+L.length),h('small',{},L.map(u=>u.nm.split(' ').pop()+' ('+E.CLS[u.cl].n.split(' ')[0]+')').join(', ')))}),
@@ -4024,8 +4024,10 @@ async function show(){if(!el)build();el.hidden=false;on=true;document.body.class
  if(!M){const L=q('.iflob');L.hidden=false;L.replaceChildren(h('div',{class:'iflc'},h('p',{},'Loading the war…')))}
  await clock();await loadRound();if(!rid){M=null;G=null;lobbyEmpty();return}
  if(G&&!busy){const p=P();if(p)view={x:p.hx+.5,y:p.hy+.5,z:30}}hud();if(!raf)raf=requestAnimationFrame(loop)}
-function lobbyEmpty(){const L=q('.iflob');L.hidden=false;L.dataset.sig='';const sp=h('div',{class:'ifsp'},...E.SPEEDS.map(s=>h('button',{class:'b'+(s===(C.sp||1)?' on':''),type:'button',onclick:e=>{C.sp=s;persist();L.querySelectorAll('.ifsp .b').forEach(x=>x.classList.toggle('on',x===e.currentTarget))}},s+'×')));
- L.replaceChildren(h('div',{class:'iflc'},h('h2',{},'IRON FALLOUT'),h('p',{},'No war is going on. Start one and your friends can drop in any time.'),h('small',{},'Speed. At 1× a war takes about a day'),sp,h('button',{class:'b p big',type:'button',onclick:()=>newRound(C.sp||1)},'Start a new war'),h('button',{class:'b',type:'button',onclick:howTo},'How to play')))}
+// one button shows the chosen speed; tapping it opens the choices
+function speedPick(done){sheet('Game speed',p_('At 1× a war takes about a day. 20× and 30× are for testing.'),h('div',{class:'ifsp'},...E.SPEEDS.map(s=>h('button',{class:'b'+(s===(C.sp||1)?' on':''),type:'button',onclick:()=>{C.sp=s;persist();close();done()}},s+'×'))),h('button',{class:'b',style:'width:100%;margin-top:10px',onclick:close},'Close'))}
+function lobbyEmpty(){const L=q('.iflob');L.hidden=false;L.dataset.sig='';
+ L.replaceChildren(h('div',{class:'iflc'},h('h2',{},'IRON FALLOUT'),h('p',{},'No war is going on. Start one and your friends can drop in any time.'),h('button',{class:'b',type:'button',onclick:()=>speedPick(lobbyEmpty)},'Speed: '+(C.sp||1)+'×'),h('button',{class:'b p big',type:'button',onclick:()=>newRound(C.sp||1)},'Start a new war'),h('button',{class:'b',type:'button',onclick:howTo},'How to play')))}
 function shut(){try{ledger(1)}catch(e){}on=false;if(el)el.hidden=true;document.body.classList.remove('ifon');closeBubble();stopNet();if(G&&rid){C.seen=C.seen||{};C.seen[rid]=G.tick;persist();saveSnap();saveExp();const p=P();if(p&&window.LC)LC.addXp('if:'+rid,p.xp||0)}}
 // red badge on the main menu: fights that started since you last looked
 async function badge(){try{if(!rid){const cur=await getJ('/cur');if(!cur||!cur.rid)return 0;if(!M||cur.rid!==rid){await loadRound()}}
@@ -4087,7 +4089,7 @@ function addXp(k,v){v=Math.round(+v||0);k=String(k).replace(/[.#$\[\]\/]/g,'_');
 function skins(){const e=rec.eq||{};return{s:e.s||'woodland',m:e.m||'factory',t:e.t||'standard',h:e.h||'concrete'}}
 // ---- the screen
 // bump a game's version here whenever it changes: its tile shows UPDATED until you open it
-const GV={dw:'0.42.0',if:'1.2.0'};let seenV=null;try{seenV=JSON.parse(localStorage.getItem('lovecraft.seen')||'null')}catch(e){}
+const GV={dw:'0.42.0',if:'1.3.0'};let seenV=null;try{seenV=JSON.parse(localStorage.getItem('lovecraft.seen')||'null')}catch(e){}
 function seenInit(){if(seenV)return;seenV=me().id?{}:{...GV};try{localStorage.setItem('lovecraft.seen',JSON.stringify(seenV))}catch(e){}}
 const isNew=k=>GV[k]&&seenV&&seenV[k]!==GV[k];
 function markSeen(k){if(!GV[k])return;seenInit();seenV[k]=GV[k];try{localStorage.setItem('lovecraft.seen',JSON.stringify(seenV))}catch(e){}}
