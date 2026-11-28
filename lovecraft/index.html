@@ -977,6 +977,37 @@ body.ifon{overflow:hidden}
 .ifgx{pointer-events:auto;position:absolute;left:50%;transform:translateX(-50%);bottom:10px;width:48px;height:48px;border-radius:14px;border:1px solid #3a3f30;background:#1b1e17;color:#d9d4bd;font-size:20px;padding:0}
 .ifghost{position:fixed;z-index:999999;transform:translate(-50%,-60%);font-size:30px;pointer-events:none;filter:drop-shadow(0 4px 8px rgba(0,0,0,.6))}
 .ifstage:has(.ifgear) .ifgearb{display:none}
+
+/* order wheel: special moves ringed in gold */
+.ifbo.gold{border:2.5px solid #e8b923;background:radial-gradient(circle at 35% 30%,#3d3418,#19150a);box-shadow:0 0 0 2px rgba(0,0,0,.55),0 0 14px rgba(232,185,35,.55),0 4px 14px rgba(0,0,0,.6)}
+.ifbo.gold small{color:#f6d56e}
+.ifbo.gold:active{background:#5a4a18;border-color:#ffd84a}
+.ifbo.cool{opacity:.62}
+.ifbo em{font-style:normal;font-size:8px;font-weight:700;line-height:1;color:#f6d56e;margin-top:1px}
+/* mech scan */
+.ifpc .ifpcm{font-style:normal;font-size:11px;font-weight:800;color:#c8ffb0;margin-left:2px;white-space:nowrap}
+.ifscanb{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);z-index:6;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;animation:ifscanin 3.8s ease forwards}
+.ifscanb.ff{animation-duration:4.4s}
+.ifscanb b{font-family:'Black Ops One',system-ui,sans-serif;font-size:25px;letter-spacing:.05em;color:#7dff4f;text-shadow:0 0 14px rgba(57,255,20,.65),0 2px 0 #000;white-space:nowrap}
+.ifscanb.ff b{font-size:30px}
+.ifscanb em{font-style:normal;font-weight:800;font-size:13px;color:#c8ffb0;text-shadow:0 1px 2px #000;animation:ifblink .25s steps(2) 8}
+.ifscanb small{font-weight:700;font-size:12px;color:#e6f5d8;background:rgba(0,0,0,.6);padding:4px 10px;border-radius:10px}
+.ifrad{position:relative;width:120px;height:120px;border-radius:50%;overflow:hidden;border:2px solid rgba(57,255,20,.75);background:repeating-radial-gradient(circle,rgba(57,255,20,.05) 0 14px,rgba(57,255,20,.32) 14px 15.5px),radial-gradient(circle,#0f2a0a,#050b04);box-shadow:0 0 26px rgba(57,255,20,.35),inset 0 0 20px rgba(0,0,0,.7)}
+.ifrad::after{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(57,255,20,.25);box-shadow:0 0 0 0 transparent}
+.ifrad i{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(57,255,20,0) 0deg,rgba(57,255,20,0) 250deg,rgba(57,255,20,.85) 359deg,rgba(220,255,200,1) 360deg);animation:ifsweep 1.3s linear 2}
+.ifscanb.ff .ifrad{width:150px;height:150px}
+.ifscanb.ff .ifrad i{animation:ifsweepff 3.2s cubic-bezier(.15,.75,.35,1) forwards}
+@keyframes ifsweep{to{transform:rotate(360deg)}}
+@keyframes ifsweepff{from{transform:rotate(0)}to{transform:rotate(9000deg)}}
+@keyframes ifscanin{0%{opacity:0;transform:translate(-50%,-44%) scale(.92)}8%{opacity:1;transform:translate(-50%,-50%) scale(1)}85%{opacity:1}100%{opacity:0}}
+@keyframes ifblink{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.ifrad i,.ifscanb.ff .ifrad i{animation:none}}
+/* same commander, other app */
+.iftwin{display:grid;gap:8px;margin:4px 0 6px}
+.iftwin p{margin:0;font-size:13px;color:#d9d3bd}
+.iftwin .b{display:flex;flex-direction:column;align-items:center;gap:2px}
+.iftwc{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:0 0 0 2px rgba(0,0,0,.5);margin-bottom:2px}
+.ifpc{flex:0 0 auto}.ifpc b{flex:0 1 auto;min-width:0}.ifpc .ifpcm{flex:0 0 auto}
 /* ===== Lovecraft: the launcher ===== */
 .lcw{--ink:#0b1112;--ink2:#132022;--edge:#25393b;--bone:#e9e4d6;--dim:#8ea3a0;--soon:#e5202e;--tea:#5fb3a4;
  position:fixed;inset:0;z-index:99980;background:radial-gradient(120% 70% at 50% -10%,#173033 0%,var(--ink) 55%,#060909 100%);color:var(--bone);display:flex;flex-direction:column;overflow:hidden;
@@ -1080,6 +1111,10 @@ body.lcon .lcfab,body.dwon .lcfab,body.ifon .lcfab{display:none}
 .wgc{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 10px}.wgc .b{min-height:36px;width:auto;padding:0 12px}
 .lcw.lcnew .lcbrand{visibility:hidden}
 
+.lcssb{margin:0 14px 12px;padding:12px 14px;border-radius:14px;background:rgba(95,179,164,.12);border:1px solid rgba(95,179,164,.45);display:grid;gap:10px}
+.lcssb p{margin:0;font-size:13.5px;line-height:1.35;color:#d8e9e4}
+.lcssb .b{width:100%}
+
 /* standalone only */
 body.lcsa .dwss{display:none!important}
 #ver{display:none}
@@ -1088,11 +1123,11 @@ body.lcsa .dwss{display:none!important}
 </head>
 <body>
 <div id="main" hidden></div>
-<div id="ver">v0.1.9</div>
+<div id="ver">v0.2.0</div>
 <div id="ov" hidden></div>
 <div id="toast" hidden></div>
 <script>
-const LCVER="0.1.9";
+const LCVER="0.2.0";
 // ===== Lovecraft standalone: the bits of Street Sheet the games lean on =====
 // Inside Street Sheet these come from the app itself. Here they are small stand-ins: no street sheet, no team chat.
 window.LC_SA=1;
@@ -3376,7 +3411,8 @@ const IF=(()=>{
 const E=IFE,W=E.W,H=E.H,N=E.N,TS=32,LK='lovecraft.if',LAG=1200;
 let C={};try{C=JSON.parse(localStorage.getItem(LK)||'{}')||{}}catch(e){C={}}
 const persist=()=>{try{localStorage.setItem(LK,JSON.stringify(C))}catch(e){}};
-const me=()=>(window.LC&&LC.me().id)||T().id||'me',myName=()=>(window.LC&&LC.me().name)||T().name||'Commander';
+// AL: in this war you may command the army you joined with from your other app (Lovecraft app vs Street Sheet)
+let AL={};const me0=()=>(window.LC&&LC.me().id)||T().id||'me',me=()=>{const b=me0();return AL[b]||b},myName=()=>(window.LC&&LC.me().name)||T().name||'Commander';
 const base=p=>relay()+'/teams/'+teamCode()+'/if'+(p||'')+'.json';
 let el=null,cv=null,g=null,on=false,raf=0,M=null,G=null,meta=null,cmds=[],keys=new Set(),es=null,rid=null,off=0,snaps=[],busy=false,view={x:40,y:40,z:30},sel=new Set(),dirty=1,lastT=0,
  stat=null,canopy=null,fog=null,fogD=null,expl=null,parts=[],tracers=[],bubble=null,lasso=null,seenTick=0,lastEv=0,hud0='',stage={},vstage={},dvSeen=-1,tkEv=null,follow=null,pend=[],ptr=new Map(),tapT=0,tapXY=null,cueT=null;
@@ -3400,10 +3436,11 @@ function add(k,c){if(!c||keys.has(k)||typeof c.ts!=='number')return;keys.add(k);
  // a command that lands in the past rewinds to a saved moment and replays
  if(G&&(i<(G.ci|0)||c.ts<=E.tsOf(G,G.tick))){let s=null;for(let j=snaps.length-1;j>=0;j--)if(snaps[j].ci<=i&&E.tsOf(snaps[j].G,snaps[j].G.tick)<c.ts){s=snaps[j];break}snaps=snaps.filter(q=>q.ci<=i);if(s){G=JSON.parse(JSON.stringify(s.G))}else{G=E.fresh(M,meta);snaps=[]}redrawAll()}dirty=1}
 async function loadRound(){const cur=await getJ('/cur').catch(()=>null);if(!cur||!cur.rid||!cur.t0||(cur.v|0)!==E.ENG){rid=null;M=G=meta=null;return null}
- if(cur.rid!==rid){rid=cur.rid;lastKey='';meta={seed:cur.seed,t0:cur.t0,sp:cur.sp||1};cmds=[];keys=new Set();snaps=[];M=E.gen(meta.seed);G=null;stat=canopy=null;stage={};vstage={};
+ if(cur.rid!==rid){rid=cur.rid;lastKey='';AL=(C.al&&C.al[rid])||{};meta={seed:cur.seed,t0:cur.t0,sp:cur.sp||1};cmds=[];keys=new Set();snaps=[];M=E.gen(meta.seed);G=null;stat=canopy=null;stage={};vstage={};
   // start from the copy saved on this phone if it is still valid
   try{const sv=JSON.parse(localStorage.getItem(LK+'.snap')||'null');if(sv&&sv.rid===rid&&sv.v===E.ENG)C.pending=sv}catch(e){}
   if(!G)G=E.fresh(M,meta);loadExp()}
+ try{const a=await getJ('/r/'+rid+'/al');if(a&&typeof a==='object'){AL={...AL,...a};C.al={[rid]:AL};persist()}}catch(e){}
  const all=await getJ('/r/'+rid+'/c').catch(()=>null);if(all)for(const k in all)add(k,all[k]);
  const sv=C.pending;C.pending=null;if(sv&&sv.ci<=cmds.length&&cmds.slice(0,sv.ci).map(c=>c.key).join(',')===sv.keys){G=sv.G;redrawAll()}
  listen();return cur}
@@ -3413,7 +3450,7 @@ async function newRound(sp){const id=uid()+uid(),seed=Math.floor(Math.random()*2
 function joinMe(){if(!G||G.pl[me()])return;post({k:'j',n:myName(),sk:LC&&LC.skins?LC.skins():{}});C.seen=C.seen||{};C.seen[rid]=0;persist()}
 // ---------- simulation loop ----------
 function advance(budget){if(!G||!M)return;const T=now()-LAG,t0=performance.now();let n=0;
- while(E.tsOf(G,G.tick+1)<=T&&!G.over){const ts=E.tsOf(G,G.tick+1);E.simTo(G,M,meta,cmds,ts);n++;
+ while(E.tsOf(G,G.tick+1)<=T&&!G.over){const ts=E.tsOf(G,G.tick+1);E.simTo(G,M,meta,cmds,ts);n++;scanTick();
   if(G.tick%100===0){snaps.push({G:JSON.parse(JSON.stringify(G)),ci:G.ci|0});if(snaps.length>12)snaps.splice(1,1)}
   spawnFx();if(performance.now()-t0>budget)break}
  busy=E.tsOf(G,G.tick+1)<=T-3000;if(n){dirty=1;if(G.dv!==dvSeen)fixLayers();if(!busy)hud()}}
@@ -3824,6 +3861,41 @@ function weather(cw,ch,now,z){const t=now/1000,dk=darkness(),lf=Math.max(.12,Mat
  for(let li=0;li<LEAVES.length*lf;li++){const L=LEAVES[li],x=((L.x*cw+t*(14+L.s*20))%(cw+20))-10,y=((L.y*ch+t*(10+L.s*16))%(ch+20))-10;g.save();g.translate(x,y);g.rotate(t*2+L.s*9);g.fillStyle=L.c;g.globalAlpha=.7*lf;const ls=.5+lf*.5;g.fillRect(-2.5*ls,-1.2*ls,5*ls,2.4*ls);g.restore()}g.globalAlpha=1;
  const v=g.createRadialGradient(cw/2,ch/2,Math.min(cw,ch)*.35,cw/2,ch/2,Math.max(cw,ch)*.75);v.addColorStop(0,'rgba(0,0,0,0)');v.addColorStop(1,'rgba(8,10,12,'+(.3+dk*.35).toFixed(2)+')');g.fillStyle=v;g.fillRect(0,0,cw,ch)}
 
+// ---------- mech scan ----------
+// Every hour of war time (900 ticks, so faster at higher speeds) your bunker sweeps the map and counts how many mechs every commander holds.
+// It is all worked out from the shared war state, so every phone gets the same numbers at the same moment, and nothing about the war itself changes.
+const SCAN_EVERY=900,SCAN_LEN=45;let scanLiveK=0;
+function scanNow(){if(!G)return 0;const k=Math.floor(G.tick/SCAN_EVERY);return k>=1&&G.tick-k*SCAN_EVERY<SCAN_LEN?k:0}
+function behind(){try{return now()-LAG-E.tsOf(G,G.tick)>3000}catch(e){return true}}
+// after every simulated tick: live, catching up, or in the background for the menu badge
+function scanTick(){if(!G||!rid)return;const t=G.tick;if(t<SCAN_EVERY+SCAN_LEN||(t-SCAN_LEN)%SCAN_EVERY)return;const k=(t-SCAN_LEN)/SCAN_EVERY,n={};
+ for(const id of G.po)n[id]=0;for(const u of G.u)if(u.k==='m'&&u.o&&n[u.o]!==undefined&&u.st!=='der'&&E.alive(u))n[u.o]++;
+ const old=C.sc&&C.sc.rid===rid?C.sc:null;C.sc={rid,k,n,sh:old?old.sh|0:0};
+ // you watched it happen: the normal message. Otherwise the fast-forward version plays when you are back (scanMiss)
+ if(on&&!document.hidden&&scanLiveK===k&&!behind()&&P()){C.sc.sh=k;scanBanner(0)}
+ persist();const b=el&&el.querySelector('.ifpls');if(b)b.dataset.sig=''}
+function scanMiss(){if(!on||!G||!C.sc||C.sc.rid!==rid||C.sc.k<=(C.sc.sh|0)||behind())return;const show_=!!P();C.sc.sh=C.sc.k;persist();if(show_)scanBanner(1)}
+function scanBanner(ff){const st=el&&el.querySelector('.ifstage');if(!st)return;const o=st.querySelector('.ifscanb');if(o)o.remove();
+ const b=h('div',{class:'ifscanb'+(ff?' ff':''),role:'status'},h('div',{class:'ifrad'},h('i',{})),ff?h('em',{},'⏩⏩ While you were away'):null,h('b',{},ff?'SCAN COMPLETE':'MECH SCAN COMPLETE'),h('small',{},'🤖 Mech counts are next to each name'));
+ st.append(b);setTimeout(()=>b.remove(),ff?4400:3800);try{sfx('ord')}catch(e){}}
+// the radar itself: rings, a bright sweep line with a fading tail, and blips on your own mechs as the line passes them
+function radarPaint(cx,cy,R,a,al,mine){if(al<=0||R<4)return;g.save();g.globalAlpha=Math.min(1,al);
+ const gr=g.createRadialGradient(cx,cy,0,cx,cy,R);gr.addColorStop(0,'rgba(57,255,20,.13)');gr.addColorStop(1,'rgba(57,255,20,.03)');g.fillStyle=gr;g.beginPath();g.arc(cx,cy,R,0,7);g.fill();
+ g.strokeStyle='rgba(57,255,20,.3)';g.lineWidth=1.2;for(let i=1;i<=4;i++){g.beginPath();g.arc(cx,cy,R*i/4,0,7);g.stroke()}
+ g.strokeStyle='rgba(57,255,20,.14)';g.beginPath();g.moveTo(cx-R,cy);g.lineTo(cx+R,cy);g.moveTo(cx,cy-R);g.lineTo(cx,cy+R);g.stroke();
+ const N=28,span=1.15;for(let j=0;j<N;j++){const a1=a-span*j/N,a0=a-span*(j+1)/N;g.fillStyle='rgba(57,255,20,'+(.34*(1-j/N)).toFixed(3)+')';g.beginPath();g.moveTo(cx,cy);g.arc(cx,cy,R,a0,a1+.004);g.closePath();g.fill()}
+ g.strokeStyle='rgba(190,255,160,.95)';g.lineWidth=2;g.shadowColor='#39ff14';g.shadowBlur=10;g.beginPath();g.moveTo(cx,cy);g.lineTo(cx+Math.cos(a)*R,cy+Math.sin(a)*R);g.stroke();g.shadowBlur=0;
+ g.fillStyle='#b8ff9a';g.beginPath();g.arc(cx,cy,3.5,0,7);g.fill();
+ if(mine)for(const m of mine){if(Math.hypot(m[0]-cx,m[1]-cy)>R)continue;let df=(a-Math.atan2(m[1]-cy,m[0]-cx))%(Math.PI*2);if(df<0)df+=Math.PI*2;const b=1-df/2.4;if(b<=0)continue;
+  g.fillStyle='rgba(200,255,170,'+b.toFixed(2)+')';g.shadowColor='#39ff14';g.shadowBlur=8*b;g.beginPath();g.arc(m[0],m[1],3+5*b,0,7);g.fill();g.shadowBlur=0}
+ g.restore()}
+// on the map, only on your screen, centered on your bunker
+function scanDraw(now_,z,sx,sy,cw){const k=scanNow(),p=P();if(!k||!p||!p.hq)return;if(on&&!document.hidden&&!behind())scanLiveK=k;
+ const f=Math.min(1,(G.tick-k*SCAN_EVERY)/SCAN_LEN),al=Math.max(0,Math.min(1,f/.05,(1-f)/.05)),mine=[];
+ for(const u of G.u)if(u.k==='m'&&u.o===me()&&E.alive(u)){const q2=ipos(u);mine.push([sx(q2[0]),sy(q2[1])])}
+ radarPaint(sx(p.hx+.5),sy(p.hy+.5),70*z,now_/2600*Math.PI*2,al*.95,mine);
+ const tx='📡 MECH SCAN '+Math.round(f*100)+'%';g.save();g.font='800 12px system-ui,sans-serif';const tw=g.measureText(tx).width,X=cw/2,Y=62;g.fillStyle='rgba(0,0,0,.65)';rrect(X-tw/2-10,Y-11,tw+20,22,11);g.fill();g.strokeStyle='rgba(57,255,20,.7)';g.lineWidth=1;g.stroke();g.fillStyle='#9dff7a';g.textAlign='center';g.textBaseline='middle';g.fillText(tx,X,Y+.5);g.restore()}
+
 // ---------- main drawing ----------
 const vp=()=>{const d=Math.min(2,window.devicePixelRatio||1),w=cv.clientWidth,h=cv.clientHeight;if(cv.width!==Math.round(w*d)||cv.height!==Math.round(h*d)){cv.width=Math.round(w*d);cv.height=Math.round(h*d)}return{d,w,h}};
 function clampV(){if(!cv)return;const w=cv.clientWidth||360,h=cv.clientHeight||600;view.z=Math.max(Math.max(w/W,h/H)*.9,Math.min(90,view.z));const hw=w/2/view.z,hh=h/2/view.z;view.x=Math.max(Math.min(hw,W/2),Math.min(W-Math.min(hw,W/2),view.x));view.y=Math.max(Math.min(hh,H/2),Math.min(H-Math.min(hh,H/2),view.y))}
@@ -3861,6 +3933,7 @@ function draw(now){if(!g||!M||!G)return;const {d,w:cw,h:ch}=vp();g.setTransform(
  for(const u of G.u)if(u.k==='m'&&u.o===id&&u.st==='idle'){const q=ipos(u,f);tag(sx(q[0]),sy(q[1])-z*1.3,'NO PILOT','#9ae6b4')}
  drawFog(z,ox,oy);
  weather(cw,ch,now,z);
+ try{scanDraw(now,z,sx,sy,cw)}catch(e){}
  if(lasso&&lasso.pts.length>1){g.strokeStyle='#39ff14';g.lineWidth=3;g.lineJoin='round';g.lineCap='round';g.shadowColor='#39ff14';g.shadowBlur=10;g.beginPath();g.moveTo(lasso.pts[0][0],lasso.pts[0][1]);for(const p of lasso.pts)g.lineTo(p[0],p[1]);g.stroke();g.shadowBlur=0;
   const a=lasso.pts[0],b=lasso.pts[lasso.pts.length-1];if(Math.hypot(a[0]-b[0],a[1]-b[1])<60&&lasso.pts.length>8){g.fillStyle='rgba(57,255,20,.12)';g.beginPath();g.moveTo(a[0],a[1]);for(const p of lasso.pts)g.lineTo(p[0],p[1]);g.closePath();g.fill()}}
  for(const q of pend){if(q.k!=='o'||q.x==null)continue;const a=1-(Date.now()-q.at)/8000;g.strokeStyle='rgba(57,255,20,'+Math.max(0,a)+')';g.lineWidth=2;g.beginPath();g.arc(sx(q.x),sy(q.y),z*.4+((Date.now()-q.at)/40%10),0,7);g.stroke()}}
@@ -3904,7 +3977,7 @@ function single(cx,cy){const u=pick(cx,cy),[mx,my]=toMap(cx,cy);
  if(sel.size){sel.clear();selBar()}}
 // ---------- the order bubble ----------
 const OPS={move:['Move','➜'],amove:['Attack-move','⚔'],sneak:['Sneak','🌲'],shelter:['Take cover','🛡'],suppress:['Suppress','💥'],hold:['Hold here','✋'],repair:['Repair','🔧'],board:['Board mech','🪖'],loot:['Grab crate','📦'],bomb:['Plant C4','🧨'],trap:['Set trap','⚠'],merge:['Merge squads','🔗'],retreat:['Fall back','🏠'],
- crash:['Crash through','💢'],destroy:['Destroy','🎯'],sweep:['Sweep the trees','🔥'],barrage:['Barrage','☄'],ability:['Ability','✨'],eject:['Eject pilot','⏏'],attack:['Attack','⚔']};
+ crash:['Crash through','💢'],destroy:['Destroy','🎯'],sweep:['Sweep the trees','🔥'],barrage:['Bombard','☄'],ability:['Ability','✨'],eject:['Eject pilot','⏏'],attack:['Attack','⚔']};
 function dbl(cx,cy){if(!sel.size){const c=toMap(cx,cy);view.z*=1.7;clampV();const m=toMap(cx,cy);view.x+=c[0]-m[0];view.y+=c[1]-m[1];clampV();return}
  const [mx,my]=toMap(cx,cy),us=[...sel].map(id=>E.unit(G,id)).filter(u=>u&&E.alive(u)),S=us.filter(u=>u.k==='s'),Mm=us.filter(u=>u.k==='m');if(!us.length){sel.clear();selBar();return}
  const tu=pick(cx,cy),i=Math.floor(my)*W+Math.floor(mx),v=E.tt(G,M,i),bAt=i>=0&&i<N?M.bAt[i]:-1,vAt=i>=0&&i<N?M.vAt[i]:-1,crate=G.cr.find(c=>!c.got&&Math.abs(c.x-mx)<.7&&Math.abs(c.y-my)<.7&&visAt(c.x,c.y)),
@@ -3920,15 +3993,25 @@ function dbl(cx,cy){if(!sel.size){const c=toMap(cx,cy);view.z*=1.7;clampV();cons
  if(vAt>=0&&G.vh[vAt]>0){if(Mm.length)L.push('destroy');if(has('c4'))L.push('bomb');tg='v'+vAt}
  if(v===E.FOR){if(S.length)L.push('sneak','shelter');if(Mm.length)L.push('sweep','crash')}
  L.push('move');if(!L.includes('amove'))L.push('amove');if(S.length&&!L.includes('sneak'))L.push('sneak');if(S.length)L.push('suppress');if(S.length&&(has('mine')||has('atmine')))L.push('trap');
- if(Mm.length){if(!L.includes('crash'))L.push('crash');if(!L.includes('destroy'))L.push('destroy');if(Mm.some(m=>E.MECHS[m.mi].w.some(w=>w==='rk'||w==='mo'))||Mm.some(m=>E.MECHS[m.mi].ab==='barrage'))L.push('barrage');L.push('ability');L.push('eject')}
+ // a mech's special moves go in gold at the bottom of the wheel: its own ability, and Bombard for rocket and mortar mechs
+ const SPc=[];if(Mm.length){if(!L.includes('crash'))L.push('crash');if(!L.includes('destroy'))L.push('destroy');if(Mm.some(m=>E.MECHS[m.mi].w.some(w=>w==='rk'||w==='mo')))SPc.push('barrage');SPc.push('ability');L.push('eject')}
  L.push('hold');if(S.length)L.push('retreat');
- openBubble(cx,cy,[...new Set(L)].slice(0,10),op=>{let o=op,X=x,Y=y;if(op==='retreat'){const Pq=P();X=Pq.hx+.5;Y=Pq.hy+(Pq.hy<40?3:-2)}if(op==='attack')o='amove';
+ openBubble(cx,cy,[...new Set(L)].slice(0,10-SPc.length),op=>{let o=op,X=x,Y=y;if(op==='retreat'){const Pq=P();X=Pq.hx+.5;Y=Pq.hy+(Pq.hy<40?3:-2)}if(op==='attack')o='amove';
   const ids=[...sel].filter(id=>{const u=E.unit(G,id);if(!u)return false;if(['shelter','sneak','suppress','trap','loot','repair','board','bomb','merge','retreat'].includes(o))return u.k==='s';if(['crash','destroy','sweep','barrage','ability','eject'].includes(o))return u.k==='m';return true});
-  if(!ids.length)return;post({k:'o',ids,op:o,x:+X.toFixed(2),y:+Y.toFixed(2),tg});sfx('ord');toast0(OPS[o][0]+' · '+ids.length+(ids.length===1?' unit':' units')+' on the way')})}
-function openBubble(cx,cy,L,go){closeBubble();const r=el.getBoundingClientRect(),cr=cv.getBoundingClientRect(),X=cx-r.left,Y=cy-r.top,R=L.length>7?104:90,b=document.createElement('div');b.className='ifbub';b.style.left=X+'px';b.style.top=Y+'px';
+  if(!ids.length)return;post({k:'o',ids,op:o,x:+X.toFixed(2),y:+Y.toFixed(2),tg});sfx('ord');if(o==='ability'){const ab=abOf(Mm);toast0(ab.n+(ab.ready?'!':' is not ready yet. '+ab.sub))}else toast0(OPS[o][0]+' · '+ids.length+(ids.length===1?' unit':' units')+' on the way')},SPc,Mm)}
+// the ability button: the mech's own ability name and icon, and when it is ready again
+const ABI={smoke:'💨',shield:'🛡',overdrive:'⚡',scan:'📡',jump:'🚀',barrage:'💥'};
+function abOf(Mm){const ks=[...new Set(Mm.map(m=>E.MECHS[m.mi].ab))],one=ks.length===1,rd=Mm.filter(m=>!(m.abc>G.tick));let sub='';if(!rd.length){const t=Math.min(...Mm.map(m=>m.abc))-G.tick;sub='Ready in '+mins(t)}return{n:one?E.AB[ks[0]].n:'Abilities',ic:one?ABI[ks[0]]:'✨',ready:rd.length>0,sub}}
+function openBubble(cx,cy,L,go,SPc,Mm){closeBubble();SPc=SPc||[];const n=L.length+SPc.length,r=el.getBoundingClientRect(),cr=cv.getBoundingClientRect(),X=cx-r.left,Y=cy-r.top,R=n>7?104:90,b=document.createElement('div');b.className='ifbub';b.style.left=X+'px';b.style.top=Y+'px';
  const dot=document.createElement('i');dot.className='ifbdot';b.append(dot);
- L.forEach((op,k)=>{const a=-Math.PI/2+k/L.length*Math.PI*2,bx=Math.cos(a)*R,by=Math.sin(a)*R,e=document.createElement('button');e.type='button';e.className='ifbo';e.style.transform='translate('+bx+'px,'+by+'px)';e.style.animationDelay=(k*18)+'ms';
-  e.innerHTML='<span>'+OPS[op][1]+'</span><small>'+OPS[op][0]+'</small>';e.onclick=ev=>{ev.stopPropagation();closeBubble();go(op)};b.append(e)});
+ // slots around the circle; the special moves take the ones nearest the bottom, everything else fills in from the top
+ const st=Math.PI*2/n,o=SPc.length===2?(n%2?0:.5):SPc.length===1?(n%2?.5:0):0,ang=k=>-Math.PI/2+(k+o)*st,off=k=>{const d=((ang(k)-Math.PI/2)%(Math.PI*2)+Math.PI*3)%(Math.PI*2)-Math.PI;return Math.abs(d)};
+ const all=[...Array(n).keys()],spK=all.slice().sort((a,c)=>off(a)-off(c)).slice(0,SPc.length).sort((a,c)=>Math.cos(ang(a))-Math.cos(ang(c))),rest=all.filter(k=>!spK.includes(k));
+ const mk=(op,k,i,gold)=>{const a=ang(k),bx=Math.cos(a)*R,by=Math.sin(a)*R,e=document.createElement('button');e.type='button';let lab=OPS[op][0],ic=OPS[op][1],sub='',cool=false;
+  if(op==='ability'&&Mm&&Mm.length){const ab=abOf(Mm);lab=ab.n;ic=ab.ic;sub=ab.sub;cool=!ab.ready}
+  e.className='ifbo'+(gold?' gold':'')+(cool?' cool':'');e.style.transform='translate('+bx+'px,'+by+'px)';e.style.animationDelay=(i*18)+'ms';
+  e.innerHTML='<span>'+ic+'</span><small>'+lab+'</small>'+(sub?'<em>'+sub+'</em>':'');e.onclick=ev=>{ev.stopPropagation();closeBubble();go(op)};b.append(e)};
+ L.forEach((op,i)=>mk(op,rest[i],i,0));SPc.forEach((op,i)=>mk(op,spK[i],L.length+i,1));
  el.querySelector('.ifstage').append(b);bubble=b;
  // keep it on screen
  const bb=b.getBoundingClientRect();let dx=0,dy=0;if(X-R-40<0)dx=R+40-X;if(X+R+40>cr.width)dx=cr.width-R-40-X;if(Y-R-40<0)dy=R+40-Y;if(Y+R+50>cr.height)dy=cr.height-R-50-Y;if(dx||dy){b.style.left=(X+dx)+'px';b.style.top=(Y+dy)+'px'}}
@@ -4031,8 +4114,8 @@ let ledT=0;function ledger(force){if(!G||!rid||!window.LC||!LC.led)return;const 
  for(const k in G.wg||{}){const x=G.wg[k];if(x.st!=='on'&&x.st!=='done')continue;LC.led(x.a,'we'+rid+x.id,-x.w,'Wager stake');LC.led(x.b,'we'+rid+x.id,-x.w,'Wager stake');
   if(x.st==='done'){if(x.win)LC.led(x.win,'ws'+rid+x.id,2*x.w,'Wager won');else{LC.led(x.a,'ws'+rid+x.id,x.w,'Wager tie');LC.led(x.b,'ws'+rid+x.id,x.w,'Wager tie')}}}}
 let ctr='';
-function plChips(){const b=q('.ifpls');if(!b||!G)return;const sig=G.po.map(id=>id+':'+(G.pl[id].hq?1:0)+':'+G.pl[id].n).join('|');if(b.dataset.sig===sig)return;b.dataset.sig=sig;
- b.replaceChildren(...G.po.map(id=>{const P_=G.pl[id],mine=id===me();return h('button',{class:'ifpc'+(mine?' me':'')+(P_.hq?'':' out'),type:'button',style:'--c:'+P_.col,onclick:()=>{if(mine||explored[P_.hy*W+P_.hx])flyTo(P_.hx,P_.hy);else toast0(P_.n+'’s bunker is still hidden in the fog')}},h('i',{}),h('b',{},P_.n),P_.hq?null:h('small',{},'✕'))}))}
+function plChips(){const b=q('.ifpls');if(!b||!G)return;const sc=C.sc&&C.sc.rid===rid?C.sc:null,sig=G.po.map(id=>id+':'+(G.pl[id].hq?1:0)+':'+G.pl[id].n+':'+(sc&&sc.n[id])).join('|')+me();if(b.dataset.sig===sig)return;b.dataset.sig=sig;
+ b.replaceChildren(...G.po.map(id=>{const P_=G.pl[id],mine=id===me();return h('button',{class:'ifpc'+(mine?' me':'')+(P_.hq?'':' out'),type:'button',style:'--c:'+P_.col,onclick:()=>{if(mine||explored[P_.hy*W+P_.hx])flyTo(P_.hx,P_.hy);else toast0(P_.n+'’s bunker is still hidden in the fog')}},h('i',{}),h('b',{},P_.n),sc&&sc.n[id]!==undefined?h('em',{class:'ifpcm',title:'Mechs at the last scan'},'🤖'+sc.n[id]):null,P_.hq?null:h('small',{},'✕'))}))}
 // ---------- gear: everything your troops picked up, and who to give it to ----------
 // left: your stock of gear. right: your soldiers and mechs. The middle stays open so you can see where they are on the map
 const IC={vest:'🦺',plate:'🛡',c4:'🧨',mine:'⚠',atmine:'⛔',scope:'🔭',extmag:'▮',medkit:'✚',binoc:'👁',keycard:'🗝',hazmat:'☢',core:'⚛'};
@@ -4068,10 +4151,15 @@ function selBar(soft){const b=q('.ifsel');if(!b)return;const us=[...sel].map(id=
  b.replaceChildren(...us.slice(0,14).map(u=>{const f=u.hp/u.hpm,rl=u.k==='m'?u.ws.some(s=>s.rl>0):u.rl>0;return h('button',{class:'ifchip'+(u.k==='m'?' m':''),type:'button',onclick:()=>info(u)},
   h('b',{},u.k==='m'?E.MECHS[u.mi].n:u.nm.split(' ').pop()),h('small',{},u.k==='m'?'Mech':E.CLS[u.cl].n),h('i',{class:'ifhp'},h('i',{style:'width:'+Math.round(f*100)+'%;background:'+(f>.5?'#7bd36a':f>.25?'#f2c230':'#ef4444')})),rl?h('em',{},'Reloading'):u.inv&&u.inv.length?h('em',{class:'inv'},u.inv.map(k=>({c4:'🧨',mine:'⚠',atmine:'⛔',scope:'🔭',extmag:'▮',medkit:'✚',binoc:'👁',keycard:'🗝'}[k]||'•')).join('')):null)}),
   ...(us.length>14?[h('span',{class:'ifmore'},'+'+(us.length-14))]:[]),h('button',{class:'ifclr',type:'button',onclick:()=>{sel.clear();selBar()}},'Clear'))}
-function lobby(){const L=q('.iflob');if(!L)return;const p=P(),show=!rid||!G||(!p&&!G.over);L.hidden=!show;if(!show)return;const sig=(rid||'-')+':'+(G?G.po.length:0)+':'+(G&&G.over?1:0);if(L.dataset.sig===sig)return;L.dataset.sig=sig;
+const nkey=n=>String(n||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+function twinOf(){if(!rid||!G||G.over||P())return null;const k=nkey(myName());if(!k)return null;return G.po.find(id=>id!==me()&&nkey(G.pl[id].n)===k)||null}
+async function claimTwin(id){const b=me0();AL={...AL,[b]:id};C.al={[rid]:AL};persist();try{await fetch(base('/r/'+rid+'/al/'+b),{method:'PUT',body:JSON.stringify(id)})}catch(e){}
+ const L=q('.iflob');if(L)L.dataset.sig='';const p=P();if(p)view={x:p.hx+.5,y:p.hy+.5,z:30};hud();dirty=1;try{redrawAll()}catch(e){}toast0('You are commanding '+p.n+'’s army')}
+function lobby(){const L=q('.iflob');if(!L)return;const p=P(),show=!rid||!G||(!p&&!G.over);L.hidden=!show;if(!show)return;const tw=twinOf(),sig=(rid||'-')+':'+(G?G.po.length:0)+':'+(G&&G.over?1:0)+':'+(tw||'');if(L.dataset.sig===sig)return;L.dataset.sig=sig;
  const sp=h('div',{class:'ifsp'},...E.SPEEDS.map(s=>h('button',{class:'b'+(s===(C.sp||1)?' on':''),type:'button',onclick:e=>{C.sp=s;persist();L.querySelectorAll('.ifsp .b').forEach(x=>x.classList.toggle('on',x===e.currentTarget))}},s+'×')));
  L.replaceChildren(h('div',{class:'iflc'},h('h2',{},'IRON FALL'),h('p',{},'Autumn, somewhere past the end of the old war. Fog on the fields, ruins on the main road, and twenty walking machines left rusting in the woods. Find them, fix them, and break the other bunkers.'),
-  rid&&G&&!G.over&&G.po.length<E.SLOTS?h('button',{class:'b p big',type:'button',onclick:()=>{joinMe();sfx('ord')}},'Join the war',h('small',{},G.po.length+' of '+E.SLOTS+' commanders · '+Math.floor(G.tick/900)+' h in')):null,
+  tw?h('div',{class:'iftwin'},h('p',{},'You are already in this war as '+G.pl[tw].n+', from your other app.'),h('button',{class:'b p big',type:'button',style:'--c:'+G.pl[tw].col,onclick:()=>{claimTwin(tw);sfx('ord')}},h('i',{class:'iftwc'}),'Continue as '+G.pl[tw].n,h('small',{},'Same army, same color, on this app too'))):null,
+  rid&&G&&!G.over&&G.po.length<E.SLOTS?h('button',{class:'b'+(tw?'':' p big'),type:'button',onclick:()=>{joinMe();sfx('ord')}},tw?'Join as a new commander':'Join the war',tw?null:h('small',{},G.po.length+' of '+E.SLOTS+' commanders · '+Math.floor(G.tick/900)+' h in')):null,
   h('div',{class:'ifnew'},h('b',{},rid&&G&&!G.over?'Or start over with a new war':'Start a new war'),h('small',{},'Speed. At 1× a war takes about a day'),sp,h('button',{class:'b'+(!rid||G&&G.over?' p big':''),type:'button',onclick:()=>{if(rid&&G&&!G.over&&G.po.length)sheet('Start a new war?',p_('This ends the current war for everyone in it.'),h('button',{class:'b p',style:'width:100%;margin-top:8px',onclick:()=>{close();newRound(C.sp||1)}},'Start a new war'),h('button',{class:'b',style:'width:100%;margin-top:8px',onclick:close},'Cancel'));else newRound(C.sp||1)}},'Start')),
   h('button',{class:'b',type:'button',onclick:howTo},'How to play')))}
 const p_=t=>h('p',{class:'h'},t);
@@ -4101,10 +4189,11 @@ function squads(){const id=me(),by={};for(const u of G.u)if(u.o===id&&E.alive(u)
 function intel(){const L=[];for(let i=G.ev.length-1;i>=0&&L.length<40;i--){const t=evText(G.ev[i]);if(t)L.push([G.ev[i],t])}
  sheet('Intel',h('div',{class:'ifint'},...(L.length?L.map(([e,t])=>h('button',{class:'ifie',type:'button',onclick:()=>{close();evWhere(e)}},h('span',{},t),h('small',{},ago(e.t)))):[p_('Nothing yet.')])),h('button',{class:'b',style:'width:100%;margin-top:8px',onclick:close},'Close'))}
 const ago=t=>{const m=Math.round((G.tick-t)*G.sg.r/60000);return m<1?'just now':m<60?m+' min ago':Math.floor(m/60)+' h ago'};
+const ABD={smoke:'Smoke screen: drops a thick cloud around the mech that blocks sight, so it can slip away or close in unseen.',shield:'Bulwark shield: for about a minute the mech takes half damage.',overdrive:'Overdrive: for a short burst the mech moves 60% faster.',scan:'Sensor sweep: for a short while the mech sees deep into forests.',jump:'Jump jets: leaps up to six squares toward where you aim, over anything in the way, and lands hard.',barrage:'Barrage: rains eight shells around the spot you aim at.'};
 function info(u){if(u.k==='m'){const D=E.MECHS[u.mi],pl=u.pil&&E.unit(G,u.pil),mine=u.o===me();
   sheet(D.n,h('div',{class:'ifmi'},h('canvas',{class:'ifmc',width:220,height:150}),h('p',{class:'h'},D.d),
    h('div',{class:'ifrow'},h('b',{},'Class'),h('span',{},D.cl[0].toUpperCase()+D.cl.slice(1)+' '+D.f)),h('div',{class:'ifrow'},h('b',{},'Hull'),h('span',{},Math.round(u.hp)+' / '+u.hpm+' · armor '+u.ar)),
-   h('div',{class:'ifrow'},h('b',{},'Weapons'),h('span',{},u.ws.map(s=>E.WPN[s.w].n+(s.rl?' (reloading)':'')).join(', '))),h('div',{class:'ifrow'},h('b',{},'Ability'),h('span',{},E.AB[D.ab].n+(u.abc>G.tick?' · ready in '+mins(u.abc-G.tick):' · ready'))),
+   h('div',{class:'ifrow'},h('b',{},'Weapons'),h('span',{},u.ws.map(s=>E.WPN[s.w].n+(s.rl?' (reloading)':'')).join(', '))),h('div',{class:'ifrow'},h('b',{},'Ability'),h('span',{},(ABI[D.ab]||'')+' '+E.AB[D.ab].n+(u.abc>G.tick?' · ready in '+mins(u.abc-G.tick):' · ready'))),p_(ABD[D.ab]),
    h('div',{class:'ifrow'},h('b',{},'Status'),h('span',{},u.st==='der'?'Derelict · '+Math.round(u.rp/u.rq*100)+'% repaired'+(u.cont?' · contested':'')+(u.lab?' · a lab keycard opens it at once':''):u.st==='on'?(mine?'Piloted by '+(pl?pl.nm:'?'):'Enemy'):mine?'Waiting for a pilot':'Enemy, no pilot')),
    u.st==='der'?p_('Bring soldiers next to it and keep them there. Engineers repair faster. Any enemy close by stops the work for everyone, and the progress stays for whoever comes next.'):null,
    h('button',{class:'b',style:'width:100%;margin-top:8px',onclick:close},'Close')));const c=q('.ifmc')||document.querySelector('.ifmc');if(c){const g0=g;g=c.getContext('2d');try{g.fillStyle='#2b2e2a';g.fillRect(0,0,220,150);mechDraw({...u,px:u.x,py:u.y,x:u.x,y:u.y},110,80,48,performance.now())}finally{g=g0}}return}
@@ -4159,6 +4248,8 @@ const ILL={};
  core:(w,hh,now)=>{bg(w,hh);crateDraw({x:0,y:0,it:'core'},34,x=>42+x,y=>42+y);txt('☢',42,16,12,'#c6ff3d')},
  bunker:(w,hh,now)=>{bg(w,hh);hqDraw({id:'x',hx:1,hy:1,col:'#4a90d9',hq:1,hp:1,hpm:1,i:0,nk:0},w/3.6,x=>w/2+(x-1.5)*w/3.6,y=>hh/2+(y-1.5)*w/3.6+3,now,1)},
  nuke:(w,hh,now)=>{bg(w,hh);hqDraw({id:'x',hx:1,hy:1,col:'#4a90d9',hq:1,hp:1,hpm:1,i:0,nk:1},w/3.6,x=>w/2+(x-1.5)*w/3.6,y=>hh/2+(y-1.5)*w/3.6+3,now,1)},
+ radar:(w,hh,now)=>{bg(w,hh);hqDraw({id:'x',hx:1,hy:1,col:'#4a90d9',hq:1,hp:1,hpm:1,i:0,nk:0},w/5,x=>w/2+(x-1.5)*w/5,y=>hh/2+(y-1.5)*w/5+2,now,1);radarPaint(w/2,hh/2,w*.47,now/1400*6.283,1,[[w*.75,hh*.3],[w*.25,hh*.72]])},
+ abil:(w,hh,now)=>{bg(w,hh);mech(w/2,hh/2-6,16,8,'x',now);const p2=(now%2400)/2400;g.strokeStyle='#e8b923';g.lineWidth=2.5;g.shadowColor='#e8b923';g.shadowBlur=8*(1-p2);g.beginPath();g.arc(w/2,hh-16,10,0,7);g.stroke();g.shadowBlur=0;txt('🚀',w/2,hh-12,10)},
  ten:(w,hh,now)=>{bg(w,hh);for(let k=0;k<10;k++)mech(14+(k%5)*14,26+Math.floor(k/5)*32,6,k*2,'x',now);txt(Math.min(10,1+Math.floor(now/600)%10)+'/10',42,80,10)}})}
 let illT=0;
 function illLoop(){illT=0;const cs=document.querySelectorAll('#ov canvas.ifill');if(!cs.length)return;const now=performance.now(),fr=Math.floor(now/5200),g0=g,G0=G;
@@ -4175,7 +4266,8 @@ function howTo(){const st=(title,frames)=>{const c=h('canvas',{class:'ifill','da
   st('Giving orders',[['order','Double-tap where you want them. A bubble shows the orders that fit that spot.'],['time','Orders take time. Troops walk, take cover, and carry it out themselves.'],['order','Move, attack-move, sneak through trees, take cover, suppress, plant C4, set mines.']]),
   st('Seeing',[['fog','Fog hides anything your troops cannot see. Open ground is easy to watch.'],['forest','Forests hide whoever is inside. You only see in if you are close.'],['cone','Firing gives away your spot for a moment.']]),
   st('Fighting',[['cone','Every shot lands somewhere in a cone. Snipers are tight, machine guns are wide.'],['reload','Long fights empty magazines, and reloading takes minutes.'],['smash','Stray rounds and mechs wreck cars, houses and whole forests.']]),
-  st('Mechs',[['mech','Twenty one-of-a-kind mechs, each with its own guns and ability.'],['repair','Find a wreck and keep soldiers beside it to repair it. Anyone can finish it.'],['drop','Air drops, convoys, a hidden lab, and pilots who leave their mech unguarded.']]),
+  st('Mechs',[['mech','Twenty one-of-a-kind mechs, each with its own guns and ability.'],['abil','A mech’s special moves sit in gold at the bottom of its order bubble.'],['repair','Find a wreck and keep soldiers beside it to repair it. Anyone can finish it.'],['drop','Air drops, convoys, a hidden lab, and pilots who leave their mech unguarded.']]),
+  st('Mech scan',[['radar','Every hour of war time your bunker scans for mechs. Only you see your radar.'],['radar','When it finishes, each commander’s name shows 🤖 and how many mechs they hold.'],['radar','Missed it? It plays back fast when you return.']]),
   st('Coins',[['crate','Every crate has a few coins, and gold crates have a lot.'],['coins','You also earn coins for kills, new mechs, the reactor core and winning.'],['wager','Players who join within 10 minutes of each other can bet coins on the war.']]),
   st('Hot zones',[['zone','Yellow signs mark radioactive ground. Soldiers there slowly get sick.'],['dogs','Things live in there, and they charge anyone they see.'],['core','The reactor core makes your nuke much cheaper, but it burns whoever carries it.']]),
   st('Day and night',[['day','By day the zombie dogs hunt, and the husks stand turned to stone.'],['night','At night the dogs sleep. The husks wake with red eyes and roam.'],['horde','Husks that find each other merge into a bigger, deadlier horde. At dawn they turn back to stone.']]),
@@ -4191,7 +4283,7 @@ function howTo(){const st=(title,frames)=>{const c=h('canvas',{class:'ifill','da
 let saveT=0;
 // geiger counter: crackles while any of your soldiers stand on hot ground
 let gk=0;function geiger(){if(!G||!on||C.mute)return;const t=performance.now();if(t<gk)return;const n=G.u.filter(u=>u.o===me()&&u.k==='s'&&u.rad===G.tick&&E.alive(u)).length;if(!n){gk=t+400;return}sfx('tick');gk=t+30+Math.random()*(n>3?90:260)}
-function loop(){raf=0;if(!on)return;try{FE=Math.round(95+darkness()*55)}catch(e){}try{geiger()}catch(e){}try{ledger()}catch(e){}try{advance(busy?40:12)}catch(e){console.error(e)}q('.ifcatch').hidden=!busy;
+function loop(){raf=0;if(!on)return;try{FE=Math.round(95+darkness()*55)}catch(e){}try{geiger()}catch(e){}try{ledger()}catch(e){}try{advance(busy?40:12)}catch(e){console.error(e)}try{scanMiss()}catch(e){}q('.ifcatch').hidden=!busy;
  try{draw(Date.now()+off)}catch(e){console.error(e)}if(Date.now()-saveT>60000){saveT=Date.now();saveSnap();saveExp()}raf=requestAnimationFrame(loop)}
 async function show(){if(!el)build();el.hidden=false;on=true;document.body.classList.add('ifon');closeBubble();
  if(!M){const L=q('.iflob');L.hidden=false;L.replaceChildren(h('div',{class:'iflc'},h('p',{},'Loading the war…')))}
@@ -4204,9 +4296,9 @@ function lobbyEmpty(){const L=q('.iflob');L.hidden=false;L.dataset.sig='';
 function shut(){try{ledger(1)}catch(e){}on=false;if(el)el.hidden=true;document.body.classList.remove('ifon');closeBubble();stopNet();if(G&&rid){C.seen=C.seen||{};C.seen[rid]=G.tick;persist();saveSnap();saveExp();const p=P();if(p&&window.LC)LC.addXp('if:'+rid,p.xp||0)}}
 // red badge on the main menu: fights that started since you last looked
 async function badge(){try{if(!rid){const cur=await getJ('/cur');if(!cur||!cur.rid)return 0;if(!M||cur.rid!==rid){await loadRound()}}
- if(!G)return 0;const T=now()-LAG;let n=0;for(let k=0;k<200000&&E.tsOf(G,G.tick+1)<=T&&!G.over;k++){E.simTo(G,M,meta,cmds,E.tsOf(G,G.tick+1));if(k%500===499)await new Promise(r=>setTimeout(r,0))}
+ if(!G)return 0;const T=now()-LAG;let n=0;for(let k=0;k<200000&&E.tsOf(G,G.tick+1)<=T&&!G.over;k++){E.simTo(G,M,meta,cmds,E.tsOf(G,G.tick+1));scanTick();if(k%500===499)await new Promise(r=>setTimeout(r,0))}
  try{ledger(1)}catch(e){}const s=(C.seen&&C.seen[rid])||0;if(!G.pl[me()])return 0;for(const x of wAsk())n++;for(const e of G.ev)if(e.k==='fight'&&e.o===me()&&e.t>s)n++;saveSnap();return n}catch(e){return 0}}
-return{open:show,close:shut,badge,SKINS,skinChanged:()=>{if(G&&P())post({k:'sk',sk:LC.skins()})},peek:()=>({G,M,meta,cmds,view,sel,rid,explored}),_hqDraw:(c,skid)=>{const g0=g,G0=G;g=c.getContext('2d');G={pl:{x:{sk:{h:skid}}},tick:0};try{const z=Math.min(c.width,c.height)/3.6;hqDraw({id:'x',hx:1,hy:1,col:'#4a90d9',hq:1,hp:1,hpm:1,i:0,nk:0},z,x=>c.width/2+(x-1.5)*z,y=>c.height/2+(y-1.5)*z+z*.15,performance.now(),1)}finally{g=g0;G=G0}},_zDraw:(c,cl,o)=>{const g0=g;g=c.getContext('2d');try{zDraw({id:1,cl,x:1,y:0,px:0,py:0,st:'idle',chg:0,...(o||{})},c.width/2,c.height/2,Math.min(c.width,c.height)/1.6,1,performance.now())}finally{g=g0}},_crate:(c,it)=>{const g0=g;g=c.getContext('2d');try{crateDraw({x:0,y:0,it},c.width/1.5,x=>c.width/2+x,y=>c.height/2+y)}finally{g=g0}},
+return{open:show,close:shut,badge,SKINS,skinChanged:()=>{if(G&&P())post({k:'sk',sk:LC.skins()})},peek:()=>({G,M,meta,cmds,view,sel,rid,explored,C,AL}),_dbl:(x,y)=>dbl(x,y),_hqDraw:(c,skid)=>{const g0=g,G0=G;g=c.getContext('2d');G={pl:{x:{sk:{h:skid}}},tick:0};try{const z=Math.min(c.width,c.height)/3.6;hqDraw({id:'x',hx:1,hy:1,col:'#4a90d9',hq:1,hp:1,hpm:1,i:0,nk:0},z,x=>c.width/2+(x-1.5)*z,y=>c.height/2+(y-1.5)*z+z*.15,performance.now(),1)}finally{g=g0;G=G0}},_zDraw:(c,cl,o)=>{const g0=g;g=c.getContext('2d');try{zDraw({id:1,cl,x:1,y:0,px:0,py:0,st:'idle',chg:0,...(o||{})},c.width/2,c.height/2,Math.min(c.width,c.height)/1.6,1,performance.now())}finally{g=g0}},_crate:(c,it)=>{const g0=g;g=c.getContext('2d');try{crateDraw({x:0,y:0,it},c.width/1.5,x=>c.width/2+x,y=>c.height/2+y)}finally{g=g0}},
  _mechDraw:(c,mi,o,skm)=>{const g0=g,G0=G;g=c.getContext('2d');if(skm)G={pl:{x:{sk:{m:skm},col:'#8a8f7a'}},tick:0};try{mechDraw({id:0,mi,o:skm?'x':'',x:0,y:0,px:0,py:0,st:'on',abt:0,...(o||{})},c.width/2,c.height/2,Math.min(c.width,c.height)/2.6,performance.now())}finally{g=g0;G=G0}},
  _soldierDraw:(c,sk)=>{const g0=g,G0=G;g=c.getContext('2d');G={pl:{x:{sk:{s:sk},col:'#888'}},tick:0};try{soldierDraw({id:1,o:'x',cl:'rifle',x:0,y:0,px:-1,py:0,st:'idle',ar:0},c.width/2,c.height/2,c.width/1.1,0,performance.now())}finally{g=g0;G=G0}}}})();
 
@@ -4262,7 +4354,7 @@ function addXp(k,v){v=Math.round(+v||0);k=String(k).replace(/[.#$\[\]\/]/g,'_');
 function skins(){const e=rec.eq||{};return{s:e.s||'woodland',m:e.m||'factory',t:e.t||'standard',h:e.h||'concrete'}}
 // ---- the screen
 // bump a game's version here whenever it changes: its tile shows UPDATED until you open it
-const GV={dw:'0.42.0',if:'1.6.0'};let seenV=null;try{seenV=JSON.parse(localStorage.getItem('lovecraft.seen')||'null')}catch(e){}
+const GV={dw:'0.42.0',if:'1.7.0'};let seenV=null;try{seenV=JSON.parse(localStorage.getItem('lovecraft.seen')||'null')}catch(e){}
 function seenInit(){if(seenV)return;seenV=me().id?{}:{...GV};try{localStorage.setItem('lovecraft.seen',JSON.stringify(seenV))}catch(e){}}
 const isNew=k=>GV[k]&&seenV&&seenV[k]!==GV[k];
 function markSeen(k){if(!GV[k])return;seenInit();seenV[k]=GV[k];try{localStorage.setItem('lovecraft.seen',JSON.stringify(seenV))}catch(e){}}
@@ -4293,7 +4385,8 @@ function ifArt(c){const g=c.getContext('2d'),W=c.width,H=c.height;let sd=7;const
  const f=g.createLinearGradient(0,H*.35,0,H);f.addColorStop(0,'rgba(190,195,190,0)');f.addColorStop(.5,'rgba(190,195,190,.22)');f.addColorStop(1,'rgba(30,30,26,.2)');g.fillStyle=f;g.fillRect(0,0,W,H)}
 function draw(){if(!el)return;const m=me(),b=el.querySelector('.lcme');b.replaceChildren(avatar(m.name,m.pic,xpTotal(),42,1),h('span',{},h('b',{},m.name||'Profile'),h('small',{},'🪙 '+coins().toLocaleString())))
  seenInit();for(const gm of GAMES){const e=el.querySelector('.lct-'+gm.k+' .lcbd'),u=el.querySelector('.lct-'+gm.k+' .lcup');if(u)u.hidden=!isNew(gm.k);if(!e)continue;const n=badges[gm.k]|0;e.hidden=!n;e.textContent=n>99?'99+':String(n)}
- gbtn()}
+ let sb=el.querySelector('.lcssb');if(ssTwin&&!sb){sb=h('div',{class:'lcssb'},h('p',{},'You are using a separate Lovecraft profile. Sign in with your Street Sheet profile so your games match in both apps. Your coins and cosmetics come with you.'),h('button',{class:'b p',type:'button',onclick:signSS},'Use my Street Sheet profile'));el.querySelector('.lctop').after(sb)}else if(!ssTwin&&sb)sb.remove();
+ ssCheck();gbtn()}
 async function refreshBadges(){try{if(window.DW&&DW.badge)badges.dw=DW.badge()|0}catch(e){}try{localStorage.setItem('lovecraft.bdg',JSON.stringify(badges))}catch(e){}draw();try{if(window.IF){const n=await IF.badge();badges.if=n|0;try{localStorage.setItem('lovecraft.bdg',JSON.stringify(badges))}catch(e){}draw()}}catch(e){}}
 function show(){if(!el)build();el.hidden=false;open=true;document.body.classList.add('lcon');if(!me().id){setup();return}el.classList.remove('lcnew');const w=el.querySelector('.lcwel');if(w)w.remove();draw();pull();refreshBadges()}
 function hide(){if(el)el.hidden=true;open=false;document.body.classList.remove('lcon')}
@@ -4343,7 +4436,11 @@ async function ssLogin(name,pw){const k=akey(name);if(!k)throw'name';const x=awa
 async function setPass(id,name,pw,ss){const k=akey(name);if(!k)throw'name';if(pw.length<4)throw'short';const ex=await getJ(lcBase('/a/'+k));if(ex&&ex.id&&ex.id!==id)throw'taken';
  const salt=crypto.getRandomValues(new Uint8Array(16)),hh=b64(await kdf('lovecraft:'+pw,salt));
  const r=await fetch(lcBase('/a/'+k),{method:'PUT',body:JSON.stringify({id,n:name,salt:b64(salt),h:hh,ss:ss?1:0,ts:{'.sv':'timestamp'}})}).catch(()=>null);if(!r||!r.ok)throw r&&(r.status===401||r.status===403)?'rules':'net';return k}
-function enter(x,how){P0={id:x.id,name:x.name,pic:x.pic||'',ss:x.ss?1:0,ak:x.ak||P0.ak||''};save0();rec={sp:0,own:{},eq:{},xp:{}};remoteDr=0;keep();patch({n:x.name,...(x.pic&&!x.ss?{pic:x.pic}:{})});close();toast0(how);show()}
+function enter(x,how){const old=!INSS&&!EMB&&P0.id&&!P0.ss&&x.ss&&x.id!==P0.id?{id:P0.id,c:coins(),own:{...(rec.own||{})}}:null;
+ if(old){if(old.c>0){led(x.id,'mv'+old.id,old.c,'Moved from old profile');led(old.id,'mv'+old.id,-old.c,'Moved to Street Sheet')}}
+ P0={id:x.id,name:x.name,pic:x.pic||'',ss:x.ss?1:0,ak:x.ak||P0.ak||''};save0();rec={sp:0,own:{},eq:{},xp:{}};remoteDr=0;keep();patch({n:x.name,...(x.pic&&!x.ss?{pic:x.pic}:{}),...(old?Object.fromEntries(Object.keys(old.own).map(k=>['own/'+k,old.own[k]])):{})});ssTwin=null;close();toast0(how);show()}
+// on the Lovecraft app with a separate profile while a Street Sheet profile has the same name: offer to switch, so games match in both apps
+let ssTwin=null,ssChk=0;async function ssCheck(){if(INSS||EMB||!P0.id||P0.ss||ssChk)return;ssChk=1;try{const all=await getJ(relay()+'/teams/'+teamCode()+'/members.json');for(const q in all||{})if(all[q]&&akey(all[q].n)===akey(P0.name)&&q!==P0.id){ssTwin={id:q,name:all[q].n};break}}catch(e){ssChk=0}if(ssTwin)draw()}
 // a small form: name, password, a message line, a busy state
 function creds(label,go,extra){const nm=h('input',{class:'in',placeholder:'Name',autocapitalize:'words',autocomplete:'username','aria-label':'Name'}),
  pw=h('input',{class:'in',type:'password',placeholder:'Password',autocapitalize:'off',autocomplete:'current-password','aria-label':'Password',style:'margin-top:8px'}),
